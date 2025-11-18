@@ -10,7 +10,7 @@ export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-primary/10 hover:bg-primary/20 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold"
+        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
       >
         {t.backHome}
       </button>

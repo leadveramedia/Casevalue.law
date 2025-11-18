@@ -25,7 +25,7 @@ export default function Questionnaire({
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-primary/10 hover:bg-primary/20 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold"
+        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
       >
         {t.backHome}
       </button>
@@ -325,7 +325,7 @@ export default function Questionnaire({
       <div className="flex gap-4 mt-8">
         <button
           onClick={onPrevious}
-          className="px-8 py-4 bg-primary/10 hover:bg-primary/20 rounded-xl transition-all text-lg font-semibold shadow-md hover:shadow-lg text-text"
+          className="px-8 py-4 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-lg font-semibold text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
         >
           {t.back}
         </button>

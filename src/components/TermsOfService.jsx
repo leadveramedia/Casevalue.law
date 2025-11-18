@@ -236,33 +236,33 @@ const TermsOfService = ({ onClose, lang = 'en' }) => {
   return (
     <div className="min-h-screen bg-background text-text">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-primary/20 shadow-lg">
+      <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <button
               onClick={onClose}
-              className="text-background hover:text-accent transition-colors flex items-center gap-2"
+              className="text-text hover:text-accent transition-colors flex items-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               <span className="font-semibold">Back to Home</span>
             </button>
-            <div className="text-sm text-background/70">{content.lastUpdated}</div>
+            <div className="text-sm text-text/70">{content.lastUpdated}</div>
           </div>
         </div>
       </header>
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-center mb-4 text-primary">
+        <h1 className="text-4xl sm:text-5xl font-bold text-center mb-4 text-text">
           {content.title}
         </h1>
 
         <div className="space-y-8 mt-12">
           {content.sections.map((section, index) => (
-            <div key={index} className="bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-primary/20">
-              <h2 className="text-xl md:text-2xl font-bold text-primary mb-4">
+            <div key={index} className="bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-card">
+              <h2 className="text-xl md:text-2xl font-bold text-accent mb-4">
                 {section.title}
               </h2>
               <p className="text-base md:text-lg text-text/80 leading-relaxed">

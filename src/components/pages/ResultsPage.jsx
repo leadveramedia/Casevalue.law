@@ -10,7 +10,7 @@ export default function ResultsPage({ t, valuation, onBack }) {
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-primary/10 hover:bg-primary/20 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold"
+        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
       >
         {t.backHome}
       </button>
@@ -23,11 +23,15 @@ export default function ResultsPage({ t, valuation, onBack }) {
       <div className="bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-2 border-accent/40 shadow-2xl">
         <div className="text-center mb-10">
           <div className="text-text/70 mb-3 text-xl font-semibold">{t.range}</div>
-          <div className="text-6xl sm:text-7xl md:text-8xl font-bold text-accent break-words mb-4">
-            ${valuation.value.toLocaleString()} USD
+          <div className="overflow-x-auto pb-2 -mx-4 px-4">
+            <div className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-accent whitespace-nowrap mb-4 inline-block min-w-full text-center">
+              ${valuation.value.toLocaleString()} USD
+            </div>
           </div>
-          <div className="text-lg text-text/60">
-            Range: ${valuation.lowRange.toLocaleString()} - ${valuation.highRange.toLocaleString()} USD
+          <div className="text-base sm:text-lg text-text/60 overflow-x-auto pb-2">
+            <div className="whitespace-nowrap inline-block">
+              Range: ${valuation.lowRange.toLocaleString()} - ${valuation.highRange.toLocaleString()} USD
+            </div>
           </div>
         </div>
 

@@ -126,10 +126,21 @@ export function useHistoryManagement(state, setters) {
         setQIdx(event.state.qIdx);
         setLang(event.state.lang);
 
-        // Restore modal states
-        setShowPrivacy(event.state.showPrivacy || false);
-        setShowHelpModal(event.state.showHelpModal || false);
-        setShowMissingDataWarning(event.state.showMissingDataWarning || false);
+        // For main navigation steps (questions, state, select), always close modals
+        // This prevents modal history from interfering with question-by-question navigation
+        const isMainNavStep = ['questions', 'questionnaire', 'state', 'select'].includes(event.state.step);
+
+        if (isMainNavStep) {
+          // Always close modals when navigating through main steps
+          setShowPrivacy(false);
+          setShowHelpModal(false);
+          setShowMissingDataWarning(false);
+        } else {
+          // For other steps (landing, contact, results), restore modal states
+          setShowPrivacy(event.state.showPrivacy || false);
+          setShowHelpModal(event.state.showHelpModal || false);
+          setShowMissingDataWarning(event.state.showMissingDataWarning || false);
+        }
 
         // Restore Privacy and Terms page states
         setShowPrivacyPage(event.state.showPrivacyPage || false);

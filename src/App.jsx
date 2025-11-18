@@ -370,9 +370,15 @@ export default function CaseValueWebsite() {
   }, [qIdx, questions.length, pushStateToHistory]);
 
   const handlePreviousQuestion = useCallback(() => {
-    // Use browser back instead of manually changing state
-    window.history.back();
-  }, []);
+    if (qIdx > 0) {
+      setQIdx(qIdx - 1);
+    } else {
+      // If on first question, go back to state selection
+      setStep('state');
+    }
+    // Push to history after state updates
+    setTimeout(() => pushStateToHistory(), 0);
+  }, [qIdx, pushStateToHistory]);
 
   // Helper to change step and push to history
   const navigateToStep = useCallback((newStep) => {
@@ -536,7 +542,7 @@ export default function CaseValueWebsite() {
             usStates={usStates}
             selectedState={selectedState}
             onStateChange={setSelectedState}
-            onBack={() => navigateToStep('landing')}
+            onBack={() => navigateToStep('select')}
             onNext={() => selectedState && navigateToStep('questionnaire')}
           />
         )}
