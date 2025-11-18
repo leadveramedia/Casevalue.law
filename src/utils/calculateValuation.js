@@ -1,0 +1,706 @@
+// ============================================================================
+// CASE VALUATION ENGINE - WITH STATE-SPECIFIC LEGAL RULES
+// ============================================================================
+// This file contains the core valuation logic for all case types
+// Updated: 2025-11-17 - Added comprehensive state legal database integration
+import { getStateRules } from '../constants/stateLegalDatabase';
+
+export const calculateValuation = (caseType, answers, state) => {
+  let baseValue = 0;
+  let multiplier = 1.0;
+  let factors = [];
+  let economicDamages = 0;
+  let nonEconomicDamages = 0;
+
+  // Get state-specific legal rules
+  const stateRules = getStateRules(state, caseType);
+  const warnings = [];
+
+  // Severity multipliers for emotional distress and injury severity
+  const injurySeverityMultipliers = {
+    minor: 1.5,
+    moderate: 2.5,
+    severe: 4.0,
+    catastrophic: 6.0
+  };
+
+  const emotionalDistressMultipliers = {
+    distress_mild: 1.3,
+    distress_moderate: 1.7,
+    distress_severe: 2.3,
+    distress_extreme: 3.2
+  };
+
+  // Case-specific calculations
+  switch(caseType) {
+    case 'motor':
+      // Economic damages
+      const medicalBills = parseFloat(answers.medical_bills) || 0;
+      const lostWages = parseFloat(answers.lost_wages) || 0;
+      const insuranceCoverage = parseFloat(answers.insurance_coverage) || 250000;
+      const faultPercentage = parseInt(answers.fault_percentage) || 0;
+
+      baseValue = medicalBills + lostWages;
+
+      // Apply severity multiplier
+      if (answers.injury_severity) {
+        multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.5;
+      }
+
+      // Permanent injury adds significant value
+      if (answers.permanent_injury === true) {
+        multiplier *= 1.8;
+      }
+
+      // Police report filed strengthens case
+      if (answers.police_report_filed === true) {
+        multiplier *= 1.15;
+      }
+
+      // Witnesses available strengthen case
+      if (answers.witnesses_available === true) {
+        multiplier *= 1.2;
+      }
+
+      // Apply comparative negligence
+      if (faultPercentage > 0) {
+        multiplier *= (1 - faultPercentage / 100);
+      }
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, insuranceCoverage);
+
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
+      factors.push(`Lost wages: $${lostWages.toLocaleString()}`);
+      if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
+      if (answers.permanent_injury) factors.push('Permanent injury present');
+      if (answers.police_report_filed) factors.push('Police report filed');
+      if (answers.witnesses_available) factors.push('Witnesses available');
+      if (faultPercentage > 0) factors.push(`Your fault: ${faultPercentage}%`);
+      break;
+
+    case 'medical':
+      const medBills = parseFloat(answers.medical_bills) || 0;
+      const medLostWages = parseFloat(answers.lost_wages) || 0;
+      const medInsurance = parseFloat(answers.insurance_coverage) || 1000000;
+
+      baseValue = medBills + medLostWages;
+      multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
+
+      if (answers.permanent_injury === true) multiplier *= 2.0;
+      if (answers.surgery_error === true) multiplier *= 1.5;
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, medInsurance);
+
+      factors.push(`Medical bills: $${medBills.toLocaleString()}`);
+      factors.push(`Lost wages: $${medLostWages.toLocaleString()}`);
+      if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
+      if (answers.surgery_error) factors.push('Surgery error involved');
+      if (answers.permanent_injury) factors.push('Permanent injury present');
+      break;
+
+    case 'premises':
+      const premBills = parseFloat(answers.medical_bills) || 0;
+      const premWages = parseFloat(answers.lost_wages) || 0;
+      const premInsurance = parseFloat(answers.insurance_coverage) || 300000;
+
+      baseValue = premBills + premWages;
+      multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.5;
+
+      // Hazard type multipliers (some are more egregious)
+      const hazardTypeMultipliers = {
+        inadequate_security: 1.5,
+        structural_failure: 1.4,
+        falling_object: 1.3,
+        slip_fall: 1.1,
+        trip_fall: 1.1,
+        other: 1.0
+      };
+      if (answers.hazard_type) {
+        multiplier *= hazardTypeMultipliers[answers.hazard_type] || 1.0;
+      }
+
+      if (answers.permanent_injury === true) multiplier *= 1.7;
+
+      // Commercial property has higher duty of care
+      if (answers.commercial_property === true) multiplier *= 1.3;
+
+      if (answers.property_owner_warned === true) multiplier *= 1.3;
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, premInsurance);
+
+      factors.push(`Medical bills: $${premBills.toLocaleString()}`);
+      factors.push(`Lost wages: $${premWages.toLocaleString()}`);
+      if (answers.hazard_type) factors.push(`Hazard type: ${answers.hazard_type}`);
+      if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
+      if (answers.commercial_property) factors.push('Commercial property (higher duty of care)');
+      if (answers.property_owner_warned) factors.push('Property owner was warned');
+      if (answers.permanent_injury) factors.push('Permanent injury present');
+      break;
+
+    case 'product':
+      const prodBills = parseFloat(answers.medical_bills) || 0;
+      const prodWages = parseFloat(answers.lost_wages) || 0;
+      const prodInsurance = parseFloat(answers.insurance_coverage) || 500000;
+
+      baseValue = prodBills + prodWages;
+      multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
+
+      if (answers.permanent_injury === true) multiplier *= 1.8;
+      if (answers.product_recalled === true) multiplier *= 1.5;
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, prodInsurance);
+
+      factors.push(`Medical bills: $${prodBills.toLocaleString()}`);
+      factors.push(`Lost wages: $${prodWages.toLocaleString()}`);
+      if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
+      if (answers.product_recalled) factors.push('Product was recalled');
+      if (answers.permanent_injury) factors.push('Permanent injury present');
+      break;
+
+    case 'wrongful_death':
+      const victimIncome = parseFloat(answers.victim_annual_income) || 50000;
+      const victimAge = parseFloat(answers.victim_age) || 40;
+      // Calculate life expectancy based on age (average US life expectancy ~78 years)
+      const lifeExpectancy = Math.max(78 - victimAge, 5);
+      const numDependents = parseFloat(answers.num_dependents) || 1;
+      const deathMedBills = parseFloat(answers.medical_bills) || 0;
+      const funeralCosts = parseFloat(answers.funeral_costs) || 15000;
+      const deathInsurance = parseFloat(answers.insurance_coverage) || 1000000;
+
+      // Economic damages: lost future income
+      const futureEarnings = victimIncome * lifeExpectancy * 0.7; // 70% for household consumption
+      baseValue = futureEarnings + deathMedBills + funeralCosts;
+
+      // Multiplier based on dependents
+      multiplier = 1.0 + (numDependents * 0.3);
+
+      // Relationship multipliers (emotional impact varies)
+      const relationshipMultipliers = {
+        spouse: 1.3,
+        child: 1.4,
+        parent: 1.2,
+        sibling: 1.1,
+        other_family: 1.05,
+        other: 1.0
+      };
+      if (answers.relationship_to_victim) {
+        multiplier *= relationshipMultipliers[answers.relationship_to_victim] || 1.0;
+      }
+
+      // Conscious pain and suffering before death
+      if (answers.conscious_pain_suffering === true) {
+        multiplier *= 1.5;
+      }
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, deathInsurance);
+
+      factors.push(`Future earnings lost: $${futureEarnings.toLocaleString()}`);
+      factors.push(`Medical bills: $${deathMedBills.toLocaleString()}`);
+      factors.push(`Funeral costs: $${funeralCosts.toLocaleString()}`);
+      factors.push(`Dependents: ${numDependents}`);
+      factors.push(`Life expectancy: ${lifeExpectancy} years (based on age ${victimAge})`);
+      if (answers.relationship_to_victim) factors.push(`Relationship: ${answers.relationship_to_victim}`);
+      if (answers.conscious_pain_suffering) factors.push('Conscious pain and suffering before death');
+      break;
+
+    case 'dog_bite':
+      const dogBills = parseFloat(answers.medical_bills) || 0;
+
+      baseValue = dogBills;
+      multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.0;
+
+      if (answers.permanent_injury === true) multiplier *= 1.5;
+      if (answers.scarring === true) multiplier *= 1.4;
+      if (answers.child_victim === true) multiplier *= 1.6;
+
+      // Dog's prior aggression history strengthens case
+      if (answers.dog_prior_aggression === true) multiplier *= 1.3;
+
+      // Facial injuries significantly increase damages
+      if (answers.facial_injuries === true) multiplier *= 1.5;
+
+      const dogInsurance = parseFloat(answers.insurance_coverage) || 100000;
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, dogInsurance);
+
+      factors.push(`Medical bills: $${dogBills.toLocaleString()}`);
+      if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
+      if (answers.scarring) factors.push('Permanent scarring');
+      if (answers.child_victim) factors.push('Child victim');
+      if (answers.permanent_injury) factors.push('Permanent injury');
+      if (answers.dog_prior_aggression) factors.push('Dog had prior aggression history');
+      if (answers.facial_injuries) factors.push('Facial injuries present');
+      break;
+
+    case 'wrongful_term':
+      const annualSalary = parseFloat(answers.annual_salary) || 60000;
+      const monthsUnemployed = parseFloat(answers.months_unemployed) || 6;
+      const lostBenefits = parseFloat(answers.lost_benefits) || 10000;
+      const yearsEmployed = parseFloat(answers.years_employed) || 3;
+
+      // Base: lost wages during unemployment + benefits
+      baseValue = (annualSalary / 12 * monthsUnemployed) + lostBenefits;
+
+      // Emotional distress multiplier
+      multiplier = emotionalDistressMultipliers[answers.emotional_distress] || 1.5;
+
+      // Additional factors
+      if (answers.discrimination === true) multiplier *= 2.0;
+      if (yearsEmployed >= 5) multiplier *= 1.3;
+
+      // Positive performance reviews strengthen case
+      if (answers.positive_performance_reviews === true) multiplier *= 1.3;
+
+      // Position filled quickly suggests pretextual termination
+      if (answers.position_filled === true) multiplier *= 1.2;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Lost wages: $${(annualSalary / 12 * monthsUnemployed).toLocaleString()}`);
+      factors.push(`Lost benefits: $${lostBenefits.toLocaleString()}`);
+      factors.push(`Months unemployed: ${monthsUnemployed}`);
+      if (answers.discrimination) factors.push('Discrimination involved');
+      if (answers.positive_performance_reviews) factors.push('Positive performance reviews on record');
+      if (answers.position_filled) factors.push('Position was quickly filled');
+      factors.push(`Years employed: ${yearsEmployed}`);
+      break;
+
+    case 'wage':
+      const unpaidWages = parseFloat(answers.unpaid_wages) || 0;
+      const unpaidOvertime = parseFloat(answers.unpaid_overtime) || 0;
+      const monthsUnpaid = parseFloat(answers.months_unpaid) || 12;
+      const numEmployees = parseFloat(answers.num_employees_affected) || 1;
+
+      baseValue = unpaidWages + unpaidOvertime;
+
+      // Liquidated damages (double damages for willful violations)
+      multiplier = 2.0;
+
+      // Class action potential
+      if (numEmployees > 1) {
+        multiplier *= 1.2;
+      }
+
+      // Additional penalties
+      if (answers.time_records === true) multiplier *= 1.2;
+      if (answers.misclassified === true) multiplier *= 1.3;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Unpaid wages: $${unpaidWages.toLocaleString()}`);
+      factors.push(`Unpaid overtime: $${unpaidOvertime.toLocaleString()}`);
+      factors.push(`Duration: ${monthsUnpaid} months`);
+      factors.push(`Employees affected: ${numEmployees}`);
+      if (answers.time_records) factors.push('Time records available');
+      if (answers.misclassified) factors.push('Misclassification involved');
+      break;
+
+    case 'class_action':
+      const individualDamages = parseFloat(answers.individual_damages) || 1000;
+      const classMembers = parseFloat(answers.num_class_members) || 100;
+      const durationHarm = parseFloat(answers.duration_of_harm) || 12;
+
+      baseValue = individualDamages * classMembers;
+
+      multiplier = 1.0;
+
+      // Class action type multipliers (different recovery potential)
+      const classActionTypeMultipliers = {
+        data_breach: 1.5,           // High statutory damages
+        consumer_fraud: 1.3,
+        defective_product: 1.4,
+        securities: 1.5,            // High damages potential
+        employment: 1.2,
+        other: 1.0
+      };
+      if (answers.class_action_type) {
+        multiplier *= classActionTypeMultipliers[answers.class_action_type] || 1.0;
+      }
+
+      if (answers.documented_evidence === true) multiplier *= 1.3;
+      if (answers.pattern_of_conduct === true) multiplier *= 1.4;
+      if (answers.regulatory_violations === true) multiplier *= 1.5;
+
+      // Duration factor
+      if (durationHarm > 24) multiplier *= 1.3;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Individual damages: $${individualDamages.toLocaleString()}`);
+      factors.push(`Class members: ${classMembers}`);
+      factors.push(`Duration: ${durationHarm} months`);
+      if (answers.class_action_type) factors.push(`Class action type: ${answers.class_action_type}`);
+      if (answers.documented_evidence) factors.push('Strong documentation');
+      if (answers.pattern_of_conduct) factors.push('Pattern of conduct');
+      if (answers.regulatory_violations) factors.push('Regulatory violations');
+      break;
+
+    case 'insurance':
+      const claimAmount = parseFloat(answers.claim_amount) || 50000;
+      const policyLimits = parseFloat(answers.policy_limits) || 100000;
+      const monthsDelayed = parseFloat(answers.months_delayed) || 6;
+
+      baseValue = claimAmount;
+
+      // Bad faith multiplier
+      multiplier = 1.5;
+
+      // Insurance type multipliers (some types have higher bad faith potential)
+      const insuranceTypeMultipliers = {
+        health: 1.4,
+        disability: 1.5,
+        life: 1.3,
+        auto: 1.2,
+        homeowners: 1.2,
+        other: 1.0
+      };
+      if (answers.insurance_type) {
+        multiplier *= insuranceTypeMultipliers[answers.insurance_type] || 1.0;
+      }
+
+      // Emotional distress
+      if (answers.emotional_distress) {
+        multiplier *= emotionalDistressMultipliers[answers.emotional_distress] || 1.0;
+      }
+
+      // Punitive potential
+      if (answers.claim_denied === true) multiplier *= 1.5;
+      if (answers.multiple_denials === true) multiplier *= 1.6;
+      if (answers.written_denials === true) multiplier *= 1.3;
+      if (monthsDelayed > 12) multiplier *= 1.4;
+
+      baseValue = baseValue * multiplier;
+      baseValue = Math.min(baseValue, policyLimits * 3); // Bad faith can exceed policy limits
+
+      factors.push(`Claim amount: $${claimAmount.toLocaleString()}`);
+      factors.push(`Policy limits: $${policyLimits.toLocaleString()}`);
+      factors.push(`Months delayed: ${monthsDelayed}`);
+      if (answers.insurance_type) factors.push(`Insurance type: ${answers.insurance_type}`);
+      if (answers.claim_denied) factors.push('Claim denied');
+      if (answers.multiple_denials) factors.push('Multiple denials');
+      if (answers.written_denials) factors.push('Written denials exist');
+      break;
+
+    case 'disability':
+      const monthlyBenefit = parseFloat(answers.monthly_benefit) || 2000;
+      const monthsDenied = parseFloat(answers.months_denied) || 12;
+      const disabilityWages = parseFloat(answers.lost_wages) || 0;
+
+      baseValue = (monthlyBenefit * monthsDenied) + disabilityWages;
+
+      multiplier = 1.5; // Attorney fees typically awarded
+
+      // Policy type multipliers (ERISA vs non-ERISA, etc.)
+      const policyTypeMultipliers = {
+        employer_group: 1.0,  // ERISA - harder to recover
+        individual: 1.3,       // Non-ERISA - better recovery
+        social_security: 1.2,
+        veterans: 1.2,
+        other: 1.0
+      };
+      if (answers.policy_type) {
+        multiplier *= policyTypeMultipliers[answers.policy_type] || 1.0;
+      }
+
+      if (answers.permanent_disability === true) multiplier *= 1.5;
+
+      // Appeal denied strengthens bad faith case
+      if (answers.appeal_denied === true) multiplier *= 1.4;
+
+      if (answers.medical_evidence === true) multiplier *= 1.2;
+      if (answers.unable_work === true) multiplier *= 1.3;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Monthly benefit: $${monthlyBenefit.toLocaleString()}`);
+      factors.push(`Months denied: ${monthsDenied}`);
+      factors.push(`Lost wages: $${disabilityWages.toLocaleString()}`);
+      if (answers.policy_type) factors.push(`Policy type: ${answers.policy_type}`);
+      if (answers.permanent_disability) factors.push('Permanent disability');
+      if (answers.appeal_denied) factors.push('Appeal was denied');
+      if (answers.medical_evidence) factors.push('Strong medical evidence');
+      if (answers.unable_work) factors.push('Unable to work');
+      break;
+
+    case 'professional':
+      const financialLoss = parseFloat(answers.financial_loss) || 0;
+      const feesPaid = parseFloat(answers.professional_fees_paid) || 0;
+      const businessRevenueLost = parseFloat(answers.business_revenue_lost) || 0;
+      const yearsRelationship = parseFloat(answers.years_relationship) || 1;
+
+      baseValue = financialLoss + feesPaid + businessRevenueLost;
+
+      multiplier = 1.0;
+
+      // Professional type multipliers (some have higher standards of care)
+      const professionalTypeMultipliers = {
+        attorney: 1.4,
+        accountant: 1.3,
+        financial_advisor: 1.3,
+        architect: 1.2,
+        engineer: 1.2,
+        real_estate_agent: 1.1,
+        other: 1.0
+      };
+      if (answers.professional_type) {
+        multiplier *= professionalTypeMultipliers[answers.professional_type] || 1.0;
+      }
+
+      if (answers.written_agreement === true) multiplier *= 1.3;
+      if (answers.clear_negligence === true) multiplier *= 1.5;
+      if (yearsRelationship >= 5) multiplier *= 1.2;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Financial loss: $${financialLoss.toLocaleString()}`);
+      factors.push(`Professional fees: $${feesPaid.toLocaleString()}`);
+      factors.push(`Revenue lost: $${businessRevenueLost.toLocaleString()}`);
+      if (answers.professional_type) factors.push(`Professional type: ${answers.professional_type}`);
+      factors.push(`Years of relationship: ${yearsRelationship}`);
+      if (answers.written_agreement) factors.push('Written agreement exists');
+      if (answers.clear_negligence) factors.push('Clear negligence');
+      break;
+
+    case 'civil_rights':
+      const economicDamages = parseFloat(answers.economic_damages) || 0;
+      const civilWages = parseFloat(answers.lost_wages) || 0;
+      const violationDuration = parseFloat(answers.duration_of_violation) || 12;
+
+      baseValue = economicDamages + civilWages;
+
+      // Civil rights cases often have punitive damages
+      multiplier = 2.0;
+
+      // Violation type multipliers (some are inherently more egregious)
+      const violationTypeMultipliers = {
+        police_excessive_force: 1.5,
+        false_arrest: 1.4,
+        discrimination_employment: 1.2,
+        discrimination_housing: 1.3,
+        discrimination_public: 1.3,
+        free_speech: 1.2,
+        other: 1.0
+      };
+      if (answers.violation_type) {
+        multiplier *= violationTypeMultipliers[answers.violation_type] || 1.0;
+      }
+
+      if (answers.emotional_distress) {
+        multiplier *= emotionalDistressMultipliers[answers.emotional_distress] || 1.0;
+      }
+
+      // Video evidence significantly strengthens case
+      if (answers.video_evidence === true) multiplier *= 1.4;
+
+      // Physical injury increases damages
+      if (answers.physical_injury === true) multiplier *= 1.5;
+
+      if (answers.government_entity === true) multiplier *= 1.3;
+      if (answers.pattern_of_conduct === true) multiplier *= 1.5;
+      if (violationDuration > 24) multiplier *= 1.3;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Economic damages: $${economicDamages.toLocaleString()}`);
+      factors.push(`Lost wages: $${civilWages.toLocaleString()}`);
+      factors.push(`Duration: ${violationDuration} months`);
+      if (answers.violation_type) factors.push(`Violation type: ${answers.violation_type}`);
+      if (answers.video_evidence) factors.push('Video evidence available');
+      if (answers.physical_injury) factors.push('Physical injury present');
+      if (answers.government_entity) factors.push('Government entity involved');
+      if (answers.pattern_of_conduct) factors.push('Pattern of conduct');
+      break;
+
+    case 'ip':
+      const revenueLost = parseFloat(answers.revenue_lost) || 0;
+      const infringerProfits = parseFloat(answers.infringer_profits) || 0;
+      const yearsInfringement = parseFloat(answers.years_infringement) || 1;
+
+      baseValue = Math.max(revenueLost, infringerProfits);
+
+      multiplier = 1.0;
+
+      // IP type multipliers (different recovery potential)
+      const ipTypeMultipliers = {
+        patent: 1.5,      // Highest statutory damages
+        copyright: 1.3,   // Good statutory damages
+        trademark: 1.2,
+        trade_secret: 1.4,
+      };
+      if (answers.ip_type) {
+        multiplier *= ipTypeMultipliers[answers.ip_type] || 1.0;
+      }
+
+      if (answers.registered_ip === true) multiplier *= 1.5;
+      if (answers.willful_infringement === true) multiplier *= 3.0; // Treble damages
+      if (answers.ongoing_infringement === true) multiplier *= 1.3;
+      if (yearsInfringement >= 3) multiplier *= 1.2;
+
+      baseValue = baseValue * multiplier;
+
+      factors.push(`Revenue lost: $${revenueLost.toLocaleString()}`);
+      factors.push(`Infringer profits: $${infringerProfits.toLocaleString()}`);
+      factors.push(`Years of infringement: ${yearsInfringement}`);
+      if (answers.ip_type) factors.push(`IP type: ${answers.ip_type}`);
+      if (answers.registered_ip) factors.push('IP is registered');
+      if (answers.willful_infringement) factors.push('Willful infringement (treble damages)');
+      if (answers.ongoing_infringement) factors.push('Ongoing infringement');
+      break;
+
+    default:
+      baseValue = 50000;
+      factors.push('General case estimate');
+  }
+
+  // ============================================================================
+  // STATE-SPECIFIC ADJUSTMENTS
+  // ============================================================================
+
+  // For cases with economic and non-economic damage breakdowns
+  // We'll estimate the split (typically non-economic is 2-3x economic for injury cases)
+  if (baseValue > 0) {
+    // Rough estimate: 30% economic, 70% non-economic for injury cases
+    // For purely economic cases (wage theft, etc.), reverse the split
+    const isInjuryCase = ['motor', 'medical', 'premises', 'product', 'wrongful_death', 'dog_bite'].includes(caseType);
+
+    if (isInjuryCase) {
+      economicDamages = baseValue * 0.35;
+      nonEconomicDamages = baseValue * 0.65;
+    } else {
+      economicDamages = baseValue * 0.85;
+      nonEconomicDamages = baseValue * 0.15;
+    }
+  }
+
+  // Apply state-specific damage caps
+  if (stateRules) {
+    // Apply non-economic damage cap
+    if (stateRules.nonEconomicDamageCap) {
+      if (typeof stateRules.nonEconomicDamageCap === 'number') {
+        if (nonEconomicDamages > stateRules.nonEconomicDamageCap) {
+          nonEconomicDamages = stateRules.nonEconomicDamageCap;
+          baseValue = economicDamages + nonEconomicDamages;
+          factors.push(`⚠️ ${stateRules.stateName} caps non-economic damages at $${stateRules.nonEconomicDamageCap.toLocaleString()}`);
+        }
+      } else if (typeof stateRules.nonEconomicDamageCap === 'string') {
+        // Handle complex cap formulas like Ohio's
+        if (stateRules.nonEconomicDamageCap === 'lesserOf250kOr3xEconomic') {
+          const cap = Math.min(250000, economicDamages * 3);
+          if (nonEconomicDamages > cap) {
+            nonEconomicDamages = cap;
+            baseValue = economicDamages + nonEconomicDamages;
+            factors.push(`⚠️ ${stateRules.stateName} caps non-economic damages at lesser of $250k or 3x economic damages`);
+          }
+        }
+      }
+    }
+
+    // Apply total economic damage cap (rare, but exists in some states like Indiana medical malpractice)
+    if (stateRules.economicDamageCap && typeof stateRules.economicDamageCap === 'number') {
+      if (baseValue > stateRules.economicDamageCap) {
+        baseValue = stateRules.economicDamageCap;
+        factors.push(`⚠️ ${stateRules.stateName} caps total damages at $${stateRules.economicDamageCap.toLocaleString()}`);
+      }
+    }
+
+    // Check statute of limitations and incident date
+    if (stateRules.statuteOfLimitations && answers.incident_date) {
+      const sol = stateRules.statuteOfLimitations;
+      const incidentDate = new Date(answers.incident_date);
+      const today = new Date();
+
+      // Calculate years since incident
+      const yearsSinceIncident = (today - incidentDate) / (1000 * 60 * 60 * 24 * 365.25);
+
+      // Check if case is time-barred
+      if (yearsSinceIncident > sol) {
+        warnings.push(`🚨 CRITICAL: Your case may be time-barred. The incident occurred ${yearsSinceIncident.toFixed(1)} years ago, exceeding ${stateRules.stateName}'s ${sol}-year statute of limitations. You may no longer be able to file this lawsuit. Consult an attorney immediately.`);
+        factors.push(`🚨 Case may be OUT OF STATUTE OF LIMITATIONS (${yearsSinceIncident.toFixed(1)} years > ${sol} year limit)`);
+      } else {
+        // Calculate time remaining
+        const yearsRemaining = sol - yearsSinceIncident;
+        if (yearsRemaining < 1) {
+          // Less than 1 year remaining - urgent warning
+          const monthsRemaining = Math.floor(yearsRemaining * 12);
+          warnings.push(`⚠️ URGENT: Only ${monthsRemaining} month${monthsRemaining !== 1 ? 's' : ''} remaining to file lawsuit in ${stateRules.stateName} (${sol}-year statute of limitations)`);
+          factors.push(`⚠️ URGENT: ${monthsRemaining} month${monthsRemaining !== 1 ? 's' : ''} left to file`);
+        } else {
+          // Standard SOL warning
+          warnings.push(`Statute of limitations in ${stateRules.stateName}: ${sol} year${sol !== 1 ? 's' : ''} (${yearsRemaining.toFixed(1)} years remaining)`);
+          factors.push(`⏱️ Statute of limitations: ${sol} year${sol !== 1 ? 's' : ''} (${yearsRemaining.toFixed(1)} years left)`);
+        }
+      }
+    } else if (stateRules.statuteOfLimitations) {
+      // No incident date provided, show general SOL info
+      const sol = stateRules.statuteOfLimitations;
+      warnings.push(`Statute of limitations in ${stateRules.stateName}: ${sol} year${sol !== 1 ? 's' : ''}`);
+      factors.push(`⏱️ Statute of limitations: ${sol} year${sol !== 1 ? 's' : ''} in ${stateRules.stateName}`);
+    }
+
+    // Add negligence system information for motor vehicle cases
+    if (caseType === 'motor' && stateRules.negligenceSystem) {
+      const negligenceSystems = {
+        'pure_comparative': 'Pure comparative negligence (can recover even if 99% at fault)',
+        'modified_50': 'Modified comparative negligence (can recover if less than 50% at fault)',
+        'modified_51': 'Modified comparative negligence (can recover if 50% or less at fault)',
+        'contributory': '⚠️ Contributory negligence (cannot recover if ANY fault)'
+      };
+      const systemDesc = negligenceSystems[stateRules.negligenceSystem];
+      if (systemDesc) {
+        factors.push(`${stateRules.stateName}: ${systemDesc}`);
+      }
+    }
+
+    // Add no-fault state warning for motor vehicle cases
+    if (caseType === 'motor' && stateRules.noFaultState) {
+      factors.push(`⚠️ ${stateRules.stateName} is a no-fault state - PIP insurance applies first`);
+      warnings.push(`${stateRules.stateName} is a no-fault state. Personal Injury Protection (PIP) insurance applies first, and you may need to meet a "serious injury threshold" to sue the at-fault driver.`);
+    }
+
+    // Add strict liability note for dog bites
+    if (caseType === 'dog_bite') {
+      if (stateRules.strictLiability === true) {
+        factors.push(`${stateRules.stateName} has strict liability for dog bites (easier to prove)`);
+      } else if (stateRules.strictLiability === false) {
+        factors.push(`⚠️ ${stateRules.stateName} follows "one-bite rule" (must prove owner knew dog was dangerous)`);
+        warnings.push(`${stateRules.stateName} follows the "one-bite rule" - you must prove the owner knew or should have known the dog had vicious propensities.`);
+      }
+    }
+  }
+
+  // Ensure minimum value
+  let finalValue = Math.max(5000, Math.round(baseValue / 1000) * 1000);
+
+  // Create range (±25%)
+  const lowRange = Math.round(finalValue * 0.75 / 1000) * 1000;
+  const highRange = Math.round(finalValue * 1.25 / 1000) * 1000;
+
+  // Add state and case type to factors
+  if (stateRules) {
+    factors.push(`State: ${stateRules.stateName}`);
+  } else {
+    factors.push(`State: ${state}`);
+  }
+  factors.push(`Case type: ${caseType}`);
+
+  return {
+    value: finalValue,
+    lowRange,
+    highRange,
+    factors: factors,
+    warnings: warnings.length > 0 ? warnings : undefined,
+    stateSpecificInfo: stateRules ? {
+      stateName: stateRules.stateName,
+      negligenceSystem: stateRules.negligenceSystem,
+      statuteOfLimitations: stateRules.statuteOfLimitations,
+      hasNonEconomicCap: !!stateRules.nonEconomicDamageCap,
+      nonEconomicCap: stateRules.nonEconomicDamageCap,
+      isNoFaultState: stateRules.noFaultState
+    } : undefined
+  };
+};

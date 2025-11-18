@@ -2,19 +2,105 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    <!-- Preconnect for performance optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Google Tag Manager - Deferred Loading -->
+    <script>
+      // Defer GTM loading until after initial page render
+      function loadGTM() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-N4D25ZFF');
+      }
+
+      // Load GTM when browser is idle or after 3 seconds
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGTM);
+      } else {
+        setTimeout(loadGTM, 3000);
+      }
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Clarity will be loaded via Google Tag Manager for better performance -->
+
+    <!-- Critical CSS - Inline to prevent render blocking -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      #root {
+        min-height: 100vh;
+      }
+    </style>
+
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Free case value calculator for personal injury, employment law, and IP cases. Get an instant estimate of what your case is worth with our data-driven legal case value estimator."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- Keywords for SEO -->
+    <meta name="keywords" content="what's my case worth, personal injury calculator, case value estimator, legal case calculator, settlement calculator, employment law calculator, lawsuit value, case worth calculator" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://casevalue.law/" />
+
+    <!-- Hreflang tags for multilingual support -->
+    <link rel="alternate" hreflang="en" href="https://casevalue.law/?lang=en" />
+    <link rel="alternate" hreflang="es" href="https://casevalue.law/?lang=es" />
+    <link rel="alternate" hreflang="zh" href="https://casevalue.law/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://casevalue.law/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CaseValue.law" />
+    <meta property="og:url" content="https://casevalue.law" />
+    <meta property="og:title" content="What's My Case Worth? Free Legal Case Value Calculator" />
+    <meta property="og:description" content="Free case value calculator for personal injury, employment law, and IP cases. Calculate what your case is worth instantly." />
+    <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@casevalue" />
+    <meta name="twitter:url" content="https://casevalue.law" />
+    <meta name="twitter:title" content="What's My Case Worth? Free Legal Case Value Calculator" />
+    <meta name="twitter:description" content="Free case value calculator for personal injury, employment law, and IP cases. Calculate what your case is worth instantly." />
+    <meta name="twitter:image" content="https://casevalue.law/casevalue-preview.webp" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/casevalue-preview.webp" />
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,9 +110,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>What's My Case Worth? Free Legal Case Value Calculator | CaseValue.law</title>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4D25ZFF"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
