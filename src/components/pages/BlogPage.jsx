@@ -48,14 +48,14 @@ export default function BlogPage() {
         <meta name="keywords" content="legal blog, personal injury law, texas law, case value, statute of limitations" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-gradient-hero">
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-              Legal <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Insights</span>
+            <h1 className="text-5xl md:text-6xl font-bold text-text mb-4">
+              Legal <span className="text-transparent bg-clip-text bg-gradient-gold">Insights</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-textMuted max-w-3xl mx-auto">
               Expert guidance on personal injury law, case valuations, and your legal rights
             </p>
           </div>
@@ -67,11 +67,10 @@ export default function BlogPage() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === category
-                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/50'
-                      : 'bg-slate-700/50 text-gray-300 hover:bg-slate-700'
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${selectedCategory === category
+                      ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
+                      : 'bg-card/50 text-text/70 hover:bg-card border border-cardBorder'
+                    }`}
                 >
                   {category === 'all' ? 'All Posts' : category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                 </button>
@@ -82,19 +81,19 @@ export default function BlogPage() {
           {/* Loading State */}
           {loading && (
             <div className="flex flex-col items-center justify-center py-20">
-              <Loader className="w-12 h-12 text-blue-400 animate-spin mb-4" />
-              <p className="text-gray-400 text-lg">Loading blog posts...</p>
+              <Loader className="w-12 h-12 text-accent animate-spin mb-4" />
+              <p className="text-textMuted text-lg">Loading blog posts...</p>
             </div>
           )}
 
           {/* Error State */}
           {error && (
             <div className="max-w-2xl mx-auto text-center py-20">
-              <div className="bg-red-500/20 border-2 border-red-500/40 rounded-xl p-8">
+              <div className="bg-red-500/20 border-2 border-red-500/40 rounded-3xl p-8 backdrop-blur-xl">
                 <p className="text-red-200 text-lg mb-4">{error}</p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-colors font-semibold"
                 >
                   Retry
                 </button>
@@ -105,9 +104,9 @@ export default function BlogPage() {
           {/* Empty State */}
           {!loading && !error && filteredPosts.length === 0 && (
             <div className="max-w-2xl mx-auto text-center py-20">
-              <div className="bg-slate-800/50 border-2 border-slate-700/50 rounded-xl p-8">
-                <p className="text-gray-300 text-lg mb-2">No blog posts found</p>
-                <p className="text-gray-500">
+              <div className="bg-card backdrop-blur-xl border-2 border-cardBorder rounded-3xl p-8 shadow-card">
+                <p className="text-text text-lg mb-2">No blog posts found</p>
+                <p className="text-textMuted">
                   {selectedCategory !== 'all'
                     ? 'Try selecting a different category.'
                     : 'Check back soon for new content!'}
@@ -116,22 +115,25 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Blog Posts Grid */}
+          {/* Blog Posts Masonry Grid */}
           {!loading && !error && filteredPosts.length > 0 && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
               {filteredPosts.map(post => (
                 <Link
                   key={post._id}
                   to={`/blog/${post.slug.current}`}
-                  className="group bg-slate-800/50 backdrop-blur-sm rounded-xl overflow-hidden border-2 border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:scale-[1.02]"
+                  className="group block break-inside-avoid mb-6 bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
                 >
                   {/* Post Image */}
                   {post.mainImage && (
-                    <div className="aspect-video overflow-hidden bg-slate-700">
+                    <div className="aspect-video overflow-hidden bg-primary">
                       <img
                         src={urlFor(post.mainImage).width(600).height(338).format('webp').url()}
                         alt={post.imageAlt || post.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        width="600"
+                        height="338"
                       />
                     </div>
                   )}
@@ -143,7 +145,7 @@ export default function BlogPage() {
                         {post.categories.slice(0, 2).map(category => (
                           <span
                             key={category}
-                            className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full"
+                            className="text-xs px-3 py-1 bg-accent/20 text-accent rounded-full font-semibold"
                           >
                             {category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                           </span>
@@ -152,28 +154,28 @@ export default function BlogPage() {
                     )}
 
                     {/* Title */}
-                    <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors line-clamp-2">
+                    <h2 className="text-2xl font-bold text-text mb-3 group-hover:text-accent transition-colors line-clamp-2">
                       {post.title}
                     </h2>
 
                     {/* Excerpt */}
-                    <p className="text-gray-400 mb-4 line-clamp-3">
+                    <p className="text-textMuted mb-4 line-clamp-3 leading-relaxed">
                       {post.excerpt}
                     </p>
 
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 border-t border-slate-700 pt-4">
+                    <div className="flex items-center justify-between text-sm text-textMuted border-t border-cardBorder pt-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1">
                           <User className="w-4 h-4" />
-                          <span>{post.author}</span>
+                          <span className="font-medium">{post.author}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Calendar className="w-4 h-4" />
                           <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-5 h-5 text-accent group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </Link>
