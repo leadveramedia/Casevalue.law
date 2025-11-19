@@ -45,7 +45,7 @@ module.exports = {
 
         // Questionnaire specific colors
         questionCard: 'rgba(40, 75, 140, 0.75)',
-        formInput: 'rgba(55, 95, 165, 0.7)',
+        formInput: 'rgba(210, 210, 215, 0.95)',
         buttonActive: 'rgba(70, 120, 200, 0.85)',
         buttonInactive: 'rgba(40, 70, 120, 0.4)',
       },
@@ -53,6 +53,7 @@ module.exports = {
         'gradient-hero': 'linear-gradient(180deg, #071530 0%, #0F2A73 45%, #1E3D96 100%)',
         'gradient-gold': 'linear-gradient(90deg, #FFD700 0%, #FFC107 25%, #FFB300 50%, #FFA000 75%, #FF8F00 100%)',
         'gradient-text': 'linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%)',
+        'gradient-input': 'linear-gradient(145deg, rgba(220, 220, 225, 0.95) 0%, rgba(200, 200, 205, 0.98) 100%)',
       },
       boxShadow: {
         'card': '0 30px 90px rgba(0, 0, 0, 0.8), 0 2px 0 rgba(255, 255, 255, 0.12)',

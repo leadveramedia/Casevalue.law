@@ -48,4 +48,88 @@
       transform: translateY(0);
     }
   }
+
+  /* Number input spinner buttons - always visible */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  /* Range slider styling with gold % symbol */
+  input[type="range"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 16px;
+    border-radius: 8px;
+    outline: none;
+    accent-color: transparent;
+  }
+
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1px;
+    height: 1px;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    position: relative;
+    box-shadow: none !important;
+    opacity: 0;
+  }
+
+  /* Firefox */
+  input[type="range"]::-moz-range-thumb {
+    width: 1px;
+    height: 1px;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    box-shadow: none !important;
+    opacity: 0;
+  }
+
+  /* Microsoft Edge/IE */
+  input[type="range"]::-ms-thumb {
+    width: 1px;
+    height: 1px;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    box-shadow: none !important;
+    opacity: 0;
+  }
+
+  /* Remove any default track styling */
+  input[type="range"]::-webkit-slider-runnable-track {
+    border: none;
+    background: transparent;
+  }
+
+  input[type="range"]::-moz-range-track {
+    border: none;
+    background: transparent;
+  }
+
+  input[type="range"]::-ms-track {
+    border: none;
+    background: transparent;
+    color: transparent;
+  }
+
+  /* Remove focus ring that might appear */
+  input[type="range"]:focus::-webkit-slider-thumb {
+    outline: none;
+    box-shadow: none !important;
+  }
+
+  input[type="range"]:focus::-moz-range-thumb {
+    outline: none;
+    box-shadow: none !important;
+  }
 }

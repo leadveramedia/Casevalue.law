@@ -3,6 +3,7 @@
  * Contact information form with validation
  */
 import { Check, AlertCircle } from 'lucide-react';
+import { SHARED_STYLES } from '../shared/sharedStyles';
 
 export default function ContactForm({
   t,
@@ -20,7 +21,7 @@ export default function ContactForm({
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-card hover:bg-card/80 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold"
+        className={SHARED_STYLES.backToHomeButton}
       >
         {t.backHome}
       </button>
@@ -28,7 +29,10 @@ export default function ContactForm({
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 px-4 text-text">
         {t.enterInfo}
       </h2>
-      <div className="bg-card backdrop-blur-xl rounded-3xl p-8 md:p-10 border-2 border-cardBorder space-y-5 shadow-card">
+      <div
+        className={`${SHARED_STYLES.questionCard} space-y-5`}
+        style={SHARED_STYLES.questionCardBg}
+      >
         {/* Error Message */}
         {error && (
           <div role="alert" aria-live="assertive" className="p-5 bg-red-500/20 border-2 border-red-500/50 rounded-xl flex items-start gap-4 animate-shake">
@@ -46,13 +50,8 @@ export default function ContactForm({
               placeholder={t.firstName}
               value={contact.firstName}
               onChange={(e) => onUpdateContact('firstName', e.target.value)}
-              className={`w-full p-4 md:p-5 bg-background border-2 rounded-xl text-text placeholder-text/40 text-base md:text-lg focus:ring-2 focus:outline-none transition-all shadow-md ${
-                validationState.firstName === null
-                  ? 'border-primary/20 focus:border-accent focus:ring-accent/50'
-                  : validationState.firstName
-                  ? 'border-green-500/50 focus:border-green-400 focus:ring-green-400/50'
-                  : 'border-red-500/50 focus:border-red-400 focus:ring-red-400/50'
-              }`}
+              style={SHARED_STYLES.formInputBg}
+              className={SHARED_STYLES.getTextInputWithValidation(validationState.firstName)}
               required
               aria-label="First name"
             />
@@ -69,7 +68,8 @@ export default function ContactForm({
             placeholder={t.lastName}
             value={contact.lastName}
             onChange={(e) => onUpdateContact('lastName', e.target.value)}
-            className="w-full p-4 md:p-5 bg-background border-2 border-cardBorder rounded-xl text-text placeholder-text/40 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md"
+            style={SHARED_STYLES.formInputBg}
+            className={SHARED_STYLES.textInput}
             aria-label="Last name"
           />
         </div>
@@ -82,13 +82,8 @@ export default function ContactForm({
             placeholder={t.email}
             value={contact.email}
             onChange={(e) => onUpdateContact('email', e.target.value)}
-            className={`w-full p-4 md:p-5 pr-12 bg-background border-2 rounded-xl text-text placeholder-text/40 text-base md:text-lg focus:ring-2 focus:outline-none transition-all shadow-md ${
-              validationState.email === null
-                ? 'border-primary/20 focus:border-accent focus:ring-accent/50'
-                : validationState.email
-                ? 'border-green-500/50 focus:border-green-400 focus:ring-green-400/50'
-                : 'border-red-500/50 focus:border-red-400 focus:ring-red-400/50'
-            }`}
+            style={SHARED_STYLES.formInputBg}
+            className={`${SHARED_STYLES.getTextInputWithValidation(validationState.email)} pr-12`}
             required
             aria-label="Email address"
             aria-invalid={validationState.email === false ? 'true' : 'false'}
@@ -113,13 +108,8 @@ export default function ContactForm({
             placeholder={t.phone}
             value={contact.phone}
             onChange={(e) => onUpdateContact('phone', e.target.value)}
-            className={`w-full p-4 md:p-5 pr-12 bg-background border-2 rounded-xl text-text placeholder-text/40 text-base md:text-lg focus:ring-2 focus:outline-none transition-all shadow-md ${
-              validationState.phone === null
-                ? 'border-primary/20 focus:border-accent focus:ring-accent/50'
-                : validationState.phone
-                ? 'border-green-500/50 focus:border-green-400 focus:ring-green-400/50'
-                : 'border-red-500/50 focus:border-red-400 focus:ring-red-400/50'
-            }`}
+            style={SHARED_STYLES.formInputBg}
+            className={`${SHARED_STYLES.getTextInputWithValidation(validationState.phone)} pr-12`}
             required
             aria-label="Phone number"
             aria-invalid={validationState.phone === false ? 'true' : 'false'}
@@ -166,7 +156,7 @@ export default function ContactForm({
         <button
           onClick={onSubmit}
           disabled={loading}
-          className="w-full px-8 py-5 bg-gradient-gold hover:opacity-90 rounded-xl shadow-2xl hover:shadow-accent/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-xl font-bold transform hover:scale-[1.02] active:scale-95 text-textDark"
+          className={`w-full px-8 py-5 ${SHARED_STYLES.goldButton} disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-3">

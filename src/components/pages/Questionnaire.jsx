@@ -3,6 +3,7 @@
  * Handles the dynamic questionnaire with multiple input types
  */
 import { HelpCircle, Check } from 'lucide-react';
+import { SHARED_STYLES } from '../shared/sharedStyles';
 
 export default function Questionnaire({
   t,
@@ -25,7 +26,7 @@ export default function Questionnaire({
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
+        className={SHARED_STYLES.backToHomeButton}
       >
         {t.backHome}
       </button>
@@ -48,7 +49,10 @@ export default function Questionnaire({
       </div>
 
       {/* Question Card */}
-      <div className="bg-questionCard backdrop-blur-3xl rounded-3xl p-8 md:p-10 border-3 border-accent shadow-2xl animate-scale-in">
+      <div
+        className={SHARED_STYLES.questionCard}
+        style={SHARED_STYLES.questionCardBg}
+      >
         <div className="flex items-start gap-3 mb-8">
           <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold break-words leading-tight flex-1 text-text">
             {t.questions[q.id]}
@@ -75,7 +79,8 @@ export default function Questionnaire({
                   onUpdateAnswer(q.id, newValue);
                 }
               }}
-              className="w-full p-4 md:p-5 bg-formInput border-3 border-accent rounded-xl text-text text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md"
+              style={SHARED_STYLES.formInputBg}
+              className={SHARED_STYLES.selectInput}
             >
               <option value="" className="bg-primary">{t.selectOption}</option>
               {q.options.map(o => (
@@ -121,7 +126,8 @@ export default function Questionnaire({
               }}
               min="1900-01-01"
               max={new Date().toISOString().split('T')[0]}
-              className="w-full p-4 md:p-5 bg-formInput border-3 border-accent rounded-xl text-text text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light]"
+              style={SHARED_STYLES.formInputBg}
+              className={SHARED_STYLES.dateInput}
             />
             <p className="mt-2 text-sm text-text/60">
               {q.id === 'incident_date' ? 'Select the date when the incident occurred. This helps determine if your case is within the statute of limitations.' : 'Select the date'}
@@ -134,7 +140,7 @@ export default function Questionnaire({
           <div>
             <div className="relative">
               {!NON_CURRENCY_NUMBER_FIELDS.has(q.id) && (
-                <span className="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-xl md:text-2xl text-text/60 font-bold">$</span>
+                <span className={SHARED_STYLES.currencySymbol}>$</span>
               )}
               <input
                 type="number"
@@ -158,7 +164,8 @@ export default function Questionnaire({
 
                   onUpdateAnswer(q.id, newValue);
                 }}
-                className={`w-full p-4 md:p-5 ${!NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'pl-10 md:pl-12' : ''} bg-formInput border-3 border-accent rounded-xl text-text text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md`}
+                style={SHARED_STYLES.formInputBg}
+                className={SHARED_STYLES.numberInput(!NON_CURRENCY_NUMBER_FIELDS.has(q.id))}
                 placeholder={
                   q.id === 'medical_bills' ? '50000' :
                   q.id === 'lost_wages' ? '10000' :
@@ -226,7 +233,8 @@ export default function Questionnaire({
               type="text"
               value={answers[q.id] || ''}
               onChange={(e) => onUpdateAnswer(q.id, e.target.value)}
-              className="w-full p-4 md:p-5 bg-formInput border-3 border-accent rounded-xl text-text text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md"
+              style={SHARED_STYLES.formInputBg}
+              className={SHARED_STYLES.textInput}
               placeholder={
                 q.id === 'product_name' ? 'e.g., iPhone 12 Pro, Toyota Camry, etc.' :
                 'Enter text'
@@ -247,10 +255,11 @@ export default function Questionnaire({
                 <button
                   key={String(v)}
                   onClick={() => onUpdateAnswer(q.id, v)}
+                  style={SHARED_STYLES.formInputBg}
                   className={`p-5 md:p-6 rounded-xl border-3 transition-all text-lg md:text-xl font-bold shadow-lg ${
                     answers[q.id] === v
-                      ? 'bg-gradient-gold border-accent scale-105 text-textDark'
-                      : 'bg-formInput border-accent hover:border-accent hover:bg-formInput/80 hover:scale-102 text-text'
+                      ? SHARED_STYLES.booleanButtonActive
+                      : 'border-accent hover:border-accent text-textDark scale-75 opacity-50'
                   }`}
                 >
                   {v ? (
@@ -280,20 +289,37 @@ export default function Questionnaire({
         {/* Slider Input */}
         {q.type === 'slider' && (
           <div>
-            <input
-              type="range"
-              min={q.min}
-              max={q.max}
-              value={answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0)}
-              onChange={(e) => {
-                const newValue = e.target.value;
-                onUpdateAnswer(q.id, newValue);
-              }}
-              className="w-full h-4 bg-card rounded-lg appearance-none cursor-pointer accent-accent"
-              style={{
-                background: `linear-gradient(to right, #D4AF37 0%, #D4AF37 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, #F4F6F8 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, #F4F6F8 100%)`
-              }}
-            />
+            <div className="relative">
+              <input
+                type="range"
+                min={q.min}
+                max={q.max}
+                value={answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0)}
+                onChange={(e) => {
+                  const newValue = e.target.value;
+                  onUpdateAnswer(q.id, newValue);
+                }}
+                className="w-full h-4 bg-card rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #FFD700 0%, #FFD700 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) 100%)`,
+                  accentColor: 'transparent'
+                }}
+              />
+              <div
+                className="absolute pointer-events-none font-black drop-shadow-lg"
+                style={{
+                  left: `calc(${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}% - 15px)`,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  fontSize: '38px',
+                  color: '#FFD700',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.6)',
+                  zIndex: 10
+                }}
+              >
+                %
+              </div>
+            </div>
             <div className="text-center mt-6">
               <div className="text-5xl md:text-6xl font-bold text-accent mb-2">
                 {answers[q.id] === 'unknown' ? '?' : (answers[q.id] || 0)}%
@@ -325,7 +351,7 @@ export default function Questionnaire({
       <div className="flex gap-4 mt-8">
         <button
           onClick={onPrevious}
-          className="px-8 py-4 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-lg font-semibold text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
+          className={SHARED_STYLES.navButton}
         >
           {t.back}
         </button>
@@ -334,8 +360,8 @@ export default function Questionnaire({
           disabled={answers[q.id] === undefined}
           className={`flex-1 px-8 py-4 rounded-xl transition-all text-lg font-bold ${
             answers[q.id] === undefined
-              ? 'bg-buttonInactive cursor-not-allowed text-text/40 border-2 border-cardBorder/50'
-              : 'bg-buttonActive hover:bg-opacity-90 text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl'
+              ? SHARED_STYLES.primaryButtonInactive
+              : SHARED_STYLES.primaryButtonActive
           }`}
         >
           {qIdx === questions.length - 1 ? t.getValuation : t.next}

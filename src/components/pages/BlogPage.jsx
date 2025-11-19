@@ -1,0 +1,187 @@
+// ============================================================================
+// BLOG LISTING PAGE
+// ============================================================================
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { getAllPosts, urlFor } from '../../utils/sanityClient';
+import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
+import BlogLayout from '../BlogLayout';
+
+export default function BlogPage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const data = await getAllPosts();
+        setPosts(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('Failed to load blog posts. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Get unique categories from all posts
+  const categories = ['all', ...new Set(posts.flatMap(post => post.categories || []))];
+
+  // Filter posts by selected category
+  const filteredPosts = selectedCategory === 'all'
+    ? posts
+    : posts.filter(post => post.categories?.includes(selectedCategory));
+
+  return (
+    <BlogLayout>
+      <Helmet>
+        <title>Legal Blog - CaseValue.law</title>
+        <meta name="description" content="Expert insights on personal injury law, medical malpractice, motor vehicle accidents, and more. Learn about your legal rights and case values." />
+        <meta name="keywords" content="legal blog, personal injury law, texas law, case value, statute of limitations" />
+      </Helmet>
+
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        {/* Header */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+              Legal <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Insights</span>
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Expert guidance on personal injury law, case valuations, and your legal rights
+            </p>
+          </div>
+
+          {/* Category Filter */}
+          {categories.length > 1 && (
+            <div className="mb-10 flex flex-wrap gap-3 justify-center">
+              {categories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedCategory === category
+                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/50'
+                      : 'bg-slate-700/50 text-gray-300 hover:bg-slate-700'
+                  }`}
+                >
+                  {category === 'all' ? 'All Posts' : category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Loading State */}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader className="w-12 h-12 text-blue-400 animate-spin mb-4" />
+              <p className="text-gray-400 text-lg">Loading blog posts...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="max-w-2xl mx-auto text-center py-20">
+              <div className="bg-red-500/20 border-2 border-red-500/40 rounded-xl p-8">
+                <p className="text-red-200 text-lg mb-4">{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && filteredPosts.length === 0 && (
+            <div className="max-w-2xl mx-auto text-center py-20">
+              <div className="bg-slate-800/50 border-2 border-slate-700/50 rounded-xl p-8">
+                <p className="text-gray-300 text-lg mb-2">No blog posts found</p>
+                <p className="text-gray-500">
+                  {selectedCategory !== 'all'
+                    ? 'Try selecting a different category.'
+                    : 'Check back soon for new content!'}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Blog Posts Grid */}
+          {!loading && !error && filteredPosts.length > 0 && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map(post => (
+                <Link
+                  key={post._id}
+                  to={`/blog/${post.slug.current}`}
+                  className="group bg-slate-800/50 backdrop-blur-sm rounded-xl overflow-hidden border-2 border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:scale-[1.02]"
+                >
+                  {/* Post Image */}
+                  {post.mainImage && (
+                    <div className="aspect-video overflow-hidden bg-slate-700">
+                      <img
+                        src={urlFor(post.mainImage).width(600).height(338).format('webp').url()}
+                        alt={post.imageAlt || post.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+                  )}
+
+                  <div className="p-6">
+                    {/* Categories */}
+                    {post.categories && post.categories.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {post.categories.slice(0, 2).map(category => (
+                          <span
+                            key={category}
+                            className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full"
+                          >
+                            {category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Title */}
+                    <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors line-clamp-2">
+                      {post.title}
+                    </h2>
+
+                    {/* Excerpt */}
+                    <p className="text-gray-400 mb-4 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+
+                    {/* Meta Information */}
+                    <div className="flex items-center justify-between text-sm text-gray-500 border-t border-slate-700 pt-4">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1">
+                          <User className="w-4 h-4" />
+                          <span>{post.author}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </BlogLayout>
+  );
+}

@@ -3,6 +3,7 @@
  * Displays the case valuation results with factors and disclaimer
  */
 import { Check, AlertCircle } from 'lucide-react';
+import { SHARED_STYLES } from '../shared/sharedStyles';
 
 export default function ResultsPage({ t, valuation, onBack }) {
   return (
@@ -10,7 +11,7 @@ export default function ResultsPage({ t, valuation, onBack }) {
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
+        className={SHARED_STYLES.backToHomeButton}
       >
         {t.backHome}
       </button>

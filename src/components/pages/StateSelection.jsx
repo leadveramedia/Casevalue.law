@@ -2,6 +2,7 @@
  * StateSelection Component
  * Allows user to select the state where the incident occurred
  */
+import { SHARED_STYLES } from '../shared/sharedStyles';
 
 export default function StateSelection({
   t,
@@ -16,7 +17,7 @@ export default function StateSelection({
       {/* Back to Home Button */}
       <button
         onClick={onBack}
-        className="mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
+        className={SHARED_STYLES.backToHomeButton}
       >
         {t.backHome}
       </button>
@@ -24,7 +25,10 @@ export default function StateSelection({
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 px-4 text-text">
         {t.selectState}
       </h2>
-      <div className="bg-questionCard backdrop-blur-3xl rounded-3xl p-8 md:p-10 border-3 border-accent shadow-2xl animate-scale-in">
+      <div
+        className={SHARED_STYLES.questionCard}
+        style={SHARED_STYLES.questionCardBg}
+      >
         <label htmlFor="state-select" className="block text-lg font-semibold mb-3 text-text">
           State where the incident occurred
         </label>
@@ -32,7 +36,8 @@ export default function StateSelection({
           id="state-select"
           value={selectedState}
           onChange={(e) => onStateChange(e.target.value)}
-          className="w-full p-4 md:p-5 bg-formInput border-3 border-accent rounded-xl text-text text-base md:text-lg mb-3 focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md"
+          style={SHARED_STYLES.formInputBg}
+          className={`${SHARED_STYLES.selectInput} mb-3`}
         >
           <option value="" className="bg-primary">Choose a state...</option>
           {usStates.map(s => (
@@ -43,7 +48,7 @@ export default function StateSelection({
         <div className="flex gap-4">
           <button
             onClick={onBack}
-            className="px-8 py-4 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-lg font-semibold text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl"
+            className={SHARED_STYLES.navButton}
           >
             {t.back}
           </button>
@@ -52,8 +57,8 @@ export default function StateSelection({
             disabled={!selectedState}
             className={`flex-1 px-8 py-4 rounded-xl transition-all text-lg font-bold ${
               !selectedState
-                ? 'bg-buttonInactive cursor-not-allowed text-text/40 border-2 border-cardBorder/50'
-                : 'bg-buttonActive hover:bg-opacity-90 text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl'
+                ? SHARED_STYLES.primaryButtonInactive
+                : SHARED_STYLES.primaryButtonActive
             }`}
           >
             {t.next}
