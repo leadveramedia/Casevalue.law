@@ -11,8 +11,16 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Google Fonts - Async Loading to prevent render blocking -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    </noscript>
 
     <!-- Google Tag Manager - Deferred Loading -->
     <script>
@@ -54,6 +62,21 @@
       #root {
         min-height: 100vh;
       }
+      /* Ensure fonts load with swap behavior for better LCP */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400 800;
+        font-display: swap;
+        src: local('Inter'), local('Arial'), local('Helvetica');
+      }
+      @font-face {
+        font-family: 'Space Grotesk';
+        font-style: normal;
+        font-weight: 400 800;
+        font-display: swap;
+        src: local('Space Grotesk'), local('Arial'), local('Helvetica');
+      }
     </style>
 
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -64,17 +87,8 @@
       content="Free case value calculator for personal injury, employment law, and IP cases. Get an instant estimate of what your case is worth with our data-driven legal case value estimator."
     />
 
-    <!-- Keywords for SEO -->
-    <meta name="keywords" content="what's my case worth, personal injury calculator, case value estimator, legal case calculator, settlement calculator, employment law calculator, lawsuit value, case worth calculator" />
-
     <!-- Canonical URL -->
     <link rel="canonical" href="https://casevalue.law/" />
-
-    <!-- Hreflang tags for multilingual support -->
-    <link rel="alternate" hreflang="en" href="https://casevalue.law/?lang=en" />
-    <link rel="alternate" hreflang="es" href="https://casevalue.law/?lang=es" />
-    <link rel="alternate" hreflang="zh" href="https://casevalue.law/?lang=zh" />
-    <link rel="alternate" hreflang="x-default" href="https://casevalue.law/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
