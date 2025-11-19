@@ -6,9 +6,39 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ['"Space Grotesk"', 'Poppins', 'sans-serif'],
-        body: ['Inter', '"Source Sans 3"', 'sans-serif'],
-        sans: ['Inter', '"Source Sans 3"', 'sans-serif'],
+        heading: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
+        body: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
+        sans: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
       },
       colors: {
         // Base colors
