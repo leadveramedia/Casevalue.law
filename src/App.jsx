@@ -16,13 +16,16 @@ import {
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import LandingPage from './components/pages/LandingPage';
-import CaseSelection from './components/pages/CaseSelection';
-import StateSelection from './components/pages/StateSelection';
-import Questionnaire from './components/pages/Questionnaire';
-import ContactForm from './components/pages/ContactForm';
-import ResultsPage from './components/pages/ResultsPage';
 
-// Lazy load components
+// Lazy load page components for code splitting
+// LandingPage is kept as direct import for instant initial load
+const CaseSelection = lazy(() => import('./components/pages/CaseSelection'));
+const StateSelection = lazy(() => import('./components/pages/StateSelection'));
+const Questionnaire = lazy(() => import('./components/pages/Questionnaire'));
+const ContactForm = lazy(() => import('./components/pages/ContactForm'));
+const ResultsPage = lazy(() => import('./components/pages/ResultsPage'));
+
+// Lazy load modal/overlay components
 const HelpModal = lazy(() => import('./components/HelpModal'));
 const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
@@ -533,76 +536,86 @@ export default function CaseValueWebsite() {
             CASE SELECTION PAGE
         ==================================================================== */}
         {step === 'select' && (
-          <CaseSelection
-            t={t}
-            caseTypes={caseTypes}
-            onBack={() => navigateToStep('landing')}
-            onCaseSelect={handleCaseSelect}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+            <CaseSelection
+              t={t}
+              caseTypes={caseTypes}
+              onBack={() => navigateToStep('landing')}
+              onCaseSelect={handleCaseSelect}
+            />
+          </Suspense>
         )}
 
         {/* ====================================================================
             STATE SELECTION PAGE
         ==================================================================== */}
         {step === 'state' && (
-          <StateSelection
-            t={t}
-            usStates={usStates}
-            selectedState={selectedState}
-            onStateChange={setSelectedState}
-            onBack={() => navigateToStep('select')}
-            onNext={() => selectedState && navigateToStep('questionnaire')}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+            <StateSelection
+              t={t}
+              usStates={usStates}
+              selectedState={selectedState}
+              onStateChange={setSelectedState}
+              onBack={() => navigateToStep('select')}
+              onNext={() => selectedState && navigateToStep('questionnaire')}
+            />
+          </Suspense>
         )}
 
         {/* ====================================================================
             QUESTIONNAIRE PAGE
         ==================================================================== */}
         {step === 'questionnaire' && q && (
-          <Questionnaire
-            t={t}
-            q={q}
-            qIdx={qIdx}
-            questions={questions}
-            answers={answers}
-            hasHelpForQuestion={hasHelpForQuestion}
-            NON_CURRENCY_NUMBER_FIELDS={NON_CURRENCY_NUMBER_FIELDS}
-            onBack={() => navigateToStep('landing')}
-            onShowHelp={handleShowQuestionHelp}
-            onUpdateAnswer={handleUpdateAnswer}
-            onDontKnow={handleDontKnow}
-            onPrevious={handlePreviousQuestion}
-            onNext={handleNextQuestion}
-            shouldShowDontKnow={shouldShowDontKnow}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+            <Questionnaire
+              t={t}
+              q={q}
+              qIdx={qIdx}
+              questions={questions}
+              answers={answers}
+              hasHelpForQuestion={hasHelpForQuestion}
+              NON_CURRENCY_NUMBER_FIELDS={NON_CURRENCY_NUMBER_FIELDS}
+              onBack={() => navigateToStep('landing')}
+              onShowHelp={handleShowQuestionHelp}
+              onUpdateAnswer={handleUpdateAnswer}
+              onDontKnow={handleDontKnow}
+              onPrevious={handlePreviousQuestion}
+              onNext={handleNextQuestion}
+              shouldShowDontKnow={shouldShowDontKnow}
+            />
+          </Suspense>
         )}
 
         {/* ====================================================================
             CONTACT FORM PAGE
         ==================================================================== */}
         {step === 'contact' && (
-          <ContactForm
-            t={t}
-            contact={contact}
-            validationState={validationState}
-            error={error}
-            loading={loading}
-            onBack={() => navigateToStep('landing')}
-            onUpdateContact={handleUpdateContact}
-            onPrivacyClick={() => openModal(setShowPrivacy, true)}
-            onSubmit={submit}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+            <ContactForm
+              t={t}
+              contact={contact}
+              validationState={validationState}
+              error={error}
+              loading={loading}
+              onBack={() => navigateToStep('landing')}
+              onUpdateContact={handleUpdateContact}
+              onPrivacyClick={() => openModal(setShowPrivacy, true)}
+              onSubmit={submit}
+            />
+          </Suspense>
         )}
 
         {/* ====================================================================
             RESULTS PAGE
         ==================================================================== */}
         {step === 'results' && valuation && (
-          <ResultsPage
-            t={t}
-            valuation={valuation}
-            onBack={() => navigateToStep('landing')}
-          />
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+            <ResultsPage
+              t={t}
+              valuation={valuation}
+              onBack={() => navigateToStep('landing')}
+            />
+          </Suspense>
         )}
       </main>
 
