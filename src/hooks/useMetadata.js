@@ -130,6 +130,21 @@ export function generateStructuredData(selectedCase, t) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "name": "CaseValue.law",
+        "url": "https://casevalue.law",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://casevalue.law/casevalue-preview.webp",
+          "width": 512,
+          "height": 512
+        },
+        "description": "Free legal case value calculator and legal information resource",
+        "sameAs": [
+          "https://twitter.com/casevalue"
+        ]
+      },
+      {
         "@type": "WebApplication",
         "name": "CaseValue.law - Legal Case Value Calculator",
         "applicationCategory": "LegalApplication",
