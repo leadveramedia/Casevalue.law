@@ -143,15 +143,61 @@ export default function Questionnaire({
                 <span className={SHARED_STYLES.currencySymbol}>$</span>
               )}
               <input
-                type="number"
+                type="text"
                 inputMode={NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'numeric' : 'decimal'}
                 value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
+                onKeyDown={(e) => {
+                  // Allow: backspace, delete, tab, escape, enter, decimal point (for currency)
+                  if ([8, 9, 27, 13, 46].includes(e.keyCode) ||
+                      // Allow: Ctrl/Cmd+A, Ctrl/Cmd+C, Ctrl/Cmd+V, Ctrl/Cmd+X
+                      (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                      (e.keyCode === 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                      (e.keyCode === 86 && (e.ctrlKey === true || e.metaKey === true)) ||
+                      (e.keyCode === 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                      // Allow: home, end, left, right
+                      (e.keyCode >= 35 && e.keyCode <= 39)) {
+                    // Allow decimal point only for currency fields and only once
+                    if (e.keyCode === 190 || e.keyCode === 110) {
+                      if (NON_CURRENCY_NUMBER_FIELDS.has(q.id) || (e.target.value && e.target.value.includes('.'))) {
+                        e.preventDefault();
+                      }
+                    }
+                    return;
+                  }
+                  // Ensure that it is a number and prevent any non-numeric characters
+                  if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                  }
+                }}
+                onPaste={(e) => {
+                  // Get pasted data
+                  const pastedData = e.clipboardData.getData('text');
+                  // Check if pasted data is a valid positive number
+                  const isValidNumber = /^\d*\.?\d+$/.test(pastedData) && parseFloat(pastedData) >= 0;
+                  if (!isValidNumber) {
+                    e.preventDefault();
+                  }
+                }}
                 onChange={(e) => {
                   let newValue = e.target.value;
 
+                  // Remove any non-numeric characters except decimal point
+                  newValue = newValue.replace(/[^0-9.]/g, '');
+
+                  // Ensure only one decimal point
+                  const parts = newValue.split('.');
+                  if (parts.length > 2) {
+                    newValue = parts[0] + '.' + parts.slice(1).join('');
+                  }
+
+                  // For non-currency fields, remove decimal point
+                  if (NON_CURRENCY_NUMBER_FIELDS.has(q.id)) {
+                    newValue = newValue.replace(/\./g, '');
+                  }
+
                   if (newValue !== '') {
                     const numValue = parseFloat(newValue);
-                    if (!isNaN(numValue)) {
+                    if (!isNaN(numValue) && numValue >= 0) {
                       const minValue = q.min !== undefined ? q.min : 0;
 
                       if (numValue < minValue) {
@@ -159,6 +205,9 @@ export default function Questionnaire({
                       } else if (q.max !== undefined && numValue > q.max) {
                         newValue = q.max.toString();
                       }
+                    } else if (numValue < 0) {
+                      // Prevent negative numbers
+                      return;
                     }
                   }
 
@@ -186,9 +235,8 @@ export default function Questionnaire({
                   q.id === 'victim_age' ? '35' :
                   NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter number' : t.enterAmount
                 }
-                min={q.min !== undefined ? q.min : 0}
-                max={q.max !== undefined ? q.max : undefined}
-                step={NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? '1' : '1000'}
+                pattern="[0-9]*\.?[0-9]*"
+                aria-label={`Enter ${NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'a number' : 'an amount'}`}
               />
             </div>
             <p className="mt-2 text-sm text-text/60">
