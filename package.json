@@ -20,8 +20,9 @@
   },
   "scripts": {
     "start": "DISABLE_ESLINT_PLUGIN=true craco start",
-    "build": "craco build && node scripts/optimize-html.js",
+    "build": "node scripts/generate-sitemap.js && craco build && node scripts/optimize-html.js",
     "build:base": "craco build",
+    "sitemap": "node scripts/generate-sitemap.js",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

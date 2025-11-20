@@ -2,85 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Main landing page -->
   <url>
     <loc>https://casevalue.law/</loc>
-    <lastmod>2024-11-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/"/>
   </url>
 
-  <!-- Privacy Policy -->
   <url>
-    <loc>https://casevalue.law/privacy</loc>
-    <lastmod>2024-11-08</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/privacy?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/privacy?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/privacy?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/privacy"/>
-  </url>
-
-  <!-- Terms of Service -->
-  <url>
-    <loc>https://casevalue.law/terms</loc>
-    <lastmod>2024-11-08</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/terms?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/terms?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/terms?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/terms"/>
-  </url>
-
-  <!-- Case Type Pages -->
-  <url>
-    <loc>https://casevalue.law/personal-injury</loc>
-    <lastmod>2024-11-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://casevalue.law/blog</loc>
+    <lastmod>2025-11-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/personal-injury?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/personal-injury?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/personal-injury?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/personal-injury"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/blog"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/blog"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/blog"/>
   </url>
 
   <url>
-    <loc>https://casevalue.law/employment</loc>
-    <lastmod>2024-11-08</lastmod>
+    <loc>https://casevalue.law/blog/how-accident-date-affects-auto-settlement</loc>
+    <lastmod>2025-11-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/employment?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/employment?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/employment?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/employment"/>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://casevalue.law/contract-dispute</loc>
-    <lastmod>2024-11-08</lastmod>
+    <loc>https://casevalue.law/blog/lost-wages-101-documenting-missed-work-settlement</loc>
+    <lastmod>2025-11-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/contract-dispute?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/contract-dispute?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/contract-dispute?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/contract-dispute"/>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://casevalue.law/intellectual-property</loc>
-    <lastmod>2024-11-08</lastmod>
+    <loc>https://casevalue.law/blog/gap-in-treatment-lowers-case-value</loc>
+    <lastmod>2025-11-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/intellectual-property?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://casevalue.law/intellectual-property?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://casevalue.law/intellectual-property?lang=zh"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://casevalue.law/intellectual-property"/>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
