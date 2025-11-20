@@ -2,10 +2,13 @@
  * Blog Layout Component
  * Wraps blog pages with navigation and footer
  */
-import { Link } from 'react-router-dom';
-import { BookOpen, ChevronRight } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { BookOpen, ChevronRight, Calculator } from 'lucide-react';
 
 export default function BlogLayout({ children }) {
+  const location = useLocation();
+  const isOnBlogList = location.pathname === '/blog';
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
@@ -40,19 +43,26 @@ export default function BlogLayout({ children }) {
 
           {/* Navigation Links */}
           <div className="flex items-center gap-4">
+            {/* Calculator Link - Always show on blog pages */}
             <Link
               to="/"
-              className="text-text/70 hover:text-text transition-colors font-semibold px-4 py-2 rounded-lg hover:bg-card/50"
-            >
-              Calculator
-            </Link>
-            <Link
-              to="/blog"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              aria-label="Go to calculator"
             >
-              <BookOpen className="w-5 h-5" />
-              <span className="hidden sm:inline">Blog</span>
+              <Calculator className="w-5 h-5" />
+              <span className="hidden sm:inline">Calculator</span>
             </Link>
+
+            {/* Blog Link - Only show on blog list page (highlight current page) */}
+            {isOnBlogList && (
+              <Link
+                to="/blog"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              >
+                <BookOpen className="w-5 h-5" />
+                <span className="hidden sm:inline">Blog</span>
+              </Link>
+            )}
           </div>
         </div>
       </nav>

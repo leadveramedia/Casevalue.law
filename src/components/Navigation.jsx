@@ -4,7 +4,7 @@
  */
 import { Link, useLocation } from 'react-router-dom';
 import { LANGUAGE_OPTIONS } from '../constants/languages';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Calculator } from 'lucide-react';
 
 export default function Navigation({ lang, onLanguageChange, onLogoClick }) {
   const location = useLocation();
@@ -71,19 +71,29 @@ export default function Navigation({ lang, onLanguageChange, onLogoClick }) {
 
         {/* Navigation Links and Language Selector */}
         <div className="flex items-center gap-4">
-          {/* Blog Link */}
-          <Link
-            to="/blog"
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${
-              isOnBlog
-                ? 'bg-blue-500/20 text-blue-400 border-2 border-blue-500/40'
-                : 'text-text/70 hover:text-text hover:bg-card/50'
-            }`}
-            aria-label="Go to blog"
-          >
-            <BookOpen className="w-5 h-5" />
-            <span className="hidden sm:inline">Blog</span>
-          </Link>
+          {/* Calculator Link - Only show when on blog */}
+          {isOnBlog && (
+            <Link
+              to="/"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              aria-label="Go to calculator"
+            >
+              <Calculator className="w-5 h-5" />
+              <span className="hidden sm:inline">Calculator</span>
+            </Link>
+          )}
+
+          {/* Blog Link - Only show when on calculator */}
+          {isOnCalculator && (
+            <Link
+              to="/blog"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              aria-label="Go to blog"
+            >
+              <BookOpen className="w-5 h-5" />
+              <span className="hidden sm:inline">Blog</span>
+            </Link>
+          )}
 
           {/* Language Navigation - Always visible on all screen sizes */}
           <div className="flex items-center gap-1.5 bg-card/30 p-1 rounded-lg border border-cardBorder">
