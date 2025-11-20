@@ -3,16 +3,14 @@
  * Wraps blog pages with navigation and footer
  */
 import { useState, lazy, Suspense } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, ChevronRight, Calculator } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ChevronRight, Calculator } from 'lucide-react';
 
 // Lazy load legal documents
 const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./TermsOfService'));
 
 export default function BlogLayout({ children }) {
-  const location = useLocation();
-  const isOnBlogList = location.pathname === '/blog';
   const [showPrivacyPage, setShowPrivacyPage] = useState(false);
   const [showTermsPage, setShowTermsPage] = useState(false);
 

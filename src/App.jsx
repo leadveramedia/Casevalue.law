@@ -442,7 +442,7 @@ export default function CaseValueWebsite() {
       setLoading(false);
       setError('We could not send your information. Please try again or contact us at info@leadveramedia.com.');
     }
-  }, [contact, selectedCase, answers, selectedState, t, validateEmail, validatePhone, buildFormSubmissionPayload, pushStateToHistory]);
+  }, [contact, selectedCase, answers, selectedState, t, validateEmail, validatePhone, lang, questions, pushStateToHistory]);
 
   // ============================================================================
   // RENDER
