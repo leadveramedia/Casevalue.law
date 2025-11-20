@@ -30,6 +30,26 @@ export const urlFor = (source) => {
   return builder.image(source);
 };
 
+/**
+ * Generate responsive image srcset for different viewport sizes
+ * @param {Object} source - Sanity image asset object
+ * @param {Array} widths - Array of widths to generate (e.g., [400, 600, 800, 1200])
+ * @param {number} aspectRatio - Optional aspect ratio (height/width)
+ * @returns {string} srcset string for responsive images
+ */
+export const generateSrcSet = (source, widths = [400, 600, 800, 1200], aspectRatio = null) => {
+  return widths
+    .map((width) => {
+      const builder = urlFor(source).width(width).format('webp');
+      if (aspectRatio) {
+        const height = Math.round(width * aspectRatio);
+        builder.height(height);
+      }
+      return `${builder.url()} ${width}w`;
+    })
+    .join(', ');
+};
+
 // ============================================================================
 // COMMON QUERIES
 // ============================================================================

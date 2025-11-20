@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { PortableText } from '@portabletext/react';
-import { getPostBySlug, getRecentPosts, urlFor } from '../../utils/sanityClient';
+import { getPostBySlug, getRecentPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowLeft, Loader, Tag } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 
@@ -50,11 +50,13 @@ export default function BlogPostPage() {
       image: ({ value }) => (
         <figure className="my-8">
           <img
-            src={urlFor(value).width(1200).format('webp').url()}
+            srcSet={generateSrcSet(value, [600, 800, 1000, 1200])}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 800px, 1000px"
+            src={urlFor(value).width(1000).format('webp').url()}
             alt={value.alt || ''}
             className="w-full rounded-xl"
             loading="lazy"
-            width="1200"
+            width="1000"
           />
           {value.caption && (
             <figcaption className="mt-2 text-center text-sm text-gray-400 italic">
@@ -188,12 +190,14 @@ export default function BlogPostPage() {
           {post.mainImage && (
             <div className="aspect-video overflow-hidden rounded-3xl mb-8 shadow-card border-2 border-cardBorder">
               <img
-                src={urlFor(post.mainImage).width(1200).height(675).format('webp').url()}
+                srcSet={generateSrcSet(post.mainImage, [600, 800, 1000, 1200], 9/16)}
+                sizes="(max-width: 640px) 600px, (max-width: 1024px) 800px, 1000px"
+                src={urlFor(post.mainImage).width(1000).height(563).format('webp').url()}
                 alt={post.imageAlt || post.title}
                 className="w-full h-full object-cover"
                 fetchpriority="high"
-                width="1200"
-                height="675"
+                width="1000"
+                height="563"
               />
             </div>
           )}
@@ -272,6 +276,8 @@ export default function BlogPostPage() {
                   {relatedPost.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">
                       <img
+                        srcSet={generateSrcSet(relatedPost.mainImage, [300, 400, 500], 9/16)}
+                        sizes="(max-width: 768px) 100vw, 400px"
                         src={urlFor(relatedPost.mainImage).width(400).height(225).format('webp').url()}
                         alt={relatedPost.imageAlt || relatedPost.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"

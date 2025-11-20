@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { getAllPosts, urlFor } from '../../utils/sanityClient';
+import { getAllPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 
@@ -128,6 +128,8 @@ export default function BlogPage() {
                   {post.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">
                       <img
+                        srcSet={generateSrcSet(post.mainImage, [400, 600, 800], 9/16)}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         src={urlFor(post.mainImage).width(600).height(338).format('webp').url()}
                         alt={post.imageAlt || post.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
