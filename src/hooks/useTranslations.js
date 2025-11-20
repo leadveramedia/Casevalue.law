@@ -85,7 +85,15 @@ export const getQuestionExplanations = async (lang) => {
  * @returns {Object} - { lang, setLang, uiTranslations, isLoading }
  */
 export function useTranslations(initialLang = 'en') {
-  const [lang, setLang] = useState(initialLang);
+  // Check URL parameter for language on mount
+  const getInitialLang = () => {
+    const params = new URLSearchParams(window.location.search);
+    const urlLang = params.get('lang');
+    const validLangs = ['en', 'es', 'zh'];
+    return validLangs.includes(urlLang) ? urlLang : initialLang;
+  };
+
+  const [lang, setLang] = useState(getInitialLang);
   const [uiTranslations, setUiTranslations] = useState(englishTranslations);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -106,6 +114,19 @@ export function useTranslations(initialLang = 'en') {
     };
 
     loadTranslations();
+  }, [lang]);
+
+  // Update URL parameter when language changes
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const currentLang = params.get('lang');
+
+    // Only update URL if language is different from current URL parameter
+    if (currentLang !== lang) {
+      params.set('lang', lang);
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.replaceState({}, '', newUrl);
+    }
   }, [lang]);
 
   return {
