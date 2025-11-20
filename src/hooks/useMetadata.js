@@ -129,51 +129,79 @@ export function getMetaTags(step, selectedCase, t) {
 export function generateStructuredData(selectedCase, t) {
   const baseSchema = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "CaseValue.law - Legal Case Value Calculator",
-    "applicationCategory": "LegalApplication",
-    "description": "Free legal case value calculator for personal injury, employment law, and intellectual property cases. Get instant estimates of what your case is worth.",
-    "url": "https://casevalue.law",
-    "image": "https://casevalue.law/casevalue-preview.webp",
-    "screenshot": "https://casevalue.law/casevalue-preview.webp",
-    "operatingSystem": "Any",
-    "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "Free case valuation tool"
-    },
-    "featureList": [
-      "Personal injury calculator",
-      "Employment law case estimator",
-      "Intellectual property case valuation",
-      "State-specific calculations",
-      "Instant case value estimates"
-    ],
-    "provider": {
-      "@type": "LegalService",
-      "name": "CaseValue.law",
-      "areaServed": {
-        "@type": "Country",
-        "name": "United States"
-      }
-    },
-    "availableLanguage": [
+    "@graph": [
       {
-        "@type": "Language",
-        "name": "English",
-        "alternateName": "en"
+        "@type": "WebApplication",
+        "name": "CaseValue.law - Legal Case Value Calculator",
+        "applicationCategory": "LegalApplication",
+        "description": "Free legal case value calculator for personal injury, employment law, and intellectual property cases. Get instant estimates of what your case is worth.",
+        "url": "https://casevalue.law",
+        "image": "https://casevalue.law/casevalue-preview.webp",
+        "screenshot": "https://casevalue.law/casevalue-preview.webp",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free case valuation tool"
+        },
+        "featureList": [
+          "Personal injury calculator",
+          "Employment law case estimator",
+          "Intellectual property case valuation",
+          "State-specific calculations",
+          "Instant case value estimates"
+        ],
+        "provider": {
+          "@type": "LegalService",
+          "name": "CaseValue.law",
+          "url": "https://casevalue.law",
+          "logo": "https://casevalue.law/casevalue-preview.webp",
+          "image": "https://casevalue.law/casevalue-preview.webp",
+          "description": "Free legal case value calculator and legal information resource.",
+          "areaServed": {
+            "@type": "Country",
+            "name": "United States"
+          },
+          "sameAs": [
+            "https://twitter.com/casevalue"
+          ]
+        },
+        "availableLanguage": [
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          },
+          {
+            "@type": "Language",
+            "name": "Chinese",
+            "alternateName": "zh"
+          }
+        ]
       },
       {
-        "@type": "Language",
-        "name": "Spanish",
-        "alternateName": "es"
-      },
-      {
-        "@type": "Language",
-        "name": "Chinese",
-        "alternateName": "zh"
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://casevalue.law"
+          },
+          ...(selectedCase ? [{
+            "@type": "ListItem",
+            "position": 2,
+            "name": t.caseTypes[selectedCase] || selectedCase,
+            "item": `https://casevalue.law/${selectedCase}`
+          }] : [])
+        ]
       }
     ]
   };
@@ -181,11 +209,12 @@ export function generateStructuredData(selectedCase, t) {
   // Add specific case type if selected
   if (selectedCase) {
     const caseTypeName = t.caseTypes[selectedCase] || selectedCase;
-    return {
-      ...baseSchema,
-      "name": `${caseTypeName} Case Value Calculator - CaseValue.law`,
-      "description": `Free ${caseTypeName.toLowerCase()} case calculator. Get instant estimates of what your ${caseTypeName.toLowerCase()} case is worth.`
-    };
+    // We modify the WebApplication part of the graph
+    const webApp = baseSchema["@graph"].find(item => item["@type"] === "WebApplication");
+    if (webApp) {
+      webApp.name = `${caseTypeName} Case Value Calculator - CaseValue.law`;
+      webApp.description = `Free ${caseTypeName.toLowerCase()} case calculator. Get instant estimates of what your ${caseTypeName.toLowerCase()} case is worth.`;
+    }
   }
 
   return baseSchema;
@@ -229,6 +258,12 @@ export function useMetadata(step, selectedCase, t) {
 
         {/* Canonical URL */}
         <link rel="canonical" href="https://casevalue.law" />
+
+        {/* Hreflang tags */}
+        <link rel="alternate" hreflang="en" href={`https://casevalue.law${window.location.pathname}?lang=en`} />
+        <link rel="alternate" hreflang="es" href={`https://casevalue.law${window.location.pathname}?lang=es`} />
+        <link rel="alternate" hreflang="zh" href={`https://casevalue.law${window.location.pathname}?lang=zh`} />
+        <link rel="alternate" hreflang="x-default" href={`https://casevalue.law${window.location.pathname}`} />
 
         {/* Structured Data */}
         <script type="application/ld+json">

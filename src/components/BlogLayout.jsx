@@ -52,17 +52,6 @@ export default function BlogLayout({ children }) {
               <Calculator className="w-5 h-5" />
               <span className="hidden sm:inline">Calculator</span>
             </Link>
-
-            {/* Blog Link - Only show on blog list page (highlight current page) */}
-            {isOnBlogList && (
-              <Link
-                to="/blog"
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
-              >
-                <BookOpen className="w-5 h-5" />
-                <span className="hidden sm:inline">Blog</span>
-              </Link>
-            )}
           </div>
         </div>
       </nav>
