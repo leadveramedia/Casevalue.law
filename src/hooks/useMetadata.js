@@ -255,14 +255,16 @@ export function useMetadata(step, selectedCase, t) {
         <meta property="twitter:description" content={description} />
         <meta property="twitter:image" content="https://casevalue.law/casevalue-preview.webp" />
 
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://casevalue.law" />
+        {/* Canonical URL - Always point to clean URL without query params */}
+        <link rel="canonical" href={`https://casevalue.law${window.location.pathname || '/'}`} />
 
-        {/* Hreflang tags */}
-        <link rel="alternate" hreflang="en" href={`https://casevalue.law${window.location.pathname}?lang=en`} />
-        <link rel="alternate" hreflang="es" href={`https://casevalue.law${window.location.pathname}?lang=es`} />
-        <link rel="alternate" hreflang="zh" href={`https://casevalue.law${window.location.pathname}?lang=zh`} />
-        <link rel="alternate" hreflang="x-default" href={`https://casevalue.law${window.location.pathname}`} />
+        {/* Hreflang tags for multi-language support
+            Note: All point to the same URL since language is handled client-side.
+            The hreflang attribute indicates which language each page serves. */}
+        <link rel="alternate" hreflang="en" href={`https://casevalue.law${window.location.pathname || '/'}`} />
+        <link rel="alternate" hreflang="es" href={`https://casevalue.law${window.location.pathname || '/'}`} />
+        <link rel="alternate" hreflang="zh" href={`https://casevalue.law${window.location.pathname || '/'}`} />
+        <link rel="alternate" hreflang="x-default" href={`https://casevalue.law${window.location.pathname || '/'}`} />
 
         {/* Structured Data */}
         <script type="application/ld+json">

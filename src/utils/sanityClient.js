@@ -27,7 +27,25 @@ const builder = imageUrlBuilder(client);
  *   urlFor(post.mainImage).width(800).format('webp').url()
  */
 export const urlFor = (source) => {
-  return builder.image(source);
+  // Wrap the builder to handle Unsplash images with WebP optimization
+  const imageBuilder = builder.image(source);
+
+  // Override the url() method to add Unsplash WebP format if needed
+  const originalUrl = imageBuilder.url.bind(imageBuilder);
+  imageBuilder.url = function() {
+    let url = originalUrl();
+
+    // If it's an Unsplash image, add WebP format and quality parameters
+    if (url.includes('images.unsplash.com')) {
+      const separator = url.includes('?') ? '&' : '?';
+      // Add WebP format and auto compression for Unsplash images
+      url = `${url}${separator}fm=webp&q=80`;
+    }
+
+    return url;
+  };
+
+  return imageBuilder;
 };
 
 /**

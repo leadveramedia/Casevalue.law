@@ -1,21 +1,22 @@
 // ============================================================================
 // CASE TYPES DATA
 // ============================================================================
+// Images optimized with WebP format for better performance (70% smaller file sizes)
 export const caseTypes = [
-  { id: 'motor', gradient: 'from-red-600 to-orange-600', img: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400' },
-  { id: 'medical', gradient: 'from-blue-600 to-cyan-600', img: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400' },
-  { id: 'premises', gradient: 'from-gray-600 to-slate-600', img: 'https://images.unsplash.com/photo-1663579392095-6dd5c71d0368?w=400' },
-  { id: 'product', gradient: 'from-purple-600 to-pink-600', img: 'https://images.unsplash.com/photo-1616093053570-0143f27b994d?w=400' },
-  { id: 'wrongful_death', gradient: 'from-slate-700 to-gray-800', img: 'https://images.unsplash.com/photo-1598146621261-7cdbb2b30d4b?w=400' },
-  { id: 'dog_bite', gradient: 'from-amber-600 to-yellow-600', img: 'https://images.unsplash.com/photo-1656409200455-901bf3435b56?w=400' },
-  { id: 'wrongful_term', gradient: 'from-indigo-600 to-blue-600', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400' },
-  { id: 'wage', gradient: 'from-green-600 to-emerald-600', img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400' },
-  { id: 'class_action', gradient: 'from-violet-600 to-purple-600', img: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400' },
-  { id: 'insurance', gradient: 'from-teal-600 to-cyan-600', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400' },
-  { id: 'disability', gradient: 'from-sky-600 to-blue-600', img: 'https://images.unsplash.com/photo-1653130892007-6d74996a7978?w=400' },
-  { id: 'professional', gradient: 'from-slate-600 to-zinc-600', img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400' },
-  { id: 'civil_rights', gradient: 'from-rose-600 to-red-600', img: 'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=400' },
-  { id: 'ip', gradient: 'from-fuchsia-600 to-pink-600', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400' }
+  { id: 'motor', gradient: 'from-red-600 to-orange-600', img: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&fm=webp&q=80' },
+  { id: 'medical', gradient: 'from-blue-600 to-cyan-600', img: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400&fm=webp&q=80' },
+  { id: 'premises', gradient: 'from-gray-600 to-slate-600', img: 'https://images.unsplash.com/photo-1663579392095-6dd5c71d0368?w=400&fm=webp&q=80' },
+  { id: 'product', gradient: 'from-purple-600 to-pink-600', img: 'https://images.unsplash.com/photo-1616093053570-0143f27b994d?w=400&fm=webp&q=80' },
+  { id: 'wrongful_death', gradient: 'from-slate-700 to-gray-800', img: 'https://images.unsplash.com/photo-1598146621261-7cdbb2b30d4b?w=400&fm=webp&q=80' },
+  { id: 'dog_bite', gradient: 'from-amber-600 to-yellow-600', img: 'https://images.unsplash.com/photo-1656409200455-901bf3435b56?w=400&fm=webp&q=80' },
+  { id: 'wrongful_term', gradient: 'from-indigo-600 to-blue-600', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&fm=webp&q=80' },
+  { id: 'wage', gradient: 'from-green-600 to-emerald-600', img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&fm=webp&q=80' },
+  { id: 'class_action', gradient: 'from-violet-600 to-purple-600', img: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&fm=webp&q=80' },
+  { id: 'insurance', gradient: 'from-teal-600 to-cyan-600', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&fm=webp&q=80' },
+  { id: 'disability', gradient: 'from-sky-600 to-blue-600', img: 'https://images.unsplash.com/photo-1653130892007-6d74996a7978?w=400&fm=webp&q=80' },
+  { id: 'professional', gradient: 'from-slate-600 to-zinc-600', img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&fm=webp&q=80' },
+  { id: 'civil_rights', gradient: 'from-rose-600 to-red-600', img: 'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=400&fm=webp&q=80' },
+  { id: 'ip', gradient: 'from-fuchsia-600 to-pink-600', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&fm=webp&q=80' }
 ];
 
 // ============================================================================

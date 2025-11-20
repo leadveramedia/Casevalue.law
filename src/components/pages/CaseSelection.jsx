@@ -20,19 +20,20 @@ export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
         {t.selectCase}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-7">
-        {caseTypes.map(c => (
+        {caseTypes.map((c, index) => (
           <button
             key={c.id}
             onClick={() => onCaseSelect(c.id)}
             className="relative overflow-hidden rounded-2xl border-2 border-cardBorder hover:border-accent transition-all text-left group h-56 md:h-64 hover:scale-[1.03] transform shadow-xl hover:shadow-2xl"
             style={{ contain: 'layout' }}
           >
-            {/* Image with fallback */}
+            {/* Image with fallback - First 3 images load immediately for LCP optimization */}
             <img
               src={c.img}
               alt={t.caseTypes[c.id]}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              loading="lazy"
+              loading={index < 3 ? 'eager' : 'lazy'}
+              fetchPriority={index === 0 ? 'high' : undefined}
               width="400"
               height="300"
               style={{ aspectRatio: '4/3' }}
