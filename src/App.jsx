@@ -418,13 +418,21 @@ export default function CaseValueWebsite() {
         valuationResult: result
       });
 
-      const response = await fetch('https://formspree.io/f/xldonbap', {
+      // Encode payload as URL-encoded form data for Netlify Forms
+      const formData = new URLSearchParams();
+      formData.append('form-name', 'casevalue-submission');
+
+      // Add all payload fields
+      Object.keys(payload).forEach(key => {
+        formData.append(key, payload[key]);
+      });
+
+      const response = await fetch('/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(payload)
+        body: formData.toString()
       });
 
       if (!response.ok) {

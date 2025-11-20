@@ -82,7 +82,7 @@ export const formatAnswerForSummary = (question, rawValue) => {
 };
 
 /**
- * Builds the form submission payload for Formspree
+ * Builds the form submission payload for Netlify Forms
  * @param {Object} params - The parameters object
  * @param {Object} params.contact - Contact information
  * @param {string} params.lang - Selected language
@@ -168,7 +168,7 @@ export const buildFormSubmissionPayload = ({
   const message = lines.join('\n');
 
   return {
-    _subject: subject,
+    subject: subject,
     language: lang || 'N/A',
     case_type: caseLabel,
     state: selectedState || 'Not provided',

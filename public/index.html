@@ -104,6 +104,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- Hidden form for Netlify Forms detection (required for SPA) -->
+    <form name="casevalue-submission" method="POST" data-netlify="true" style="display:none">
+      <input type="hidden" name="form-name" value="casevalue-submission" />
+      <input type="hidden" name="subject" />
+      <input type="text" name="language" />
+      <input type="text" name="case_type" />
+      <input type="text" name="state" />
+      <input type="text" name="first_name" />
+      <input type="text" name="last_name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="consent_to_contact" />
+      <textarea name="questionnaire_summary"></textarea>
+      <textarea name="questionnaire_responses_json"></textarea>
+      <input type="text" name="valuation_estimate" />
+      <input type="text" name="valuation_low_range" />
+      <input type="text" name="valuation_high_range" />
+      <textarea name="valuation_factors"></textarea>
+      <input type="text" name="submitted_at" />
+    </form>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
