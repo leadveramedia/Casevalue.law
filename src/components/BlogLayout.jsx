@@ -3,7 +3,7 @@
  * Wraps blog pages with navigation and footer
  */
 import { Link } from 'react-router-dom';
-import { BookOpen, Calculator } from 'lucide-react';
+import { BookOpen, ChevronRight } from 'lucide-react';
 
 export default function BlogLayout({ children }) {
   return (
@@ -79,24 +79,17 @@ export default function BlogLayout({ children }) {
         </div>
       </footer>
 
-      {/* Floating CTA Button */}
-      <Link
-        to="/"
-        className="fixed bottom-8 right-8 z-40 group"
-        aria-label="Calculate your case value"
-      >
-        <div className="relative">
-          {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-gold rounded-full blur-xl opacity-60 group-hover:opacity-80 transition-opacity animate-pulse"></div>
-
-          {/* Button */}
-          <div className="relative flex items-center gap-3 px-6 py-4 bg-gradient-gold text-textDark rounded-full shadow-glow-gold font-bold text-lg transition-all transform group-hover:scale-110 group-hover:shadow-glow-gold-soft">
-            <Calculator className="w-6 h-6" />
-            <span className="hidden sm:inline whitespace-nowrap">Calculate My Case Value</span>
-            <span className="sm:hidden">Calculator</span>
-          </div>
-        </div>
-      </Link>
+      {/* Floating CTA Button - Matches Homepage */}
+      <div className="fixed inset-x-0 bottom-6 sm:bottom-8 z-40 flex justify-center pointer-events-none px-4">
+        <Link
+          to="/"
+          className="pointer-events-auto w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
+          aria-label="Calculate your case value"
+        >
+          What's My Case Worth?
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+        </Link>
+      </div>
     </div>
   );
 }
