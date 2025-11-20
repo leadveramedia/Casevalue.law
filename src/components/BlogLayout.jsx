@@ -3,7 +3,7 @@
  * Wraps blog pages with navigation and footer
  */
 import { Link } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Calculator } from 'lucide-react';
 
 export default function BlogLayout({ children }) {
   return (
@@ -48,7 +48,7 @@ export default function BlogLayout({ children }) {
             </Link>
             <Link
               to="/blog"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 border-2 border-blue-500/40 font-semibold"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
             >
               <BookOpen className="w-5 h-5" />
               <span className="hidden sm:inline">Blog</span>
@@ -63,21 +63,40 @@ export default function BlogLayout({ children }) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 border-t border-slate-800 py-8 mt-auto">
+      <footer className="bg-primary border-t border-cardBorder py-8 mt-auto">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400 text-sm">
+          <p className="text-textMuted text-sm">
             © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
           </p>
           <div className="mt-4 flex justify-center gap-6 text-sm">
-            <button className="text-gray-500 hover:text-gray-300 transition-colors">
+            <button className="text-textMuted hover:text-text transition-colors">
               Privacy Policy
             </button>
-            <button className="text-gray-500 hover:text-gray-300 transition-colors">
+            <button className="text-textMuted hover:text-text transition-colors">
               Terms of Service
             </button>
           </div>
         </div>
       </footer>
+
+      {/* Floating CTA Button */}
+      <Link
+        to="/"
+        className="fixed bottom-8 right-8 z-40 group"
+        aria-label="Calculate your case value"
+      >
+        <div className="relative">
+          {/* Glow effect */}
+          <div className="absolute inset-0 bg-gradient-gold rounded-full blur-xl opacity-60 group-hover:opacity-80 transition-opacity animate-pulse"></div>
+
+          {/* Button */}
+          <div className="relative flex items-center gap-3 px-6 py-4 bg-gradient-gold text-textDark rounded-full shadow-glow-gold font-bold text-lg transition-all transform group-hover:scale-110 group-hover:shadow-glow-gold-soft">
+            <Calculator className="w-6 h-6" />
+            <span className="hidden sm:inline whitespace-nowrap">Calculate My Case Value</span>
+            <span className="sm:hidden">Calculator</span>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 }
