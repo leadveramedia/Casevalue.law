@@ -140,6 +140,17 @@ export function generateStructuredData(selectedCase, t) {
           "height": 512
         },
         "description": "Free legal case value calculator and legal information resource",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US",
+          "addressRegion": "United States"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "info@casevalue.law",
+          "availableLanguage": ["English", "Spanish", "Chinese"]
+        },
         "sameAs": [
           "https://twitter.com/casevalue"
         ]
