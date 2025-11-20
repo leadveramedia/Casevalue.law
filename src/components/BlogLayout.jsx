@@ -2,12 +2,43 @@
  * Blog Layout Component
  * Wraps blog pages with navigation and footer
  */
+import { useState, lazy, Suspense } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BookOpen, ChevronRight, Calculator } from 'lucide-react';
+
+// Lazy load legal documents
+const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./TermsOfService'));
 
 export default function BlogLayout({ children }) {
   const location = useLocation();
   const isOnBlogList = location.pathname === '/blog';
+  const [showPrivacyPage, setShowPrivacyPage] = useState(false);
+  const [showTermsPage, setShowTermsPage] = useState(false);
+
+  // Show Privacy Policy as full-page overlay
+  if (showPrivacyPage) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <PrivacyPolicy
+          lang="en"
+          onClose={() => setShowPrivacyPage(false)}
+        />
+      </Suspense>
+    );
+  }
+
+  // Show Terms of Service as full-page overlay
+  if (showTermsPage) {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <TermsOfService
+          lang="en"
+          onClose={() => setShowTermsPage(false)}
+        />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -68,10 +99,16 @@ export default function BlogLayout({ children }) {
             © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
           </p>
           <div className="mt-4 flex justify-center gap-6 text-sm">
-            <button className="text-textMuted hover:text-text transition-colors">
+            <button
+              onClick={() => setShowPrivacyPage(true)}
+              className="text-textMuted hover:text-text transition-colors underline"
+            >
               Privacy Policy
             </button>
-            <button className="text-textMuted hover:text-text transition-colors">
+            <button
+              onClick={() => setShowTermsPage(true)}
+              className="text-textMuted hover:text-text transition-colors underline"
+            >
               Terms of Service
             </button>
           </div>
