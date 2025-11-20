@@ -142,8 +142,11 @@ export function generateStructuredData(selectedCase, t) {
         "description": "Free legal case value calculator and legal information resource",
         "address": {
           "@type": "PostalAddress",
-          "addressCountry": "US",
-          "addressRegion": "United States"
+          "streetAddress": "1401 21st ST STE R",
+          "addressLocality": "Sacramento",
+          "addressRegion": "CA",
+          "postalCode": "95811",
+          "addressCountry": "US"
         },
         "contactPoint": {
           "@type": "ContactPoint",
