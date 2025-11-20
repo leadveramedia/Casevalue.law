@@ -50,6 +50,11 @@ export default function BlogPostPage() {
   }, [slug]);
 
   // Custom components for rendering Portable Text
+  // NOTE: For proper heading hierarchy and SEO, blog content in Sanity should:
+  // - Start with h2 headings for main sections
+  // - Use h3 for subsections under h2
+  // - Use h4 for subsections under h3
+  // The page h1 is the post title, so content headings should start at h2
   const portableTextComponents = {
     types: {
       image: ({ value }) => (
@@ -169,12 +174,31 @@ export default function BlogPostPage() {
         {post.seo?.keywords && (
           <meta name="keywords" content={post.seo.keywords.join(', ')} />
         )}
+
+        {/* Canonical URL - point to the specific blog post */}
+        <link rel="canonical" href={`https://casevalue.law/blog/${slug}`} />
+
+        {/* Open Graph */}
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt} />
+        <meta property="og:url" content={`https://casevalue.law/blog/${slug}`} />
         {post.mainImage && (
           <meta property="og:image" content={urlFor(post.mainImage).width(1200).url()} />
         )}
         <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={post.publishedAt} />
+
+        {/* Preload LCP image for faster loading */}
+        {post.mainImage && (
+          <link
+            rel="preload"
+            as="image"
+            href={urlFor(post.mainImage).width(1000).height(563).format('webp').url()}
+            imageSrcSet={generateSrcSet(post.mainImage, [600, 800, 1000, 1200], 9/16)}
+            imageSizes="(max-width: 640px) 600px, (max-width: 1024px) 800px, 1000px"
+            fetchpriority="high"
+          />
+        )}
       </Helmet>
 
       <div className="min-h-screen bg-gradient-hero">

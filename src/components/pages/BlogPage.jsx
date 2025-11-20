@@ -51,6 +51,8 @@ export default function BlogPage() {
         <title>Legal Blog - CaseValue.law</title>
         <meta name="description" content="Expert insights on personal injury law, medical malpractice, motor vehicle accidents, and more. Learn about your legal rights and case values." />
         <meta name="keywords" content="legal blog, personal injury law, texas law, case value, statute of limitations" />
+        <link rel="canonical" href="https://casevalue.law/blog" />
+        <meta property="og:url" content="https://casevalue.law/blog" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-hero">
