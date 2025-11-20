@@ -5,7 +5,10 @@
 
 export default function Footer({ t, onPrivacyClick, onTermsClick }) {
   return (
-    <footer className="relative z-10 border-t-2 border-cardBorder mt-20 md:mt-32 py-10 text-center text-textMuted px-4 bg-primary/50 backdrop-blur">
+    <footer
+      className="relative z-10 border-t-2 border-cardBorder mt-20 md:mt-32 py-10 text-center text-textMuted px-4 bg-primary/50 backdrop-blur min-h-[140px] md:min-h-[120px]"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '0 140px' }}
+    >
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
         <button
           onClick={onPrivacyClick}

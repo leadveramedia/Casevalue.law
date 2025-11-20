@@ -25,6 +25,7 @@ export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
             key={c.id}
             onClick={() => onCaseSelect(c.id)}
             className="relative overflow-hidden rounded-2xl border-2 border-cardBorder hover:border-accent transition-all text-left group h-56 md:h-64 hover:scale-[1.03] transform shadow-xl hover:shadow-2xl"
+            style={{ contain: 'layout' }}
           >
             {/* Image with fallback */}
             <img
@@ -32,6 +33,9 @@ export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
               alt={t.caseTypes[c.id]}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
+              width="400"
+              height="300"
+              style={{ aspectRatio: '4/3' }}
               onError={(e) => {
                 e.target.style.display = 'none';
                 const parent = e.target.parentElement;
