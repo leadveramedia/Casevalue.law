@@ -5,22 +5,9 @@
   publish = "build"
   command = "npm run build"
 
-# Enable Netlify's built-in prerendering for better SEO
-# This crawls and prerenders specified routes at deploy time
-# Prerendered pages are served as static HTML to search engines and social media bots
-# while still maintaining SPA functionality for regular users
-[[plugins]]
-  package = "@netlify/plugin-prerender"
-
-  [plugins.inputs]
-    # Paths to prerender - these will be crawled and saved as static HTML
-    paths = [
-      "/",
-      "/blog",
-      "/blog/how-accident-date-affects-auto-settlement",
-      "/blog/lost-wages-101-documenting-missed-work-settlement",
-      "/blog/gap-in-treatment-lowers-case-value"
-    ]
+# Note: Prerendering is enabled in Netlify UI (Site Settings > Post Processing > Prerendering)
+# Netlify will automatically prerender all pages at deploy time for better SEO
+# No plugin configuration needed - it's built into Netlify
 
 # Headers for better security and caching
 [[headers]]
