@@ -35,6 +35,28 @@ If your injuries result in permanent disability or reduced working capacity, ${s
 Insurance companies and defense attorneys closely scrutinize lost wage claims, making documentation crucial. The amount of lost wages also influences pain and suffering multipliers, as significant income loss demonstrates the injury's substantial impact on your life and livelihood in ${state}.`
   },
 
+  annual_income: {
+    title: "Why Your Annual Income Is Critical to Calculating Lost Wages",
+    getContent: (state) => `Your annual income establishes the baseline for calculating one of the most significant components of your case value—lost wages and diminished earning capacity. In ${state}, courts use your annual income to determine your weekly and daily earning rate, which is then multiplied by the time you were unable to work. Higher annual income directly translates to higher lost wage claims, making this figure crucial to your case valuation.
+
+Beyond just calculating past lost wages, your annual income in ${state} serves several critical purposes. It establishes your earning capacity for future loss calculations, demonstrates the economic value of your time and labor, provides a basis for calculating lost benefits and bonuses, and helps quantify the full economic impact of your injuries.
+
+In ${state}, when injuries result in permanent disability or reduced work capacity, your annual income becomes the foundation for calculating potentially massive future wage loss. For example, a 35-year-old earning $75,000 annually who becomes permanently disabled could have future wage losses exceeding $2 million over their expected work life. Even temporary injuries that prevent work for several months can result in substantial lost wage claims when calculated from a solid annual income baseline.
+
+Insurance companies and defense attorneys will scrutinize your income claims carefully, so accurate documentation is essential. In ${state}, providing tax returns, pay stubs, and employment records to verify your annual income strengthens your case and maximizes your lost wage recovery. Your annual income also influences pain and suffering multipliers, as higher earners often face more significant life disruptions and stress from income loss.`
+  },
+
+  weeks_unable_to_work: {
+    title: "How Weeks Unable to Work Directly Multiplies Your Compensation",
+    getContent: (state) => `The number of weeks you were unable to work provides the precise timeline for calculating your lost wage damages in ${state}. This figure is multiplied by your weekly earning rate to determine your total lost wages—one of the most objective and easily calculable components of your case value. The longer you were unable to work, the higher your lost wage claim and overall case valuation.
+
+In ${state}, the duration of work absence serves multiple important purposes beyond just calculating lost wages. It demonstrates injury severity—longer absences indicate more serious injuries that required extended recovery time. It provides objective evidence of life disruption, showing how significantly the injury impacted your daily functioning. It supports claims for pain and suffering, as extended inability to work proves ongoing disability and limitations.
+
+Extended work absences in ${state} also open the door to additional damages. If you were unable to work for many months, it may indicate potential for future wage loss if you haven't fully recovered. It may show you lost out on promotions, raises, or career advancement opportunities. It can demonstrate the need for vocational rehabilitation if you can't return to your previous occupation.
+
+Insurance adjusters in ${state} pay close attention to this figure because it directly impacts their payout calculations. Documented work absences verified by employer letters and medical records carry significant weight. Even if you used sick leave or vacation time during your recovery, ${state} law typically allows you to recover these as economic losses. The combination of high annual income and extended work absence can result in six-figure lost wage claims, significantly increasing your total case value.`
+  },
+
   fault_percentage: {
     title: "How Fault Percentage Can Make or Break Your Case",
     getContent: (state) => `${state} follows specific fault rules that can dramatically impact your recovery. Understanding fault allocation is critical because even if you're partially responsible for an incident, you may still be entitled to compensation—but the amount can be significantly reduced based on your percentage of fault. This makes the fault determination one of the most heavily contested issues in personal injury cases.
@@ -210,6 +232,51 @@ The impact of witnesses on your ${state} case value is substantial. Defense atto
 In ${state} courts, neutral third-party witnesses (especially professionals or uninvolved bystanders) carry tremendous weight. Multiple consistent witnesses create a compelling narrative that's nearly impossible to refute.
 
 Insurance adjusters apply higher multipliers to cases with strong witness testimony because they understand the increased litigation risk. Witnesses also deter defense from making lowball offers or engaging in bad faith tactics, as they know the evidence will support you at trial.`
+  },
+
+  hospitalized_overnight: {
+    title: "Overnight Hospitalization Dramatically Increases Case Value",
+    getContent: (state) => `Being hospitalized overnight is a critical threshold that signals serious injury severity to insurance companies and juries in ${state}. Emergency room visits where you're sent home the same day suggest minor to moderate injuries. But admission requiring overnight observation or longer stays demonstrates that medical professionals deemed your injuries severe enough to require continuous monitoring and treatment. This single factor can double or triple settlement values.
+
+In ${state}, overnight hospitalization serves as objective proof of injury severity that insurers cannot easily dispute. It generates substantial medical bills, creates detailed hospital records documenting your injuries, and shows clear causation between the accident and your need for intensive medical care. Insurance adjusters use hospitalization as a key metric when evaluating claims—cases with hospital admissions routinely settle for 2-5 times more than similar injuries treated only outpatient.
+
+Hospitalization also strengthens your case for pain and suffering damages. In ${state}, juries understand that hospital stays involve significant trauma, fear, discomfort, and life disruption beyond just the medical treatment. Multi-day stays suggest even more serious injuries like surgeries, broken bones, internal injuries, or traumatic brain injuries—all of which command substantially higher verdicts. Document your hospital stay thoroughly with all discharge papers, bills, and follow-up treatment recommendations.`
+  },
+
+  still_in_treatment: {
+    title: "Ongoing Treatment Signals Future Medical Costs and Damages",
+    getContent: (state) => `Still receiving medical treatment months or years after your accident indicates that your injuries haven't fully resolved and you may face ongoing medical expenses and disabilities. In ${state}, current treatment demonstrates that damages are not just past medical bills but include future medical costs that can extend for years or even your lifetime. This transforms case value from tens of thousands to potentially hundreds of thousands or millions for permanent injuries requiring ongoing care.
+
+In ${state}, ongoing treatment is critical for both building your medical record and maximizing damages. Gaps in treatment allow insurers to argue you're not really injured or didn't mitigate damages. But continuous treatment under doctor supervision shows legitimate, persistent injuries that require professional medical management. This supports claims for future medical expenses, permanent disability, reduced earning capacity, and ongoing pain and suffering.
+
+Current treatment also keeps your case "alive" with accumulating damages. In ${state}, you generally cannot settle until reaching maximum medical improvement (MMI)—the point where your condition has stabilized. If you're still improving or undergoing treatment, settling too early means leaving future damages on the table. Ongoing treatment also provides leverage: insurers know that cases with unresolved injuries face higher jury verdicts because future damages add significantly to total exposure.`
+  },
+
+  other_driver_insured: {
+    title: "Uninsured Drivers Severely Limit Recovery Potential",
+    getContent: (state) => `Whether the other driver carries insurance is perhaps the single most important factor determining if you'll actually recover compensation for your injuries in ${state}. Even with a clear-cut liability case and severe injuries, an uninsured driver likely has no meaningful assets to pursue, making your case effectively worthless from a recovery standpoint. This is why this question is critical for evaluating case viability.
+
+In ${state}, roughly 10-15% of drivers operate without insurance despite legal requirements. If the at-fault driver is uninsured, your recovery options are severely limited: you can sue them personally, but most uninsured drivers lack assets to satisfy judgments. You may have uninsured motorist (UM) coverage through your own policy—check your policy immediately. UM coverage allows you to pursue compensation from your own insurer when the at-fault driver lacks insurance.
+
+If the other driver is insured, your case becomes viable for full compensation. You can file a claim against their liability policy, which in ${state} carries minimum limits (though these are often inadequate for serious injuries). Insurance companies have both the ability and legal obligation to pay valid claims. If the at-fault driver is insured but carries only minimum limits, you may still recover additional compensation through your own underinsured motorist (UIM) coverage. Always verify the other driver's insurance status immediately after an accident—this determines whether pursuing your case makes financial sense.`
+  },
+
+  filed_eeoc_complaint: {
+    title: "EEOC Complaints Establish Legal Standing and Seriousness",
+    getContent: (state) => `Filing an EEOC (Equal Employment Opportunity Commission) complaint or state equivalent is often a prerequisite for pursuing federal discrimination claims in ${state}. More importantly, it demonstrates to employers, insurers, and courts that you're serious about your claims and willing to pursue formal legal channels. EEOC complaints create official government records of your allegations, establish timelines that support your case, and often trigger higher settlement offers because employers understand you're prepared for litigation.
+
+In ${state}, EEOC complaints serve multiple strategic purposes. First, they're legally required before filing federal lawsuits under Title VII, ADA, or ADEA for most employment discrimination claims. The EEOC investigates, attempts conciliation, and issues a "right to sue" letter if settlement fails. Second, EEOC involvement signals to employers that you have legal guidance and understand your rights. Third, the complaint creates a formal record with specific allegations that employers must respond to, preventing them from changing their story later.
+
+EEOC complaints also dramatically increase settlement leverage. Employers know that EEOC involvement often leads to litigation, discovery, and potential exposure of broader company-wide discrimination patterns. In ${state}, employers facing EEOC complaints routinely settle for higher amounts to avoid the costs and risks of federal litigation. Even if the EEOC doesn't find cause, your right-to-sue letter allows you to proceed in court, and the investigation often uncovers additional evidence supporting your claims.`
+  },
+
+  have_termination_docs: {
+    title: "Documentation Proves Your Case and Prevents Employer Lies",
+    getContent: (state) => `Having written documentation of your termination—termination letters, emails, performance reviews, disciplinary notices, or witness statements—is crucial for proving wrongful termination in ${state}. Documentation transforms "he said, she said" disputes into concrete evidence that employers cannot easily refute. Written records lock employers into specific justifications for termination, preventing them from changing their story later to avoid liability.
+
+In ${state}, termination documentation serves multiple critical functions. First, it proves the termination actually occurred and when—important for statute of limitations. Second, it captures the employer's stated reasons for termination in real time, before they consult with lawyers and craft more defensible explanations. Third, inconsistencies between termination documents and later sworn testimony can prove pretext and bad faith, strengthening discrimination or retaliation claims.
+
+Documentation also dramatically increases settlement values because it reduces employer defenses and litigation risks. In ${state}, employers facing strong documentary evidence that contradicts their defenses know they're likely to lose at trial. Termination emails showing discriminatory animus, performance reviews proving you were meeting expectations, or communications revealing retaliation all create devastating proof that forces higher settlements. Always request written documentation of termination reasons, save all work emails and reviews, and document conversations through follow-up emails. Cases with strong documentation routinely settle for 2-3 times more than cases relying solely on testimony.`
   },
 
   victim_age: {
@@ -514,25 +581,37 @@ Life and disability insurance, tuition reimbursement, vehicle allowances, expens
 Document your complete benefits package: enrollment materials, benefits statements, and HR documents showing full compensation value. Many ${state} wrongful termination settlements significantly undervalue benefits, so carefully calculating benefits losses ensures you recover full economic damages. Benefits can add tens or hundreds of thousands to your case value.`
   },
 
-  months_delayed: {
-    title: "Claim Delay Duration",
-    getContent: (state) => `This field tracks how long the insurance company delayed payment of your claim in ${state}. Bad faith insurance claims consider whether delays were unreasonable given the circumstances. Longer delays can significantly increase damages, as they demonstrate the insurer's refusal to promptly investigate and pay valid claims. State laws vary on what constitutes unreasonable delay, but extended delays without legitimate justification typically support bad faith findings and additional damages beyond the policy benefits.`
+  claim_filed_date: {
+    title: "When You Filed Your Insurance Claim",
+    getContent: (state) => `The date you initially filed your insurance claim is essential for calculating damages in ${state} bad faith cases. This date establishes when the insurance company's duty to promptly investigate and pay began. The time between filing and denial or payment determines whether delays were unreasonable—a key element of bad faith claims. In ${state}, insurance companies must acknowledge claims within specific timeframes and investigate promptly, with violations supporting bad faith findings and additional damages beyond policy benefits.`
   },
 
-  months_denied: {
-    title: "Benefit Denial Duration",
-    getContent: (state) => `This captures how long disability benefits were wrongfully denied in ${state}. The duration of denial directly affects back-payment calculations and can support bad faith damages claims. Longer denial periods demonstrate the insurer's refusal to honor valid claims and increase the financial hardship you suffered. Include the time spent in the appeals process, as extended denials through multiple appeal levels can strengthen your case and increase potential damages in ${state}.`
+  claim_denied_date: {
+    title: "When Your Claim Was Denied",
+    getContent: (state) => `The denial date marks when the insurance company formally refused your claim in ${state}. This date is critical for calculating how long benefits were wrongfully withheld and determines the period for which you're entitled to back-payment of benefits. The time between filing and denial also reveals whether the insurer conducted a thorough investigation or rushed to deny your claim. In ${state}, unreasonably quick denials or extended delays before denial both support bad faith claims and increase damages.`
   },
 
-  months_unemployed: {
-    title: "Unemployment Duration Multiplies Economic Damages",
-    getContent: (state) => `The length of time you remain unemployed after wrongful termination directly determines your back pay damages and significantly affects front pay calculations. In ${state}, each month of unemployment multiplies your monthly compensation loss, rapidly accumulating substantial economic damages. Longer unemployment also strengthens emotional distress claims and demonstrates the severity of harm you suffered.
+  still_unable_to_work: {
+    title: "Continuing Disability Affects Future Damages",
+    getContent: (state) => `Whether you remain unable to work due to disability is crucial for determining ongoing and future damages in ${state}. If you're still disabled and unable to work, your claim includes not just past denied benefits but also future benefits you'll continue losing. This dramatically increases case value, as permanent disability creates a stream of damages extending years into the future. In ${state}, courts calculate present value of future benefits based on your life expectancy and benefit amount, potentially adding hundreds of thousands to case value.`
+  },
 
-Months unemployed affects ${state} wrongful termination valuations substantially. Economic damages equal your monthly compensation (salary plus benefits) multiplied by unemployment months. Six months unemployed at $10,000 monthly equals $60,000 in back pay, while 18 months equals $180,000.
+  found_new_job: {
+    title: "New Employment After Termination",
+    getContent: (state) => `Whether you found new employment after wrongful termination is critical to calculating economic damages in ${state}. If you remain unemployed, you continue accruing back pay damages from termination until trial or settlement. If you found new work, the law requires calculating mitigation—the new salary reduces (but doesn't eliminate) your ongoing damages. This question helps determine the scope of your economic losses and demonstrates your good-faith efforts to mitigate damages.
 
-In ${state}, you must mitigate damages by seeking comparable employment, but reasonable job search periods are protected. Extended unemployment particularly affects older workers who face age discrimination in hiring, supporting both longer unemployment periods and higher front pay awards. Unemployment duration also impacts emotional distress—financial hardship, stress, depression, and anxiety worsen over time without income.
+In ${state}, wrongful termination damages include the period from termination until you find comparable employment. If you've been unemployed since termination, damages accumulate monthly based on your prior salary and benefits. However, if you found a new position—even at lower pay—${state} law credits the new income against your damages while still compensating you for the salary difference.
 
-In ${state}, long unemployment periods strengthen retaliation claims, as they demonstrate the severe consequences of the unlawful termination. Extended unemployment may also support front pay if it indicates difficulty finding equivalent work. Document your job search efforts carefully: applications submitted, interviews attended, and positions pursued. This shows you're mitigating damages while explaining why reemployment took time. In ${state}, unemployment duration directly translates to economic damages, making it a key factor in wrongful termination case valuation.`
+Finding new employment doesn't eliminate your claim. If your new salary is lower than your previous compensation, you're still entitled to the difference (sometimes called "front pay") for a reasonable period. In ${state}, courts consider factors like your age, skills, and local job market when determining how long salary differential damages should continue. Document your job search efforts thoroughly to show you actively sought to mitigate damages.`
+  },
+
+  new_annual_salary: {
+    title: "New Position Salary Affects Damage Mitigation",
+    getContent: (state) => `Your new annual salary is essential for calculating damage mitigation in ${state} wrongful termination cases. When you find new employment after wrongful termination, the law requires reducing your damages by the new income—but you're still entitled to compensation for the salary difference if your new position pays less. This ensures you're made whole while acknowledging your efforts to mitigate damages.
+
+In ${state}, if your previous salary was $80,000 and your new salary is $60,000, you're entitled to the $20,000 annual difference for a period determined by factors like your age, industry, and job market conditions. Courts recognize that wrongful termination often forces workers into lower-paying positions, and ${state} law compensates for this economic harm.
+
+New salary also helps establish the reasonableness of your job search. Taking a significantly lower salary demonstrates the difficulty you faced finding comparable work and may support longer front pay awards. Conversely, finding equal or better compensation quickly might reduce damages but doesn't eliminate claims for emotional distress, reputational harm, or punitive damages if discrimination or retaliation occurred.`
   },
 
   months_unpaid: {
@@ -849,11 +928,18 @@ Document your historical sales, market position, and projected revenues. Obtain 
 Infringer profits affect ${state} IP infringement cases significantly. Once you prove the infringer's gross revenue from infringing products, the burden shifts to the infringer to prove their deductible expenses. This burden-shifting helps plaintiffs because infringers must fully document their costs or forfeit deductions. Infringer profit calculations focus on revenue directly attributable to the infringement. In patent and copyright cases, this may require apportioning profits when infringement is only one component of the product. Trademark cases often use total product profits if the mark drove sales. In ${state}, infringer profits can exceed your lost profits when the infringer operates more efficiently, reaches more customers, or makes higher margins. This damage measure also reaches downstream profits: not just manufacturing profits but distribution and retail profits too. Willful infringement can increase damages further—up to treble damages in some IP cases. Infringer profit disgorgement also sends deterrent messages: infringers can't keep their ill-gotten gains. Obtain discovery of the infringer's sales, revenues, costs, and profit margins. Expert accountants can analyze their financial records to calculate total profits. In ${state}, cases involving large infringers with substantial profits often pursue this measure to maximize recovery.`
   },
 
-  years_infringement: {
-    title: "Infringement Duration Multiplies Total Damages",
-    getContent: (state) => `The duration of intellectual property infringement—how many years the infringer used your IP without permission—directly multiplies total damages. In ${state}, longer infringement periods mean more infringing sales, more lost revenue, greater infringer profits, and stronger claims for willful infringement and enhanced damages. Duration is critical to calculating total IP case values.
+  discovery_date: {
+    title: "When You Discovered the Infringement",
+    getContent: (state) => `The date you discovered the intellectual property infringement is critical for statute of limitations calculations in ${state}. IP claims are typically subject to 3-6 year limitations periods that begin when you discovered or reasonably should have discovered the infringement. This date determines which infringing acts fall within the recoverable period and affects total damages. In ${state}, proving late discovery can extend the limitations period and preserve claims for older infringement.`
+  },
 
-Years of infringement affect ${state} IP cases substantially. Each year of infringement adds another year of lost profits or infringer profits to your damages. Five years of infringement creates five times the annual damages of one year. Duration also affects reasonable royalty calculations: if the infringer should have paid 5% royalty on $1 million annual sales for five years, damages reach $250,000 plus interest. Longer infringement duration suggests willfulness—infringers who continue for years after receiving notice of your IP rights face enhanced damages in many IP cases. In ${state}, willful patent infringement can triple damages; willful trademark infringement can triple damages; willful copyright infringement can reach $150,000 per work. Infringement duration is limited by statutes of limitations: typically 3-6 years depending on jurisdiction and IP type. In ${state}, you can only recover damages for infringement within the limitations period unless you prove fraudulent concealment. Document when infringement began through product launches, sales records, advertisements, or other evidence. Prove you owned enforceable IP rights throughout the infringement period. Obtain discovery of all infringing sales across the entire duration. In ${state}, long-duration infringement cases routinely reach six or seven figures as damages compound over years of unlawful use.`
+  infringement_start_date: {
+    title: "When Infringement Actually Began",
+    getContent: (state) => `The date infringement actually started—when the infringer first used your IP without permission—is essential for calculating total damages in ${state}. The duration between infringement start and discovery directly multiplies damages, as each year of infringement adds more lost revenue, infringer profits, and reasonable royalty calculations. Longer infringement periods also strengthen willfulness claims if the infringer continued after notice of your rights.
+
+In ${state}, proving infringement began years before discovery dramatically increases case value. Each additional year means more infringing sales and greater damages. For example, $100,000 annual damages over five years equals $500,000 total exposure. The infringement start date also affects willfulness findings—infringers who continue for years after you provide notice face enhanced damages that can triple your recovery in patent, trademark, and sometimes copyright cases.
+
+Document the infringement start date through product launches, advertisements, sales records, domain registrations, or other evidence. In ${state}, you can only recover damages within the statute of limitations period (typically 3-6 years back from filing), but proving earlier infringement establishes a pattern and strengthens willfulness claims for enhanced damages.`
   },
 
   registered_ip: {

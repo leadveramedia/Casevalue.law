@@ -22,6 +22,28 @@ Si sus lesiones resultan en discapacidad permanente o capacidad de trabajo reduc
 Las compañías de seguros y los abogados defensores examinan de cerca los reclamos de salarios perdidos, haciendo que la documentación sea crucial. La cantidad de salarios perdidos también influye en los multiplicadores de dolor y sufrimiento, ya que la pérdida significativa de ingresos demuestra el impacto sustancial de la lesión en su vida y sustento en ${state}.`
   },
 
+  annual_income: {
+    title: "Por Qué Su Ingreso Anual Es Crítico para Calcular Salarios Perdidos",
+    getContent: (state) => `Su ingreso anual establece la línea base para calcular uno de los componentes más significativos del valor de su caso: salarios perdidos y capacidad de ganancia disminuida. En ${state}, los tribunales usan su ingreso anual para determinar su tasa de ganancia semanal y diaria, que luego se multiplica por el tiempo que no pudo trabajar. Un ingreso anual más alto se traduce directamente en reclamos de salarios perdidos más altos, haciendo que esta cifra sea crucial para la valoración de su caso.
+
+Más allá de calcular solo los salarios perdidos pasados, su ingreso anual en ${state} sirve varios propósitos críticos. Establece su capacidad de ganancia para cálculos de pérdidas futuras, demuestra el valor económico de su tiempo y trabajo, proporciona una base para calcular beneficios y bonos perdidos, y ayuda a cuantificar el impacto económico completo de sus lesiones.
+
+En ${state}, cuando las lesiones resultan en discapacidad permanente o capacidad de trabajo reducida, su ingreso anual se convierte en la base para calcular pérdidas salariales futuras potencialmente masivas. Por ejemplo, una persona de 35 años que gana $75,000 anuales y queda permanentemente discapacitada podría tener pérdidas salariales futuras que excedan los $2 millones durante su vida laboral esperada. Incluso las lesiones temporales que impiden trabajar durante varios meses pueden resultar en reclamos sustanciales de salarios perdidos cuando se calculan desde una base sólida de ingreso anual.
+
+Las compañías de seguros y los abogados defensores examinarán cuidadosamente sus reclamos de ingresos, por lo que la documentación precisa es esencial. En ${state}, proporcionar declaraciones de impuestos, talones de pago y registros de empleo para verificar su ingreso anual fortalece su caso y maximiza su recuperación de salarios perdidos. Su ingreso anual también influye en los multiplicadores de dolor y sufrimiento, ya que las personas con ingresos más altos a menudo enfrentan interrupciones de vida y estrés más significativos por la pérdida de ingresos.`
+  },
+
+  weeks_unable_to_work: {
+    title: "Cómo las Semanas Sin Poder Trabajar Multiplican Directamente Su Compensación",
+    getContent: (state) => `El número de semanas que no pudo trabajar proporciona la línea de tiempo precisa para calcular sus daños por salarios perdidos en ${state}. Esta cifra se multiplica por su tasa de ganancia semanal para determinar sus salarios perdidos totales, uno de los componentes más objetivos y fácilmente calculables del valor de su caso. Mientras más tiempo no pudo trabajar, mayor será su reclamo de salarios perdidos y valoración general del caso.
+
+En ${state}, la duración de la ausencia laboral sirve varios propósitos importantes más allá de solo calcular salarios perdidos. Demuestra la gravedad de la lesión: ausencias más largas indican lesiones más graves que requirieron tiempo de recuperación extendido. Proporciona evidencia objetiva de interrupción de vida, mostrando cuán significativamente la lesión impactó su funcionamiento diario. Apoya reclamos de dolor y sufrimiento, ya que la incapacidad extendida para trabajar prueba discapacidad y limitaciones continuas.
+
+Las ausencias laborales extendidas en ${state} también abren la puerta a daños adicionales. Si no pudo trabajar durante muchos meses, puede indicar potencial de pérdida salarial futura si no se ha recuperado completamente. Puede mostrar que perdió promociones, aumentos u oportunidades de avance profesional. Puede demostrar la necesidad de rehabilitación vocacional si no puede regresar a su ocupación anterior.
+
+Los ajustadores de seguros en ${state} prestan mucha atención a esta cifra porque impacta directamente sus cálculos de pago. Las ausencias laborales documentadas verificadas por cartas del empleador y registros médicos tienen un peso significativo. Incluso si usó licencia por enfermedad o tiempo de vacaciones durante su recuperación, la ley de ${state} típicamente le permite recuperar estos como pérdidas económicas. La combinación de alto ingreso anual y ausencia laboral extendida puede resultar en reclamos de salarios perdidos de seis cifras, aumentando significativamente el valor total de su caso.`
+  },
+
   fault_percentage: {
     title: "Cómo el Porcentaje de Culpa Puede Hacer o Romper Su Caso",
     getContent: (state) => `${state} sigue reglas de culpa específicas que pueden impactar dramáticamente su recuperación. Entender la asignación de culpa es crítico porque incluso si es parcialmente responsable de un incidente, aún puede tener derecho a compensación, pero la cantidad puede reducirse significativamente según su porcentaje de culpa. Esto hace que la determinación de culpa sea uno de los temas más disputados en casos de lesiones personales.
@@ -119,6 +141,24 @@ El salario anual afecta las valoraciones de casos de ${state} de múltiples mane
 Segundo, su salario anual proyecta pérdidas futuras si las lesiones causan discapacidad permanente o limitaciones de carrera. Si una lesión le impide continuar su trabajo de $80,000 y solo puede ganar $40,000 en un rol limitado, esa diferencia de $40,000 multiplicada por sus años laborales restantes crea daños de capacidad de ganancia sustanciales en ${state}.
 
 Tercero, los ingresos más altos generalmente se correlacionan con más educación, habilidades especializadas e inversión de carrera, factores que los tribunales de ${state} consideran al valorar la pérdida de oportunidades profesionales. Los economistas vocacionales y expertos financieros testifican sobre estos cálculos, considerando también los aumentos proyectados, bonos y beneficios. Documentar su salario anual a través de declaraciones de impuestos, talones de pago y cartas de empleadores es crucial para maximizar las reclamaciones de ingresos perdidos en ${state}.`
+  },
+
+  found_new_job: {
+    title: "Nuevo Empleo Después del Despido",
+    getContent: (state) => `Si encontró nuevo empleo después del despido injustificado es crítico para calcular los daños económicos en ${state}. Si permanece desempleado, continúa acumulando daños por salarios adeudados desde el despido hasta el juicio o acuerdo. Si encontró nuevo trabajo, la ley requiere calcular la mitigación: el nuevo salario reduce (pero no elimina) sus daños continuos. Esta pregunta ayuda a determinar el alcance de sus pérdidas económicas y demuestra sus esfuerzos de buena fe para mitigar daños.
+
+En ${state}, los daños por despido injustificado incluyen el período desde el despido hasta que encuentre empleo comparable. Si ha estado desempleado desde el despido, los daños se acumulan mensualmente según su salario anterior y beneficios. Sin embargo, si encontró una nueva posición—incluso con salario más bajo—la ley de ${state} acredita los nuevos ingresos contra sus daños mientras le compensa la diferencia salarial.
+
+Encontrar nuevo empleo no elimina su reclamación. Si su nuevo salario es inferior a su compensación anterior, aún tiene derecho a la diferencia (a veces llamada "pago futuro") por un período razonable. En ${state}, los tribunales consideran factores como su edad, habilidades y mercado laboral local cuando determinan cuánto tiempo debe continuar la indemnización por diferencia salarial. Documente sus esfuerzos de búsqueda de empleo exhaustivamente para demostrar que buscó activamente mitigar daños.`
+  },
+
+  new_annual_salary: {
+    title: "El Salario de Nueva Posición Afecta la Mitigación de Daños",
+    getContent: (state) => `Su nuevo salario anual es esencial para calcular la mitigación de daños en casos de despido injustificado de ${state}. Cuando encuentra nuevo empleo después del despido injustificado, la ley requiere reducir sus daños por los nuevos ingresos—pero aún tiene derecho a compensación por la diferencia salarial si su nueva posición paga menos. Esto asegura que sea indemnizado mientras reconoce sus esfuerzos para mitigar daños.
+
+En ${state}, si su salario anterior era $80,000 y su nuevo salario es $60,000, tiene derecho a la diferencia anual de $20,000 por un período determinado por factores como su edad, industria y condiciones del mercado laboral. Los tribunales reconocen que el despido injustificado a menudo obliga a los trabajadores a aceptar posiciones con salarios más bajos, y la ley de ${state} compensa este daño económico.
+
+El nuevo salario también ayuda a establecer la razonabilidad de su búsqueda de empleo. Aceptar un salario significativamente más bajo demuestra la dificultad que enfrentó al encontrar trabajo comparable y puede respaldar adjudicaciones de pago futuro más largas. Conversamente, encontrar compensación igual o mejor rápidamente podría reducir daños pero no elimina reclamaciones por angustia emocional, daño reputacional, o daños punitivos si ocurrió discriminación o represalia.`
   },
 
   emotional_distress: {
@@ -646,6 +686,11 @@ En ${state}, las reclamaciones de mala fe a menudo surgen cuando las aseguradora
 Los límites de póliza no limitan los daños de mala fe en ${state}—si una aseguradora niega en mala fe una reclamación válida, los daños de mala fe (compensatorios y punitivos) son adicionales al monto de la reclamación y pueden exceder los límites de póliza. Esto crea apalancamiento significativo. Documente los límites de póliza, comunique cuando los daños exceden los límites y preserve reclamaciones de mala fe cuando las aseguradoras manejan mal situaciones de exceso de límites.`
   },
 
+  claim_filed_date: {
+    title: "Cuándo Presentó Su Reclamación de Seguros",
+    getContent: (state) => `La fecha en que presentó inicialmente su reclamación de seguros es esencial para calcular daños en casos de mala fe de ${state}. Esta fecha establece cuándo comenzó el deber de la compañía aseguradora de investigar y pagar con prontitud. El tiempo entre la presentación y la negación o pago determina si los retrasos fueron irrazonables—un elemento clave de reclamaciones de mala fe. En ${state}, las compañías de seguros deben reconocer reclamaciones dentro de plazos específicos e investigar con prontitud, con violaciones que respaldan hallazgos de mala fe y daños adicionales más allá de beneficios de póliza.`
+  },
+
   claim_denied: {
     title: "Las Reclamaciones Negadas Activan Acciones de Mala Fe de Seguros",
     getContent: (state) => `Una negación de reclamación es el evento desencadenante para potenciales reclamaciones de mala fe de seguros. En ${state}, cuando las aseguradoras niegan reclamaciones válidas sin bases razonables o no investigan adecuadamente antes de negar, violan deberes de mala fe. No todas las negaciones son mala fe—las disputas de cobertura legítimas están permitidas—pero las negaciones irrazonables, pretextuales o apresuradas crean responsabilidad de mala fe.
@@ -681,6 +726,16 @@ En ${state}, los beneficios mensuales continúan acumulando daños hasta que la 
 En ${state}, los casos de mala fe por discapacidad a menudo otorgan varias veces el monto del beneficio mensual en daños por angustia emocional reconociendo el impacto devastador de perder ingresos mientras está discapacitado. Los beneficios mensuales también se proyectan hacia el futuro: si permanece permanentemente discapacitado, los pagos de beneficios futuros durante años o décadas pueden estar en juego, creando exposición sustancial.
 
 Documente su monto de beneficio mensual con precisión usando su póliza, declaraciones de beneficios e historial de pagos antes de que los beneficios se detuvieran. En ${state}, el monto del beneficio mensual es el factor individual más importante que determina los daños totales de reclamación por discapacidad.`
+  },
+
+  claim_denied_date: {
+    title: "Cuándo Fue Denegada Su Reclamación",
+    getContent: (state) => `La fecha de negación marca cuándo la compañía de seguros formalmente rechazó su reclamación en ${state}. Esta fecha es crítica para calcular cuánto tiempo los beneficios fueron injustamente retenidos y determina el período por el cual tiene derecho a pago de beneficios retroactivos. El tiempo entre la presentación y la negación también revela si la aseguradora realizó una investigación exhaustiva o se apresuró a negar su reclamación. En ${state}, las negaciones irrazonablemente rápidas o los retrasos prolongados antes de la negación ambos respaldan reclamaciones de mala fe e aumentan daños.`
+  },
+
+  still_unable_to_work: {
+    title: "La Discapacidad Continua Afecta Daños Futuros",
+    getContent: (state) => `Si permanece incapaz de trabajar debido a discapacidad es crucial para determinar daños continuos y futuros en ${state}. Si está aún discapacitado e incapaz de trabajar, su reclamación incluye no solo los beneficios negados en el pasado sino también los beneficios futuros que continuará perdiendo. Esto aumenta dramáticamente el valor del caso, ya que la discapacidad permanente crea un flujo de daños que se extiende años hacia el futuro. En ${state}, los tribunales calculan el valor presente de los beneficios futuros basado en su expectativa de vida y cantidad de beneficio, potencialmente agregando cientos de miles al valor del caso.`
   },
 
   medical_evidence: {
@@ -827,6 +882,65 @@ Documente sus ventas históricas, posición de mercado, e ingresos proyectados. 
     getContent: (state) => `Las ganancias que el infractor obtuvo de su uso ilegal de su propiedad intelectual representan una medida alternativa de daños disponible en casos de infracción de PI. En ${state}, puede recuperar las ganancias del infractor particularmente cuando sus propias ganancias perdidas son difíciles de calcular o cuando el infractor ganó más de lo que usted perdió. El decomiso de ganancias del infractor asegura que no se beneficien de su mala conducta.
 
 Las ganancias del infractor afectan significativamente los casos de infracción de PI de ${state}. Una vez que prueba los ingresos brutos del infractor de productos infractores, la carga se traslada al infractor para probar sus gastos deducibles. Este traslado de carga ayuda a los demandantes porque los infractores deben documentar completamente sus costos o perder deducciones. Los cálculos de ganancias del infractor se enfocan en ingresos directamente atribuibles a la infracción. En casos de patentes y derechos de autor, esto puede requerir prorratear ganancias cuando la infracción es solo un componente del producto. Los casos de marcas registradas a menudo usan ganancias totales del producto si la marca impulsó las ventas. En ${state}, las ganancias del infractor pueden exceder sus ganancias perdidas cuando el infractor opera más eficientemente, alcanza más clientes, o obtiene márgenes más altos. Esta medida de daños también alcanza ganancias posteriores: no solo ganancias de fabricación sino también ganancias de distribución y venta al por menor. La infracción intencional puede aumentar aún más los daños—hasta daños triplicados en algunos casos de PI. El decomiso de ganancias del infractor también envía mensajes disuasorios: los infractores no pueden quedarse con sus ganancias ilícitas. Obtenga descubrimiento de ventas, ingresos, costos, y márgenes de ganancia del infractor. Contadores expertos pueden analizar sus registros financieros para calcular ganancias totales. En ${state}, los casos que involucran grandes infractores con ganancias sustanciales a menudo persiguen esta medida para maximizar la recuperación.`
+  },
+
+  discovery_date: {
+    title: "Cuándo Descubrió la Infracción",
+    getContent: (state) => `La fecha en que descubrió la infracción de propiedad intelectual es crítica para cálculos de estatuto de limitaciones en ${state}. Las reclamaciones de PI generalmente están sujetas a períodos de limitaciones de 3-6 años que comienzan cuando descubrió o razonablemente debería haber descubierto la infracción. Esta fecha determina qué actos de infracción caen dentro del período recuperable y afecta daños totales. En ${state}, probar descubrimiento tardío puede extender el período de limitaciones y preservar reclamaciones para infracción más antigua.`
+  },
+
+  hospitalized_overnight: {
+    title: "La Hospitalización Nocturna Aumenta Dramáticamente el Valor del Caso",
+    getContent: (state) => `Ser hospitalizado durante la noche es un umbral crítico que señala una gravedad de lesión seria a las compañías de seguros y jurados en ${state}. Las visitas a la sala de emergencias donde lo envían a casa el mismo día sugieren lesiones menores a moderadas. Pero la admisión que requiere observación nocturna o estadías más largas demuestra que los profesionales médicos consideraron que sus lesiones eran lo suficientemente graves para requerir monitoreo y tratamiento continuos. Este factor único puede duplicar o triplicar los valores de liquidación.
+
+En ${state}, la hospitalización nocturna sirve como prueba objetiva de la gravedad de la lesión que las aseguradoras no pueden disputar fácilmente. Genera facturas médicas sustanciales, crea registros hospitalarios detallados documentando sus lesiones, y muestra causalidad clara entre el accidente y su necesidad de atención médica intensiva. Los ajustadores de seguros usan la hospitalización como una métrica clave al evaluar reclamaciones—los casos con admisiones hospitalarias se liquidan rutinariamente por 2-5 veces más que lesiones similares tratadas solo ambulatoriamente.
+
+La hospitalización también fortalece su caso para daños por dolor y sufrimiento. En ${state}, los jurados entienden que las estadías hospitalarias implican trauma significativo, miedo, incomodidad, y disrupción de vida más allá del tratamiento médico. Las estadías de varios días sugieren lesiones aún más serias como cirugías, huesos rotos, lesiones internas, o lesiones cerebrales traumáticas—todas las cuales cumplen veredictos sustancialmente más altos. Documente su estadía hospitalaria exhaustivamente con todos los documentos de alta, facturas, y recomendaciones de tratamiento de seguimiento.`
+  },
+
+  still_in_treatment: {
+    title: "El Tratamiento Continuo Señala Costos Médicos Futuros y Daños",
+    getContent: (state) => `Aún recibiendo tratamiento médico meses o años después de su accidente indica que sus lesiones no se han resuelto completamente y puede enfrentar gastos médicos continuos y discapacidades. En ${state}, el tratamiento actual demuestra que los daños no son solo facturas médicas pasadas sino que incluyen costos médicos futuros que pueden extenderse durante años o incluso su vida. Esto transforma el valor del caso de decenas de miles a potencialmente cientos de miles o millones para lesiones permanentes que requieren atención continua.
+
+En ${state}, el tratamiento continuo es crítico tanto para construir su registro médico como para maximizar daños. Los intervalos en el tratamiento permiten a los aseguradores argumentar que no está realmente lesionado o no mitigó daños. Pero el tratamiento continuo bajo supervisión médica muestra lesiones legítimas y persistentes que requieren gestión médica profesional. Esto respalda reclamaciones de gastos médicos futuros, discapacidad permanente, capacidad de ganancias reducida, y dolor y sufrimiento continuo.
+
+El tratamiento actual también mantiene su caso "vivo" con daños acumulativos. En ${state}, generalmente no puede liquidar hasta alcanzar mejoría médica máxima (MMI)—el punto donde su condición se ha estabilizado. Si aún está mejorando o recibiendo tratamiento, liquidar demasiado pronto significa dejar daños futuros en la mesa. El tratamiento continuo también proporciona apalancamiento: los aseguradores saben que los casos con lesiones no resueltas enfrentan veredictos de jurado más altos porque los daños futuros añaden significativamente a la exposición total.`
+  },
+
+  other_driver_insured: {
+    title: "Los Conductores Sin Seguro Limitan Severamente el Potencial de Recuperación",
+    getContent: (state) => `Si el otro conductor tiene seguro es quizás el factor más importante que determina si recuperará compensación por sus lesiones en ${state}. Incluso con un caso de responsabilidad clarísimo y lesiones graves, un conductor sin seguro probablemente no tiene bienes significativos para perseguir, haciendo su caso efectivamente sin valor desde un punto de vista de recuperación. Es por eso que esta pregunta es crítica para evaluar viabilidad del caso.
+
+En ${state}, aproximadamente 10-15% de los conductores operan sin seguro a pesar de los requisitos legales. Si el conductor responsable no tiene seguro, sus opciones de recuperación son severamente limitadas: puede demandarlos personalmente, pero la mayoría de los conductores sin seguro carecen de bienes para satisfacer sentencias. Usted puede tener cobertura de motorista sin seguro (UM) a través de su propia póliza—verifique su póliza inmediatamente. La cobertura UM le permite perseguir compensación de su propio asegurador cuando el conductor responsable carece de seguro.
+
+Si el otro conductor tiene seguro, su caso se vuelve viable para compensación completa. Puede presentar un reclamo contra su póliza de responsabilidad, que en ${state} lleva límites mínimos (aunque estos a menudo son inadecuados para lesiones graves). Las compañías de seguros tienen tanto la capacidad como la obligación legal de pagar reclamaciones válidas. Si el conductor responsable tiene seguro pero lleva solo límites mínimos, puede recuperar compensación adicional a través de su propia cobertura de motorista sin seguro (UIM). Siempre verifique el estado de seguro del otro conductor inmediatamente después de un accidente—esto determina si perseguir su caso tiene sentido financiero.`
+  },
+
+  filed_eeoc_complaint: {
+    title: "Las Quejas de EEOC Establecen Legitimidad Legal y Seriedad",
+    getContent: (state) => `Presentar una queja ante la EEOC (Comisión para la Igualdad de Oportunidades en el Empleo) o el equivalente estatal es a menudo un requisito previo para perseguir demandas de discriminación federal en ${state}. Más importante, demuestra a empleadores, aseguradores, y tribunales que está serio sobre sus reclamaciones y dispuesto a perseguir canales legales formales. Las quejas de EEOC crean registros de gobierno oficial de sus alegaciones, establecen cronogramas que apoyan su caso, y a menudo desencadenan ofertas de liquidación más altas porque los empleadores entienden que está preparado para litigio.
+
+En ${state}, las quejas de EEOC sirven múltiples propósitos estratégicos. Primero, son legalmente requeridas antes de presentar demandas federales bajo Título VII, ADA, o ADEA para la mayoría de reclamaciones de discriminación laboral. La EEOC investiga, intenta conciliación, e emite una carta de "derecho a demandar" si la liquidación falla. Segundo, la implicación de EEOC señala a empleadores que tiene orientación legal y entiende sus derechos. Tercero, la queja crea un registro formal con alegaciones específicas que los empleadores deben responder, previniendo que cambien su historia después.
+
+Las quejas de EEOC también aumentan dramáticamente el apalancamiento de liquidación. Los empleadores saben que la implicación de EEOC a menudo lleva a litigio, descubrimiento, y exposición potencial de patrones de discriminación más amplios de la empresa. En ${state}, los empleadores enfrentando quejas de EEOC se liquidan rutinariamente por montos más altos para evitar los costos y riesgos del litigio federal. Incluso si la EEOC no encuentra causa, su carta de derecho a demandar le permite proceder en corte, y la investigación a menudo descubre evidencia adicional apoyando sus reclamaciones.`
+  },
+
+  have_termination_docs: {
+    title: "La Documentación Prueba Su Caso y Previene Mentiras del Empleador",
+    getContent: (state) => `Tener documentación escrita de su despido—cartas de despido, correos electrónicos, evaluaciones de desempeño, avisos disciplinarios, o declaraciones de testigos—es crucial para probar despido injustificado en ${state}. La documentación transforma disputas de "él dijo, ella dijo" en evidencia concreta que los empleadores no pueden refutar fácilmente. Los registros escritos encierran a los empleadores en justificaciones específicas para despido, previniendo que cambien su historia después para evitar responsabilidad.
+
+En ${state}, la documentación de despido sirve múltiples funciones críticas. Primero, prueba que el despido realmente ocurrió y cuándo—importante para estatuto de limitaciones. Segundo, captura las razones establecidas del empleador para despido en tiempo real, antes de consultar con abogados y elaborar explicaciones más defensibles. Tercero, inconsistencias entre documentos de despido y testimonio jurado posterior pueden probar pretexto y mala fe, fortaleciendo reclamaciones de discriminación o represalia.
+
+La documentación también aumenta dramáticamente los valores de liquidación porque reduce defensas del empleador y riesgos de litigio. En ${state}, los empleadores enfrentando evidencia documental fuerte que contradice sus defensas saben que probablemente perderán en juicio. Los correos de despido mostrando ánimo discriminatorio, evaluaciones de desempeño probando que estaba cumpliendo expectativas, o comunicaciones revelando represalia todos crean prueba devastadora que fuerza liquidaciones más altas. Siempre solicite documentación escrita de razones de despido, guarde todos los correos de trabajo y revisiones, y documente conversaciones a través de correos de seguimiento. Los casos con documentación fuerte se liquidan rutinariamente por 2-3 veces más que casos dependiendo solo de testimonio.`
+  },
+
+  infringement_start_date: {
+    title: "Cuándo Realmente Comenzó la Infracción",
+    getContent: (state) => `La fecha en que la infracción realmente comenzó—cuándo el infractor primero usó su PI sin permiso—es esencial para calcular daños totales en ${state}. La duración entre inicio de infracción y descubrimiento multiplica directamente los daños, ya que cada año de infracción añade más ingresos perdidos, ganancias del infractor, y cálculos de regalías razonables. Períodos de infracción más largos también fortalecen reclamaciones de intencionalidad si el infractor continuó después de notificación de sus derechos.
+
+En ${state}, probar que la infracción comenzó años antes del descubrimiento aumenta dramáticamente el valor del caso. Cada año adicional significa más ventas infractoras y daños mayores. Por ejemplo, $100,000 en daños anuales durante cinco años igualan $500,000 en exposición total. La fecha de inicio de infracción también afecta hallazgos de intencionalidad—los infractores que continúan durante años después de recibir notificación de sus derechos enfrentan daños aumentados que pueden triplicar su recuperación en patentes, marcas registradas, y algunos casos de derechos de autor.
+
+Documente la fecha de inicio de infracción a través de lanzamientos de productos, anuncios, registros de ventas, o registros de dominio, u otra evidencia. En ${state}, solo puede recuperar daños dentro del período de estatuto de limitaciones (típicamente 3-6 años hacia atrás desde la presentación), pero probar infracción más temprana establece un patrón y fortalece reclamaciones de intencionalidad para daños aumentados.`
   },
 
   years_infringement: {

@@ -36,8 +36,9 @@ export const calculateValuation = (caseType, answers, state) => {
     case 'motor':
       // Economic damages
       const medicalBills = parseFloat(answers.medical_bills) || 0;
-      const lostWages = parseFloat(answers.lost_wages) || 0;
-      const insuranceCoverage = parseFloat(answers.insurance_coverage) || 250000;
+      const annualIncome = parseFloat(answers.annual_income) || 0;
+      const weeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+      const lostWages = (annualIncome / 52) * weeksUnableToWork;
       const faultPercentage = parseInt(answers.fault_percentage) || 0;
 
       baseValue = medicalBills + lostWages;
@@ -52,14 +53,19 @@ export const calculateValuation = (caseType, answers, state) => {
         multiplier *= 1.8;
       }
 
-      // Police report filed strengthens case
-      if (answers.police_report_filed === true) {
-        multiplier *= 1.15;
+      // Hospitalized overnight indicates serious injury
+      if (answers.hospitalized_overnight === true) {
+        multiplier *= 1.4;
       }
 
-      // Witnesses available strengthen case
-      if (answers.witnesses_available === true) {
-        multiplier *= 1.2;
+      // Still in treatment indicates ongoing medical needs
+      if (answers.still_in_treatment === true) {
+        multiplier *= 1.3;
+      }
+
+      // Other driver uninsured significantly reduces recovery potential
+      if (answers.other_driver_insured === false) {
+        multiplier *= 0.4; // Dramatic reduction if no insurance
       }
 
       // Apply comparative negligence
@@ -68,21 +74,24 @@ export const calculateValuation = (caseType, answers, state) => {
       }
 
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, insuranceCoverage);
 
       factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
-      factors.push(`Lost wages: $${lostWages.toLocaleString()}`);
+      if (annualIncome > 0 && weeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${lostWages.toLocaleString()} (${weeksUnableToWork} weeks)`);
+      }
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.permanent_injury) factors.push('Permanent injury present');
-      if (answers.police_report_filed) factors.push('Police report filed');
-      if (answers.witnesses_available) factors.push('Witnesses available');
+      if (answers.hospitalized_overnight) factors.push('Hospitalized overnight');
+      if (answers.still_in_treatment) factors.push('Still receiving medical treatment');
+      if (answers.other_driver_insured === false) factors.push('⚠️ Other driver uninsured (limits recovery)');
       if (faultPercentage > 0) factors.push(`Your fault: ${faultPercentage}%`);
       break;
 
     case 'medical':
       const medBills = parseFloat(answers.medical_bills) || 0;
-      const medLostWages = parseFloat(answers.lost_wages) || 0;
-      const medInsurance = parseFloat(answers.insurance_coverage) || 1000000;
+      const medAnnualIncome = parseFloat(answers.annual_income) || 0;
+      const medWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+      const medLostWages = (medAnnualIncome / 52) * medWeeksUnableToWork;
 
       baseValue = medBills + medLostWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
@@ -91,10 +100,11 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.surgery_error === true) multiplier *= 1.5;
 
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, medInsurance);
 
       factors.push(`Medical bills: $${medBills.toLocaleString()}`);
-      factors.push(`Lost wages: $${medLostWages.toLocaleString()}`);
+      if (medAnnualIncome > 0 && medWeeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${medLostWages.toLocaleString()} (${medWeeksUnableToWork} weeks)`);
+      }
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.surgery_error) factors.push('Surgery error involved');
       if (answers.permanent_injury) factors.push('Permanent injury present');
@@ -102,8 +112,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'premises':
       const premBills = parseFloat(answers.medical_bills) || 0;
-      const premWages = parseFloat(answers.lost_wages) || 0;
-      const premInsurance = parseFloat(answers.insurance_coverage) || 300000;
+      const premAnnualIncome = parseFloat(answers.annual_income) || 0;
+      const premWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+      const premWages = (premAnnualIncome / 52) * premWeeksUnableToWork;
 
       baseValue = premBills + premWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.5;
@@ -129,10 +140,11 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.property_owner_warned === true) multiplier *= 1.3;
 
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, premInsurance);
 
       factors.push(`Medical bills: $${premBills.toLocaleString()}`);
-      factors.push(`Lost wages: $${premWages.toLocaleString()}`);
+      if (premAnnualIncome > 0 && premWeeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${premWages.toLocaleString()} (${premWeeksUnableToWork} weeks)`);
+      }
       if (answers.hazard_type) factors.push(`Hazard type: ${answers.hazard_type}`);
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.commercial_property) factors.push('Commercial property (higher duty of care)');
@@ -142,8 +154,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'product':
       const prodBills = parseFloat(answers.medical_bills) || 0;
-      const prodWages = parseFloat(answers.lost_wages) || 0;
-      const prodInsurance = parseFloat(answers.insurance_coverage) || 500000;
+      const prodAnnualIncome = parseFloat(answers.annual_income) || 0;
+      const prodWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+      const prodWages = (prodAnnualIncome / 52) * prodWeeksUnableToWork;
 
       baseValue = prodBills + prodWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
@@ -152,10 +165,11 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.product_recalled === true) multiplier *= 1.5;
 
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, prodInsurance);
 
       factors.push(`Medical bills: $${prodBills.toLocaleString()}`);
-      factors.push(`Lost wages: $${prodWages.toLocaleString()}`);
+      if (prodAnnualIncome > 0 && prodWeeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${prodWages.toLocaleString()} (${prodWeeksUnableToWork} weeks)`);
+      }
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.product_recalled) factors.push('Product was recalled');
       if (answers.permanent_injury) factors.push('Permanent injury present');
@@ -169,7 +183,6 @@ export const calculateValuation = (caseType, answers, state) => {
       const numDependents = parseFloat(answers.num_dependents) || 1;
       const deathMedBills = parseFloat(answers.medical_bills) || 0;
       const funeralCosts = parseFloat(answers.funeral_costs) || 15000;
-      const deathInsurance = parseFloat(answers.insurance_coverage) || 1000000;
 
       // Economic damages: lost future income
       const futureEarnings = victimIncome * lifeExpectancy * 0.7; // 70% for household consumption
@@ -197,7 +210,6 @@ export const calculateValuation = (caseType, answers, state) => {
       }
 
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, deathInsurance);
 
       factors.push(`Future earnings lost: $${futureEarnings.toLocaleString()}`);
       factors.push(`Medical bills: $${deathMedBills.toLocaleString()}`);
@@ -224,9 +236,7 @@ export const calculateValuation = (caseType, answers, state) => {
       // Facial injuries significantly increase damages
       if (answers.facial_injuries === true) multiplier *= 1.5;
 
-      const dogInsurance = parseFloat(answers.insurance_coverage) || 100000;
       baseValue = baseValue * multiplier;
-      baseValue = Math.min(baseValue, dogInsurance);
 
       factors.push(`Medical bills: $${dogBills.toLocaleString()}`);
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
@@ -239,12 +249,24 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'wrongful_term':
       const annualSalary = parseFloat(answers.annual_salary) || 60000;
-      const monthsUnemployed = parseFloat(answers.months_unemployed) || 6;
       const lostBenefits = parseFloat(answers.lost_benefits) || 10000;
       const yearsEmployed = parseFloat(answers.years_employed) || 3;
 
+      // Calculate lost wages from incident date to today
+      let wagesLost = 0;
+      let monthsUnemployed = 0;
+
+      const incidentDate = answers.incident_date ? new Date(answers.incident_date) : null;
+      const today = new Date();
+      if (incidentDate) {
+        monthsUnemployed = Math.max(1, Math.min(24, Math.round((today - incidentDate) / (1000 * 60 * 60 * 24 * 30))));
+      } else {
+        monthsUnemployed = 6; // default fallback
+      }
+      wagesLost = (annualSalary / 12) * monthsUnemployed;
+
       // Base: lost wages during unemployment + benefits
-      baseValue = (annualSalary / 12 * monthsUnemployed) + lostBenefits;
+      baseValue = wagesLost + lostBenefits;
 
       // Emotional distress multiplier
       multiplier = emotionalDistressMultipliers[answers.emotional_distress] || 1.5;
@@ -259,12 +281,20 @@ export const calculateValuation = (caseType, answers, state) => {
       // Position filled quickly suggests pretextual termination
       if (answers.position_filled === true) multiplier *= 1.2;
 
+      // EEOC complaint filed strengthens case significantly
+      if (answers.filed_eeoc_complaint === true) multiplier *= 1.4;
+
+      // Termination documentation helps prove case
+      if (answers.have_termination_docs === true) multiplier *= 1.2;
+
       baseValue = baseValue * multiplier;
 
-      factors.push(`Lost wages: $${(annualSalary / 12 * monthsUnemployed).toLocaleString()}`);
-      factors.push(`Lost benefits: $${lostBenefits.toLocaleString()}`);
+      factors.push(`Lost wages: $${wagesLost.toLocaleString()}`);
       factors.push(`Months unemployed: ${monthsUnemployed}`);
+      factors.push(`Lost benefits: $${lostBenefits.toLocaleString()}`);
       if (answers.discrimination) factors.push('Discrimination involved');
+      if (answers.filed_eeoc_complaint) factors.push('EEOC complaint filed');
+      if (answers.have_termination_docs) factors.push('Termination documentation available');
       if (answers.positive_performance_reviews) factors.push('Positive performance reviews on record');
       if (answers.position_filled) factors.push('Position was quickly filled');
       factors.push(`Years employed: ${yearsEmployed}`);
@@ -343,7 +373,14 @@ export const calculateValuation = (caseType, answers, state) => {
     case 'insurance':
       const claimAmount = parseFloat(answers.claim_amount) || 50000;
       const policyLimits = parseFloat(answers.policy_limits) || 100000;
-      const monthsDelayed = parseFloat(answers.months_delayed) || 6;
+
+      // Calculate delay from claim filed date to incident date
+      const insClaimFiledDate = answers.claim_filed_date ? new Date(answers.claim_filed_date) : null;
+      const insIncidentDate = answers.incident_date ? new Date(answers.incident_date) : null;
+      let monthsDelayed = 6; // default
+      if (insClaimFiledDate && insIncidentDate) {
+        monthsDelayed = Math.max(0, Math.round((insClaimFiledDate - insIncidentDate) / (1000 * 60 * 60 * 24 * 30)));
+      }
 
       baseValue = claimAmount;
 
@@ -388,8 +425,15 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'disability':
       const monthlyBenefit = parseFloat(answers.monthly_benefit) || 2000;
-      const monthsDenied = parseFloat(answers.months_denied) || 12;
       const disabilityWages = parseFloat(answers.lost_wages) || 0;
+
+      // Calculate denial duration from claim dates
+      const disClaimFiledDate = answers.claim_filed_date ? new Date(answers.claim_filed_date) : null;
+      const disClaimDeniedDate = answers.claim_denied_date ? new Date(answers.claim_denied_date) : null;
+      let monthsDenied = 12; // default
+      if (disClaimFiledDate && disClaimDeniedDate) {
+        monthsDenied = Math.max(1, Math.round((disClaimDeniedDate - disClaimFiledDate) / (1000 * 60 * 60 * 24 * 30)));
+      }
 
       baseValue = (monthlyBenefit * monthsDenied) + disabilityWages;
 
@@ -415,16 +459,20 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.medical_evidence === true) multiplier *= 1.2;
       if (answers.unable_work === true) multiplier *= 1.3;
 
+      // Still unable to work increases future damages potential
+      if (answers.still_unable_to_work === true) multiplier *= 1.3;
+
       baseValue = baseValue * multiplier;
 
       factors.push(`Monthly benefit: $${monthlyBenefit.toLocaleString()}`);
       factors.push(`Months denied: ${monthsDenied}`);
-      factors.push(`Lost wages: $${disabilityWages.toLocaleString()}`);
+      if (disabilityWages > 0) factors.push(`Lost wages: $${disabilityWages.toLocaleString()}`);
       if (answers.policy_type) factors.push(`Policy type: ${answers.policy_type}`);
       if (answers.permanent_disability) factors.push('Permanent disability');
       if (answers.appeal_denied) factors.push('Appeal was denied');
       if (answers.medical_evidence) factors.push('Strong medical evidence');
       if (answers.unable_work) factors.push('Unable to work');
+      if (answers.still_unable_to_work) factors.push('Still unable to work');
       break;
 
     case 'professional':
@@ -468,7 +516,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'civil_rights':
       const economicDamages = parseFloat(answers.economic_damages) || 0;
-      const civilWages = parseFloat(answers.lost_wages) || 0;
+      const civilAnnualIncome = parseFloat(answers.annual_income) || 0;
+      const civilWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+      const civilWages = (civilAnnualIncome / 52) * civilWeeksUnableToWork;
       const violationDuration = parseFloat(answers.duration_of_violation) || 12;
 
       baseValue = economicDamages + civilWages;
@@ -494,9 +544,6 @@ export const calculateValuation = (caseType, answers, state) => {
         multiplier *= emotionalDistressMultipliers[answers.emotional_distress] || 1.0;
       }
 
-      // Video evidence significantly strengthens case
-      if (answers.video_evidence === true) multiplier *= 1.4;
-
       // Physical injury increases damages
       if (answers.physical_injury === true) multiplier *= 1.5;
 
@@ -507,10 +554,11 @@ export const calculateValuation = (caseType, answers, state) => {
       baseValue = baseValue * multiplier;
 
       factors.push(`Economic damages: $${economicDamages.toLocaleString()}`);
-      factors.push(`Lost wages: $${civilWages.toLocaleString()}`);
+      if (civilAnnualIncome > 0 && civilWeeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${civilWages.toLocaleString()} (${civilWeeksUnableToWork} weeks)`);
+      }
       factors.push(`Duration: ${violationDuration} months`);
       if (answers.violation_type) factors.push(`Violation type: ${answers.violation_type}`);
-      if (answers.video_evidence) factors.push('Video evidence available');
       if (answers.physical_injury) factors.push('Physical injury present');
       if (answers.government_entity) factors.push('Government entity involved');
       if (answers.pattern_of_conduct) factors.push('Pattern of conduct');
@@ -519,7 +567,14 @@ export const calculateValuation = (caseType, answers, state) => {
     case 'ip':
       const revenueLost = parseFloat(answers.revenue_lost) || 0;
       const infringerProfits = parseFloat(answers.infringer_profits) || 0;
-      const yearsInfringement = parseFloat(answers.years_infringement) || 1;
+
+      // Calculate infringement duration from dates
+      const ipDiscoveryDate = answers.discovery_date ? new Date(answers.discovery_date) : null;
+      const ipInfringementStartDate = answers.infringement_start_date ? new Date(answers.infringement_start_date) : null;
+      let yearsInfringement = 1; // default
+      if (ipDiscoveryDate && ipInfringementStartDate) {
+        yearsInfringement = Math.max(0.5, (ipDiscoveryDate - ipInfringementStartDate) / (1000 * 60 * 60 * 24 * 365.25));
+      }
 
       baseValue = Math.max(revenueLost, infringerProfits);
 
@@ -545,7 +600,7 @@ export const calculateValuation = (caseType, answers, state) => {
 
       factors.push(`Revenue lost: $${revenueLost.toLocaleString()}`);
       factors.push(`Infringer profits: $${infringerProfits.toLocaleString()}`);
-      factors.push(`Years of infringement: ${yearsInfringement}`);
+      factors.push(`Years of infringement: ${yearsInfringement.toFixed(1)}`);
       if (answers.ip_type) factors.push(`IP type: ${answers.ip_type}`);
       if (answers.registered_ip) factors.push('IP is registered');
       if (answers.willful_infringement) factors.push('Willful infringement (treble damages)');

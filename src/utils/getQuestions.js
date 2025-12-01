@@ -21,42 +21,43 @@ export const getQuestions = (caseType) => {
       { id: 'incident_date', type: 'date' },
       { id: 'injury_severity', type: 'select', options: INJURY_SEVERITY_OPTIONS },
       { id: 'medical_bills', type: 'number' },
-      { id: 'lost_wages', type: 'number' },
+      { id: 'annual_income', type: 'number' },
+      { id: 'weeks_unable_to_work', type: 'number' },
       { id: 'fault_percentage', type: 'slider', min: 0, max: 100 },
       { id: 'permanent_injury', type: 'boolean' },
-      { id: 'police_report_filed', type: 'boolean' },
-      { id: 'witnesses_available', type: 'boolean' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'hospitalized_overnight', type: 'boolean' },
+      { id: 'still_in_treatment', type: 'boolean' },
+      { id: 'other_driver_insured', type: 'boolean' }
     ],
     medical: [
       { id: 'incident_date', type: 'date' },
       { id: 'injury_severity', type: 'select', options: INJURY_SEVERITY_OPTIONS },
       { id: 'medical_bills', type: 'number' },
-      { id: 'lost_wages', type: 'number' },
+      { id: 'annual_income', type: 'number' },
+      { id: 'weeks_unable_to_work', type: 'number' },
       { id: 'permanent_injury', type: 'boolean' },
-      { id: 'surgery_error', type: 'boolean' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'surgery_error', type: 'boolean' }
     ],
     premises: [
       { id: 'incident_date', type: 'date' },
       { id: 'hazard_type', type: 'select', options: HAZARD_TYPE_OPTIONS },
       { id: 'injury_severity', type: 'select', options: INJURY_SEVERITY_OPTIONS },
       { id: 'medical_bills', type: 'number' },
-      { id: 'lost_wages', type: 'number' },
+      { id: 'annual_income', type: 'number' },
+      { id: 'weeks_unable_to_work', type: 'number' },
       { id: 'permanent_injury', type: 'boolean' },
       { id: 'commercial_property', type: 'boolean' },
-      { id: 'property_owner_warned', type: 'boolean' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'property_owner_warned', type: 'boolean' }
     ],
     product: [
       { id: 'incident_date', type: 'date' },
       { id: 'product_name', type: 'text' },
       { id: 'injury_severity', type: 'select', options: INJURY_SEVERITY_OPTIONS },
       { id: 'medical_bills', type: 'number' },
-      { id: 'lost_wages', type: 'number' },
+      { id: 'annual_income', type: 'number' },
+      { id: 'weeks_unable_to_work', type: 'number' },
       { id: 'permanent_injury', type: 'boolean' },
-      { id: 'product_recalled', type: 'boolean' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'product_recalled', type: 'boolean' }
     ],
     wrongful_death: [
       { id: 'incident_date', type: 'date' },
@@ -66,8 +67,7 @@ export const getQuestions = (caseType) => {
       { id: 'relationship_to_victim', type: 'select', options: RELATIONSHIP_OPTIONS },
       { id: 'conscious_pain_suffering', type: 'boolean' },
       { id: 'medical_bills', type: 'number' },
-      { id: 'funeral_costs', type: 'number' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'funeral_costs', type: 'number' }
     ],
     dog_bite: [
       { id: 'incident_date', type: 'date' },
@@ -77,16 +77,16 @@ export const getQuestions = (caseType) => {
       { id: 'scarring', type: 'boolean' },
       { id: 'child_victim', type: 'boolean' },
       { id: 'dog_prior_aggression', type: 'boolean' },
-      { id: 'facial_injuries', type: 'boolean' },
-      { id: 'insurance_coverage', type: 'number' }
+      { id: 'facial_injuries', type: 'boolean' }
     ],
     wrongful_term: [
       { id: 'incident_date', type: 'date' },
       { id: 'annual_salary', type: 'number' },
-      { id: 'months_unemployed', type: 'number' },
       { id: 'lost_benefits', type: 'number' },
       { id: 'years_employed', type: 'number' },
       { id: 'discrimination', type: 'boolean' },
+      { id: 'filed_eeoc_complaint', type: 'boolean' },
+      { id: 'have_termination_docs', type: 'boolean' },
       { id: 'positive_performance_reviews', type: 'boolean' },
       { id: 'position_filled', type: 'boolean' },
       { id: 'emotional_distress', type: 'select', options: EMOTIONAL_DISTRESS_OPTIONS }
@@ -111,26 +111,27 @@ export const getQuestions = (caseType) => {
       { id: 'regulatory_violations', type: 'boolean' }
     ],
     insurance: [
+      { id: 'claim_filed_date', type: 'date' },
       { id: 'incident_date', type: 'date' },
       { id: 'insurance_type', type: 'select', options: INSURANCE_TYPE_OPTIONS },
       { id: 'claim_amount', type: 'number' },
       { id: 'policy_limits', type: 'number' },
-      { id: 'months_delayed', type: 'number' },
       { id: 'claim_denied', type: 'boolean' },
       { id: 'multiple_denials', type: 'boolean' },
       { id: 'written_denials', type: 'boolean' },
       { id: 'emotional_distress', type: 'select', options: EMOTIONAL_DISTRESS_OPTIONS }
     ],
     disability: [
-      { id: 'incident_date', type: 'date' },
+      { id: 'claim_filed_date', type: 'date' },
+      { id: 'claim_denied_date', type: 'date' },
       { id: 'policy_type', type: 'select', options: POLICY_TYPE_OPTIONS },
       { id: 'monthly_benefit', type: 'number' },
-      { id: 'months_denied', type: 'number' },
       { id: 'lost_wages', type: 'number' },
       { id: 'permanent_disability', type: 'boolean' },
       { id: 'appeal_denied', type: 'boolean' },
       { id: 'medical_evidence', type: 'boolean' },
-      { id: 'unable_work', type: 'boolean' }
+      { id: 'unable_work', type: 'boolean' },
+      { id: 'still_unable_to_work', type: 'boolean' }
     ],
     professional: [
       { id: 'incident_date', type: 'date' },
@@ -146,20 +147,20 @@ export const getQuestions = (caseType) => {
       { id: 'incident_date', type: 'date' },
       { id: 'violation_type', type: 'select', options: VIOLATION_TYPE_OPTIONS },
       { id: 'economic_damages', type: 'number' },
-      { id: 'lost_wages', type: 'number' },
+      { id: 'annual_income', type: 'number' },
+      { id: 'weeks_unable_to_work', type: 'number' },
       { id: 'duration_of_violation', type: 'number' },
       { id: 'government_entity', type: 'boolean' },
-      { id: 'video_evidence', type: 'boolean' },
       { id: 'physical_injury', type: 'boolean' },
       { id: 'pattern_of_conduct', type: 'boolean' },
       { id: 'emotional_distress', type: 'select', options: EMOTIONAL_DISTRESS_OPTIONS }
     ],
     ip: [
-      { id: 'incident_date', type: 'date' },
+      { id: 'discovery_date', type: 'date' },
+      { id: 'infringement_start_date', type: 'date' },
       { id: 'ip_type', type: 'select', options: IP_TYPE_OPTIONS },
       { id: 'revenue_lost', type: 'number' },
       { id: 'infringer_profits', type: 'number' },
-      { id: 'years_infringement', type: 'number' },
       { id: 'registered_ip', type: 'boolean' },
       { id: 'willful_infringement', type: 'boolean' },
       { id: 'ongoing_infringement', type: 'boolean' }
