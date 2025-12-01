@@ -7,8 +7,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const rootElement = document.getElementById('root');
+const app = (
   <React.StrictMode>
     <HelmetProvider>
       <ErrorBoundary>
@@ -17,6 +17,15 @@ root.render(
     </HelmetProvider>
   </React.StrictMode>
 );
+
+// Check if page was prerendered (by Netlify or other service)
+// If root has children, use hydrate; otherwise use render
+if (rootElement.hasChildNodes()) {
+  ReactDOM.hydrateRoot(rootElement, app);
+} else {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(app);
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
