@@ -27,15 +27,15 @@ export default function BlogPostPage() {
         setLoading(true);
         const [postData, recentData] = await Promise.all([
           getPostBySlug(slug),
-          getRecentPosts(3)
+          getRecentPosts(6) // Fetch 6 to have 5 after filtering out current post
         ]);
 
         if (!postData) {
           setError('Blog post not found');
         } else {
           setPost(postData);
-          // Filter out current post from recent posts
-          setRecentPosts(recentData.filter(p => p.slug.current !== slug));
+          // Filter out current post from recent posts, limit to 5
+          setRecentPosts(recentData.filter(p => p.slug.current !== slug).slice(0, 5));
         }
         setError(null);
       } catch (err) {
@@ -291,36 +291,36 @@ export default function BlogPostPage() {
           </div>
         </article>
 
-        {/* Related Posts */}
+        {/* Previous Posts */}
         {recentPosts.length > 0 && (
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder">
-            <h2 className="text-3xl font-bold text-text mb-8">More Articles</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder">
+            <h2 className="text-3xl font-bold text-text mb-8">Previous Posts</h2>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {recentPosts.map(relatedPost => (
                 <Link
                   key={relatedPost._id}
                   to={`/blog/${relatedPost.slug.current}`}
-                  className="group bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-2 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
+                  className="group bg-card backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
                 >
                   {relatedPost.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">
                       <img
-                        srcSet={generateSrcSet(relatedPost.mainImage, [300, 400, 500], 9/16)}
-                        sizes="(max-width: 768px) 100vw, 400px"
-                        src={urlFor(relatedPost.mainImage).width(400).height(225).format('webp').url()}
+                        srcSet={generateSrcSet(relatedPost.mainImage, [200, 300, 400], 9/16)}
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                        src={urlFor(relatedPost.mainImage).width(300).height(169).format('webp').url()}
                         alt={relatedPost.imageAlt || relatedPost.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"
-                        width="400"
-                        height="225"
+                        width="300"
+                        height="169"
                       />
                     </div>
                   )}
-                  <div className="p-4">
-                    <h3 className="font-bold text-text mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                  <div className="p-3">
+                    <h3 className="font-semibold text-sm text-text mb-1 group-hover:text-accent transition-colors line-clamp-2">
                       {relatedPost.title}
                     </h3>
-                    <p className="text-sm text-textMuted line-clamp-2">
+                    <p className="text-xs text-textMuted line-clamp-2">
                       {relatedPost.excerpt}
                     </p>
                   </div>
