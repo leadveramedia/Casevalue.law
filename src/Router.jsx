@@ -4,9 +4,10 @@
 // This component handles routing between the calculator and blog
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App.jsx';
 
-// Lazy load blog pages to avoid loading Sanity client on calculator pages
+// Lazy load all page components for optimal code splitting
+// This ensures /blog visitors don't download calculator code and vice versa
+const App = lazy(() => import('./App.jsx'));
 const BlogPage = lazy(() => import('./components/pages/BlogPage'));
 const BlogPostPage = lazy(() => import('./components/pages/BlogPostPage'));
 
@@ -21,8 +22,15 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Main calculator app */}
-        <Route path="/" element={<App />} />
+        {/* Main calculator app - wrapped in Suspense for lazy loading */}
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <App />
+            </Suspense>
+          }
+        />
 
         {/* Blog routes - wrapped in Suspense for lazy loading */}
         <Route

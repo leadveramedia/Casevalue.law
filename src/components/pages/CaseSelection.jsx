@@ -2,10 +2,11 @@
  * CaseSelection Component
  * Displays a grid of case types for the user to select from
  */
+import { memo } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
+export default memo(function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">
       {/* Back to Home Button */}
@@ -65,4 +66,4 @@ export default function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
       </div>
     </div>
   );
-}
+});

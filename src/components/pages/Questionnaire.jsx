@@ -2,10 +2,12 @@
  * Questionnaire Component
  * Handles the dynamic questionnaire with multiple input types
  */
+import { memo } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
+import { QUESTION_PLACEHOLDERS, QUESTION_HELP_TEXT } from '../../constants/questionConfig';
 
-export default function Questionnaire({
+export default memo(function Questionnaire({
   t,
   q,
   qIdx,
@@ -130,7 +132,7 @@ export default function Questionnaire({
               className={SHARED_STYLES.dateInput}
             />
             <p className="mt-2 text-sm text-text/60">
-              {q.id === 'incident_date' ? 'Select the date when the incident occurred. This helps determine if your case is within the statute of limitations.' : 'Select the date'}
+              {QUESTION_HELP_TEXT[q.id] || 'Select the date'}
             </p>
           </div>
         )}
@@ -215,49 +217,13 @@ export default function Questionnaire({
                 }}
                 style={SHARED_STYLES.formInputBg}
                 className={SHARED_STYLES.numberInput(!NON_CURRENCY_NUMBER_FIELDS.has(q.id))}
-                placeholder={
-                  q.id === 'medical_bills' ? '50000' :
-                  q.id === 'lost_wages' ? '10000' :
-                  q.id === 'insurance_coverage' ? '100000' :
-                  q.id === 'months_unemployed' ? '6' :
-                  q.id === 'months_unpaid' ? '12' :
-                  q.id === 'months_delayed' ? '3' :
-                  q.id === 'months_denied' ? '12' :
-                  q.id === 'years_employed' ? '5' :
-                  q.id === 'years_relationship' ? '3' :
-                  q.id === 'years_life_expectancy' ? '20' :
-                  q.id === 'years_infringement' ? '2' :
-                  q.id === 'num_dependents' ? '2' :
-                  q.id === 'num_employees_affected' ? '10' :
-                  q.id === 'num_class_members' ? '100' :
-                  q.id === 'duration_of_harm' ? '12' :
-                  q.id === 'duration_of_violation' ? '6' :
-                  q.id === 'victim_age' ? '35' :
-                  NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter number' : t.enterAmount
-                }
+                placeholder={QUESTION_PLACEHOLDERS[q.id] || (NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter number' : t.enterAmount)}
                 pattern="[0-9]*\.?[0-9]*"
                 aria-label={`Enter ${NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'a number' : 'an amount'}`}
               />
             </div>
             <p className="mt-2 text-sm text-text/60">
-              {q.id === 'medical_bills' ? 'Include hospital bills, doctor visits, medication, physical therapy, etc.' :
-               q.id === 'lost_wages' ? 'Include wages lost from missing work or reduced hours' :
-               q.id === 'insurance_coverage' ? 'If you know their insurance policy limits, enter it here' :
-               q.id === 'months_unemployed' ? 'Enter the number of months you were unemployed after termination' :
-               q.id === 'months_unpaid' ? 'Enter the number of months wages were unpaid' :
-               q.id === 'months_delayed' ? 'Enter the number of months the insurance payment was delayed' :
-               q.id === 'months_denied' ? 'Enter the number of months benefits were denied' :
-               q.id === 'years_employed' ? 'How many years were you employed at this company?' :
-               q.id === 'years_relationship' ? 'How long was your professional relationship (in years)?' :
-               q.id === 'years_life_expectancy' ? "Estimate the victim's remaining life expectancy in years" :
-               q.id === 'years_infringement' ? 'For how many years did the infringement occur?' :
-               q.id === 'num_dependents' ? 'How many people financially depended on the victim?' :
-               q.id === 'num_employees_affected' ? 'How many employees were affected by this issue?' :
-               q.id === 'num_class_members' ? 'Estimated number of people in the class action' :
-               q.id === 'duration_of_harm' ? 'For how many months did the harmful conduct continue?' :
-               q.id === 'duration_of_violation' ? 'For how many months did the violation continue?' :
-               q.id === 'victim_age' ? 'How old was the victim at the time of death?' :
-               NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter the number' : 'Enter the total amount in dollars'}
+              {QUESTION_HELP_TEXT[q.id] || (NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter the number' : 'Enter the total amount in dollars')}
             </p>
             {shouldShowDontKnow(q) && (
               <button
@@ -283,14 +249,10 @@ export default function Questionnaire({
               onChange={(e) => onUpdateAnswer(q.id, e.target.value)}
               style={SHARED_STYLES.formInputBg}
               className={SHARED_STYLES.textInput}
-              placeholder={
-                q.id === 'product_name' ? 'e.g., iPhone 12 Pro, Toyota Camry, etc.' :
-                'Enter text'
-              }
+              placeholder={QUESTION_PLACEHOLDERS[q.id] || 'Enter text'}
             />
             <p className="mt-2 text-sm text-text/60">
-              {q.id === 'product_name' ? 'Enter the specific name or model of the product that caused the injury' :
-               'Enter the requested information'}
+              {QUESTION_HELP_TEXT[q.id] || 'Enter the requested information'}
             </p>
           </div>
         )}
@@ -417,4 +379,4 @@ export default function Questionnaire({
       </div>
     </div>
   );
-}
+});

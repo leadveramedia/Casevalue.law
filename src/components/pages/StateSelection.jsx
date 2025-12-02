@@ -2,9 +2,10 @@
  * StateSelection Component
  * Allows user to select the state where the incident occurred
  */
+import { memo } from 'react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default function StateSelection({
+export default memo(function StateSelection({
   t,
   usStates,
   selectedState,
@@ -67,4 +68,4 @@ export default function StateSelection({
       </div>
     </div>
   );
-}
+});

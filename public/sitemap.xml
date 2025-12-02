@@ -4,7 +4,7 @@
 
   <url>
     <loc>https://casevalue.law/</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/"/>
@@ -15,7 +15,7 @@
 
   <url>
     <loc>https://casevalue.law/blog</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/blog"/>
@@ -41,6 +41,13 @@
   <url>
     <loc>https://casevalue.law/blog/gap-in-treatment-lowers-case-value</loc>
     <lastmod>2025-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://casevalue.law/blog/californias-new-30k-60k-insurance-minimums-2025</loc>
+    <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

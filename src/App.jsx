@@ -729,12 +729,9 @@ export default function CaseValueWebsite() {
             lang={lang}
             onAccept={() => {
               setShowCookieConsent(false);
-              // Initialize analytics if needed
-              console.log('Cookie consent accepted');
             }}
             onDecline={() => {
               setShowCookieConsent(false);
-              console.log('Cookie consent declined');
             }}
           />
         </Suspense>
@@ -794,82 +791,18 @@ export default function CaseValueWebsite() {
         }}
       />
 
-      {/* ========================================================================
-          CUSTOM STYLES
-      ======================================================================== */}
+      {/* Shake animation for error states - used in ContactForm */}
       <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           25% { transform: translateX(-5px); }
           75% { transform: translateX(5px); }
         }
-
-        .animate-fade-in {
-          animation: fade-in 0.5s ease-out;
-        }
-
         .animate-shake {
           animation: shake 0.3s ease-in-out;
         }
-
-        /* Respect reduced motion preferences */
         @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-          }
-
-          .animate-fade-in {
-            animation: none;
-            opacity: 1;
-            transform: translateY(0);
-          }
-
-          .animate-shake {
-            animation: none;
-          }
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-          appearance: none;
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
-        }
-
-        input[type="range"]::-moz-range-thumb {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
-          border: none;
-        }
-
-        /* Ensure language buttons are visible on desktop */
-        @media (min-width: 768px) {
-          nav .hidden.md\\:flex {
-            display: flex !important;
-          }
+          .animate-shake { animation: none; }
         }
       `}</style>
     </div>

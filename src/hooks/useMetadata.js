@@ -188,6 +188,14 @@ export function generateStructuredData(selectedCase, t) {
           "logo": "https://casevalue.law/casevalue-preview.webp",
           "image": "https://casevalue.law/casevalue-preview.webp",
           "description": "Free legal case value calculator and legal information resource.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1401 21st ST STE R",
+            "addressLocality": "Sacramento",
+            "addressRegion": "CA",
+            "postalCode": "95811",
+            "addressCountry": "USA"
+          },
           "areaServed": {
             "@type": "Country",
             "name": "United States"

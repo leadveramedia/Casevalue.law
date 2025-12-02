@@ -125,13 +125,13 @@ export default function BlogPage() {
           {/* Blog Posts Masonry Grid */}
           {!loading && !error && filteredPosts.length > 0 && (
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-              {filteredPosts.map(post => (
+              {filteredPosts.map((post, index) => (
                 <Link
                   key={post._id}
                   to={`/blog/${post.slug.current}`}
                   className="group block break-inside-avoid mb-6 bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
                 >
-                  {/* Post Image */}
+                  {/* Post Image - first image is LCP, load eagerly with high priority */}
                   {post.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">
                       <img
@@ -140,7 +140,8 @@ export default function BlogPage() {
                         src={urlFor(post.mainImage).width(600).height(338).format('webp').url()}
                         alt={post.imageAlt || post.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : undefined}
                         width="600"
                         height="338"
                       />
