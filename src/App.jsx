@@ -166,6 +166,7 @@ export default function CaseValueWebsite() {
       // Show cookie consent banner after a delay if no consent found
       setTimeout(() => setShowCookieConsent(true), 2000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Scroll to top when navigating away from Privacy/Terms pages
