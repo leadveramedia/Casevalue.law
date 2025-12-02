@@ -7,6 +7,7 @@ import { useHistoryManagement } from './hooks/useHistoryManagement';
 import { useFormValidation } from './hooks/useFormValidation';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useMetadata } from './hooks/useMetadata';
+import { useModals } from './hooks/useModals';
 import {
   getCalculateValuation,
   getGetQuestions,
@@ -55,17 +56,28 @@ export default function CaseValueWebsite() {
   const [valuation, setValuation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [showPrivacyPage, setShowPrivacyPage] = useState(false);
-  const [showTermsPage, setShowTermsPage] = useState(false);
-  const [showCookieConsent, setShowCookieConsent] = useState(false);
-  const [showMissingDataWarning, setShowMissingDataWarning] = useState(false);
-  const [hasShownWarning, setHasShownWarning] = useState(false);
+  // Modal state management (centralized hook)
+  const {
+    showPrivacy,
+    showPrivacyPage,
+    showTermsPage,
+    showCookieConsent,
+    showMissingDataWarning,
+    showHelpModal,
+    helpModalContent,
+    setShowPrivacy,
+    setShowPrivacyPage,
+    setShowTermsPage,
+    setShowCookieConsent,
+    setShowMissingDataWarning,
+    setShowHelpModal,
+    openHelpModal,
+    openMissingDataWarning,
+  } = useModals();
+
   const [hasAnimatedStats, setHasAnimatedStats] = useState(false);
   const [casesAnalyzedCount, setCasesAnalyzedCount] = useState(15000);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
-  const [showHelpModal, setShowHelpModal] = useState(false);
-  const [helpModalContent, setHelpModalContent] = useState({ title: '', content: '' });
   const [hasHelpForQuestion, setHasHelpForQuestion] = useState({});
   const howItWorksRef = useRef(null);
   const primaryCTARef = useRef(null);
@@ -139,13 +151,9 @@ export default function CaseValueWebsite() {
     const explanations = await getQuestionExplanations(lang);
     const explanation = explanations[questionId];
     if (explanation) {
-      setHelpModalContent({
-        title: explanation.title,
-        content: explanation.getContent(selectedState)
-      });
-      openModal(setShowHelpModal, true);
+      openHelpModal(explanation.title, explanation.getContent(selectedState));
     }
-  }, [selectedState, lang, openModal]);
+  }, [selectedState, lang, openHelpModal]);
 
   // ============================================================================
   // EFFECTS
@@ -346,11 +354,11 @@ export default function CaseValueWebsite() {
         return { ...prev, [questionId]: 'unknown' };
       }
     });
-    if (!hasShownWarning && answers[questionId] !== 'unknown') {
-      openModal(setShowMissingDataWarning, true);
-      setHasShownWarning(true);
+    // Show warning on first "don't know" click (openMissingDataWarning handles the hasShownWarning check)
+    if (answers[questionId] !== 'unknown') {
+      openMissingDataWarning();
     }
-  }, [hasShownWarning, answers, openModal]);
+  }, [answers, openMissingDataWarning]);
 
   const handleCaseSelect = useCallback((caseId) => {
     setSelectedCase(caseId);

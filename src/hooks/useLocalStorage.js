@@ -31,6 +31,12 @@ export function useLocalStorage(state, setters) {
 
   // Load saved progress from localStorage on mount
   useEffect(() => {
+    // Skip restoration if URL has a hash (deep linking takes priority)
+    const hash = window.location.hash;
+    if (hash && hash !== '#') {
+      return; // Let useHistoryManagement handle hash-based navigation
+    }
+
     try {
       const savedProgress = localStorage.getItem('casevalue_progress');
       if (savedProgress) {
