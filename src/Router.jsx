@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 const App = lazy(() => import('./App.jsx'));
 const BlogPage = lazy(() => import('./components/pages/BlogPage'));
 const BlogPostPage = lazy(() => import('./components/pages/BlogPostPage'));
+const NotFoundPage = lazy(() => import('./components/pages/NotFoundPage'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -46,6 +47,16 @@ export default function Router() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <BlogPostPage />
+            </Suspense>
+          }
+        />
+
+        {/* 404 Catch-all route - must be last */}
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <NotFoundPage />
             </Suspense>
           }
         />

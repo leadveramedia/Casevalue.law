@@ -170,3 +170,41 @@ export const getRecentPosts = async (limit = 5) => {
 
   return await client.fetch(query);
 };
+
+/**
+ * Fetch related posts by category
+ * @param {string} currentSlug - Current post slug to exclude
+ * @param {Array} categories - Array of category strings
+ * @param {number} limit - Number of posts to return
+ */
+export const getRelatedPosts = async (currentSlug, categories = [], limit = 4) => {
+  // If no categories, fallback to recent posts
+  if (!categories || categories.length === 0) {
+    const posts = await getRecentPosts(limit + 1);
+    return posts.filter(p => p.slug.current !== currentSlug).slice(0, limit);
+  }
+
+  // Find posts with matching categories, ordered by match score
+  const query = `*[_type == "blogPost" && count((categories)[@ in $categories]) > 0 && slug.current != $currentSlug] | order(publishedAt desc)[0...${limit * 2}] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    publishedAt,
+    mainImage,
+    author,
+    categories,
+    "imageAlt": mainImage.alt,
+    "matchScore": count((categories)[@ in $categories])
+  } | order(matchScore desc, publishedAt desc)[0...${limit}]`;
+
+  const posts = await client.fetch(query, { categories, currentSlug });
+
+  // If no matches found, fallback to recent posts
+  if (!posts || posts.length === 0) {
+    const recentPosts = await getRecentPosts(limit + 1);
+    return recentPosts.filter(p => p.slug.current !== currentSlug).slice(0, limit);
+  }
+
+  return posts;
+};

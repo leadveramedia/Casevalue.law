@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0f1e" />
+  <title>404 - Page Not Found | CaseValue.law</title>
+  <meta name="description" content="The page you're looking for doesn't exist." />
+  <meta name="robots" content="noindex, follow" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #0a0f1e 0%, #1a2332 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      background: rgba(26, 35, 50, 0.8);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+    }
+
+    .error-code {
+      font-size: 96px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #d4af37 0%, #f4e5a1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 16px;
+      color: #f9fafb;
+    }
+
+    p {
+      font-size: 18px;
+      color: #9ca3af;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #d4af37 0%, #f4e5a1 100%);
+      color: #0a0f1e;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: opacity 0.3s;
+      margin: 8px;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .redirecting {
+      margin-top: 24px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="error-code">404</div>
+    <h1>Page Not Found</h1>
+    <p>Sorry, we couldn't find the page you're looking for. Redirecting you to our app...</p>
+    <div>
+      <a href="/" class="button">Go to Homepage</a>
+      <a href="/blog" class="button">View Blog</a>
+    </div>
+    <p class="redirecting">Redirecting in <span id="countdown">3</span> seconds...</p>
+  </div>
+
+  <script>
+    // Redirect to React app's 404 route after 3 seconds
+    let count = 3;
+    const countdownElement = document.getElementById('countdown');
+
+    const interval = setInterval(() => {
+      count--;
+      countdownElement.textContent = count;
+
+      if (count <= 0) {
+        clearInterval(interval);
+        // Redirect to React app, which will show the NotFoundPage
+        window.location.href = window.location.pathname;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -5,9 +5,33 @@
   publish = "build"
   command = "npm run build"
 
-# Note: Prerendering is enabled in Netlify UI (Site Settings > Post Processing > Prerendering)
-# Netlify will automatically prerender all pages at deploy time for better SEO
+# ============================================================================
+# PRERENDERING CONFIGURATION
+# ============================================================================
+# Prerendering is enabled in Netlify UI (Site Settings > Post Processing > Prerendering)
+# Netlify automatically prerenders all pages at deploy time for better SEO
 # No plugin configuration needed - it's built into Netlify
+#
+# How it works:
+# 1. Netlify crawls your site after build completes
+# 2. Generates static HTML for each page
+# 3. Serves static HTML to search engine crawlers
+# 4. React hydrates the page for interactivity
+#
+# How to verify prerendering works:
+# 1. Check build logs for "Prerendering" messages after deploy
+# 2. Test with curl: curl -A "googlebot" https://casevalue.law/blog
+#    - Should return full HTML content (not just React root div)
+# 3. View page source in browser: Right-click → View Page Source
+#    - Look for blog post content in HTML (not loaded via JS)
+# 4. Run Lighthouse: Check "Content is visible without JavaScript"
+#
+# Enable/disable prerendering:
+# - Go to: Netlify Dashboard > Site Settings > Post Processing > Prerendering
+# - Toggle "Prerender pages with JavaScript"
+#
+# The app uses hydrateRoot() in src/index.js to handle prerendered content
+# ============================================================================
 
 # Headers for better security and caching
 [[headers]]
@@ -39,3 +63,21 @@
   for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# ============================================================================
+# 404 HANDLING
+# ============================================================================
+# Static 404.html is served with proper 404 status code for missing files
+# React Router handles in-app 404s (e.g., /blog/invalid-slug)
+# The _redirects file provides SPA fallback with Status 200 (rewrite, not redirect)
+#
+# How it works:
+# 1. Server-level 404s (missing files) → public/404.html with 404 status
+# 2. In-app 404s (invalid routes) → NotFoundPage component via React Router
+# 3. Valid routes → index.html → React app hydrates
+#
+# Testing 404 handling:
+# 1. Test missing file: https://casevalue.law/nonexistent.jpg (should show 404.html)
+# 2. Test invalid route: https://casevalue.law/invalid-page (should show NotFoundPage)
+# 3. Test invalid blog post: https://casevalue.law/blog/invalid-slug (should show NotFoundPage)
+# ============================================================================

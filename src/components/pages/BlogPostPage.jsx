@@ -5,14 +5,16 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { PortableText } from '@portabletext/react';
-import { getPostBySlug, getRecentPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
+import { getPostBySlug, getRecentPosts, getRelatedPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowLeft, Loader, Tag } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import Breadcrumbs from '../Breadcrumbs';
 
 export default function BlogPostPage() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [recentPosts, setRecentPosts] = useState([]);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,18 +27,24 @@ export default function BlogPostPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [postData, recentData] = await Promise.all([
-          getPostBySlug(slug),
-          getRecentPosts(6) // Fetch 6 to have 5 after filtering out current post
-        ]);
+        const postData = await getPostBySlug(slug);
 
         if (!postData) {
           setError('Blog post not found');
-        } else {
-          setPost(postData);
-          // Filter out current post from recent posts, limit to 5
-          setRecentPosts(recentData.filter(p => p.slug.current !== slug).slice(0, 5));
+          setLoading(false);
+          return;
         }
+
+        // Fetch related and recent posts in parallel
+        const [relatedData, recentData] = await Promise.all([
+          getRelatedPosts(slug, postData.categories || [], 4),
+          getRecentPosts(6) // Fetch 6 to have 5 after filtering out current post
+        ]);
+
+        setPost(postData);
+        setRelatedPosts(relatedData);
+        // Filter out current post from recent posts, limit to 5
+        setRecentPosts(recentData.filter(p => p.slug.current !== slug).slice(0, 5));
         setError(null);
       } catch (err) {
         console.error('Error fetching post:', err);
@@ -188,6 +196,34 @@ export default function BlogPostPage() {
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={post.publishedAt} />
 
+        {/* Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://casevalue.law"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://casevalue.law/blog"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": `https://casevalue.law/blog/${slug}`
+              }
+            ]
+          })}
+        </script>
+
         {/* Preload LCP image for faster loading */}
         {post.mainImage && (
           <link
@@ -215,6 +251,14 @@ export default function BlogPostPage() {
 
         {/* Article Container */}
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Blog', href: '/blog' },
+              { label: post.title, href: null }
+            ]}
+          />
           {/* Hero Image */}
           {post.mainImage && (
             <div className="aspect-video overflow-hidden rounded-3xl mb-8 shadow-card border-2 border-cardBorder">
@@ -290,6 +334,49 @@ export default function BlogPostPage() {
             </p>
           </div>
         </article>
+
+        {/* Related Posts */}
+        {relatedPosts.length > 0 && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder">
+            <h2 className="text-3xl font-bold text-text mb-8">Related Articles</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedPosts.map(relatedPost => (
+                <Link
+                  key={relatedPost._id}
+                  to={`/blog/${relatedPost.slug.current}`}
+                  className="group bg-card backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
+                >
+                  {relatedPost.mainImage && (
+                    <div className="aspect-video overflow-hidden bg-primary">
+                      <img
+                        srcSet={generateSrcSet(relatedPost.mainImage, [400, 600, 800], 9/16)}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        src={urlFor(relatedPost.mainImage).width(600).height(338).format('webp').url()}
+                        alt={relatedPost.imageAlt || relatedPost.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        width="600"
+                        height="338"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg text-text mb-2 group-hover:text-accent transition-colors line-clamp-2">
+                      {relatedPost.title}
+                    </h3>
+                    <p className="text-sm text-textMuted line-clamp-2 mb-3">
+                      {relatedPost.excerpt}
+                    </p>
+                    <div className="flex items-center gap-2 text-xs text-textMuted">
+                      <Calendar className="w-3 h-3" />
+                      <span>{new Date(relatedPost.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Previous Posts */}
         {recentPosts.length > 0 && (

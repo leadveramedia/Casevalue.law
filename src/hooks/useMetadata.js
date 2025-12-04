@@ -130,7 +130,8 @@ export function generateStructuredData(selectedCase, t) {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["Organization", "LegalService", "LocalBusiness"],
+        "@id": "https://casevalue.law/#organization",
         "name": "CaseValue.law",
         "url": "https://casevalue.law",
         "logo": {
@@ -148,6 +149,28 @@ export function generateStructuredData(selectedCase, t) {
           "postalCode": "95811",
           "addressCountry": "US"
         },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "38.5816",
+          "longitude": "-121.4944"
+        },
+        "areaServed": [
+          { "@type": "State", "name": "California" },
+          { "@type": "State", "name": "Texas" },
+          { "@type": "State", "name": "New York" },
+          { "@type": "State", "name": "Florida" },
+          { "@type": "State", "name": "Illinois" },
+          { "@type": "State", "name": "Pennsylvania" },
+          { "@type": "Country", "name": "United States" }
+        ],
+        "serviceType": [
+          "Personal Injury Law",
+          "Medical Malpractice",
+          "Employment Law",
+          "Intellectual Property Law",
+          "Case Valuation Services"
+        ],
+        "priceRange": "Free",
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
@@ -156,6 +179,17 @@ export function generateStructuredData(selectedCase, t) {
         },
         "sameAs": [
           "https://twitter.com/casevalue"
+        ],
+        "knowsAbout": [
+          "Personal Injury Law",
+          "Medical Malpractice",
+          "Car Accident Claims",
+          "Wrongful Death",
+          "Employment Discrimination",
+          "Wrongful Termination",
+          "Patent Infringement",
+          "Copyright Infringement",
+          "Trademark Infringement"
         ]
       },
       {
@@ -194,7 +228,7 @@ export function generateStructuredData(selectedCase, t) {
             "addressLocality": "Sacramento",
             "addressRegion": "CA",
             "postalCode": "95811",
-            "addressCountry": "USA"
+            "addressCountry": "US"
           },
           "areaServed": {
             "@type": "Country",

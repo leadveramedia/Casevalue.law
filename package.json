@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "DISABLE_ESLINT_PLUGIN=true craco start",
+    "start": "craco start",
     "build": "node scripts/generate-sitemap.js && craco build && node scripts/optimize-html.js",
     "build:base": "craco build",
     "sitemap": "node scripts/generate-sitemap.js",
