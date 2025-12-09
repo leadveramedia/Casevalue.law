@@ -2,12 +2,67 @@
  * Questionnaire Component
  * Handles the dynamic questionnaire with multiple input types
  */
-import { memo } from 'react';
-import { HelpCircle, Check } from 'lucide-react';
+import { memo, useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { HelpCircle, Check, Calendar } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 import { QUESTION_PLACEHOLDERS, QUESTION_HELP_TEXT } from '../../constants/questionConfig';
 
-export default memo(function Questionnaire({
+/**
+ * DateInputField - Custom date input with reliable calendar button
+ * Fixes issues with native date picker icon being finicky
+ */
+function DateInputField({ value, onChange, helpText }) {
+  const dateInputRef = useRef(null);
+
+  const openDatePicker = useCallback(() => {
+    const input = dateInputRef.current;
+    if (input) {
+      // Focus first, then try to show picker
+      input.focus();
+      // Use showPicker API if available (modern browsers)
+      if (typeof input.showPicker === 'function') {
+        try {
+          input.showPicker();
+        } catch (e) {
+          // Fallback: just focus the input
+          input.click();
+        }
+      }
+    }
+  }, []);
+
+  return (
+    <div>
+      <div className="relative">
+        <input
+          ref={dateInputRef}
+          type="date"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          min="1900-01-01"
+          max={new Date().toISOString().split('T')[0]}
+          style={SHARED_STYLES.formInputBg}
+          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer"
+          onClick={openDatePicker}
+        />
+        <button
+          type="button"
+          onClick={openDatePicker}
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
+          aria-label="Open date picker"
+        >
+          <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" />
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-text/60">
+        {helpText}
+      </p>
+    </div>
+  );
+}
+
+function Questionnaire({
   t,
   q,
   qIdx,
@@ -106,35 +161,23 @@ export default memo(function Questionnaire({
 
         {/* Date Input */}
         {q.type === 'date' && (
-          <div>
-            <input
-              type="date"
-              value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
-              onChange={(e) => {
-                const newValue = e.target.value;
-                if (newValue !== '') {
-                  const enteredDate = new Date(newValue);
-                  const minDate = new Date('1900-01-01');
-                  const maxDate = new Date();
+          <DateInputField
+            value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
+            onChange={(newValue) => {
+              if (newValue !== '') {
+                const enteredDate = new Date(newValue);
+                const minDate = new Date('1900-01-01');
+                const maxDate = new Date();
 
-                  if (enteredDate >= minDate && enteredDate <= maxDate) {
-                    onUpdateAnswer(q.id, newValue);
-                  } else {
-                    e.target.value = '';
-                  }
-                } else {
+                if (enteredDate >= minDate && enteredDate <= maxDate) {
                   onUpdateAnswer(q.id, newValue);
                 }
-              }}
-              min="1900-01-01"
-              max={new Date().toISOString().split('T')[0]}
-              style={SHARED_STYLES.formInputBg}
-              className={SHARED_STYLES.dateInput}
-            />
-            <p className="mt-2 text-sm text-text/60">
-              {QUESTION_HELP_TEXT[q.id] || 'Select the date'}
-            </p>
-          </div>
+              } else {
+                onUpdateAnswer(q.id, newValue);
+              }
+            }}
+            helpText={QUESTION_HELP_TEXT[q.id] || 'Select the date'}
+          />
         )}
 
         {/* Number Input */}
@@ -379,4 +422,35 @@ export default memo(function Questionnaire({
       </div>
     </div>
   );
-});
+}
+
+DateInputField.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  helpText: PropTypes.string
+};
+
+Questionnaire.propTypes = {
+  t: PropTypes.object.isRequired,
+  q: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['select', 'date', 'number', 'text', 'boolean', 'slider']).isRequired,
+    options: PropTypes.array,
+    min: PropTypes.number,
+    max: PropTypes.number
+  }).isRequired,
+  qIdx: PropTypes.number.isRequired,
+  questions: PropTypes.array.isRequired,
+  answers: PropTypes.object.isRequired,
+  hasHelpForQuestion: PropTypes.object.isRequired,
+  NON_CURRENCY_NUMBER_FIELDS: PropTypes.instanceOf(Set).isRequired,
+  onBack: PropTypes.func.isRequired,
+  onShowHelp: PropTypes.func.isRequired,
+  onUpdateAnswer: PropTypes.func.isRequired,
+  onDontKnow: PropTypes.func.isRequired,
+  onPrevious: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  shouldShowDontKnow: PropTypes.func.isRequired
+};
+
+export default memo(Questionnaire);

@@ -4,7 +4,7 @@
 
   <url>
     <loc>https://casevalue.law/</loc>
-    <lastmod>2025-12-04</lastmod>
+    <lastmod>2025-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/"/>
@@ -15,7 +15,7 @@
 
   <url>
     <loc>https://casevalue.law/blog</loc>
-    <lastmod>2025-12-04</lastmod>
+    <lastmod>2025-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://casevalue.law/blog"/>
@@ -32,15 +32,29 @@
   </url>
 
   <url>
+    <loc>https://casevalue.law/blog/mmi-insurance-adjuster-settlement-delays-2025</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://casevalue.law/blog/depo-provera-lawsuit-meningioma-tumor-evidence-2026</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://casevalue.law/blog/lost-wages-101-documenting-missed-work-settlement</loc>
-    <lastmod>2025-11-19</lastmod>
+    <lastmod>2025-12-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://casevalue.law/blog/gap-in-treatment-lowers-case-value</loc>
-    <lastmod>2025-11-19</lastmod>
+    <lastmod>2025-12-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -55,6 +69,20 @@
   <url>
     <loc>https://casevalue.law/blog/951-million-birth-injury-verdict-impact-2025</loc>
     <lastmod>2025-12-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://casevalue.law/blog/columbia-university-21m-payout-workplace-rights</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://casevalue.law/blog/boston-scientific-mesh-lawsuit-obtryx-ii-complications</loc>
+    <lastmod>2025-12-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

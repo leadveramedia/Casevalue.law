@@ -41,6 +41,15 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    # Content Security Policy - controls which resources can be loaded
+    # - 'self': same origin
+    # - 'unsafe-inline': needed for Tailwind CSS and inline styles
+    # - googletagmanager.com: Google Tag Manager
+    # - google-analytics.com: Google Analytics
+    # - cdn.sanity.io: Sanity CMS images
+    # - images.unsplash.com: Stock images
+    # - clarity.ms: Microsoft Clarity analytics
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://www.clarity.ms https://region1.google-analytics.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
 
 # Cache static assets for better performance
 [[headers]]

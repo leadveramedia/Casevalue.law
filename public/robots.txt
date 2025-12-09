@@ -4,3 +4,7 @@ Disallow:
 
 # Sitemap
 Sitemap: https://casevalue.law/sitemap.xml
+
+# LLM-friendly site information
+# https://llmstxt.org/
+# llms.txt: https://casevalue.law/llms.txt

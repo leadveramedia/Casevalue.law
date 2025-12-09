@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { ChevronRight, AlertCircle } from 'lucide-react';
 import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/caseTypes';
 import { LANGUAGE_OPTIONS } from './constants/languages';
+import { parseDeepLinkHash } from './constants/stateSlugs';
 import { useTranslations, getQuestionExplanations } from './hooks/useTranslations';
 import { useHistoryManagement } from './hooks/useHistoryManagement';
 import { useFormValidation } from './hooks/useFormValidation';
@@ -36,15 +37,39 @@ const CookieConsent = lazy(() => import('./components/CookieConsent'));
 // MAIN COMPONENT
 // ============================================================================
 export default function CaseValueWebsite() {
-  // Translations hook
-  const { lang, setLang, uiTranslations } = useTranslations('en');
+  // Get initial language from URL hash for deep linking
+  const getInitialLang = () => {
+    const parsed = parseDeepLinkHash(window.location.hash);
+    return parsed?.lang || 'en';
+  };
+
+  // Translations hook - initialize with language from URL if present
+  const { lang, setLang, uiTranslations } = useTranslations(getInitialLang());
   const t = uiTranslations;
 
-  // State management
-  const [step, setStep] = useState('landing');
-  const [selectedCase, setSelectedCase] = useState(null);
-  const [selectedState, setSelectedState] = useState('');
-  const [qIdx, setQIdx] = useState(0);
+  // State management with lazy initialization from URL hash for deep linking
+  const [step, setStep] = useState(() => {
+    const hash = window.location.hash;
+    if (hash === '#select') return 'select';
+    if (hash === '#contact') return 'contact';
+    if (parseDeepLinkHash(hash)) return 'questionnaire';
+    return 'landing';
+  });
+
+  const [selectedCase, setSelectedCase] = useState(() => {
+    const parsed = parseDeepLinkHash(window.location.hash);
+    return parsed?.selectedCase || null;
+  });
+
+  const [selectedState, setSelectedState] = useState(() => {
+    const parsed = parseDeepLinkHash(window.location.hash);
+    return parsed?.selectedState || '';
+  });
+
+  const [qIdx, setQIdx] = useState(() => {
+    const parsed = parseDeepLinkHash(window.location.hash);
+    return parsed?.qIdx || 0;
+  });
   const [answers, setAnswers] = useState({});
   const [contact, setContact] = useState({
     firstName: '',
@@ -75,18 +100,15 @@ export default function CaseValueWebsite() {
     openMissingDataWarning,
   } = useModals();
 
-  const [hasAnimatedStats, setHasAnimatedStats] = useState(false);
-  const [casesAnalyzedCount, setCasesAnalyzedCount] = useState(15000);
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const [hasHelpForQuestion, setHasHelpForQuestion] = useState({});
-  const howItWorksRef = useRef(null);
   const primaryCTARef = useRef(null);
   const wasOnPrivacyOrTermsPage = useRef(false);
   const [questions, setQuestions] = useState([]);
   const q = questions[qIdx];
 
   // History management hook
-  const { openModal, closeModal, pushStateToHistory } = useHistoryManagement(
+  const { closeModal, pushStateToHistory } = useHistoryManagement(
     {
       step,
       selectedCase,
@@ -271,64 +293,6 @@ export default function CaseValueWebsite() {
     return () => observer.disconnect();
   }, [step]);
 
-  useEffect(() => {
-    if (hasAnimatedStats) return;
-    if (step !== 'landing') return;
-    const section = howItWorksRef.current;
-    if (!section) return;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setHasAnimatedStats(true);
-      setCasesAnalyzedCount(15000);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCasesAnalyzedCount(15000);
-            setHasAnimatedStats(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(section);
-
-    return () => observer.disconnect();
-  }, [step, hasAnimatedStats]);
-
-  useEffect(() => {
-    if (!hasAnimatedStats) return;
-    const targetValue = 25000;
-    const speedPerSecond = 10; // cases per second
-    let lastTimestamp = null;
-    let currentValue = 15000;
-    let animationFrame = null;
-
-    const animate = (timestamp) => {
-      if (!lastTimestamp) lastTimestamp = timestamp;
-      const deltaSeconds = (timestamp - lastTimestamp) / 1000;
-      lastTimestamp = timestamp;
-      currentValue = Math.min(targetValue, currentValue + deltaSeconds * speedPerSecond);
-      setCasesAnalyzedCount(Math.round(currentValue));
-      if (currentValue < targetValue) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [hasAnimatedStats]);
-
   // ============================================================================
   // CALLBACK FUNCTIONS
   // ============================================================================
@@ -478,8 +442,6 @@ export default function CaseValueWebsite() {
           lang={lang}
           onClose={() => {
             setShowPrivacyPage(false);
-            setStep('landing');
-            setTimeout(() => pushStateToHistory(), 0);
           }}
         />
       </Suspense>
@@ -495,8 +457,6 @@ export default function CaseValueWebsite() {
           lang={lang}
           onClose={() => {
             setShowTermsPage(false);
-            setStep('landing');
-            setTimeout(() => pushStateToHistory(), 0);
           }}
         />
       </Suspense>
@@ -505,6 +465,14 @@ export default function CaseValueWebsite() {
 
   return (
     <div className="min-h-screen text-text flex flex-col">
+      {/* Skip to Main Content - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-accent focus:text-textDark focus:rounded-lg focus:font-bold focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* SEO Meta Tags */}
       <MetaTags />
 
@@ -526,7 +494,7 @@ export default function CaseValueWebsite() {
       {/* ========================================================================
           MAIN CONTENT
       ======================================================================== */}
-      <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12 lg:py-16">
+      <main id="main-content" className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12 lg:py-16">
         
         {/* ====================================================================
             LANDING PAGE
@@ -535,8 +503,6 @@ export default function CaseValueWebsite() {
           <LandingPage
             t={t}
             primaryCTARef={primaryCTARef}
-            howItWorksRef={howItWorksRef}
-            casesAnalyzedCount={casesAnalyzedCount}
             onGetStarted={() => navigateToStep('select')}
           />
         )}
@@ -608,7 +574,10 @@ export default function CaseValueWebsite() {
               loading={loading}
               onBack={() => navigateToStep('landing')}
               onUpdateContact={handleUpdateContact}
-              onPrivacyClick={() => openModal(setShowPrivacy, true)}
+              onTermsClick={() => {
+                setShowTermsPage(true);
+                pushStateToHistory();
+              }}
               onSubmit={submit}
             />
           </Suspense>
@@ -741,6 +710,9 @@ export default function CaseValueWebsite() {
             }}
             onDecline={() => {
               setShowCookieConsent(false);
+            }}
+            onPrivacyClick={() => {
+              setShowPrivacyPage(true);
             }}
           />
         </Suspense>

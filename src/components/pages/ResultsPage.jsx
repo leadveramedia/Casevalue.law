@@ -2,10 +2,12 @@
  * ResultsPage Component
  * Displays the case valuation results with factors and disclaimer
  */
+import { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Check, AlertCircle } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default function ResultsPage({ t, valuation, onBack }) {
+function ResultsPage({ t, valuation, onBack }) {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
       {/* Back to Home Button */}
@@ -128,3 +130,17 @@ export default function ResultsPage({ t, valuation, onBack }) {
     </div>
   );
 }
+
+ResultsPage.propTypes = {
+  t: PropTypes.object.isRequired,
+  valuation: PropTypes.shape({
+    value: PropTypes.number.isRequired,
+    lowRange: PropTypes.number.isRequired,
+    highRange: PropTypes.number.isRequired,
+    factors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    warnings: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired,
+  onBack: PropTypes.func.isRequired
+};
+
+export default memo(ResultsPage);

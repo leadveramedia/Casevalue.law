@@ -124,7 +124,8 @@ export function useTranslations(initialLang = 'en') {
     // Only update URL if language is different from current URL parameter
     if (currentLang !== lang) {
       params.set('lang', lang);
-      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      // Preserve the hash when updating URL
+      const newUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
       window.history.replaceState({}, '', newUrl);
     }
   }, [lang]);

@@ -3,10 +3,11 @@
  * Displays a grid of case types for the user to select from
  */
 import { memo } from 'react';
+import PropTypes from 'prop-types';
 import { ChevronRight } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default memo(function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
+function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">
       {/* Back to Home Button */}
@@ -66,4 +67,17 @@ export default memo(function CaseSelection({ t, caseTypes, onBack, onCaseSelect 
       </div>
     </div>
   );
-});
+}
+
+CaseSelection.propTypes = {
+  t: PropTypes.object.isRequired,
+  caseTypes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    img: PropTypes.string,
+    gradient: PropTypes.string
+  })).isRequired,
+  onBack: PropTypes.func.isRequired,
+  onCaseSelect: PropTypes.func.isRequired
+};
+
+export default memo(CaseSelection);

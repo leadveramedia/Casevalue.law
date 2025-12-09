@@ -2,15 +2,79 @@
  * LandingPage Component
  * The main landing page with hero section, how it works, and trust factors
  */
+import { useState, useEffect, useRef, memo } from 'react';
+import PropTypes from 'prop-types';
 import { ChevronRight, AlertCircle } from 'lucide-react';
 
-export default function LandingPage({
+function LandingPage({
   t,
   primaryCTARef,
-  howItWorksRef,
-  casesAnalyzedCount,
   onGetStarted
 }) {
+  // Local state for counter animation - isolated to prevent parent re-renders
+  const [hasAnimatedStats, setHasAnimatedStats] = useState(false);
+  const [casesAnalyzedCount, setCasesAnalyzedCount] = useState(15000);
+  const howItWorksRef = useRef(null);
+
+  // Trigger animation when "How It Works" section comes into view
+  useEffect(() => {
+    if (hasAnimatedStats) return;
+    const section = howItWorksRef.current;
+    if (!section) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setHasAnimatedStats(true);
+      setCasesAnalyzedCount(15000);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCasesAnalyzedCount(15000);
+            setHasAnimatedStats(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, [hasAnimatedStats]);
+
+  // Animate counter from 15000 to 25000
+  useEffect(() => {
+    if (!hasAnimatedStats) return;
+    const targetValue = 25000;
+    const speedPerSecond = 10;
+    let lastTimestamp = null;
+    let currentValue = 15000;
+    let animationFrame = null;
+
+    const animate = (timestamp) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const deltaSeconds = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+      currentValue = Math.min(targetValue, currentValue + deltaSeconds * speedPerSecond);
+      setCasesAnalyzedCount(Math.round(currentValue));
+      if (currentValue < targetValue) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [hasAnimatedStats]);
+
   return (
     <div className="space-y-16 md:space-y-20 py-8 md:py-16 lg:py-24">
       <div className="text-center space-y-6 md:space-y-8 px-4">
@@ -152,3 +216,14 @@ export default function LandingPage({
     </div>
   );
 }
+
+LandingPage.propTypes = {
+  t: PropTypes.object.isRequired,
+  primaryCTARef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ]),
+  onGetStarted: PropTypes.func.isRequired
+};
+
+export default memo(LandingPage);

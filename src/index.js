@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import './index.css';
 import Router from './Router.jsx';
-import { AppProvider } from './context/AppContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -13,9 +12,7 @@ const app = (
   <React.StrictMode>
     <HelmetProvider>
       <ErrorBoundary>
-        <AppProvider>
-          <Router />
-        </AppProvider>
+        <Router />
       </ErrorBoundary>
     </HelmetProvider>
   </React.StrictMode>

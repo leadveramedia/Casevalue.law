@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const CookieConsent = ({ onAccept, onDecline, lang = 'en' }) => {
+const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -78,7 +78,9 @@ const CookieConsent = ({ onAccept, onDecline, lang = 'en' }) => {
               <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                 {t.message}{' '}
                 <button
-                  onClick={() => window.open('/privacy', '_blank')}
+                  onClick={() => {
+                    onPrivacyClick?.();
+                  }}
                   className="text-blue-400 hover:text-blue-300 underline font-semibold"
                 >
                   {t.learnMore} {t.privacyPolicy}

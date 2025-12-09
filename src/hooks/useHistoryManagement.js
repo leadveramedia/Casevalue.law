@@ -1,4 +1,5 @@
 import { useCallback, useRef, useEffect } from 'react';
+import { stateNameToSlug, parseDeepLinkHash } from '../constants/stateSlugs';
 
 /**
  * Custom hook to manage browser history and navigation
@@ -66,8 +67,16 @@ export function useHistoryManagement(state, setters) {
     let hash = '';
     if (step === 'select') {
       hash = '#select';
-    } else if (step === 'questions' && selectedCase) {
-      hash = `#case/${selectedCase}/${qIdx}`;
+    } else if (step === 'questionnaire' && selectedCase) {
+      // Include state and language in URL for deep linking
+      if (selectedState && stateNameToSlug[selectedState]) {
+        // Include language if not English (default)
+        hash = lang !== 'en'
+          ? `#case/${selectedCase}/${stateNameToSlug[selectedState]}/${qIdx}/${lang}`
+          : `#case/${selectedCase}/${stateNameToSlug[selectedState]}/${qIdx}`;
+      } else {
+        hash = `#case/${selectedCase}/${qIdx}`;
+      }
     } else if (step === 'contact') {
       hash = '#contact';
     } else if (step === 'results') {
@@ -78,7 +87,7 @@ export function useHistoryManagement(state, setters) {
       hash = '#terms';
     }
     return hash;
-  }, [step, selectedCase, qIdx, showPrivacyPage, showTermsPage]);
+  }, [step, selectedCase, selectedState, qIdx, lang, showPrivacyPage, showTermsPage]);
 
   // Push current state to history
   const pushStateToHistory = useCallback(() => {
@@ -172,32 +181,44 @@ export function useHistoryManagement(state, setters) {
 
   // Initialize history and handle URL hash on mount
   useEffect(() => {
-    // Initialize history
-    const stateObj = buildStateObject();
-    window.history.replaceState(stateObj, '', window.location.href);
-
     // Parse URL hash on mount for deep linking
     const hash = window.location.hash;
+    let hasDeepLink = false;
+
     if (hash) {
       if (hash === '#select') {
         setStep('select');
+        hasDeepLink = true;
       } else if (hash === '#contact') {
         setStep('contact');
+        hasDeepLink = true;
       } else if (hash === '#results') {
         setStep('results');
+        hasDeepLink = true;
       } else if (hash === '#privacy') {
         setShowPrivacyPage(true);
+        hasDeepLink = true;
       } else if (hash === '#terms') {
         setShowTermsPage(true);
-      } else if (hash.startsWith('#case/')) {
-        // Parse case type and question index from hash
-        const parts = hash.substring(6).split('/');
-        if (parts.length >= 2) {
-          setSelectedCase(parts[0]);
-          setQIdx(parseInt(parts[1]) || 0);
-          setStep('questions');
+        hasDeepLink = true;
+      } else {
+        // Try parsing as a case deep link
+        const parsed = parseDeepLinkHash(hash);
+        if (parsed) {
+          setSelectedCase(parsed.selectedCase);
+          setSelectedState(parsed.selectedState);
+          setQIdx(parsed.qIdx);
+          setLang(parsed.lang);
+          setStep('questionnaire');
+          hasDeepLink = true;
         }
       }
+    }
+
+    // Only initialize history with current state if there's no deep link
+    if (!hasDeepLink) {
+      const stateObj = buildStateObject();
+      window.history.replaceState(stateObj, '', window.location.href);
     }
 
     // Listen for hash changes
@@ -213,18 +234,21 @@ export function useHistoryManagement(state, setters) {
       } else if (newHash === '#terms') {
         setShowTermsPage(true);
         setShowPrivacyPage(false);
-      } else if (newHash.startsWith('#case/')) {
-        const parts = newHash.substring(6).split('/');
-        if (parts.length >= 2) {
-          setSelectedCase(parts[0]);
-          setQIdx(parseInt(parts[1]) || 0);
-          setStep('questions');
-        }
       } else if (newHash === '') {
         setShowPrivacyPage(false);
         setShowTermsPage(false);
         if (step !== 'results') {
           setStep('landing');
+        }
+      } else {
+        // Try parsing as a case deep link
+        const parsed = parseDeepLinkHash(newHash);
+        if (parsed) {
+          setSelectedCase(parsed.selectedCase);
+          setSelectedState(parsed.selectedState);
+          setQIdx(parsed.qIdx);
+          setLang(parsed.lang);
+          setStep('questionnaire');
         }
       }
     };

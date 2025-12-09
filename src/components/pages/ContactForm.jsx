@@ -2,10 +2,12 @@
  * ContactForm Component
  * Contact information form with validation
  */
+import { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Check, AlertCircle } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default function ContactForm({
+function ContactForm({
   t,
   contact,
   validationState,
@@ -13,7 +15,7 @@ export default function ContactForm({
   loading,
   onBack,
   onUpdateContact,
-  onPrivacyClick,
+  onTermsClick,
   onSubmit
 }) {
   return (
@@ -137,17 +139,17 @@ export default function ContactForm({
               required
             />
             <span className="text-sm md:text-base text-text leading-relaxed">
-              {t.consentText}{' '}
+              {t.consentTextPart1}
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  onPrivacyClick();
+                  onTermsClick();
                 }}
                 className="text-accent hover:text-accentHover underline font-semibold"
               >
-                {t.disclaimerLink}
+                {t.termsOfServiceLink}
               </button>
-              .
+              {t.consentTextPart2}
             </span>
           </label>
         </div>
@@ -172,3 +174,27 @@ export default function ContactForm({
     </div>
   );
 }
+
+ContactForm.propTypes = {
+  t: PropTypes.object.isRequired,
+  contact: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    consent: PropTypes.bool
+  }).isRequired,
+  validationState: PropTypes.shape({
+    firstName: PropTypes.bool,
+    email: PropTypes.bool,
+    phone: PropTypes.bool
+  }).isRequired,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
+  onBack: PropTypes.func.isRequired,
+  onUpdateContact: PropTypes.func.isRequired,
+  onTermsClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
+
+export default memo(ContactForm);

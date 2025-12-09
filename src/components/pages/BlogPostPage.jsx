@@ -175,7 +175,7 @@ export default function BlogPostPage() {
   }
 
   return (
-    <BlogLayout>
+    <BlogLayout categories={post.categories}>
       <Helmet>
         <title>{post.seo?.metaTitle || post.title} - CaseValue.law</title>
         <meta name="description" content={post.seo?.metaDescription || post.excerpt} />

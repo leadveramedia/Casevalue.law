@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { getAllPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([]);
@@ -15,9 +16,7 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, []);
+  useScrollToTop();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -122,14 +121,14 @@ export default function BlogPage() {
             </div>
           )}
 
-          {/* Blog Posts Masonry Grid */}
+          {/* Blog Posts Grid */}
           {!loading && !error && filteredPosts.length > 0 && (
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPosts.map((post, index) => (
                 <Link
                   key={post._id}
                   to={`/blog/${post.slug.current}`}
-                  className="group block break-inside-avoid mb-6 bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
+                  className="group block bg-card rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
                 >
                   {/* Post Image - first image is LCP, load eagerly with high priority */}
                   {post.mainImage && (

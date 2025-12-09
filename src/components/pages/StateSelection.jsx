@@ -3,9 +3,10 @@
  * Allows user to select the state where the incident occurred
  */
 import { memo } from 'react';
+import PropTypes from 'prop-types';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-export default memo(function StateSelection({
+function StateSelection({
   t,
   usStates,
   selectedState,
@@ -68,4 +69,15 @@ export default memo(function StateSelection({
       </div>
     </div>
   );
-});
+}
+
+StateSelection.propTypes = {
+  t: PropTypes.object.isRequired,
+  usStates: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedState: PropTypes.string,
+  onStateChange: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired
+};
+
+export default memo(StateSelection);

@@ -1,0 +1,47 @@
+# CaseValue.law
+
+> Free legal case value calculator providing instant settlement estimates for personal injury, employment law, and civil rights cases. Helps injured individuals understand potential compensation before consulting an attorney.
+
+CaseValue.law is an interactive web application that estimates legal case values based on case-specific factors. Users answer questions about their situation and receive instant valuation ranges with explanatory factors.
+
+## Key Features
+
+- **Case Value Calculator**: Interactive questionnaire covering 14 case types
+- **Instant Valuations**: Real-time settlement estimates with low/high ranges
+- **Educational Blog**: Legal insights on personal injury and employment law
+- **Multi-language**: English, Spanish, and Chinese support
+
+## Supported Case Types
+
+- Motor Vehicle Accidents
+- Medical Malpractice
+- Premises Liability (slip and fall)
+- Product Liability
+- Wrongful Death
+- Dog Bites
+- Wrongful Termination
+- Wage Disputes
+- Class Action
+- Insurance Bad Faith
+- Disability Discrimination
+- Professional Negligence
+- Civil Rights Violations
+- Intellectual Property
+
+## Main Pages
+
+- [Calculator](https://casevalue.law/): Main case value calculator application
+- [Blog](https://casevalue.law/blog): Legal news and educational articles
+
+## Documentation
+
+- [Sitemap](https://casevalue.law/sitemap.xml): Complete list of all pages
+- [Privacy Policy](https://casevalue.law/): Available via modal on site
+- [Terms of Service](https://casevalue.law/): Available via modal on site
+
+## Optional
+
+- [Blog: How Accident Date Affects Settlement](https://casevalue.law/blog/how-accident-date-affects-auto-settlement): Statute of limitations impact
+- [Blog: MMI and Settlement Delays](https://casevalue.law/blog/mmi-insurance-adjuster-settlement-delays-2025): Maximum medical improvement explained
+- [Blog: Lost Wages Documentation](https://casevalue.law/blog/lost-wages-101-documenting-missed-work-settlement): How to document income loss
+- [Blog: Treatment Gaps](https://casevalue.law/blog/gap-in-treatment-lowers-case-value): Why continuous treatment matters

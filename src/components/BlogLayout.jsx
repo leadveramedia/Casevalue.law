@@ -5,12 +5,13 @@
 import { useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Calculator } from 'lucide-react';
+import { getQuestionnaireLink } from '../utils/categoryToCaseType';
 
 // Lazy load legal documents
 const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./TermsOfService'));
 
-export default function BlogLayout({ children }) {
+export default function BlogLayout({ children, categories }) {
   const [showPrivacyPage, setShowPrivacyPage] = useState(false);
   const [showTermsPage, setShowTermsPage] = useState(false);
 
@@ -40,6 +41,14 @@ export default function BlogLayout({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Skip to Main Content - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-accent focus:text-textDark focus:rounded-lg focus:font-bold focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
         <div className="flex justify-between items-center p-4 md:p-6 max-w-7xl mx-auto">
@@ -86,7 +95,7 @@ export default function BlogLayout({ children }) {
       </nav>
 
       {/* Page Content */}
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {children}
       </main>
 
@@ -113,10 +122,10 @@ export default function BlogLayout({ children }) {
         </div>
       </footer>
 
-      {/* Floating CTA Button - Matches Homepage */}
+      {/* Floating CTA Button - Links to relevant case questionnaire */}
       <div className="fixed inset-x-0 bottom-6 sm:bottom-8 z-40 flex justify-center pointer-events-none px-4">
         <Link
-          to="/"
+          to={getQuestionnaireLink(categories)}
           className="pointer-events-auto w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
           aria-label="Calculate your case value"
         >
