@@ -103,6 +103,11 @@
   path = "/blog/*"
   function = "blog-proxy"
 
+# Next.js image optimization proxy
+[[edge_functions]]
+  path = "/_next/image"
+  function = "blog-proxy"
+
 # ============================================================================
 # REDIRECTS
 # ============================================================================

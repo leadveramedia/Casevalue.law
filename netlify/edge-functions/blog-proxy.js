@@ -32,5 +32,5 @@ export default async function handler(request) {
 }
 
 export const config = {
-  path: ['/blog', '/blog/*'],
+  path: ['/blog', '/blog/*', '/_next/image'],
 };
