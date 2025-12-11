@@ -92,28 +92,10 @@
 # ============================================================================
 
 # ============================================================================
-# BLOG PROXY TO VERCEL
+# REDIRECTS
 # ============================================================================
-# Blog is hosted on Vercel (Next.js SSG) for proper SEO
-# Netlify proxies /blog/* requests to Vercel transparently
-[[redirects]]
-  from = "/blog/*"
-  to = "https://casevalue-blog.vercel.app/blog/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/blog"
-  to = "https://casevalue-blog.vercel.app/blog"
-  status = 200
-  force = true
-
-# ============================================================================
-# DYNAMIC SITEMAP
-# ============================================================================
-# Sitemap is generated dynamically by a Netlify Function that fetches from Sanity
-# This ensures the sitemap always reflects current blog posts without rebuilding
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/.netlify/functions/sitemap"
-  status = 200
+# All redirects are now in public/_redirects file for proper ordering.
+# The _redirects file handles:
+# - Blog proxy to Vercel (/blog/* -> casevalue-blog.vercel.app)
+# - Dynamic sitemap (/sitemap.xml -> Netlify Function)
+# - SPA fallback (/* -> /index.html)
