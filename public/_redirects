@@ -4,10 +4,8 @@
 # ============================================================================
 # BLOG PROXY TO VERCEL
 # ============================================================================
-# Blog is hosted on Vercel (Next.js SSG) for proper SEO
-# These rules MUST come before the SPA fallback
-/blog/*  https://casevalue-blog.vercel.app/blog/:splat  200!
-/blog    https://casevalue-blog.vercel.app/blog         200!
+# Handled by Edge Function (netlify/edge-functions/blog-proxy.js)
+# Edge functions run before redirects and can properly rewrite Host headers
 
 # ============================================================================
 # DYNAMIC SITEMAP

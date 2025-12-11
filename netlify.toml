@@ -92,10 +92,20 @@
 # ============================================================================
 
 # ============================================================================
+# EDGE FUNCTIONS
+# ============================================================================
+# Blog proxy to Vercel using Edge Function for proper Host header handling
+[[edge_functions]]
+  path = "/blog"
+  function = "blog-proxy"
+
+[[edge_functions]]
+  path = "/blog/*"
+  function = "blog-proxy"
+
+# ============================================================================
 # REDIRECTS
 # ============================================================================
-# All redirects are now in public/_redirects file for proper ordering.
-# The _redirects file handles:
-# - Blog proxy to Vercel (/blog/* -> casevalue-blog.vercel.app)
+# Redirects in public/_redirects file:
 # - Dynamic sitemap (/sitemap.xml -> Netlify Function)
 # - SPA fallback (/* -> /index.html)
