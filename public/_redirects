@@ -1,16 +1,21 @@
-# Netlify Redirects for Prerendered SPA
-# react-snap generates static HTML files for each route during build
-# Netlify serves these static files first, then falls back to SPA for dynamic routes
-#
-# How this works:
-# 1. Netlify checks if a static file exists (e.g., /blog/index.html)
-# 2. If yes, serve the static prerendered file (SEO-friendly!)
-# 3. If no, serve /index.html and let React Router handle it (status 200 = rewrite, not redirect)
-#
-# This gives us the best of both worlds:
-# - Static HTML for crawlers (Google, social media bots) = better SEO
-# - Client-side routing for users = smooth SPA experience
+# Netlify Redirects
+# Order matters! More specific rules must come before catch-all rules.
 
-# SPA fallback - serve index.html for all requests that don't match a static file
-# Status 200 means "rewrite" not "redirect" - important for SEO!
+# ============================================================================
+# BLOG PROXY TO VERCEL
+# ============================================================================
+# Blog is hosted on Vercel (Next.js SSG) for proper SEO
+# These rules MUST come before the SPA fallback
+/blog/*  https://casevalue-blog.vercel.app/blog/:splat  200!
+/blog    https://casevalue-blog.vercel.app/blog         200!
+
+# ============================================================================
+# DYNAMIC SITEMAP
+# ============================================================================
+/sitemap.xml  /.netlify/functions/sitemap  200
+
+# ============================================================================
+# SPA FALLBACK
+# ============================================================================
+# Serve index.html for all other requests (status 200 = rewrite, not redirect)
 /*    /index.html   200
