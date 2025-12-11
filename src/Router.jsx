@@ -1,15 +1,13 @@
 // ============================================================================
 // APP ROUTER
 // ============================================================================
-// This component handles routing between the calculator and blog
+// This component handles routing for the calculator app
+// Note: Blog routes are now handled by Next.js on Vercel (proxied via Netlify)
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // Lazy load all page components for optimal code splitting
-// This ensures /blog visitors don't download calculator code and vice versa
 const App = lazy(() => import('./App.jsx'));
-const BlogPage = lazy(() => import('./components/pages/BlogPage'));
-const BlogPostPage = lazy(() => import('./components/pages/BlogPostPage'));
 const NotFoundPage = lazy(() => import('./components/pages/NotFoundPage'));
 
 // Loading fallback component
@@ -33,25 +31,8 @@ export default function Router() {
           }
         />
 
-        {/* Blog routes - wrapped in Suspense for lazy loading */}
-        <Route
-          path="/blog"
-          element={
-            <Suspense fallback={<LoadingFallback />}>
-              <BlogPage />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/blog/:slug"
-          element={
-            <Suspense fallback={<LoadingFallback />}>
-              <BlogPostPage />
-            </Suspense>
-          }
-        />
-
         {/* 404 Catch-all route - must be last */}
+        {/* Note: /blog/* routes are proxied to Vercel by Netlify, not handled here */}
         <Route
           path="*"
           element={

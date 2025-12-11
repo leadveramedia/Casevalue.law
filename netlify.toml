@@ -90,3 +90,30 @@
 # 2. Test invalid route: https://casevalue.law/invalid-page (should show NotFoundPage)
 # 3. Test invalid blog post: https://casevalue.law/blog/invalid-slug (should show NotFoundPage)
 # ============================================================================
+
+# ============================================================================
+# BLOG PROXY TO VERCEL
+# ============================================================================
+# Blog is hosted on Vercel (Next.js SSG) for proper SEO
+# Netlify proxies /blog/* requests to Vercel transparently
+[[redirects]]
+  from = "/blog/*"
+  to = "https://casevalue-blog.vercel.app/blog/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/blog"
+  to = "https://casevalue-blog.vercel.app/blog"
+  status = 200
+  force = true
+
+# ============================================================================
+# DYNAMIC SITEMAP
+# ============================================================================
+# Sitemap is generated dynamically by a Netlify Function that fetches from Sanity
+# This ensures the sitemap always reflects current blog posts without rebuilding
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/sitemap"
+  status = 200
