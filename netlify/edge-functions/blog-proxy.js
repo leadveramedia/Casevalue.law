@@ -1,44 +1,34 @@
 // Netlify Edge Function to proxy /blog requests to Vercel
-// This rewrites the Host header to match Vercel's expected domain
+// Fetches from Vercel domain directly (which sets correct Host header)
 
 export default async function handler(request) {
   const url = new URL(request.url);
 
   // Construct the Vercel URL
-  const vercelUrl = new URL(url.pathname + url.search, 'https://casevalue-blog.vercel.app');
+  const vercelUrl = `https://casevalue-blog.vercel.app${url.pathname}${url.search}`;
 
-  // Create new headers without the problematic Host header
-  const headers = new Headers(request.headers);
-  headers.set('Host', 'casevalue-blog.vercel.app');
-  headers.set('X-Forwarded-Host', url.hostname);
+  try {
+    // Proxy the request to Vercel
+    const response = await fetch(vercelUrl, {
+      method: request.method,
+      headers: {
+        'Accept': request.headers.get('Accept') || '*/*',
+        'Accept-Encoding': request.headers.get('Accept-Encoding') || 'gzip, deflate, br',
+        'User-Agent': request.headers.get('User-Agent') || 'Netlify Edge Function',
+      },
+    });
 
-  // Proxy the request to Vercel
-  const response = await fetch(vercelUrl.toString(), {
-    method: request.method,
-    headers: headers,
-    body: request.body,
-    redirect: 'manual', // Don't follow redirects
-  });
-
-  // If Vercel returns a redirect, rewrite the Location header
-  if (response.status >= 300 && response.status < 400) {
-    const location = response.headers.get('Location');
-    if (location) {
-      const newHeaders = new Headers(response.headers);
-      // Rewrite the location to use casevalue.law instead of vercel.app
-      const rewrittenLocation = location.replace(
-        'https://casevalue-blog.vercel.app',
-        'https://casevalue.law'
-      );
-      newHeaders.set('Location', rewrittenLocation);
-      return new Response(response.body, {
-        status: response.status,
-        headers: newHeaders,
-      });
-    }
+    // Return the response from Vercel
+    return new Response(response.body, {
+      status: response.status,
+      headers: response.headers,
+    });
+  } catch (error) {
+    return new Response(`Proxy error: ${error.message}`, {
+      status: 502,
+      headers: { 'Content-Type': 'text/plain' },
+    });
   }
-
-  return response;
 }
 
 export const config = {
