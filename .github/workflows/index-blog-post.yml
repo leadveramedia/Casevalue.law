@@ -33,11 +33,15 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          token_format: 'access_token'
+          access_token_scopes: 'https://www.googleapis.com/auth/indexing'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Submit URL to Google Indexing API
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
           SLUG="${{ github.event.client_payload.slug }}"
           ACTION="${{ github.event.client_payload.action }}"
@@ -54,10 +58,7 @@ jobs:
           echo "  URL: ${URL}"
           echo "  Type: ${TYPE}"
 
-          # Get access token from Workload Identity Federation
-          ACCESS_TOKEN=$(gcloud auth print-access-token)
-
-          # Call Google Indexing API
+          # Call Google Indexing API using access token with indexing scope
           RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
             "https://indexing.googleapis.com/v3/urlNotifications:publish" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
