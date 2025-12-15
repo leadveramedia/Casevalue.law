@@ -3,15 +3,18 @@ import { ChevronRight, AlertCircle } from 'lucide-react';
 import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/caseTypes';
 import { LANGUAGE_OPTIONS } from './constants/languages';
 import { parseDeepLinkHash } from './constants/stateSlugs';
+import { parseShareHash, getDaysUntilExpiration, generateShareUrl } from './utils/shareUtils';
+import { trackConversion } from './utils/trackingUtils';
 import { useTranslations, getQuestionExplanations } from './hooks/useTranslations';
 import { useHistoryManagement } from './hooks/useHistoryManagement';
 import { useFormValidation } from './hooks/useFormValidation';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useMetadata } from './hooks/useMetadata';
 import { useModals } from './hooks/useModals';
+import { useFloatingCTA } from './hooks/useFloatingCTA';
+import { useAppNavigation } from './hooks/useAppNavigation';
 import {
   getCalculateValuation,
-  getGetQuestions,
   shouldShowDontKnow,
   buildFormSubmissionPayload
 } from './utils/helpers';
@@ -47,29 +50,23 @@ export default function CaseValueWebsite() {
   const { lang, setLang, uiTranslations } = useTranslations(getInitialLang());
   const t = uiTranslations;
 
-  // State management with lazy initialization from URL hash for deep linking
-  const [step, setStep] = useState(() => {
-    const hash = window.location.hash;
-    if (hash === '#select') return 'select';
-    if (hash === '#contact') return 'contact';
-    if (parseDeepLinkHash(hash)) return 'questionnaire';
-    return 'landing';
-  });
+  // Ref for pushStateToHistory (allows late binding for circular dependency)
+  const pushStateToHistoryRef = useRef(() => {});
 
-  const [selectedCase, setSelectedCase] = useState(() => {
-    const parsed = parseDeepLinkHash(window.location.hash);
-    return parsed?.selectedCase || null;
-  });
+  // Navigation state and handlers (extracted hook)
+  const {
+    step, setStep,
+    selectedCase, setSelectedCase,
+    selectedState, setSelectedState,
+    qIdx, setQIdx,
+    questions,
+    currentQuestion: q,
+    navigateToStep,
+    handleCaseSelect,
+    handleNextQuestion,
+    handlePreviousQuestion
+  } = useAppNavigation(pushStateToHistoryRef);
 
-  const [selectedState, setSelectedState] = useState(() => {
-    const parsed = parseDeepLinkHash(window.location.hash);
-    return parsed?.selectedState || '';
-  });
-
-  const [qIdx, setQIdx] = useState(() => {
-    const parsed = parseDeepLinkHash(window.location.hash);
-    return parsed?.qIdx || 0;
-  });
   const [answers, setAnswers] = useState({});
   const [contact, setContact] = useState({
     firstName: '',
@@ -79,6 +76,9 @@ export default function CaseValueWebsite() {
     consent: false
   });
   const [valuation, setValuation] = useState(null);
+  const [isSharedResult, setIsSharedResult] = useState(false);
+  const [sharedLinkExpired, setSharedLinkExpired] = useState(false);
+  const [sharedLinkDaysRemaining, setSharedLinkDaysRemaining] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   // Modal state management (centralized hook)
@@ -100,12 +100,12 @@ export default function CaseValueWebsite() {
     openMissingDataWarning,
   } = useModals();
 
-  const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const [hasHelpForQuestion, setHasHelpForQuestion] = useState({});
   const primaryCTARef = useRef(null);
+
+  // Floating CTA visibility (extracted to hook)
+  const showFloatingCTA = useFloatingCTA(step, primaryCTARef);
   const wasOnPrivacyOrTermsPage = useRef(false);
-  const [questions, setQuestions] = useState([]);
-  const q = questions[qIdx];
 
   // History management hook
   const { closeModal, pushStateToHistory } = useHistoryManagement(
@@ -139,6 +139,9 @@ export default function CaseValueWebsite() {
     }
   );
 
+  // Update ref for late binding (used by useAppNavigation)
+  pushStateToHistoryRef.current = pushStateToHistory;
+
   // Form validation hook
   const { validationState, validateEmail, validatePhone, handleUpdateContact } = useFormValidation(
     contact,
@@ -154,19 +157,6 @@ export default function CaseValueWebsite() {
 
   // Metadata hook for SEO management
   const { MetaTags } = useMetadata(step, selectedCase, t);
-
-  // Load questions when case type changes
-  useEffect(() => {
-    const loadQuestions = async () => {
-      if (selectedCase) {
-        const getQuestions = await getGetQuestions();
-        setQuestions(getQuestions(selectedCase));
-      } else {
-        setQuestions([]);
-      }
-    };
-    loadQuestions();
-  }, [selectedCase]);
 
   // Handler to show question help modal
   const handleShowQuestionHelp = useCallback(async (questionId) => {
@@ -187,6 +177,29 @@ export default function CaseValueWebsite() {
     if (!consent) {
       // Show cookie consent banner after a delay if no consent found
       setTimeout(() => setShowCookieConsent(true), 2000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Check for share link on mount
+  useEffect(() => {
+    const shareData = parseShareHash(window.location.hash);
+    if (shareData) {
+      if (shareData.expired) {
+        // Link has expired
+        setSharedLinkExpired(true);
+        setStep('results');
+      } else {
+        // Valid share link - load the shared results
+        setValuation(shareData.valuation);
+        setSelectedCase(shareData.caseType);
+        setSelectedState(shareData.state);
+        setIsSharedResult(true);
+        setSharedLinkDaysRemaining(getDaysUntilExpiration(shareData.expiresAt));
+        setStep('results');
+      }
+      // Clear the hash to prevent reloading on refresh
+      window.history.replaceState(null, '', window.location.pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -267,32 +280,6 @@ export default function CaseValueWebsite() {
     }
   }, [showPrivacy, showHelpModal, showMissingDataWarning, closeModal]);
 
-  // Scroll to top on step change (respect reduced motion preference)
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-  }, [step]);
-
-  useEffect(() => {
-    if (step !== 'landing') {
-      setShowFloatingCTA(false);
-      return;
-    }
-    const node = primaryCTARef.current;
-    if (!node || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowFloatingCTA(!entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(node);
-
-    return () => observer.disconnect();
-  }, [step]);
-
   // ============================================================================
   // CALLBACK FUNCTIONS
   // ============================================================================
@@ -325,42 +312,11 @@ export default function CaseValueWebsite() {
     }
   }, [answers, openMissingDataWarning]);
 
-  const handleCaseSelect = useCallback((caseId) => {
-    setSelectedCase(caseId);
-    // Reset questionnaire state when case type changes
-    setQIdx(0);
-    setAnswers({});
-    setStep('state');
-    // Push to history after state updates
-    setTimeout(() => pushStateToHistory(), 0);
-  }, [pushStateToHistory]);
-
-  const handleNextQuestion = useCallback(() => {
-    if (qIdx < questions.length - 1) {
-      setQIdx(qIdx + 1);
-    } else {
-      setStep('contact');
-    }
-    // Push to history after state updates
-    setTimeout(() => pushStateToHistory(), 0);
-  }, [qIdx, questions.length, pushStateToHistory]);
-
-  const handlePreviousQuestion = useCallback(() => {
-    if (qIdx > 0) {
-      setQIdx(qIdx - 1);
-    } else {
-      // If on first question, go back to state selection
-      setStep('state');
-    }
-    // Push to history after state updates
-    setTimeout(() => pushStateToHistory(), 0);
-  }, [qIdx, pushStateToHistory]);
-
-  // Helper to change step and push to history
-  const navigateToStep = useCallback((newStep) => {
-    setStep(newStep);
-    setTimeout(() => pushStateToHistory(), 0);
-  }, [pushStateToHistory]);
+  // Wrapper for handleCaseSelect to reset answers
+  const resetAnswers = useCallback(() => setAnswers({}), []);
+  const onCaseSelect = useCallback((caseId) => {
+    handleCaseSelect(caseId, resetAnswers);
+  }, [handleCaseSelect, resetAnswers]);
 
   const submit = useCallback(async () => {
     setError('');
@@ -416,6 +372,15 @@ export default function CaseValueWebsite() {
       }
 
       setValuation(result);
+
+      // Fire conversion tracking for PPC ads (Google Ads, Facebook, Bing, LinkedIn)
+      trackConversion({
+        value: result.value,
+        currency: 'USD',
+        caseType: selectedCase,
+        state: selectedState
+      });
+
       setLoading(false);
       setStep('results');
       // Clear saved progress when reaching results
@@ -516,7 +481,7 @@ export default function CaseValueWebsite() {
               t={t}
               caseTypes={caseTypes}
               onBack={() => navigateToStep('landing')}
-              onCaseSelect={handleCaseSelect}
+              onCaseSelect={onCaseSelect}
             />
           </Suspense>
         )}
@@ -586,12 +551,22 @@ export default function CaseValueWebsite() {
         {/* ====================================================================
             RESULTS PAGE
         ==================================================================== */}
-        {step === 'results' && valuation && (
+        {step === 'results' && (sharedLinkExpired || valuation) && (
           <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
             <ResultsPage
               t={t}
               valuation={valuation}
               onBack={() => navigateToStep('landing')}
+              isSharedResult={isSharedResult}
+              sharedLinkExpired={sharedLinkExpired}
+              sharedLinkDaysRemaining={sharedLinkDaysRemaining}
+              selectedCase={selectedCase}
+              selectedState={selectedState}
+              onGenerateShareUrl={() => generateShareUrl({
+                caseType: selectedCase,
+                state: selectedState,
+                valuation: valuation
+              })}
             />
           </Suspense>
         )}

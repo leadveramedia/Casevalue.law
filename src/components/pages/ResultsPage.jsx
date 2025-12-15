@@ -1,13 +1,70 @@
 /**
  * ResultsPage Component
  * Displays the case valuation results with factors and disclaimer
+ * Also handles shared results and expired share links
  */
-import { memo } from 'react';
+import { memo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Check, AlertCircle } from 'lucide-react';
+import { Check, AlertCircle, Share2, CheckCircle, Clock } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-function ResultsPage({ t, valuation, onBack }) {
+function ResultsPage({
+  t,
+  valuation,
+  onBack,
+  isSharedResult = false,
+  sharedLinkExpired = false,
+  sharedLinkDaysRemaining = null,
+  selectedCase,
+  selectedState,
+  onGenerateShareUrl
+}) {
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const handleCopyLink = useCallback(async () => {
+    if (!onGenerateShareUrl) return;
+
+    const shareUrl = onGenerateShareUrl();
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 3000);
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = shareUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 3000);
+    }
+  }, [onGenerateShareUrl]);
+
+  // Handle expired link
+  if (sharedLinkExpired) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
+        <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-2 border-red-500/40 shadow-2xl text-center">
+          <Clock className="w-16 h-16 text-red-400 mx-auto mb-6" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-300 mb-4">
+            {t.linkExpired}
+          </h2>
+          <p className="text-base md:text-lg text-text/80 mb-8 leading-relaxed">
+            {t.linkExpiredMessage}
+          </p>
+          <button
+            onClick={onBack}
+            className="px-8 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl shadow-2xl hover:shadow-accent/50 transition-all font-bold text-lg transform hover:scale-105"
+          >
+            {t.generateNewEstimate}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
       {/* Back to Home Button */}
@@ -19,7 +76,7 @@ function ResultsPage({ t, valuation, onBack }) {
       </button>
 
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-12 px-4 text-text">
-        {t.yourEstimate}
+        {isSharedResult ? t.sharedResults : t.yourEstimate}
       </h2>
 
       {/* Valuation Card */}
@@ -126,7 +183,60 @@ function ResultsPage({ t, valuation, onBack }) {
             {t.disclaimer}
           </p>
         </div>
+
+        {/* Share Results Button - only show for non-shared results */}
+        {!isSharedResult && onGenerateShareUrl && (
+          <div className="mt-8 pt-8 border-t-2 border-primary/20">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                onClick={handleCopyLink}
+                className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-base transition-all transform hover:scale-105 ${
+                  linkCopied
+                    ? 'bg-green-500/30 border-2 border-green-500/50 text-green-300'
+                    : 'bg-primary/20 border-2 border-primary/40 hover:bg-primary/30 text-text'
+                }`}
+              >
+                {linkCopied ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    {t.linkCopied}
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="w-5 h-5" />
+                    {t.shareResults}
+                  </>
+                )}
+              </button>
+              <span className="text-sm text-text/50">
+                {t.linkExpires.replace('{days}', '10')}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Show expiration notice for shared results */}
+        {isSharedResult && sharedLinkDaysRemaining !== null && (
+          <div className="mt-8 pt-6 border-t-2 border-primary/20 text-center">
+            <p className="text-sm text-text/50 flex items-center justify-center gap-2">
+              <Clock className="w-4 h-4" />
+              {t.linkExpires.replace('{days}', sharedLinkDaysRemaining.toString())}
+            </p>
+          </div>
+        )}
       </div>
+
+      {/* CTA for shared results viewers */}
+      {isSharedResult && (
+        <div className="text-center">
+          <button
+            onClick={onBack}
+            className="px-8 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl shadow-2xl hover:shadow-accent/50 transition-all font-bold text-lg transform hover:scale-105"
+          >
+            {t.generateNewEstimate}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -139,8 +249,14 @@ ResultsPage.propTypes = {
     highRange: PropTypes.number.isRequired,
     factors: PropTypes.arrayOf(PropTypes.string).isRequired,
     warnings: PropTypes.arrayOf(PropTypes.string)
-  }).isRequired,
-  onBack: PropTypes.func.isRequired
+  }),
+  onBack: PropTypes.func.isRequired,
+  isSharedResult: PropTypes.bool,
+  sharedLinkExpired: PropTypes.bool,
+  sharedLinkDaysRemaining: PropTypes.number,
+  selectedCase: PropTypes.string,
+  selectedState: PropTypes.string,
+  onGenerateShareUrl: PropTypes.func
 };
 
 export default memo(ResultsPage);
