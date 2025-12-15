@@ -3,7 +3,7 @@
 // Service Worker for CaseValue.law
 // Provides offline capability and PWA features
 
-const CACHE_NAME = 'casevalue-v1';
+const CACHE_NAME = 'casevalue-v2';
 const OFFLINE_URL = '/offline.html';
 
 // Assets to cache on install
@@ -70,6 +70,12 @@ self.addEventListener('fetch', (event) => {
 
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Skip /blog routes - these are proxied to Vercel via Netlify edge function
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/blog')) {
     return;
   }
 
