@@ -15,6 +15,7 @@ const crypto = require('crypto');
 
 /**
  * Validate Sanity webhook signature
+ * Sanity sends signature in format: "sha256=HEXDIGEST" or just "HEXDIGEST"
  * @param {string} body - Raw request body
  * @param {string} signature - Signature from x-sanity-signature header
  * @param {string} secret - Webhook secret
@@ -25,15 +26,24 @@ function validateSanityWebhook(body, signature, secret) {
     return false;
   }
 
+  // Remove 'sha256=' prefix if present (Sanity uses this format)
+  const providedSignature = signature.replace(/^sha256=/, '');
+
   const expectedSignature = crypto
     .createHmac('sha256', secret)
     .update(body)
     .digest('hex');
 
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expectedSignature)
-  );
+  // Use timing-safe comparison to prevent timing attacks
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(providedSignature),
+      Buffer.from(expectedSignature)
+    );
+  } catch (e) {
+    // If buffers have different lengths, timingSafeEqual throws
+    return false;
+  }
 }
 
 /**
