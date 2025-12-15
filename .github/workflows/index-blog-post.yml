@@ -1,0 +1,91 @@
+# Google Indexing API workflow with Workload Identity Federation
+# Triggered by Sanity CMS webhook via repository_dispatch
+#
+# This workflow uses keyless authentication (no service account JSON needed)
+# via Google Cloud Workload Identity Federation with GitHub OIDC.
+
+name: Index Blog Post
+
+on:
+  repository_dispatch:
+    types: [index-blog-post]
+
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC token request
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate payload
+        run: |
+          if [ -z "${{ github.event.client_payload.slug }}" ]; then
+            echo "Error: No slug provided in payload"
+            exit 1
+          fi
+          echo "Processing blog post: ${{ github.event.client_payload.slug }}"
+          echo "Action type: ${{ github.event.client_payload.action }}"
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Submit URL to Google Indexing API
+        run: |
+          SLUG="${{ github.event.client_payload.slug }}"
+          ACTION="${{ github.event.client_payload.action }}"
+          URL="https://casevalue.law/blog/${SLUG}"
+
+          # Determine notification type
+          if [ "$ACTION" = "delete" ]; then
+            TYPE="URL_DELETED"
+          else
+            TYPE="URL_UPDATED"
+          fi
+
+          echo "Submitting to Google Indexing API:"
+          echo "  URL: ${URL}"
+          echo "  Type: ${TYPE}"
+
+          # Get access token from Workload Identity Federation
+          ACCESS_TOKEN=$(gcloud auth print-access-token)
+
+          # Call Google Indexing API
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://indexing.googleapis.com/v3/urlNotifications:publish" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"url\": \"${URL}\",
+              \"type\": \"${TYPE}\"
+            }")
+
+          # Parse response
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          echo "Response (HTTP ${HTTP_CODE}):"
+          echo "$BODY" | jq . 2>/dev/null || echo "$BODY"
+
+          # Check for success
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo "Successfully submitted URL for indexing!"
+          else
+            echo "Error: Failed to submit URL"
+            exit 1
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Blog Post Indexed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL:** https://casevalue.law/blog/${{ github.event.client_payload.slug }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Action:** ${{ github.event.client_payload.action }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
