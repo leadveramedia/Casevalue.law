@@ -3,9 +3,9 @@
  * Displays the case valuation results with factors and disclaimer
  * Also handles shared results and expired share links
  */
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Check, AlertCircle, Share2, CheckCircle, Clock } from 'lucide-react';
+import { Check, AlertCircle, Share2, CheckCircle, Clock, Copy } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
 function ResultsPage({
@@ -20,27 +20,32 @@ function ResultsPage({
   onGenerateShareUrl
 }) {
   const [linkCopied, setLinkCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState(null);
+  const inputRef = useRef(null);
+
+  const handleShowShareUrl = useCallback(() => {
+    if (!onGenerateShareUrl) return;
+    const url = onGenerateShareUrl();
+    setShareUrl(url);
+  }, [onGenerateShareUrl]);
 
   const handleCopyLink = useCallback(async () => {
-    if (!onGenerateShareUrl) return;
+    if (!shareUrl) return;
 
-    const shareUrl = onGenerateShareUrl();
     try {
       await navigator.clipboard.writeText(shareUrl);
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 3000);
     } catch (err) {
       // Fallback for older browsers
-      const textArea = document.createElement('textarea');
-      textArea.value = shareUrl;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setLinkCopied(true);
-      setTimeout(() => setLinkCopied(false), 3000);
+      if (inputRef.current) {
+        inputRef.current.select();
+        document.execCommand('copy');
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 3000);
+      }
     }
-  }, [onGenerateShareUrl]);
+  }, [shareUrl]);
 
   // Handle expired link
   if (sharedLinkExpired) {
@@ -187,31 +192,58 @@ function ResultsPage({
         {/* Share Results Button - only show for non-shared results */}
         {!isSharedResult && onGenerateShareUrl && (
           <div className="mt-8 pt-8 border-t-2 border-primary/20">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={handleCopyLink}
-                className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-base transition-all transform hover:scale-105 ${
-                  linkCopied
-                    ? 'bg-green-500/30 border-2 border-green-500/50 text-green-300'
-                    : 'bg-primary/20 border-2 border-primary/40 hover:bg-primary/30 text-text'
-                }`}
-              >
-                {linkCopied ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    {t.linkCopied}
-                  </>
-                ) : (
-                  <>
-                    <Share2 className="w-5 h-5" />
-                    {t.shareResults}
-                  </>
-                )}
-              </button>
-              <span className="text-sm text-text/50">
-                {t.linkExpires.replace('{days}', '10')}
-              </span>
-            </div>
+            {!shareUrl ? (
+              // Initial state - show "Share Results" button
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button
+                  onClick={handleShowShareUrl}
+                  className="flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-base transition-all transform hover:scale-105 bg-primary/20 border-2 border-primary/40 hover:bg-primary/30 text-text"
+                >
+                  <Share2 className="w-5 h-5" />
+                  {t.shareResults}
+                </button>
+                <span className="text-sm text-text/50">
+                  {t.linkExpires.replace('{days}', '10')}
+                </span>
+              </div>
+            ) : (
+              // After clicking - show the URL with copy button
+              <div className="space-y-4">
+                <p className="text-center text-text/70 text-sm font-medium">
+                  {t.shareResults} - {t.linkExpires.replace('{days}', '10')}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    readOnly
+                    value={shareUrl}
+                    className="flex-1 px-4 py-3 bg-primary/10 border-2 border-primary/30 rounded-xl text-text text-sm font-mono focus:outline-none focus:border-accent/50"
+                    onClick={(e) => e.target.select()}
+                  />
+                  <button
+                    onClick={handleCopyLink}
+                    className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-base transition-all whitespace-nowrap ${
+                      linkCopied
+                        ? 'bg-green-500/30 border-2 border-green-500/50 text-green-300'
+                        : 'bg-accent/20 border-2 border-accent/40 hover:bg-accent/30 text-accent'
+                    }`}
+                  >
+                    {linkCopied ? (
+                      <>
+                        <CheckCircle className="w-5 h-5" />
+                        {t.linkCopied}
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-5 h-5" />
+                        {t.copyLink}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
