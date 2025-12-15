@@ -23,11 +23,29 @@ function ResultsPage({
   const [shareUrl, setShareUrl] = useState(null);
   const inputRef = useRef(null);
 
-  const handleShowShareUrl = useCallback(() => {
+  const handleShowShareUrl = useCallback(async () => {
     if (!onGenerateShareUrl) return;
     const url = onGenerateShareUrl();
+
+    // Use native share on mobile if available
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: t.shareTitle || 'My Case Value Estimate',
+          text: t.shareText || 'Check out my case value estimate from CaseValue.law',
+          url: url
+        });
+        return; // Don't show input field after native share
+      } catch (err) {
+        // User cancelled or share failed - fall back to showing URL
+        if (err.name === 'AbortError') return; // User cancelled, do nothing
+        // Other errors: fall through to show URL input
+      }
+    }
+
+    // Fallback: show URL input field (desktop or share failed)
     setShareUrl(url);
-  }, [onGenerateShareUrl]);
+  }, [onGenerateShareUrl, t]);
 
   const handleCopyLink = useCallback(async () => {
     if (!shareUrl) return;

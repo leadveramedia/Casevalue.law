@@ -192,8 +192,16 @@ function Questionnaire({
                 inputMode={NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'numeric' : 'decimal'}
                 value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
                 onKeyDown={(e) => {
-                  // Allow: backspace, delete, tab, escape, enter, decimal point (for currency)
-                  if ([8, 9, 27, 13, 46].includes(e.keyCode) ||
+                  // Handle Enter key - blur input to close mobile keyboard and advance
+                  if (e.key === 'Enter' || e.keyCode === 13) {
+                    e.target.blur();
+                    if (answers[q.id] !== undefined && answers[q.id] !== '') {
+                      onNext();
+                    }
+                    return;
+                  }
+                  // Allow: backspace, delete, tab, escape, decimal point (for currency)
+                  if ([8, 9, 27, 46].includes(e.keyCode) ||
                       // Allow: Ctrl/Cmd+A, Ctrl/Cmd+C, Ctrl/Cmd+V, Ctrl/Cmd+X
                       (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
                       (e.keyCode === 67 && (e.ctrlKey === true || e.metaKey === true)) ||
@@ -290,6 +298,14 @@ function Questionnaire({
               type="text"
               value={answers[q.id] || ''}
               onChange={(e) => onUpdateAnswer(q.id, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                  e.target.blur();
+                  if (answers[q.id]) {
+                    onNext();
+                  }
+                }
+              }}
               style={SHARED_STYLES.formInputBg}
               className={SHARED_STYLES.textInput}
               placeholder={QUESTION_PLACEHOLDERS[q.id] || 'Enter text'}

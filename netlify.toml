@@ -50,7 +50,10 @@
     # - images.unsplash.com: Stock images
     # - clarity.ms: Microsoft Clarity analytics
     # CSP updated to allow blog assets from Vercel
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://casevalue-blog.vercel.app; style-src 'self' 'unsafe-inline' https://casevalue-blog.vercel.app; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com https://casevalue-blog.vercel.app; font-src 'self' https://casevalue-blog.vercel.app; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://www.clarity.ms https://region1.google-analytics.com https://casevalue-blog.vercel.app; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
+    # CSP updated to allow:
+    # - Blog assets from Vercel
+    # - PPC tracking: Google Ads, Facebook, Bing, LinkedIn
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://casevalue-blog.vercel.app https://connect.facebook.net https://bat.bing.com https://snap.licdn.com https://www.googleadservices.com; style-src 'self' 'unsafe-inline' https://casevalue-blog.vercel.app; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com https://casevalue-blog.vercel.app https://www.facebook.com https://bat.bing.com https://px.ads.linkedin.com; font-src 'self' https://casevalue-blog.vercel.app; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://www.clarity.ms https://region1.google-analytics.com https://casevalue-blog.vercel.app https://connect.facebook.net https://www.facebook.com https://bat.bing.com https://px.ads.linkedin.com https://www.googleadservices.com https://googleads.g.doubleclick.net; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
 
 # Cache static assets for better performance
 [[headers]]
