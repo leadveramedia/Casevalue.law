@@ -27,7 +27,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
   const translations = {
     en: {
       title: "We Value Your Privacy",
-      message: "We use cookies and similar technologies to improve your experience, analyze site usage, and assist in our marketing efforts. We only use analytics cookies (Google Analytics, Microsoft Clarity) to understand how visitors use our site.",
+      message: "We use cookies for analytics (Google Analytics, Microsoft Clarity) and conversion tracking (Google Ads, Facebook, Bing, LinkedIn) to improve your experience and measure advertising effectiveness.",
       accept: "Accept",
       decline: "Decline",
       learnMore: "Learn more in our",
@@ -35,7 +35,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
     },
     es: {
       title: "Valoramos Tu Privacidad",
-      message: "Utilizamos cookies y tecnologías similares para mejorar tu experiencia, analizar el uso del sitio y ayudar en nuestros esfuerzos de marketing. Solo usamos cookies analíticas (Google Analytics, Microsoft Clarity).",
+      message: "Utilizamos cookies para análisis (Google Analytics, Microsoft Clarity) y seguimiento de conversiones (Google Ads, Facebook, Bing, LinkedIn) para mejorar tu experiencia y medir la efectividad de la publicidad.",
       accept: "Aceptar",
       decline: "Rechazar",
       learnMore: "Más información en nuestra",
@@ -43,7 +43,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
     },
     zh: {
       title: "我们重视您的隐私",
-      message: "我们使用cookies和类似技术来改善您的体验、分析网站使用情况并协助我们的营销工作。我们仅使用分析cookies（Google Analytics、Microsoft Clarity）。",
+      message: "我们使用分析cookies（Google Analytics、Microsoft Clarity）和转化跟踪（Google Ads、Facebook、Bing、LinkedIn）来改善您的体验并衡量广告效果。",
       accept: "接受",
       decline: "拒绝",
       learnMore: "了解更多请查看我们的",

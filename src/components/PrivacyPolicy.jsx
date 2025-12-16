@@ -13,7 +13,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
       sections: [
         {
           title: "Information We Collect",
-          text: "CaseValue.law collects only the information you voluntarily provide through our case valuation form, including: your name, email address, phone number, and responses to case-related questions. We do not use cookies for tracking or advertising purposes."
+          text: "CaseValue.law collects only the information you voluntarily provide through our case valuation form, including: your name, email address, phone number, and responses to case-related questions."
         },
         {
           title: "How We Use Your Information",
@@ -40,8 +40,8 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
           text: "We strongly recommend consulting with a licensed attorney in your jurisdiction before making any legal decisions. The information provided by CaseValue.law should be used as a starting point for discussions with legal counsel, not as a substitute for professional legal advice."
         },
         {
-          title: "Third-Party Services",
-          text: "Our website uses Google Analytics and Microsoft Clarity for analytics purposes. These services may collect information about your visit including pages viewed and time spent on site. This data is used solely to improve our service."
+          title: "Third-Party Services & Cookies",
+          text: "Our website uses cookies and similar technologies through: Google Tag Manager, Google Analytics, Microsoft Clarity (session recording), and conversion tracking pixels from Google Ads, Facebook, Bing, and LinkedIn. These services collect information about your visit including pages viewed, time on site, and conversion events. You can manage your cookie preferences through the cookie consent banner. Analytics data is used to improve our service; conversion tracking helps us measure the effectiveness of our advertising."
         },
         {
           title: "Children's Privacy",
@@ -71,7 +71,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
       sections: [
         {
           title: "Información que Recopilamos",
-          text: "CaseValue.law recopila únicamente la información que usted proporciona voluntariamente a través de nuestro formulario de valoración de casos, incluyendo: su nombre, dirección de correo electrónico, número de teléfono y respuestas a preguntas relacionadas con el caso. No utilizamos cookies para seguimiento o publicidad."
+          text: "CaseValue.law recopila únicamente la información que usted proporciona voluntariamente a través de nuestro formulario de valoración de casos, incluyendo: su nombre, dirección de correo electrónico, número de teléfono y respuestas a preguntas relacionadas con el caso."
         },
         {
           title: "Cómo Usamos Su Información",
@@ -98,8 +98,8 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
           text: "Recomendamos encarecidamente consultar con un abogado con licencia en su jurisdicción antes de tomar decisiones legales."
         },
         {
-          title: "Servicios de Terceros",
-          text: "Nuestro sitio web utiliza Google Analytics y Microsoft Clarity con fines analíticos."
+          title: "Servicios de Terceros y Cookies",
+          text: "Nuestro sitio web utiliza cookies y tecnologías similares a través de: Google Tag Manager, Google Analytics, Microsoft Clarity (grabación de sesiones) y píxeles de seguimiento de conversiones de Google Ads, Facebook, Bing y LinkedIn. Estos servicios recopilan información sobre su visita. Puede gestionar sus preferencias de cookies a través del banner de consentimiento de cookies."
         },
         {
           title: "Privacidad de Menores",
@@ -129,7 +129,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
       sections: [
         {
           title: "我们收集的信息",
-          text: "CaseValue.law仅收集您通过案件评估表自愿提供的信息，包括：您的姓名、电子邮件地址、电话号码和与案件相关的问题答复。我们不使用cookie进行跟踪或广告目的。"
+          text: "CaseValue.law仅收集您通过案件评估表自愿提供的信息，包括：您的姓名、电子邮件地址、电话号码和与案件相关的问题答复。"
         },
         {
           title: "我们如何使用您的信息",
@@ -156,8 +156,8 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
           text: "我们强烈建议在做出任何法律决定之前咨询您所在司法管辖区的持牌律师。"
         },
         {
-          title: "第三方服务",
-          text: "我们的网站使用Google Analytics和Microsoft Clarity进行分析。"
+          title: "第三方服务和Cookie",
+          text: "我们的网站通过以下服务使用cookie和类似技术：Google Tag Manager、Google Analytics、Microsoft Clarity（会话录制）以及来自Google Ads、Facebook、Bing和LinkedIn的转化跟踪像素。这些服务会收集您访问的相关信息。您可以通过cookie同意横幅管理您的cookie偏好。"
         },
         {
           title: "儿童隐私",

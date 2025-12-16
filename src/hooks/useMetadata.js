@@ -130,9 +130,20 @@ export function generateStructuredData(selectedCase, t) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        "@id": "https://casevalue.law/#website",
+        "url": "https://casevalue.law",
+        "name": "CaseValue.Law",
+        "description": "Free legal case value calculator for personal injury, employment law, and intellectual property cases",
+        "publisher": {
+          "@id": "https://casevalue.law/#organization"
+        },
+        "inLanguage": ["en-US", "es", "zh"]
+      },
+      {
         "@type": ["Organization", "LegalService", "LocalBusiness"],
         "@id": "https://casevalue.law/#organization",
-        "name": "CaseValue.law",
+        "name": "CaseValue.Law",
         "url": "https://casevalue.law",
         "logo": {
           "@type": "ImageObject",
