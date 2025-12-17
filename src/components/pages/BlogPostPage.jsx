@@ -160,13 +160,13 @@ export default function BlogPostPage() {
           <div className="max-w-2xl mx-auto text-center px-4">
             <div className="bg-red-500/20 border-2 border-red-500/40 rounded-3xl p-8 backdrop-blur-xl">
               <p className="text-red-200 text-lg mb-4">{error || 'Post not found'}</p>
-              <Link
-                to="/blog"
+              <a
+                href="/blog"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-textDark rounded-xl transition-all font-bold hover:opacity-90"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to Blog
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -240,13 +240,13 @@ export default function BlogPostPage() {
       <div className="min-h-screen bg-gradient-hero">
         {/* Back to Blog Link */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-          <Link
-            to="/blog"
+          <a
+            href="/blog"
             className="inline-flex items-center gap-2 text-accent hover:text-accentHover transition-colors font-semibold"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </Link>
+          </a>
         </div>
 
         {/* Article Container */}

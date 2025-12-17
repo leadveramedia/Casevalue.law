@@ -41,13 +41,13 @@ export default function NotFoundPage() {
                 <Calculator className="w-5 h-5" />
                 Calculate Your Case Value
               </Link>
-              <Link
-                to="/blog"
+              <a
+                href="/blog"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-card/50 text-text rounded-xl transition-all font-bold hover:bg-card border-2 border-cardBorder hover:border-accent/50"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back to Blog
-              </Link>
+              </a>
             </div>
 
             {/* Home Link */}

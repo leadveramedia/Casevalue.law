@@ -50,15 +50,16 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           )}
 
           {/* Blog Link - Only show when on calculator */}
+          {/* Uses <a> instead of <Link> to force full page navigation to Netlify edge function */}
           {isOnCalculator && (
-            <Link
-              to="/blog"
+            <a
+              href="/blog"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
               aria-label="Go to blog"
             >
               <BookOpen className="w-5 h-5" />
               <span className="hidden sm:inline">Blog</span>
-            </Link>
+            </a>
           )}
 
           {/* Language Navigation - Always visible on all screen sizes */}
