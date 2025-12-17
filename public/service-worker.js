@@ -3,7 +3,7 @@
 // Service Worker for CaseValue.law
 // Provides offline capability and PWA features
 
-const CACHE_NAME = 'casevalue-v2';
+const CACHE_NAME = 'casevalue-v3';
 const OFFLINE_URL = '/offline.html';
 
 // Assets to cache on install
@@ -61,7 +61,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network, then offline page
+// Fetch event - network-first for HTML, cache-first for assets
 self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
@@ -79,51 +79,56 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // NETWORK-FIRST for navigation requests (HTML pages)
+  // This ensures users always get the latest index.html after deploys
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache the fresh response for offline use
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => {
+          // Offline: fall back to cache, then offline page
+          return caches.match(event.request)
+            .then((cached) => cached || caches.match(OFFLINE_URL));
+        })
+    );
+    return;
+  }
+
+  // CACHE-FIRST for static assets (JS, CSS, images)
+  // These have hashed filenames so stale cache is not an issue
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
-        // Return cached response if found
         if (cachedResponse) {
-          console.log('[Service Worker] Serving from cache:', event.request.url);
           return cachedResponse;
         }
 
-        // Otherwise, fetch from network
         return fetch(event.request)
           .then((response) => {
-            // Check if valid response
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
 
-            // Clone the response
             const responseToCache = response.clone();
-
-            // Cache the fetched response for future use
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                // Only cache same-origin requests
-                if (event.request.url.startsWith(self.location.origin)) {
-                  cache.put(event.request, responseToCache);
-                }
-              });
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
 
             return response;
-          })
-          .catch((error) => {
-            console.error('[Service Worker] Fetch failed:', error);
-
-            // If fetch fails and it's a navigation request, show offline page
-            if (event.request.mode === 'navigate') {
-              return caches.match(OFFLINE_URL);
-            }
-
-            // For other requests, return a basic error response
-            return new Response('Network error happened', {
-              status: 408,
-              headers: { 'Content-Type': 'text/plain' },
-            });
           });
+      })
+      .catch(() => {
+        return new Response('Network error', {
+          status: 408,
+          headers: { 'Content-Type': 'text/plain' },
+        });
       })
   );
 });
