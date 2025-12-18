@@ -1,8 +1,14 @@
 /**
- * Centralized Design System
+ * Centralized Design System - Legal Aesthetic
  *
  * This file contains all shared style patterns used across the site.
  * Updating styles here will automatically update all components that use them.
+ *
+ * Design principles:
+ * - Light backgrounds (cream/white)
+ * - Brass accent color
+ * - Subtle shadows
+ * - Professional, authoritative appearance
  */
 
 // ============================================================================
@@ -13,105 +19,105 @@
  * Back to Home Button - Used on all pages with navigation
  * Usage: <button className={SHARED_STYLES.backToHomeButton}>...</button>
  */
-export const BACK_TO_HOME_BUTTON = "mb-6 px-6 py-3 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl";
+export const BACK_TO_HOME_BUTTON = "mb-6 px-6 py-3 bg-white hover:bg-gray-50 rounded-lg transition-all text-text flex items-center gap-2 text-base font-semibold border-2 border-accent hover:border-accentHover shadow-legal-sm hover:shadow-legal-md";
 
 /**
  * Primary Action Button (e.g., Next, Submit)
  */
-export const PRIMARY_BUTTON_ACTIVE = "bg-buttonActive hover:bg-opacity-90 text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl";
+export const PRIMARY_BUTTON_ACTIVE = "bg-accent hover:bg-accentHover text-white border-2 border-accent hover:border-accentHover shadow-legal-md hover:shadow-legal-lg";
 
 /**
  * Primary Action Button - Inactive/Disabled State
  */
-export const PRIMARY_BUTTON_INACTIVE = "bg-buttonInactive cursor-not-allowed text-text/40 border-2 border-cardBorder/50";
+export const PRIMARY_BUTTON_INACTIVE = "bg-buttonInactive cursor-not-allowed text-textMuted border-2 border-cardBorder";
 
 /**
  * Navigation Button (Back button on questionnaire pages)
  */
-export const NAV_BUTTON = "px-8 py-4 bg-buttonActive hover:bg-opacity-90 rounded-xl transition-all text-lg font-semibold text-text border-2 border-accent/50 hover:border-accent shadow-lg hover:shadow-xl";
+export const NAV_BUTTON = "px-8 py-4 bg-white hover:bg-gray-50 rounded-lg transition-all text-lg font-semibold text-text border-2 border-accent hover:border-accentHover shadow-legal-sm hover:shadow-legal-md";
 
 /**
- * Gold Gradient Button (Submit buttons, CTA)
+ * Gold/Brass Button (Submit buttons, CTA)
  */
-export const GOLD_BUTTON = "bg-gradient-gold hover:opacity-90 rounded-xl shadow-2xl hover:shadow-accent/50 transition-all text-xl font-bold transform hover:scale-[1.02] active:scale-95 text-textDark";
+export const GOLD_BUTTON = "bg-accent hover:bg-accentHover rounded-lg shadow-legal-md hover:shadow-legal-lg transition-all text-xl font-bold transform hover:scale-[1.02] active:scale-95 text-white";
 
 // ============================================================================
 // CARD STYLES
 // ============================================================================
 
 /**
- * 3D Question Card - Main card style for questionnaires and forms
- * Includes: multi-layered shadows, slate border, ring effects
+ * Question Card - Main card style for questionnaires and forms
+ * Clean white card with subtle border and shadow
  * Usage: <div className={SHARED_STYLES.questionCard} style={SHARED_STYLES.questionCardBg}>
  */
-export const QUESTION_CARD = "bg-questionCard backdrop-blur-3xl rounded-3xl p-8 md:p-10 border-4 border-slate-500 ring-2 ring-slate-400/30 ring-offset-2 ring-offset-background animate-scale-in shadow-[0_25px_60px_rgba(0,0,0,0.8),0_10px_25px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.1)]";
+export const QUESTION_CARD = "bg-white rounded-2xl p-8 md:p-10 border-2 border-cardBorder animate-scale-in shadow-legal-lg";
 
 /**
- * Question Card Background - Inline style for gradient lighting effect
+ * Question Card Background - Inline style (now just white)
  * Usage: style={SHARED_STYLES.questionCardBg}
  */
 export const QUESTION_CARD_BG = {
-  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(40,75,140,0.75) 40%, rgba(0,0,0,0.15) 100%)'
+  background: '#ffffff'
 };
 
 /**
  * Simple Card - For less prominent content areas
  */
-export const SIMPLE_CARD = "bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-card";
+export const SIMPLE_CARD = "bg-white rounded-xl p-6 md:p-8 border border-cardBorder shadow-legal-sm";
 
 // ============================================================================
 // INPUT STYLES
 // ============================================================================
 
 /**
- * Form Input Background - Light grey gradient
+ * Form Input Background - Light ivory
  * Usage: style={SHARED_STYLES.formInputBg}
  */
 export const FORM_INPUT_BG = {
-  background: 'linear-gradient(145deg, rgba(220, 220, 225, 0.95) 0%, rgba(200, 200, 205, 0.98) 100%)'
+  background: '#f5f3ef'
 };
 
 /**
  * Text Input - Default state (no validation)
  */
-export const TEXT_INPUT = "w-full p-4 md:p-5 border-2 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md";
+export const TEXT_INPUT = "w-full p-4 md:p-5 border-2 border-cardBorder rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none transition-all shadow-legal-sm";
 
 /**
  * Text Input - With validation states
  * Returns different border colors based on validation state
  */
 export const getTextInputWithValidation = (validationState) => {
-  const baseClasses = "w-full p-4 md:p-5 border-2 rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:ring-2 focus:outline-none transition-all shadow-md";
+  const baseClasses = "w-full p-4 md:p-5 border-2 rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:ring-2 focus:outline-none transition-all shadow-legal-sm";
 
   if (validationState === null) {
-    return `${baseClasses} border-accent focus:border-accent focus:ring-accent/50`;
+    return `${baseClasses} border-cardBorder focus:border-accent focus:ring-accent/30`;
   } else if (validationState === true) {
-    return `${baseClasses} border-green-500/50 focus:border-green-400 focus:ring-green-400/50`;
+    return `${baseClasses} border-green-500 focus:border-green-500 focus:ring-green-500/30`;
   } else {
-    return `${baseClasses} border-red-500/50 focus:border-red-400 focus:ring-red-400/50`;
+    return `${baseClasses} border-red-500 focus:border-red-500 focus:ring-red-500/30`;
   }
 };
 
 /**
  * Select Dropdown
  */
-export const SELECT_INPUT = "w-full p-4 md:p-5 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md";
+export const SELECT_INPUT = "w-full p-4 md:p-5 border-2 border-cardBorder rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none transition-all shadow-legal-sm";
 
 /**
  * Date Input
  */
-export const DATE_INPUT = "w-full p-4 md:p-5 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light]";
+export const DATE_INPUT = "w-full p-4 md:p-5 border-2 border-cardBorder rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none transition-all shadow-legal-sm [color-scheme:light]";
 
 /**
  * Number Input (with or without currency symbol)
  */
 export const NUMBER_INPUT = (hasCurrencySymbol = false) =>
-  `w-full p-4 md:p-5 ${hasCurrencySymbol ? 'pl-10 md:pl-12' : ''} border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md`;
+  `w-full p-4 md:p-5 ${hasCurrencySymbol ? 'pl-10 md:pl-12' : ''} border-2 border-cardBorder rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none transition-all shadow-legal-sm`;
 
 /**
  * Currency Symbol for Number Inputs
  */
-export const CURRENCY_SYMBOL = "absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-xl md:text-2xl text-textDark font-bold";
+export const CURRENCY_SYMBOL = "absolute left-4 md:left-5 top-1/2 -translate-y-1/2 text-xl md:text-2xl text-text font-bold";
 
 // ============================================================================
 // BOOLEAN BUTTON STYLES
@@ -119,15 +125,15 @@ export const CURRENCY_SYMBOL = "absolute left-4 md:left-5 top-1/2 -translate-y-1
 
 /**
  * Boolean Button - Active/Selected State
- * Light grey background with 3D effect
+ * Light background with brass border accent
  */
-export const BOOLEAN_BUTTON_ACTIVE = "border-accent scale-105 text-textDark shadow-[0_8px_16px_rgba(0,0,0,0.6),0_4px_8px_rgba(0,0,0,0.4),inset_0_2px_4px_rgba(255,255,255,0.1),inset_0_-2px_4px_rgba(0,0,0,0.3)]";
+export const BOOLEAN_BUTTON_ACTIVE = "border-accent scale-105 text-text bg-accent/10 shadow-legal-md";
 
 /**
  * Boolean Button - Inactive State (with scale and opacity for better differentiation)
  */
 export const getBooleanButtonInactive = () => ({
-  className: "border-accent hover:border-accent text-textDark scale-75 opacity-50",
+  className: "border-cardBorder hover:border-accent text-text scale-90 opacity-70 hover:opacity-100",
   style: FORM_INPUT_BG
 });
 

@@ -14,7 +14,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
   const isOnCalculator = location.pathname === '/';
 
   return (
-    <nav className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-cardBorder shadow-legal-sm">
       <div className="flex justify-between items-center p-4 md:p-6 max-w-7xl mx-auto">
         {/* Logo */}
         {isOnCalculator ? (
@@ -41,7 +41,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           {isOnBlog && (
             <Link
               to="/"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 text-accent border-2 border-accent font-semibold hover:bg-accent/20 transition-colors"
               aria-label="Go to calculator"
             >
               <Calculator className="w-5 h-5" />
@@ -54,7 +54,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           {isOnCalculator && (
             <a
               href="/blog"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/20 text-accent border-2 border-accent/40 font-semibold"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 text-accent border-2 border-accent font-semibold hover:bg-accent/20 transition-colors"
               aria-label="Go to blog"
             >
               <BookOpen className="w-5 h-5" />
@@ -63,15 +63,15 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           )}
 
           {/* Language Navigation - Always visible on all screen sizes */}
-          <div className="flex items-center gap-1.5 bg-card/30 p-1 rounded-lg border border-cardBorder">
+          <div className="flex items-center gap-1.5 bg-gray-100 p-1 rounded-lg border border-cardBorder">
             {LANGUAGE_OPTIONS.map(option => (
               <button
                 key={option.code}
                 onClick={() => onLanguageChange(option.code)}
                 className={`min-w-[44px] px-2 sm:px-3 py-1.5 rounded-md transition-all text-xs sm:text-sm font-bold uppercase ${
                   lang === option.code
-                    ? 'bg-gradient-gold text-textDark shadow-md'
-                    : 'bg-transparent hover:bg-card/50 text-text/70 hover:text-text'
+                    ? 'bg-accent text-white shadow-legal-sm'
+                    : 'bg-transparent hover:bg-white text-textMuted hover:text-text'
                 }`}
                 aria-label={`Switch to ${option.ariaLabel}`}
               >

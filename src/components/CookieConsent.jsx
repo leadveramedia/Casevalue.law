@@ -63,25 +63,25 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
       aria-label="Cookie consent"
     >
       <div className="max-w-6xl mx-auto pointer-events-auto">
-        <div className="bg-gradient-to-r from-slate-900 to-blue-900 border-2 border-blue-400/40 rounded-2xl shadow-2xl backdrop-blur-xl p-4 sm:p-6">
+        <div className="bg-white border-2 border-cardBorder rounded-2xl shadow-legal-lg p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {/* Cookie Icon */}
-            <div className="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-2xl">
+            <div className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center text-2xl">
               🍪
             </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+              <h3 className="text-lg sm:text-xl font-bold text-text mb-2">
                 {t.title}
               </h3>
-              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-textMuted leading-relaxed">
                 {t.message}{' '}
                 <button
                   onClick={() => {
                     onPrivacyClick?.();
                   }}
-                  className="text-blue-400 hover:text-blue-300 underline font-semibold"
+                  className="text-accent hover:text-accentHover underline font-semibold"
                 >
                   {t.learnMore} {t.privacyPolicy}
                 </button>
@@ -92,13 +92,13 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <button
                 onClick={handleDecline}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold text-white transition-all text-sm sm:text-base"
+                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold text-text transition-all text-sm sm:text-base border-2 border-cardBorder"
               >
                 {t.decline}
               </button>
               <button
                 onClick={handleAccept}
-                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl font-bold text-white shadow-lg transition-all transform hover:scale-105 text-sm sm:text-base"
+                className="px-6 py-3 bg-accent hover:bg-accentHover rounded-xl font-bold text-white shadow-legal-md transition-all transform hover:scale-105 text-sm sm:text-base"
               >
                 {t.accept}
               </button>

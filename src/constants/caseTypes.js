@@ -61,5 +61,6 @@ export const NON_CURRENCY_NUMBER_FIELDS = new Set([
   'num_employees_affected',
   'num_class_members',
   'duration_of_harm',
-  'duration_of_violation'
+  'duration_of_violation',
+  'weeks_unable_to_work'
 ]);

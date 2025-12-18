@@ -12,7 +12,7 @@ const NotFoundPage = lazy(() => import('./components/pages/NotFoundPage'));
 
 // Loading fallback component
 const LoadingFallback = () => (
-  <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+  <div className="min-h-screen bg-background flex items-center justify-center">
     <div className="text-textMuted text-lg">Loading...</div>
   </div>
 );

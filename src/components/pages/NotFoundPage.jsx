@@ -16,11 +16,11 @@ export default function NotFoundPage() {
         <link rel="canonical" href="https://casevalue.law/404" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="max-w-2xl w-full">
-          <div className="bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-2 border-cardBorder shadow-card p-8 md:p-12 text-center">
+          <div className="bg-white rounded-3xl overflow-hidden border-2 border-cardBorder shadow-legal-lg p-8 md:p-12 text-center">
             {/* 404 Number */}
-            <div className="text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-gold mb-6">
+            <div className="text-8xl md:text-9xl font-bold text-accent mb-6">
               404
             </div>
 
@@ -36,14 +36,14 @@ export default function NotFoundPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-gold text-textDark rounded-xl transition-all font-bold hover:opacity-90 shadow-glow-gold-soft"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent hover:bg-accentHover text-white rounded-xl transition-all font-bold shadow-legal-md"
               >
                 <Calculator className="w-5 h-5" />
                 Calculate Your Case Value
               </Link>
               <a
                 href="/blog"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-card/50 text-text rounded-xl transition-all font-bold hover:bg-card border-2 border-cardBorder hover:border-accent/50"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-text rounded-xl transition-all font-bold border-2 border-cardBorder hover:border-accent"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back to Blog

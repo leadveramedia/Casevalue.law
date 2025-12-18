@@ -39,60 +39,100 @@ module.exports = {
           'Arial',
           'sans-serif',
         ],
+        // Legal aesthetic fonts
+        'legal-heading': [
+          '"Playfair Display"',
+          'Georgia',
+          '"Times New Roman"',
+          'serif',
+        ],
+        'legal-body': [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+        ],
       },
       colors: {
-        // Base colors
-        background: '#0a0e27',      // Very dark navy background
-        primary: '#1a1f3a',         // Dark navy for navigation
+        // Base colors - Legal aesthetic (light theme)
+        background: '#faf9f7',      // Cream background
+        primary: '#ffffff',         // White for navigation/cards
 
-        // Text colors
-        text: '#F6F7FB',            // Main text (light)
-        textDark: '#0B1F4B',        // Dark text for light backgrounds
-        textMuted: '#B8C5E0',       // Lighter muted text for dark bg
+        // Text colors - Legal aesthetic
+        text: '#1a2332',            // Dark navy text
+        textDark: '#1a1a1a',        // Very dark text
+        textMuted: '#6b7280',       // Muted gray text
 
-        // Accent colors
-        accent: '#FFC447',          // Gold accent
-        accentHover: '#FFB320',     // Gold accent hover
+        // Accent colors - Brass instead of gold
+        accent: '#b8860b',          // Brass accent
+        accentHover: '#d4a84b',     // Brass hover (lighter)
 
-        // Card/Surface colors (lighter for contrast)
-        card: 'rgba(30, 50, 100, 0.6)',        // Lighter blue with transparency
-        cardBorder: 'rgba(255, 255, 255, 0.15)', // More visible border
+        // Card/Surface colors - Clean white
+        card: '#ffffff',            // White cards
+        cardBorder: '#e8e6e1',      // Warm gray border
 
-        // Stat colors (brighter for dark background)
-        statBlue: '#3DE1FF',
-        statGreen: '#4AE598',
-        statOrange: '#FFB34D',
-        statPink: '#FF6FC7',
+        // Stat colors (adjusted for light background)
+        statBlue: '#1e40af',        // Deep blue
+        statGreen: '#15803d',       // Deep green
+        statOrange: '#b8860b',      // Brass/gold
+        statPink: '#be185d',        // Deep pink
 
-        // Method/Process colors
-        methodBg: 'rgba(50, 90, 180, 0.5)',
-        methodBorder: 'rgba(157, 176, 216, 0.4)',
-        methodNumber: '#2E5BFF',
+        // Method/Process colors - Legal aesthetic
+        methodBg: '#f5f3ef',        // Ivory background
+        methodBorder: '#e8e6e1',    // Warm gray border
+        methodNumber: '#b8860b',    // Brass accent
 
-        // Trust section colors
-        trustOuter: 'rgba(15, 30, 70, 0.3)',
-        trustCard: 'rgba(60, 100, 170, 0.6)',
+        // Trust section colors - Legal aesthetic
+        trustOuter: '#faf9f7',      // Cream
+        trustCard: '#ffffff',       // White
 
-        // Questionnaire specific colors
-        questionCard: 'rgba(40, 75, 140, 0.75)',
-        formInput: 'rgba(210, 210, 215, 0.95)',
-        buttonActive: 'rgba(70, 120, 200, 0.85)',
-        buttonInactive: 'rgba(40, 70, 120, 0.4)',
+        // Questionnaire specific colors - Legal aesthetic
+        questionCard: '#ffffff',    // White cards
+        formInput: '#f5f3ef',       // Ivory input background
+        buttonActive: '#b8860b',    // Brass buttons
+        buttonInactive: '#e8e6e1',  // Muted inactive
+
+        // Legal aesthetic colors (kept for reference/compatibility)
+        legal: {
+          navy: '#1a2332',
+          charcoal: '#2d3748',
+          slate: '#4a5568',
+          white: '#ffffff',
+          cream: '#faf9f7',
+          ivory: '#f5f3ef',
+          'warm-gray': '#e8e6e1',
+          brass: '#b8860b',
+          'brass-light': '#d4a84b',
+          'brass-dark': '#8b6914',
+          'text-dark': '#1a1a1a',
+          'text-muted': '#6b7280',
+          'text-light': '#f7f7f7',
+        },
       },
       backgroundImage: {
-        'gradient-hero': 'linear-gradient(180deg, #071530 0%, #0F2A73 45%, #1E3D96 100%)',
-        'gradient-gold': 'linear-gradient(90deg, #FFD700 0%, #FFC107 25%, #FFB300 50%, #FFA000 75%, #FF8F00 100%)',
-        'gradient-text': 'linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%)',
-        'gradient-input': 'linear-gradient(145deg, rgba(220, 220, 225, 0.95) 0%, rgba(200, 200, 205, 0.98) 100%)',
+        // Legal aesthetic gradients (subtle, light)
+        'gradient-hero': 'linear-gradient(180deg, #faf9f7 0%, #f5f3ef 100%)',
+        'gradient-gold': 'linear-gradient(90deg, #b8860b 0%, #d4a84b 50%, #b8860b 100%)',
+        'gradient-text': 'linear-gradient(90deg, #b8860b 0%, #d4a84b 50%, #8b6914 100%)',
+        'gradient-input': 'linear-gradient(145deg, #f5f3ef 0%, #e8e6e1 100%)',
       },
       boxShadow: {
-        'card': '0 30px 90px rgba(0, 0, 0, 0.8), 0 2px 0 rgba(255, 255, 255, 0.12)',
-        'glow-cyan': '0 0 40px rgba(61, 225, 255, 0.5), 0 20px 60px rgba(61, 225, 255, 0.3)',
-        'glow-green': '0 0 40px rgba(74, 229, 152, 0.5), 0 20px 60px rgba(74, 229, 152, 0.3)',
-        'glow-orange': '0 0 40px rgba(255, 179, 77, 0.5), 0 20px 60px rgba(255, 179, 77, 0.3)',
-        'glow-pink': '0 0 40px rgba(255, 111, 199, 0.5), 0 20px 60px rgba(255, 111, 199, 0.3)',
-        'glow-gold': '0 0 50px rgba(255, 215, 0, 0.7), 0 12px 48px rgba(255, 193, 7, 0.6)',
-        'glow-gold-soft': '0 0 30px rgba(255, 196, 71, 0.4), 0 10px 40px rgba(255, 196, 71, 0.25)',
+        // Legal aesthetic shadows (subtle, professional)
+        'card': '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05)',
+        'glow-cyan': '0 4px 12px rgba(30, 64, 175, 0.15)',
+        'glow-green': '0 4px 12px rgba(21, 128, 61, 0.15)',
+        'glow-orange': '0 4px 12px rgba(184, 134, 11, 0.15)',
+        'glow-pink': '0 4px 12px rgba(190, 24, 93, 0.15)',
+        'glow-gold': '0 4px 12px rgba(184, 134, 11, 0.2)',
+        'glow-gold-soft': '0 2px 8px rgba(184, 134, 11, 0.15)',
+        'legal-sm': '0 1px 2px rgba(0, 0, 0, 0.05)',
+        'legal-md': '0 4px 6px rgba(0, 0, 0, 0.07)',
+        'legal-lg': '0 10px 15px rgba(0, 0, 0, 0.1)',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in',

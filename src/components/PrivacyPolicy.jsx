@@ -188,7 +188,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
   return (
     <div className="min-h-screen bg-background text-text">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-cardBorder shadow-legal-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <button
@@ -200,7 +200,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
               </svg>
               <span className="font-semibold">Close</span>
             </button>
-            <div className="text-sm text-text/70">{content.lastUpdated}</div>
+            <div className="text-sm text-textMuted">{content.lastUpdated}</div>
           </div>
         </div>
       </header>
@@ -213,11 +213,11 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
 
         <div className="space-y-8 mt-12">
           {content.sections.map((section, index) => (
-            <div key={index} className="bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-card">
+            <div key={index} className="bg-white rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-legal-sm">
               <h2 className="text-xl md:text-2xl font-bold text-accent mb-4">
                 {section.title}
               </h2>
-              <p className="text-base md:text-lg text-text/80 leading-relaxed">
+              <p className="text-base md:text-lg text-textMuted leading-relaxed">
                 {section.text}
               </p>
             </div>
@@ -225,13 +225,13 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-12 text-center p-8 bg-primary/10 rounded-2xl border border-primary/30">
+        <div className="mt-12 text-center p-8 bg-gray-50 rounded-2xl border border-cardBorder">
           <p className="text-lg text-text mb-4">
             Have questions about our privacy policy?
           </p>
           <a
             href="mailto:info@leadveramedia.com"
-            className="inline-block px-8 py-3 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl font-bold transition-all transform hover:scale-105"
+            className="inline-block px-8 py-3 bg-accent hover:bg-accentHover text-white rounded-xl font-bold transition-all transform hover:scale-105"
           >
             Contact Us
           </a>
@@ -239,10 +239,10 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-primary/10 mt-20 py-8 text-center text-text/60 px-4">
+      <footer className="border-t border-cardBorder mt-20 py-8 text-center text-textMuted px-4">
         <button
           onClick={onClose}
-          className="mb-6 px-8 py-3 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
+          className="mb-6 px-8 py-3 bg-accent hover:bg-accentHover text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-legal-md"
         >
           Close
         </button>

@@ -43,19 +43,19 @@ function DateInputField({ value, onChange, helpText }) {
           min="1900-01-01"
           max={new Date().toISOString().split('T')[0]}
           style={SHARED_STYLES.formInputBg}
-          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer"
+          className="w-full p-4 md:p-5 pr-14 border-2 border-cardBorder rounded-lg text-text placeholder:text-textMuted text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none transition-all shadow-legal-sm [color-scheme:light] cursor-pointer"
           onClick={openDatePicker}
         />
         <button
           type="button"
           onClick={openDatePicker}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-accent hover:bg-accentHover rounded-lg transition-all shadow-legal-sm hover:shadow-legal-md active:scale-95"
           aria-label="Open date picker"
         >
-          <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" />
+          <Calendar className="w-5 h-5 md:w-6 md:h-6 text-white" />
         </button>
       </div>
-      <p className="mt-2 text-sm text-text/60">
+      <p className="mt-2 text-sm text-textMuted">
         {helpText}
       </p>
     </div>
@@ -90,16 +90,16 @@ function Questionnaire({
 
       {/* Progress Bar */}
       <div className="mb-10">
-        <div className="flex justify-between text-sm text-text/60 mb-3 px-1">
+        <div className="flex justify-between text-sm text-textMuted mb-3 px-1">
           <span className="font-semibold">{t.question} {qIdx + 1} {t.of} {questions.length}</span>
           <span className="font-bold text-accent">{Math.round(((qIdx + 1) / questions.length) * 100)}%</span>
         </div>
-        <div className="h-3 bg-card rounded-full overflow-hidden shadow-inner">
+        <div className="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
           <div
-            className="h-full transition-all duration-500 ease-out rounded-full shadow-lg"
+            className="h-full transition-all duration-500 ease-out rounded-full"
             style={{
               width: `${((qIdx + 1) / questions.length) * 100}%`,
-              background: `linear-gradient(90deg, #B8860B 0%, ${`hsl(${45 + ((qIdx + 1) / questions.length) * 10}, ${70 + ((qIdx + 1) / questions.length) * 30}%, ${40 + ((qIdx + 1) / questions.length) * 20}%)`} 100%)`
+              background: `linear-gradient(90deg, #b8860b 0%, #d4a84b 100%)`
             }}
           />
         </div>
@@ -149,8 +149,8 @@ function Questionnaire({
                 onClick={() => onDontKnow(q.id)}
                 className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+                    ? 'bg-accent text-white border-2 border-accent'
+                    : 'bg-gray-100 hover:bg-gray-200 text-text border-2 border-cardBorder'
                 }`}
               >
                 {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
@@ -273,7 +273,7 @@ function Questionnaire({
                 aria-label={`Enter ${NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'a number' : 'an amount'}`}
               />
             </div>
-            <p className="mt-2 text-sm text-text/60">
+            <p className="mt-2 text-sm text-textMuted">
               {QUESTION_HELP_TEXT[q.id] || (NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter the number' : 'Enter the total amount in dollars')}
             </p>
             {shouldShowDontKnow(q) && (
@@ -281,8 +281,8 @@ function Questionnaire({
                 onClick={() => onDontKnow(q.id)}
                 className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+                    ? 'bg-accent text-white border-2 border-accent'
+                    : 'bg-gray-100 hover:bg-gray-200 text-text border-2 border-cardBorder'
                 }`}
               >
                 {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
@@ -310,7 +310,7 @@ function Questionnaire({
               className={SHARED_STYLES.textInput}
               placeholder={QUESTION_PLACEHOLDERS[q.id] || 'Enter text'}
             />
-            <p className="mt-2 text-sm text-text/60">
+            <p className="mt-2 text-sm text-textMuted">
               {QUESTION_HELP_TEXT[q.id] || 'Enter the requested information'}
             </p>
           </div>
@@ -325,10 +325,10 @@ function Questionnaire({
                   key={String(v)}
                   onClick={() => onUpdateAnswer(q.id, v)}
                   style={SHARED_STYLES.formInputBg}
-                  className={`p-5 md:p-6 rounded-xl border-3 transition-all text-lg md:text-xl font-bold shadow-lg ${
+                  className={`p-5 md:p-6 rounded-xl border-3 transition-all text-lg md:text-xl font-bold shadow-legal-md ${
                     answers[q.id] === v
                       ? SHARED_STYLES.booleanButtonActive
-                      : 'border-accent hover:border-accent text-textDark scale-75 opacity-50'
+                      : 'border-cardBorder hover:border-accent text-text scale-90 opacity-70 hover:opacity-100'
                   }`}
                 >
                   {v ? (
@@ -345,8 +345,8 @@ function Questionnaire({
                 onClick={() => onDontKnow(q.id)}
                 className={`mt-3 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+                    ? 'bg-accent text-white border-2 border-accent'
+                    : 'bg-gray-100 hover:bg-gray-200 text-text border-2 border-cardBorder'
                 }`}
               >
                 {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
@@ -368,21 +368,21 @@ function Questionnaire({
                   const newValue = e.target.value;
                   onUpdateAnswer(q.id, newValue);
                 }}
-                className="w-full h-4 bg-card rounded-lg appearance-none cursor-pointer"
+                className="w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #FFD700 0%, #FFD700 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) 100%)`,
+                  background: `linear-gradient(to right, #b8860b 0%, #d4a84b ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, #e8e6e1 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, #e8e6e1 100%)`,
                   accentColor: 'transparent'
                 }}
               />
               <div
-                className="absolute pointer-events-none font-black drop-shadow-lg"
+                className="absolute pointer-events-none font-black"
                 style={{
                   left: `calc(${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}% - 15px)`,
                   top: '50%',
                   transform: 'translateY(-50%)',
                   fontSize: '38px',
-                  color: '#FFD700',
-                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.6)',
+                  color: '#b8860b',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
                   zIndex: 10
                 }}
               >
@@ -393,7 +393,7 @@ function Questionnaire({
               <div className="text-5xl md:text-6xl font-bold text-accent mb-2">
                 {answers[q.id] === 'unknown' ? '?' : (answers[q.id] || 0)}%
               </div>
-              <div className="text-sm text-text/60">
+              <div className="text-sm text-textMuted">
                 {answers[q.id] === 'unknown' ? 'Unknown' :
                  answers[q.id] > 50 ? 'Mostly my fault' :
                  answers[q.id] > 0 ? 'Partially my fault' :
@@ -405,8 +405,8 @@ function Questionnaire({
                 onClick={() => onDontKnow(q.id)}
                 className={`mt-4 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+                    ? 'bg-accent text-white border-2 border-accent'
+                    : 'bg-gray-100 hover:bg-gray-200 text-text border-2 border-cardBorder'
                 }`}
               >
                 {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}

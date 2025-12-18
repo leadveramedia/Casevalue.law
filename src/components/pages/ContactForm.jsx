@@ -37,9 +37,9 @@ function ContactForm({
       >
         {/* Error Message */}
         {error && (
-          <div role="alert" aria-live="assertive" className="p-5 bg-red-500/20 border-2 border-red-500/50 rounded-xl flex items-start gap-4 animate-shake">
-            <AlertCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
-            <p className="text-sm md:text-base text-red-200 font-medium">{error}</p>
+          <div role="alert" aria-live="assertive" className="p-5 bg-red-50 border-2 border-red-400 rounded-xl flex items-start gap-4 animate-shake">
+            <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
+            <p className="text-sm md:text-base text-red-600 font-medium">{error}</p>
           </div>
         )}
 
@@ -98,7 +98,7 @@ function ContactForm({
             <AlertCircle className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-400" aria-hidden="true" />
           )}
           {validationState.email === false && (
-            <p id="email-error" className="mt-2 text-sm text-red-300">Please enter a valid email address</p>
+            <p id="email-error" className="mt-2 text-sm text-red-500">Please enter a valid email address</p>
           )}
         </div>
 
@@ -124,7 +124,7 @@ function ContactForm({
             <AlertCircle className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-400" aria-hidden="true" />
           )}
           {validationState.phone === false && (
-            <p id="phone-error" className="mt-2 text-sm text-red-300">Please enter a valid phone number (10 digits)</p>
+            <p id="phone-error" className="mt-2 text-sm text-red-500">Please enter a valid phone number (10 digits)</p>
           )}
         </div>
 

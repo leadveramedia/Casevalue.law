@@ -18,14 +18,14 @@
     font-family: 'Inter', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: linear-gradient(135deg, #060a1a 0%, #1a2850 25%, #2a4080 50%, #1a2850 75%, #060a1a 100%);
+    background: #faf9f7;
     background-attachment: fixed;
-    color: #F6F7FB;
+    color: #1a2332;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   }
 }
 
