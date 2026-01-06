@@ -174,13 +174,6 @@ export function generateStructuredData(selectedCase, t) {
           { "@type": "State", "name": "Pennsylvania" },
           { "@type": "Country", "name": "United States" }
         ],
-        "serviceType": [
-          "Personal Injury Law",
-          "Medical Malpractice",
-          "Employment Law",
-          "Intellectual Property Law",
-          "Case Valuation Services"
-        ],
         "priceRange": "Free",
         "contactPoint": {
           "@type": "ContactPoint",
@@ -227,45 +220,9 @@ export function generateStructuredData(selectedCase, t) {
           "Instant case value estimates"
         ],
         "provider": {
-          "@type": "LegalService",
-          "name": "CaseValue.law",
-          "url": "https://casevalue.law",
-          "logo": "https://casevalue.law/casevalue-preview.webp",
-          "image": "https://casevalue.law/casevalue-preview.webp",
-          "description": "Free legal case value calculator and legal information resource.",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "1401 21st ST STE R",
-            "addressLocality": "Sacramento",
-            "addressRegion": "CA",
-            "postalCode": "95811",
-            "addressCountry": "US"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "United States"
-          },
-          "sameAs": [
-            "https://twitter.com/casevalue"
-          ]
+          "@id": "https://casevalue.law/#organization"
         },
-        "availableLanguage": [
-          {
-            "@type": "Language",
-            "name": "English",
-            "alternateName": "en"
-          },
-          {
-            "@type": "Language",
-            "name": "Spanish",
-            "alternateName": "es"
-          },
-          {
-            "@type": "Language",
-            "name": "Chinese",
-            "alternateName": "zh"
-          }
-        ]
+        "inLanguage": ["en-US", "es", "zh"]
       },
       {
         "@type": "BreadcrumbList",
