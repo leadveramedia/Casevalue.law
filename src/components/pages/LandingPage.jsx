@@ -123,38 +123,50 @@ function LandingPage({
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div className="bg-statBlue/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statBlue/40 hover:border-statBlue hover:shadow-glow-cyan transition-all">
+            <a
+              href="https://casevalue.law/blog"
+              className="bg-statBlue/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statBlue/40 hover:border-statBlue hover:shadow-glow-cyan transition-all cursor-pointer block"
+            >
               <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statBlue mb-2 leading-tight tracking-tight break-words">
                 50+
               </div>
               <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
                 {t.dataPoints}
               </div>
-            </div>
-            <div className="bg-statGreen/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statGreen/40 hover:border-statGreen hover:shadow-glow-green transition-all">
+            </a>
+            <a
+              href="https://casevalue.law/blog"
+              className="bg-statGreen/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statGreen/40 hover:border-statGreen hover:shadow-glow-green transition-all cursor-pointer block"
+            >
               <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statGreen mb-2 leading-tight tracking-tight break-words">
                 {casesAnalyzedCount.toLocaleString()}
               </div>
               <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
                 {t.casesAnalyzed}
               </div>
-            </div>
-            <div className="bg-statOrange/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statOrange/40 hover:border-statOrange hover:shadow-glow-orange transition-all">
+            </a>
+            <a
+              href="https://casevalue.law/blog"
+              className="bg-statOrange/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statOrange/40 hover:border-statOrange hover:shadow-glow-orange transition-all cursor-pointer block"
+            >
               <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statOrange mb-2 leading-tight tracking-tight break-words">
                 99%
               </div>
               <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
                 {t.accuracyRate}
               </div>
-            </div>
-            <div className="bg-statPink/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statPink/40 hover:border-statPink hover:shadow-glow-pink transition-all">
+            </a>
+            <a
+              href="https://casevalue.law/blog"
+              className="bg-statPink/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statPink/40 hover:border-statPink hover:shadow-glow-pink transition-all cursor-pointer block"
+            >
               <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statPink mb-2 leading-tight tracking-tight break-words">
                 50
               </div>
               <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
                 {t.stateSpecific}
               </div>
-            </div>
+            </a>
           </div>
 
           <div className="space-y-6">
