@@ -50,6 +50,7 @@ export const CLASS_ACTION_TYPE_OPTIONS = ['consumer_fraud', 'data_breach', 'defe
 export const NON_CURRENCY_NUMBER_FIELDS = new Set([
   'hospital_days',
   'months_recovery',
+  'weeks_unable_to_work',
   'age',
   'victim_age',
   'future_treatment_years',

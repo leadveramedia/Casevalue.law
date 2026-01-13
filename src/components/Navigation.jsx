@@ -27,7 +27,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           </button>
         ) : (
           <Link
-            to="/"
+            to="/#landing"
             className="flex items-center text-text hover:opacity-80 transition-opacity"
             aria-label="Return to home"
           >

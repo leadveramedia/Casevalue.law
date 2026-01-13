@@ -11,6 +11,7 @@ import { getGetQuestions } from '../utils/helpers';
  */
 function parseInitialStep() {
   const hash = window.location.hash;
+  if (hash === '#landing') return 'landing';
   if (hash === '#select') return 'select';
   if (hash === '#contact') return 'contact';
   if (parseDeepLinkHash(hash)) return 'questionnaire';
