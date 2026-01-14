@@ -4,17 +4,18 @@ const HelpModal = ({ show, onClose, title, content, closeText }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
       <div className="bg-card rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border-2 border-accent/40 shadow-card my-auto">
         <div className="sticky top-0 bg-gradient-gold border-b-2 border-primary/20 p-6 md:p-8 z-10">
           {/* Header with title and close button */}
           <div className="flex justify-between items-start gap-4">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-textDark leading-tight flex-1 drop-shadow-lg">
+            <h2 id="help-modal-title" className="text-2xl md:text-3xl lg:text-4xl font-bold text-textDark leading-tight flex-1 drop-shadow-lg">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="px-5 py-3 bg-textDark/20 hover:bg-textDark/30 rounded-xl transition-all text-textDark text-base font-bold flex-shrink-0 shadow-lg backdrop-blur"
+              className="px-5 py-3 min-h-[44px] bg-textDark/20 hover:bg-textDark/30 rounded-xl transition-all text-textDark text-base font-bold flex-shrink-0 shadow-lg backdrop-blur"
+              aria-label="Close help modal"
             >
               {closeText}
             </button>

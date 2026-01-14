@@ -49,10 +49,10 @@ function DateInputField({ value, onChange, helpText }) {
         <button
           type="button"
           onClick={openDatePicker}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
           aria-label="Open date picker"
         >
-          <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" />
+          <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" aria-hidden="true" />
         </button>
       </div>
       <p className="mt-2 text-sm text-text/60">
@@ -117,10 +117,10 @@ function Questionnaire({
           {hasHelpForQuestion[q.id] && (
             <button
               onClick={() => onShowHelp(q.id)}
-              className="flex-shrink-0 p-2 md:p-3 bg-accent/20 hover:bg-accent/40 rounded-full transition-all group"
+              className="flex-shrink-0 p-2 md:p-3 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent/20 hover:bg-accent/40 rounded-full transition-all group"
               aria-label="Learn more about this question"
             >
-              <HelpCircle className="w-6 h-6 md:w-7 md:h-7 text-accent group-hover:text-accent/80 transition-colors" />
+              <HelpCircle className="w-6 h-6 md:w-7 md:h-7 text-accent group-hover:text-accent/80 transition-colors" aria-hidden="true" />
             </button>
           )}
         </div>
@@ -147,6 +147,7 @@ function Questionnaire({
             {shouldShowDontKnow(q) && (
               <button
                 onClick={() => onDontKnow(q.id)}
+                aria-pressed={answers[q.id] === 'unknown'}
                 className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
                     ? 'bg-accent text-textDark border-2 border-accent'
@@ -279,6 +280,7 @@ function Questionnaire({
             {shouldShowDontKnow(q) && (
               <button
                 onClick={() => onDontKnow(q.id)}
+                aria-pressed={answers[q.id] === 'unknown'}
                 className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
                     ? 'bg-accent text-textDark border-2 border-accent'
@@ -333,7 +335,7 @@ function Questionnaire({
                 >
                   {v ? (
                     <span className="flex items-center justify-center gap-2">
-                      <Check className="w-6 h-6" />
+                      <Check className="w-6 h-6" aria-hidden="true" />
                       {t.yes}
                     </span>
                   ) : t.no}
@@ -343,6 +345,7 @@ function Questionnaire({
             {shouldShowDontKnow(q) && (
               <button
                 onClick={() => onDontKnow(q.id)}
+                aria-pressed={answers[q.id] === 'unknown'}
                 className={`mt-3 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
                     ? 'bg-accent text-textDark border-2 border-accent'
@@ -403,6 +406,7 @@ function Questionnaire({
             {shouldShowDontKnow(q) && (
               <button
                 onClick={() => onDontKnow(q.id)}
+                aria-pressed={answers[q.id] === 'unknown'}
                 className={`mt-4 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
                   answers[q.id] === 'unknown'
                     ? 'bg-accent text-textDark border-2 border-accent'

@@ -59,6 +59,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
     <div
       className="fixed inset-x-0 bottom-0 z-[100] p-4 sm:p-6 pointer-events-none animate-fade-in"
       role="dialog"
+      aria-modal="true"
       aria-live="polite"
       aria-label="Cookie consent"
     >
@@ -66,7 +67,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
         <div className="bg-gradient-to-r from-slate-900 to-blue-900 border-2 border-blue-400/40 rounded-2xl shadow-2xl backdrop-blur-xl p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {/* Cookie Icon */}
-            <div className="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-2xl">
+            <div className="flex-shrink-0 w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-2xl" aria-hidden="true">
               🍪
             </div>
 

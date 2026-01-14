@@ -216,8 +216,9 @@ function ResultsPage({
                 <button
                   onClick={handleShowShareUrl}
                   className="flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-base transition-all transform hover:scale-105 bg-primary/20 border-2 border-primary/40 hover:bg-primary/30 text-text"
+                  aria-label="Share case value estimate"
                 >
-                  <Share2 className="w-5 h-5" />
+                  <Share2 className="w-5 h-5" aria-hidden="true" />
                   {t.shareResults}
                 </button>
                 <span className="text-sm text-text/50">
@@ -238,6 +239,7 @@ function ResultsPage({
                     value={shareUrl}
                     className="flex-1 px-4 py-3 bg-primary/10 border-2 border-primary/30 rounded-xl text-text text-sm font-mono focus:outline-none focus:border-accent/50"
                     onClick={(e) => e.target.select()}
+                    aria-label="Share URL for this case value estimate"
                   />
                   <button
                     onClick={handleCopyLink}
@@ -246,15 +248,16 @@ function ResultsPage({
                         ? 'bg-green-500/30 border-2 border-green-500/50 text-green-300'
                         : 'bg-accent/20 border-2 border-accent/40 hover:bg-accent/30 text-accent'
                     }`}
+                    aria-label={linkCopied ? 'Link copied to clipboard' : 'Copy link to clipboard'}
                   >
                     {linkCopied ? (
                       <>
-                        <CheckCircle className="w-5 h-5" />
-                        {t.linkCopied}
+                        <CheckCircle className="w-5 h-5" aria-hidden="true" />
+                        <span aria-live="polite">{t.linkCopied}</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-5 h-5" />
+                        <Copy className="w-5 h-5" aria-hidden="true" />
                         {t.copyLink}
                       </>
                     )}

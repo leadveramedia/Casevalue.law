@@ -90,7 +90,7 @@ function LandingPage({
           className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-16 py-5 sm:py-6 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-xl sm:text-3xl font-extrabold shadow-glow-gold hover:shadow-glow-gold transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
         >
           {t.cta}
-          <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-2 transition-transform" />
+          <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-2 transition-transform" aria-hidden="true" />
         </button>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm sm:text-base text-text/80">
           <div className="flex items-center gap-2">
@@ -122,60 +122,72 @@ function LandingPage({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <a
-              href="https://casevalue.law/blog"
-              className="bg-statBlue/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statBlue/40 hover:border-statBlue hover:shadow-glow-cyan transition-all cursor-pointer block"
-            >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statBlue mb-2 leading-tight tracking-tight break-words">
-                50+
-              </div>
-              <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
-                {t.dataPoints}
-              </div>
-            </a>
-            <a
-              href="https://casevalue.law/blog"
-              className="bg-statGreen/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statGreen/40 hover:border-statGreen hover:shadow-glow-green transition-all cursor-pointer block"
-            >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statGreen mb-2 leading-tight tracking-tight break-words">
-                {casesAnalyzedCount.toLocaleString()}
-              </div>
-              <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
-                {t.casesAnalyzed}
-              </div>
-            </a>
-            <a
-              href="https://casevalue.law/blog"
-              className="bg-statOrange/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statOrange/40 hover:border-statOrange hover:shadow-glow-orange transition-all cursor-pointer block"
-            >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statOrange mb-2 leading-tight tracking-tight break-words">
-                99%
-              </div>
-              <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
-                {t.accuracyRate}
-              </div>
-            </a>
-            <a
-              href="https://casevalue.law/blog"
-              className="bg-statPink/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statPink/40 hover:border-statPink hover:shadow-glow-pink transition-all cursor-pointer block"
-            >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statPink mb-2 leading-tight tracking-tight break-words">
-                50
-              </div>
-              <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
-                {t.stateSpecific}
-              </div>
-            </a>
-          </div>
+          <ul className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 list-none p-0 m-0">
+            <li>
+              <a
+                href="https://casevalue.law/blog"
+                className="bg-statBlue/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statBlue/40 hover:border-statBlue hover:shadow-glow-cyan transition-all cursor-pointer block"
+                aria-label={`50+ ${t.dataPoints} - View blog for details`}
+              >
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statBlue mb-2 leading-tight tracking-tight break-words">
+                  50+
+                </div>
+                <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
+                  {t.dataPoints}
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://casevalue.law/blog"
+                className="bg-statGreen/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statGreen/40 hover:border-statGreen hover:shadow-glow-green transition-all cursor-pointer block"
+                aria-label={`${casesAnalyzedCount.toLocaleString()} ${t.casesAnalyzed} - View blog for details`}
+              >
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statGreen mb-2 leading-tight tracking-tight break-words">
+                  {casesAnalyzedCount.toLocaleString()}
+                </div>
+                <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
+                  {t.casesAnalyzed}
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://casevalue.law/blog"
+                className="bg-statOrange/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statOrange/40 hover:border-statOrange hover:shadow-glow-orange transition-all cursor-pointer block"
+                aria-label={`99% ${t.accuracyRate} - View blog for details`}
+              >
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statOrange mb-2 leading-tight tracking-tight break-words">
+                  99%
+                </div>
+                <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
+                  {t.accuracyRate}
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://casevalue.law/blog"
+                className="bg-statPink/20 rounded-2xl p-4 sm:p-6 text-center shadow-card border-2 border-statPink/40 hover:border-statPink hover:shadow-glow-pink transition-all cursor-pointer block"
+                aria-label={`50 ${t.stateSpecific} - View blog for details`}
+              >
+                <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-statPink mb-2 leading-tight tracking-tight break-words">
+                  50
+                </div>
+                <div className="text-xs sm:text-sm md:text-base text-text font-semibold tracking-wide uppercase">
+                  {t.stateSpecific}
+                </div>
+              </a>
+            </li>
+          </ul>
 
-          <div className="space-y-6">
+          <ol className="space-y-6 list-none p-0 m-0">
             {[1, 2, 3, 4].map((i) => (
-              <div
+              <li
                 key={i}
                 className="bg-methodBg border-2 border-methodBorder hover:border-methodNumber/40 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-5 md:gap-7 shadow-card hover:shadow-xl transition-all"
               >
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-methodNumber rounded-2xl flex items-center justify-center text-2xl md:text-3xl font-bold text-white shadow-lg flex-shrink-0">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-methodNumber rounded-2xl flex items-center justify-center text-2xl md:text-3xl font-bold text-white shadow-lg flex-shrink-0" aria-hidden="true">
                   {i}
                 </div>
                 <div className="space-y-3">
@@ -186,9 +198,9 @@ function LandingPage({
                     {t[`methodSection${i}Text`]}
                   </p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
 
           <div className="bg-trustOuter border border-cardBorder rounded-2xl p-6 md:p-8 shadow-card">
             <h3 className="text-2xl md:text-3xl font-bold text-text mb-6 text-center md:text-left">
@@ -213,7 +225,7 @@ function LandingPage({
           </div>
 
           <div className="bg-accent/10 border-2 border-accent/40 rounded-2xl p-6 md:p-8 shadow-card flex flex-col md:flex-row items-start gap-4">
-            <AlertCircle className="w-8 h-8 md:w-10 md:h-10 text-accent flex-shrink-0" />
+            <AlertCircle className="w-8 h-8 md:w-10 md:h-10 text-accent flex-shrink-0" aria-hidden="true" />
             <div className="space-y-3">
               <h3 className="text-xl md:text-2xl font-bold text-accent">
                 {t.limitationsTitle}

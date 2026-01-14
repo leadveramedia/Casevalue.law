@@ -86,8 +86,8 @@ export default function BlogPage() {
 
           {/* Loading State */}
           {loading && (
-            <div className="flex flex-col items-center justify-center py-20">
-              <Loader className="w-12 h-12 text-accent animate-spin mb-4" />
+            <div className="flex flex-col items-center justify-center py-20" role="status" aria-live="polite">
+              <Loader className="w-12 h-12 text-accent animate-spin mb-4" aria-hidden="true" />
               <p className="text-textMuted text-lg">Loading blog posts...</p>
             </div>
           )}
@@ -123,10 +123,10 @@ export default function BlogPage() {
 
           {/* Blog Posts Grid */}
           {!loading && !error && filteredPosts.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0 m-0">
               {filteredPosts.map((post, index) => (
+                <li key={post._id}>
                 <Link
-                  key={post._id}
                   to={`/blog/${post.slug.current}`}
                   className="group block bg-card rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
                 >
@@ -176,20 +176,21 @@ export default function BlogPage() {
                     <div className="flex items-center justify-between text-sm text-textMuted border-t border-cardBorder pt-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
+                          <User className="w-4 h-4" aria-hidden="true" />
                           <span className="font-medium">{post.author}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="w-4 h-4" aria-hidden="true" />
                           <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-accent group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-5 h-5 text-accent group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                     </div>
                   </div>
                 </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
       </div>

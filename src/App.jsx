@@ -171,6 +171,11 @@ export default function CaseValueWebsite() {
   // EFFECTS
   // ============================================================================
 
+  // Update HTML lang attribute when language changes (accessibility)
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   // Check for cookie consent on mount
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
