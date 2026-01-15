@@ -24,6 +24,25 @@ export const STATE_LEGAL_DATABASE = {
   'AL': { // Alabama
     name: 'Alabama',
     negligenceSystem: NEGLIGENCE_TYPES.CONTRIBUTORY,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1135,
+      minWeeklyBenefit: 232,
+      maxWeeksTTD: 300,
+      maxWeeksPPD: 300,
+      waitingPeriod: 3,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 294800,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -85,6 +104,25 @@ export const STATE_LEGAL_DATABASE = {
   'AK': { // Alaska
     name: 'Alaska',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.80,
+      tpdRate: 0.80,
+      ppdRate: 0.80,
+      ptdRate: 0.80,
+      maxWeeklyBenefit: 1516,
+      minWeeklyBenefit: 284,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 28,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 400000, // $400k for non-economic, $8M for severe
@@ -140,6 +178,25 @@ export const STATE_LEGAL_DATABASE = {
   'AZ': { // Arizona
     name: 'Arizona',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1135,
+      minWeeklyBenefit: null,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 5000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -194,6 +251,25 @@ export const STATE_LEGAL_DATABASE = {
   'AR': { // Arkansas
     name: 'Arkansas',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 790,
+      minWeeklyBenefit: 20,
+      maxWeeksTTD: 450,
+      maxWeeksPPD: 450,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 75000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -246,6 +322,25 @@ export const STATE_LEGAL_DATABASE = {
   'CA': { // California
     name: 'California',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1619,
+      minWeeklyBenefit: 242,
+      maxWeeksTTD: 104,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'PDRS',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: 390000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // MICRA cap
@@ -305,6 +400,25 @@ export const STATE_LEGAL_DATABASE = {
   'CO': { // Colorado
     name: 'Colorado',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1299,
+      minWeeklyBenefit: 260,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_3',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 7000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 300000, // Adjusted for inflation
@@ -358,6 +472,25 @@ export const STATE_LEGAL_DATABASE = {
   'CT': { // Connecticut
     name: 'Connecticut',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.75,
+      tpdRate: 0.75,
+      ppdRate: 0.75,
+      ptdRate: 0.75,
+      maxWeeklyBenefit: 1659,
+      minWeeklyBenefit: 316,
+      maxWeeksTTD: 520,
+      maxWeeksPPD: 520,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 4000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -410,6 +543,25 @@ export const STATE_LEGAL_DATABASE = {
   'DE': { // Delaware
     name: 'Delaware',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 882,
+      minWeeklyBenefit: 220,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 300,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -462,6 +614,25 @@ export const STATE_LEGAL_DATABASE = {
   'FL': { // Florida
     name: 'Florida',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.75,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1197,
+      minWeeklyBenefit: 20,
+      maxWeeksTTD: 104,
+      maxWeeksPPD: 260,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'FL_GUIDES',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: 150000,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional in 2017
@@ -514,6 +685,25 @@ export const STATE_LEGAL_DATABASE = {
   'GA': { // Georgia
     name: 'Georgia',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 800,
+      minWeeklyBenefit: 75,
+      maxWeeksTTD: 400,
+      maxWeeksPPD: 350,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 270000,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000, // Per defendant, $1.05M total cap
@@ -567,6 +757,25 @@ export const STATE_LEGAL_DATABASE = {
   'HI': { // Hawaii
     name: 'Hawaii',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1265,
+      minWeeklyBenefit: 253,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 5000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 375000,
@@ -620,6 +829,25 @@ export const STATE_LEGAL_DATABASE = {
   'ID': { // Idaho
     name: 'Idaho',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 813,
+      minWeeklyBenefit: 203,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 500,
+      waitingPeriod: 5,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 8000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000,
@@ -673,6 +901,25 @@ export const STATE_LEGAL_DATABASE = {
   'IL': { // Illinois
     name: 'Illinois',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.60,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1896,
+      minWeeklyBenefit: 284,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 3,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 8000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
@@ -725,6 +972,25 @@ export const STATE_LEGAL_DATABASE = {
   'IN': { // Indiana
     name: 'Indiana',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 996,
+      minWeeklyBenefit: 75,
+      maxWeeksTTD: 500,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 300000,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: 1800000, // Total cap including economic
       nonEconomicDamageCap: 1800000,
@@ -777,6 +1043,25 @@ export const STATE_LEGAL_DATABASE = {
   'IA': { // Iowa
     name: 'Iowa',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.80,
+      tpdRate: 0.80,
+      ppdRate: 0.80,
+      ptdRate: 0.80,
+      maxWeeklyBenefit: 2148,
+      minWeeklyBenefit: 322,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 500,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -829,6 +1114,25 @@ export const STATE_LEGAL_DATABASE = {
   'KS': { // Kansas
     name: 'Kansas',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 782,
+      minWeeklyBenefit: 25,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 415,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 325000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 325000,
@@ -882,6 +1186,25 @@ export const STATE_LEGAL_DATABASE = {
   'KY': { // Kentucky
     name: 'Kentucky',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1094,
+      minWeeklyBenefit: 164,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 520,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 113880,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
@@ -934,6 +1257,25 @@ export const STATE_LEGAL_DATABASE = {
   'LA': { // Louisiana
     name: 'Louisiana',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 892,
+      minWeeklyBenefit: 178,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 520,
+      waitingPeriod: 7,
+      retroactivePeriod: 42,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 150000,
+      burialAllowance: 8500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // Per incident, plus $500k from fund
@@ -986,6 +1328,25 @@ export const STATE_LEGAL_DATABASE = {
   'ME': { // Maine
     name: 'Maine',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.80,
+      tpdRate: 0.80,
+      ppdRate: 0.6667,
+      ptdRate: 0.80,
+      maxWeeklyBenefit: 1104,
+      minWeeklyBenefit: 276,
+      maxWeeksTTD: 400,
+      maxWeeksPPD: null,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 4000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -1038,6 +1399,25 @@ export const STATE_LEGAL_DATABASE = {
   'MD': { // Maryland
     name: 'Maryland',
     negligenceSystem: NEGLIGENCE_TYPES.CONTRIBUTORY,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1295,
+      minWeeklyBenefit: 50,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 500,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 45000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 875000, // Adjusted annually
@@ -1092,6 +1472,25 @@ export const STATE_LEGAL_DATABASE = {
   'MA': { // Massachusetts
     name: 'Massachusetts',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.60,
+      tpdRate: 0.60,
+      ppdRate: 0.60,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1796,
+      minWeeklyBenefit: 359,
+      maxWeeksTTD: 156,
+      maxWeeksPPD: 260,
+      waitingPeriod: 5,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 4,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 4000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // For future pain and suffering only
@@ -1144,6 +1543,25 @@ export const STATE_LEGAL_DATABASE = {
   'MI': { // Michigan
     name: 'Michigan',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.80,
+      tpdRate: 0.80,
+      ppdRate: 0.80,
+      ptdRate: 0.80,
+      maxWeeklyBenefit: 1108,
+      minWeeklyBenefit: 222,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 6000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // $1M for certain injuries
@@ -1197,6 +1615,25 @@ export const STATE_LEGAL_DATABASE = {
   'MN': { // Minnesota
     name: 'Minnesota',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1378,
+      minWeeklyBenefit: 206,
+      maxWeeksTTD: 130,
+      maxWeeksPPD: 500,
+      waitingPeriod: 3,
+      retroactivePeriod: 10,
+      statuteOfLimitations: 3,
+      impairmentGuide: 'MN_SCHEDULE',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 60000,
+      burialAllowance: 25000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -1249,6 +1686,25 @@ export const STATE_LEGAL_DATABASE = {
   'MS': { // Mississippi
     name: 'Mississippi',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 604,
+      minWeeklyBenefit: 25,
+      maxWeeksTTD: 450,
+      maxWeeksPPD: 450,
+      waitingPeriod: 5,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 5000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // Per plaintiff
@@ -1302,6 +1758,25 @@ export const STATE_LEGAL_DATABASE = {
   'MO': { // Missouri
     name: 'Missouri',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1198,
+      minWeeklyBenefit: 40,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 400,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 300000,
+      burialAllowance: 5000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 400000, // Non-catastrophic injuries
@@ -1355,6 +1830,25 @@ export const STATE_LEGAL_DATABASE = {
   'MT': { // Montana
     name: 'Montana',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 911,
+      minWeeklyBenefit: 228,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 500,
+      waitingPeriod: 4,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 4000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000,
@@ -1408,6 +1902,25 @@ export const STATE_LEGAL_DATABASE = {
   'NE': { // Nebraska
     name: 'Nebraska',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1106,
+      minWeeklyBenefit: 49,
+      maxWeeksTTD: 300,
+      maxWeeksPPD: 300,
+      waitingPeriod: 7,
+      retroactivePeriod: 42,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: 331800,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 2250000,
@@ -1461,6 +1974,25 @@ export const STATE_LEGAL_DATABASE = {
   'NV': { // Nevada
     name: 'Nevada',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1152,
+      minWeeklyBenefit: 288,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 5,
+      retroactivePeriod: 20,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 300000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000,
@@ -1514,6 +2046,25 @@ export const STATE_LEGAL_DATABASE = {
   'NH': { // New Hampshire
     name: 'New Hampshire',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.60,
+      tpdRate: 0.60,
+      ppdRate: 0.60,
+      ptdRate: 0.60,
+      maxWeeklyBenefit: 1932,
+      minWeeklyBenefit: 217,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 12000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -1566,6 +2117,25 @@ export const STATE_LEGAL_DATABASE = {
   'NJ': { // New Jersey
     name: 'New Jersey',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.70,
+      tpdRate: 0.70,
+      ppdRate: 0.70,
+      ptdRate: 0.70,
+      maxWeeklyBenefit: 1099,
+      minWeeklyBenefit: 275,
+      maxWeeksTTD: 400,
+      maxWeeksPPD: 600,
+      waitingPeriod: 7,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'NJ_SCHEDULE',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 3500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -1618,6 +2188,25 @@ export const STATE_LEGAL_DATABASE = {
   'NM': { // New Mexico
     name: 'New Mexico',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 901,
+      minWeeklyBenefit: 45,
+      maxWeeksTTD: 700,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 28,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 150000,
+      burialAllowance: 7500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 600000,
@@ -1671,6 +2260,25 @@ export const STATE_LEGAL_DATABASE = {
   'NY': { // New York
     name: 'New York',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1145,
+      minWeeklyBenefit: 275,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'NY_SCHEDULE',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 12500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -1723,6 +2331,25 @@ export const STATE_LEGAL_DATABASE = {
   'NC': { // North Carolina
     name: 'North Carolina',
     negligenceSystem: NEGLIGENCE_TYPES.CONTRIBUTORY,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1254,
+      minWeeklyBenefit: 30,
+      maxWeeksTTD: 500,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'NC_SCHEDULE',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 500000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
@@ -1776,6 +2403,26 @@ export const STATE_LEGAL_DATABASE = {
   'ND': { // North Dakota
     name: 'North Dakota',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1223,
+      minWeeklyBenefit: 245,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 312,
+      waitingPeriod: 5,
+      retroactivePeriod: 5,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: null,
+      burialAllowance: 10000,
+      monopolisticStateFund: true
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
@@ -1829,6 +2476,26 @@ export const STATE_LEGAL_DATABASE = {
   'OH': { // Ohio
     name: 'Ohio',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1127,
+      minWeeklyBenefit: 282,
+      maxWeeksTTD: 200,
+      maxWeeksPPD: null,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: null,
+      burialAllowance: 9500,
+      monopolisticStateFund: true
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 'lesserOf250kOr3xEconomic', // Max $350k-$500k
@@ -1882,6 +2549,25 @@ export const STATE_LEGAL_DATABASE = {
   'OK': { // Oklahoma
     name: 'Oklahoma',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.70,
+      tpdRate: 0.70,
+      ppdRate: 0.70,
+      ptdRate: 0.70,
+      maxWeeklyBenefit: 1098,
+      minWeeklyBenefit: 220,
+      maxWeeksTTD: 156,
+      maxWeeksPPD: 350,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000,
@@ -1935,6 +2621,25 @@ export const STATE_LEGAL_DATABASE = {
   'OR': { // Oregon
     name: 'Oregon',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1904,
+      minWeeklyBenefit: 254,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 320,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
@@ -1989,6 +2694,25 @@ export const STATE_LEGAL_DATABASE = {
   'PA': { // Pennsylvania
     name: 'Pennsylvania',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1325,
+      minWeeklyBenefit: 331,
+      maxWeeksTTD: 104,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 3,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 7000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
@@ -2041,6 +2765,25 @@ export const STATE_LEGAL_DATABASE = {
   'RI': { // Rhode Island
     name: 'Rhode Island',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.75,
+      tpdRate: 0.75,
+      ppdRate: 0.75,
+      ptdRate: 0.75,
+      maxWeeklyBenefit: 1346,
+      minWeeklyBenefit: 134,
+      maxWeeksTTD: 312,
+      maxWeeksPPD: 500,
+      waitingPeriod: 3,
+      retroactivePeriod: 10,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 15000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -2093,6 +2836,25 @@ export const STATE_LEGAL_DATABASE = {
   'SC': { // South Carolina
     name: 'South Carolina',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1022,
+      minWeeklyBenefit: 75,
+      maxWeeksTTD: 500,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 500000,
+      burialAllowance: 2500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000, // Per defendant
@@ -2146,6 +2908,25 @@ export const STATE_LEGAL_DATABASE = {
   'SD': { // South Dakota
     name: 'South Dakota',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 902,
+      minWeeklyBenefit: 451,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 312,
+      waitingPeriod: 7,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: 140400,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
@@ -2199,6 +2980,25 @@ export const STATE_LEGAL_DATABASE = {
   'TN': { // Tennessee
     name: 'Tennessee',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1227,
+      minWeeklyBenefit: 123,
+      maxWeeksTTD: 450,
+      maxWeeksPPD: 450,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_6',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 750000, // $1M for catastrophic
@@ -2252,6 +3052,26 @@ export const STATE_LEGAL_DATABASE = {
   'TX': { // Texas
     name: 'Texas',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.70,
+      tpdRate: 0.70,
+      ppdRate: 0.70,
+      ptdRate: 0.70,
+      maxWeeklyBenefit: 1147,
+      minWeeklyBenefit: 172,
+      maxWeeksTTD: 104,
+      maxWeeksPPD: 401,
+      waitingPeriod: 7,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 10000,
+      nonSubscriberState: true
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // Per physician, $500k per facility
@@ -2305,6 +3125,25 @@ export const STATE_LEGAL_DATABASE = {
   'UT': { // Utah
     name: 'Utah',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_50,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1130,
+      minWeeklyBenefit: 45,
+      maxWeeksTTD: 312,
+      maxWeeksPPD: 312,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 200000,
+      burialAllowance: 8500
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 450000,
@@ -2358,6 +3197,25 @@ export const STATE_LEGAL_DATABASE = {
   'VT': { // Vermont
     name: 'Vermont',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1498,
+      minWeeklyBenefit: 375,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 330,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 6,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -2410,6 +3268,25 @@ export const STATE_LEGAL_DATABASE = {
   'VA': { // Virginia
     name: 'Virginia',
     negligenceSystem: NEGLIGENCE_TYPES.CONTRIBUTORY,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1426,
+      minWeeklyBenefit: 285,
+      maxWeeksTTD: 500,
+      maxWeeksPPD: 500,
+      waitingPeriod: 7,
+      retroactivePeriod: 21,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: false,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: 500000,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 2500000, // Adjusted annually
@@ -2464,6 +3341,26 @@ export const STATE_LEGAL_DATABASE = {
   'WA': { // Washington
     name: 'Washington',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.60,
+      tpdRate: 0.60,
+      ppdRate: 0.60,
+      ptdRate: 0.60,
+      maxWeeklyBenefit: 1739,
+      minWeeklyBenefit: 326,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'WA_SCHEDULE',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: null,
+      burialAllowance: 11600,
+      monopolisticStateFund: true
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -2516,6 +3413,25 @@ export const STATE_LEGAL_DATABASE = {
   'WV': { // West Virginia
     name: 'West Virginia',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1008,
+      minWeeklyBenefit: 336,
+      maxWeeksTTD: 104,
+      maxWeeksPPD: 288,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'AMA_4',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 5400
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // $500k for wrongful death/permanent injury
@@ -2570,6 +3486,25 @@ export const STATE_LEGAL_DATABASE = {
   'WI': { // Wisconsin
     name: 'Wisconsin',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1424,
+      minWeeklyBenefit: 30,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 1000,
+      waitingPeriod: 3,
+      retroactivePeriod: 7,
+      statuteOfLimitations: 2,
+      impairmentGuide: 'WI_SCHEDULE',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 10000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 750000,
@@ -2623,6 +3558,26 @@ export const STATE_LEGAL_DATABASE = {
   'WY': { // Wyoming
     name: 'Wyoming',
     negligenceSystem: NEGLIGENCE_TYPES.MODIFIED_COMPARATIVE_51,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1060,
+      minWeeklyBenefit: 265,
+      maxWeeksTTD: null,
+      maxWeeksPPD: null,
+      waitingPeriod: 3,
+      retroactivePeriod: 8,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: false,
+      deathBenefitMax: null,
+      burialAllowance: 5000,
+      monopolisticStateFund: true
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -2676,6 +3631,25 @@ export const STATE_LEGAL_DATABASE = {
   'DC': {
     name: 'Washington D.C.',
     negligenceSystem: NEGLIGENCE_TYPES.PURE_COMPARATIVE,
+    workersCompensation: {
+      ttdRate: 0.6667,
+      tpdRate: 0.6667,
+      ppdRate: 0.6667,
+      ptdRate: 0.6667,
+      maxWeeklyBenefit: 1881,
+      minWeeklyBenefit: 470,
+      maxWeeksTTD: null,
+      maxWeeksPPD: 500,
+      waitingPeriod: 3,
+      retroactivePeriod: 14,
+      statuteOfLimitations: 1,
+      impairmentGuide: 'AMA_5',
+      choiceOfDoctor: true,
+      exclusiveRemedy: true,
+      secondInjuryFund: true,
+      deathBenefitMax: null,
+      burialAllowance: 5000
+    },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
@@ -2779,7 +3753,8 @@ export const getStateRules = (state, caseType) => {
     'disability': 'disability',
     'professional': 'professionalMalpractice',
     'civil_rights': 'civilRights',
-    'ip': 'intellectualProperty'
+    'ip': 'intellectualProperty',
+    'workers_comp': 'workersCompensation'
   };
 
   const dbKey = caseTypeMap[caseType];

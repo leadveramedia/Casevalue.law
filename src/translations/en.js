@@ -975,5 +975,83 @@ Product identification affects ${state} product liability cases fundamentally. Y
     getContent: (state) => `If the product that injured you was recalled—either before or after your injury—this provides powerful evidence of product defects and manufacturer knowledge of dangers. In ${state}, product recalls demonstrate the manufacturer admitted the product was unsafe, dramatically strengthening your product liability case. Recalls prove both the defect and that the manufacturer knew about it.
 
 Product recalls affect ${state} product liability cases enormously. Recalls are the manufacturer's admission that the product has safety defects. This eliminates their ability to claim the product was safe or defects were unforeseeable. In ${state}, recalls particularly support punitive damages when manufacturers delayed recalls despite knowing about dangers. If your injury occurred after the manufacturer knew about defects but before they recalled the product, it shows they consciously disregarded consumer safety for profit. Recalls also provide documentary evidence: recall notices detail the specific defect, the danger it poses, and how many products were affected. This corroborates your experts' opinions about product defects. In ${state}, recalls affecting millions of products prove widespread defects, not isolated manufacturing anomalies. Manufacturer knowledge through recall decisions shows the defect was significant enough to warrant recall, supporting substantial damages. Recalls also generate publicity and other victim identification, potentially creating class actions or MDL consolidations with shared litigation costs. Search recall databases (CPSC, NHTSA, FDA) for your product. Document recall timing relative to your injury. Obtain recall notices and manufacturer communications about the defect. In ${state}, product recall evidence can double or triple case values by proving defect and knowledge elements conclusively.`
+  },
+
+  // Worker's Compensation Help Text
+  employer_has_wc_insurance: {
+    title: "Why Employer Insurance Coverage Matters",
+    getContent: (state) => `Whether your employer carries workers' compensation insurance is a critical threshold question. In ${state}, most employers are required by law to carry workers' compensation insurance to cover workplace injuries. This insurance provides a no-fault system that compensates workers for injuries regardless of who was at fault.
+
+However, some employers—particularly in ${state === 'Texas' ? 'Texas, which is the only state allowing employers to opt out of workers\' comp—may be "non-subscribers"' : 'certain industries or small businesses—may not carry workers\' compensation insurance'}. If your employer lacks coverage, the legal landscape changes dramatically. Without workers' comp, you may be able to sue your employer directly for negligence, potentially recovering greater damages than the workers' comp system would provide. However, you would need to prove the employer was negligent, which isn't required in workers' comp claims.`
+  },
+
+  injury_date: {
+    title: "Critical Importance of Your Injury Date",
+    getContent: (state) => `The date of your workplace injury is crucial for multiple reasons. In ${state}, there are strict deadlines for reporting workplace injuries and filing workers' compensation claims. Missing these deadlines can result in losing your right to benefits entirely.
+
+Most states require you to report workplace injuries within a specific timeframe—often 30 to 90 days—and file formal claims within one to two years. In ${state}, the statute of limitations for workers' compensation claims affects your ability to receive benefits. The injury date also establishes when your benefits begin, calculates waiting periods, and determines which year's benefit rates apply to your claim.`
+  },
+
+  claim_status: {
+    title: "Understanding Your Claim Status",
+    getContent: (state) => `The status of your workers' compensation claim significantly impacts your case valuation and strategy. In ${state}, claims progress through various stages, each with different implications.
+
+If your claim hasn't been filed yet, you should file promptly to preserve your rights. Claims that are pending await a decision from the insurance company, which typically must respond within a set timeframe. Accepted claims mean you're entitled to benefits, while denied claims may require appeal. Disputed claims—where the employer or insurer challenges some aspect—often require hearings before a workers' compensation judge in ${state}. Settlement negotiations typically occur once you've reached Maximum Medical Improvement (MMI) and the full extent of your injury is known.`
+  },
+
+  injury_type: {
+    title: "How Injury Type Affects Your Claim",
+    getContent: (state) => `The type of workplace injury you sustained affects how ${state} processes and values your workers' compensation claim. Different injury types have different documentation requirements, benefit structures, and typical outcomes.
+
+Traumatic injuries from sudden accidents are the most straightforward to prove—you can point to a specific event that caused the injury. Repetitive stress injuries (like carpal tunnel) develop over time and may require more documentation to establish the work connection. Occupational diseases from toxic exposure or environmental factors require proving the workplace caused the condition. Mental stress claims are recognized in some states but face higher proof requirements. Understanding your injury type helps navigate ${state}'s specific requirements for each category.`
+  },
+
+  body_part_injured: {
+    title: "Why Body Part Matters for Benefits",
+    getContent: (state) => `The specific body part injured in your workplace accident significantly impacts your workers' compensation benefits in ${state}. Many states use "scheduled injury" tables that assign specific benefit amounts or weeks of compensation based on which body part was affected.
+
+For example, ${state} may provide different compensation for loss of use of a hand versus a back injury. Scheduled injuries to specific body parts (hands, arms, legs, eyes, etc.) often have predetermined benefit amounts, while unscheduled injuries (back, neck, head) may be compensated differently. The body part injured also determines what medical treatment is appropriate and what your future work capacity might be.`
+  },
+
+  disability_type: {
+    title: "Disability Classification Determines Benefits",
+    getContent: (state) => `Your disability classification is one of the most important factors in determining your workers' compensation benefits in ${state}. Workers' comp recognizes four main categories of disability, each with different benefit structures and durations.
+
+Temporary Total Disability (TTD) applies when you cannot work at all during recovery but are expected to improve. Temporary Partial Disability (TPD) means you can work in a limited capacity during recovery. Permanent Partial Disability (PPD) indicates lasting impairment that doesn't completely prevent work. Permanent Total Disability (PTD) means you can never return to any gainful employment. In ${state}, each category has specific benefit rates and duration limits that directly affect your total compensation.`
+  },
+
+  impairment_rating: {
+    title: "How Impairment Rating Impacts Your Settlement",
+    getContent: (state) => `Your impairment rating is a medical determination of the permanent functional loss you've experienced from your workplace injury. In ${state}, this rating—typically expressed as a percentage—directly multiplies your permanent disability benefits.
+
+Most states use the American Medical Association (AMA) Guides to evaluate impairment, though ${state} may use its own rating system or a specific edition of the AMA Guides. A higher impairment rating means higher permanent disability benefits. For example, a 20% impairment rating could mean significantly more compensation than a 10% rating. Getting an accurate impairment rating requires evaluation by qualified medical professionals after you've reached Maximum Medical Improvement (MMI).`
+  },
+
+  average_weekly_wage: {
+    title: "Your Weekly Wage Determines Benefit Amounts",
+    getContent: (state) => `Your Average Weekly Wage (AWW) is the foundation for calculating all your workers' compensation benefits in ${state}. Typically calculated from your earnings over the 52 weeks before your injury, your AWW determines your weekly benefit rate for temporary and permanent disability benefits.
+
+In ${state}, workers' compensation benefits are usually calculated as a percentage of your AWW (often two-thirds), subject to state maximum and minimum limits. Include all earnings: regular wages, overtime, bonuses, tips, and the value of non-cash benefits like housing. The higher your documented AWW, the higher your weekly benefit rate will be, up to the state maximum. Accurate AWW calculation can mean thousands of dollars difference in your total benefits.`
+  },
+
+  reached_mmi: {
+    title: "Maximum Medical Improvement Affects Settlement",
+    getContent: (state) => `Maximum Medical Improvement (MMI) is a critical milestone in your workers' compensation case. MMI occurs when your treating physician determines that your condition has stabilized and further medical treatment is unlikely to significantly improve your condition.
+
+In ${state}, reaching MMI triggers important changes in your case. Your impairment rating is assessed, determining permanent disability benefits. Your temporary disability benefits may end or convert to permanent benefits. Settlement negotiations typically begin in earnest. Until you reach MMI, the full extent of your injury isn't known, making it difficult to value your case completely. Never accept a settlement offer before reaching MMI, as you may not fully understand the permanent impacts of your injury.`
+  },
+
+  vocational_rehab_needed: {
+    title: "Vocational Rehabilitation for Career Transition",
+    getContent: (state) => `If your workplace injury prevents you from returning to your previous occupation, ${state} workers' compensation may provide vocational rehabilitation benefits. These benefits help injured workers transition to new careers when their injuries prevent performing their previous job duties.
+
+Vocational rehabilitation can include career counseling, job placement assistance, retraining programs, educational benefits, and resume preparation. In ${state}, eligibility for vocational rehabilitation typically requires demonstrating that you cannot return to your previous occupation due to permanent restrictions. These benefits can significantly impact your total compensation by helping you maintain earning capacity and providing additional support during career transition.`
+  },
+
+  is_death_claim: {
+    title: "Death Benefits for Surviving Dependents",
+    getContent: (state) => `Workers' compensation death benefits provide financial support to dependents of workers who die from workplace injuries or occupational diseases. In ${state}, these benefits typically include wage replacement for surviving spouses and dependent children, plus funeral and burial expenses.
+
+Death benefits in ${state} are calculated based on the deceased worker's Average Weekly Wage and the number of dependents. Surviving spouses may receive benefits for a specific period or until remarriage. Dependent children typically receive benefits until age 18 or through college. ${state} sets maximum death benefit amounts that may apply. The number of dependents significantly affects total benefits, making accurate dependent identification crucial for maximizing recovery.`
   }
 };

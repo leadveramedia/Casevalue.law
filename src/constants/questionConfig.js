@@ -22,6 +22,10 @@ export const QUESTION_PLACEHOLDERS = {
   duration_of_violation: '6',
   victim_age: '35',
   product_name: 'e.g., iPhone 12 Pro, Toyota Camry, etc.',
+  // Worker's Compensation
+  average_weekly_wage: '1000',
+  weeks_off_work: '12',
+  wc_medical_treatment_cost: '25000',
 };
 
 export const QUESTION_HELP_TEXT = {
@@ -44,4 +48,9 @@ export const QUESTION_HELP_TEXT = {
   victim_age: 'How old was the victim at the time of death?',
   incident_date: 'Select the date when the incident occurred. This helps determine if your case is within the statute of limitations.',
   product_name: 'Enter the specific name or model of the product that caused the injury',
+  // Worker's Compensation
+  average_weekly_wage: 'Your gross wages (before taxes) divided by weeks worked. Include overtime, bonuses, and benefits value.',
+  weeks_off_work: 'Total weeks you have been unable to work due to your workplace injury.',
+  wc_medical_treatment_cost: 'Total medical expenses related to your workplace injury, including emergency care, doctors, therapy, and medications.',
+  injury_date: 'Select the date when the workplace injury occurred. This starts the statute of limitations clock.',
 };

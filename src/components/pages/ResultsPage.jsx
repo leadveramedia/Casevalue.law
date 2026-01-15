@@ -88,6 +88,50 @@ function ResultsPage({
     );
   }
 
+  // Handle Texas non-subscriber referral (workers' comp special case)
+  if (valuation?.referOut) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-8 animate-fade-in">
+        <button
+          onClick={onBack}
+          className={SHARED_STYLES.backToHomeButton}
+        >
+          {t.backHome}
+        </button>
+
+        <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-2 border-red-500/40 shadow-2xl text-center">
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-6" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-300 mb-4">
+            {t.attorneyConsultationNeeded || 'Attorney Consultation Needed'}
+          </h2>
+          <div className="space-y-4 mb-8 text-left">
+            {valuation.factors.map((f, i) => (
+              <p key={i} className="text-base md:text-lg text-text/80 leading-relaxed flex items-start gap-3">
+                <span className="text-red-400 mt-1 flex-shrink-0">•</span>
+                <span>{f}</span>
+              </p>
+            ))}
+          </div>
+          {valuation.warnings && valuation.warnings.length > 0 && (
+            <div className="bg-red-500/30 border-2 border-red-500/50 rounded-xl p-5 mb-8">
+              {valuation.warnings.map((w, i) => (
+                <p key={i} className="text-base md:text-lg text-red-100 leading-relaxed font-semibold mb-2 last:mb-0">
+                  {w}
+                </p>
+              ))}
+            </div>
+          )}
+          <button
+            onClick={onBack}
+            className="px-8 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl shadow-2xl hover:shadow-accent/50 transition-all font-bold text-lg transform hover:scale-105"
+          >
+            {t.backHome}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
       {/* Back to Home Button */}
@@ -117,6 +161,67 @@ function ResultsPage({
             </div>
           </div>
         </div>
+
+        {/* Worker's Comp Weekly Rate */}
+        {valuation.weeklyBenefitRate > 0 && (
+          <div className="bg-accent/10 rounded-2xl p-6 mb-8 text-center border-2 border-accent/30">
+            <div className="text-text/70 text-lg mb-2">{t.weeklyBenefitRate || 'Weekly Benefit Rate'}</div>
+            <div className="text-3xl md:text-4xl font-bold text-accent">
+              ${valuation.weeklyBenefitRate.toLocaleString()}/week
+            </div>
+          </div>
+        )}
+
+        {/* Worker's Comp Benefits Breakdown */}
+        {valuation.breakdown && (
+          <div className="border-t-2 border-primary/20 pt-6 mb-8">
+            <h3 className="text-xl font-bold text-text mb-4">{t.benefitsBreakdown || 'Benefits Breakdown'}</h3>
+            <div className="space-y-3">
+              {valuation.breakdown.ttdBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.ttdBenefits || 'Temporary Total Disability (TTD)'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.ttdBenefits.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.tpdBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.tpdBenefits || 'Temporary Partial Disability (TPD)'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.tpdBenefits.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.ppdBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.ppdBenefits || 'Permanent Partial Disability (PPD)'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.ppdBenefits.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.medicalBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.medicalBenefits || 'Medical Treatment'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.medicalBenefits.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.futureMedical > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.futureMedical || 'Estimated Future Medical'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.futureMedical.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.vocationalBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.vocationalBenefits || 'Vocational Rehabilitation'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.vocationalBenefits.toLocaleString()}</span>
+                </div>
+              )}
+              {valuation.breakdown.deathBenefits > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.deathBenefits || 'Death Benefits'}</span>
+                  <span className="font-semibold text-accent">${valuation.breakdown.deathBenefits.toLocaleString()}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Factors */}
         <div className="border-t-2 border-primary/20 pt-8">
@@ -301,7 +406,19 @@ ResultsPage.propTypes = {
     lowRange: PropTypes.number.isRequired,
     highRange: PropTypes.number.isRequired,
     factors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    warnings: PropTypes.arrayOf(PropTypes.string)
+    warnings: PropTypes.arrayOf(PropTypes.string),
+    weeklyBenefitRate: PropTypes.number,
+    breakdown: PropTypes.shape({
+      ttdBenefits: PropTypes.number,
+      tpdBenefits: PropTypes.number,
+      ppdBenefits: PropTypes.number,
+      medicalBenefits: PropTypes.number,
+      futureMedical: PropTypes.number,
+      vocationalBenefits: PropTypes.number,
+      deathBenefits: PropTypes.number
+    }),
+    referOut: PropTypes.bool,
+    stateSpecificInfo: PropTypes.object
   }),
   onBack: PropTypes.func.isRequired,
   isSharedResult: PropTypes.bool,

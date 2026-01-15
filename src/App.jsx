@@ -53,6 +53,9 @@ export default function CaseValueWebsite() {
   // Ref for pushStateToHistory (allows late binding for circular dependency)
   const pushStateToHistoryRef = useRef(() => {});
 
+  // Answers state (declared before useAppNavigation for conditional questions)
+  const [answers, setAnswers] = useState({});
+
   // Navigation state and handlers (extracted hook)
   const {
     step, setStep,
@@ -60,14 +63,13 @@ export default function CaseValueWebsite() {
     selectedState, setSelectedState,
     qIdx, setQIdx,
     questions,
+    visibleQuestions,    // Filtered questions based on conditional rules
     currentQuestion: q,
     navigateToStep,
     handleCaseSelect,
     handleNextQuestion,
     handlePreviousQuestion
-  } = useAppNavigation(pushStateToHistoryRef);
-
-  const [answers, setAnswers] = useState({});
+  } = useAppNavigation(pushStateToHistoryRef, answers);
   const [contact, setContact] = useState({
     firstName: '',
     lastName: '',
@@ -516,7 +518,7 @@ export default function CaseValueWebsite() {
               t={t}
               q={q}
               qIdx={qIdx}
-              questions={questions}
+              questions={visibleQuestions}
               answers={answers}
               hasHelpForQuestion={hasHelpForQuestion}
               NON_CURRENCY_NUMBER_FIELDS={NON_CURRENCY_NUMBER_FIELDS}

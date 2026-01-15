@@ -45,6 +45,49 @@ export const shouldShowDontKnow = (question) => {
 };
 
 /**
+ * Checks if a question should be visible based on its showIf condition
+ * @param {Object} question - The question object (may have showIf property)
+ * @param {Object} answers - Current answers object
+ * @returns {boolean} - Whether the question should be displayed
+ */
+export const isQuestionVisible = (question, answers) => {
+  // If no showIf condition, always show the question
+  if (!question.showIf) return true;
+
+  const { questionId, operator, value } = question.showIf;
+  const answer = answers[questionId];
+
+  // If the dependent question hasn't been answered yet, hide this question
+  if (answer === undefined || answer === null) return false;
+
+  switch (operator) {
+    case 'equals':
+      return answer === value;
+    case 'notEquals':
+      return answer !== value;
+    case 'greaterThan':
+      return Number(answer) > value;
+    case 'lessThan':
+      return Number(answer) < value;
+    case 'includes':
+      // Check if the answer is included in an array of values
+      return Array.isArray(value) ? value.includes(answer) : false;
+    default:
+      return true;
+  }
+};
+
+/**
+ * Filters an array of questions to only include visible ones based on current answers
+ * @param {Array} questions - Array of question objects
+ * @param {Object} answers - Current answers object
+ * @returns {Array} - Filtered array of visible questions
+ */
+export const getVisibleQuestions = (questions, answers) => {
+  return questions.filter(q => isQuestionVisible(q, answers));
+};
+
+/**
  * Formats an answer value for display in the summary
  * @param {Object} question - The question object
  * @param {*} rawValue - The raw answer value

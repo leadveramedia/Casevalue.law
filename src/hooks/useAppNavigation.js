@@ -2,9 +2,9 @@
  * useAppNavigation Hook
  * Manages application navigation state and step transitions
  */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { parseDeepLinkHash } from '../constants/stateSlugs';
-import { getGetQuestions } from '../utils/helpers';
+import { getGetQuestions, getVisibleQuestions } from '../utils/helpers';
 
 /**
  * Parse initial step from URL hash
@@ -45,9 +45,10 @@ function parseInitialQIdx() {
 /**
  * Hook for managing app navigation state
  * @param {Object} pushStateToHistoryRef - Ref containing push state function (allows late binding)
+ * @param {Object} answers - Current answers object (for conditional question filtering)
  * @returns {Object} Navigation state and handlers
  */
-export function useAppNavigation(pushStateToHistoryRef) {
+export function useAppNavigation(pushStateToHistoryRef, answers = {}) {
   // Navigation state with lazy initialization from URL hash
   const [step, setStep] = useState(parseInitialStep);
   const [selectedCase, setSelectedCase] = useState(parseInitialCase);
@@ -67,6 +68,11 @@ export function useAppNavigation(pushStateToHistoryRef) {
     };
     loadQuestions();
   }, [selectedCase]);
+
+  // Compute visible questions based on current answers (for conditional questions)
+  const visibleQuestions = useMemo(() => {
+    return getVisibleQuestions(questions, answers);
+  }, [questions, answers]);
 
   // Scroll to top on step change (respect reduced motion preference)
   useEffect(() => {
@@ -91,16 +97,16 @@ export function useAppNavigation(pushStateToHistoryRef) {
     setTimeout(() => pushStateToHistoryRef.current?.(), 0);
   }, [pushStateToHistoryRef]);
 
-  // Navigate to next question or contact form
+  // Navigate to next question or contact form (using visible questions)
   const handleNextQuestion = useCallback(() => {
-    if (qIdx < questions.length - 1) {
+    if (qIdx < visibleQuestions.length - 1) {
       setQIdx(qIdx + 1);
     } else {
       setStep('contact');
     }
     // Push to history after state updates
     setTimeout(() => pushStateToHistoryRef.current?.(), 0);
-  }, [qIdx, questions.length, pushStateToHistoryRef]);
+  }, [qIdx, visibleQuestions.length, pushStateToHistoryRef]);
 
   // Navigate to previous question or state selection
   const handlePreviousQuestion = useCallback(() => {
@@ -124,8 +130,9 @@ export function useAppNavigation(pushStateToHistoryRef) {
     setSelectedState,
     qIdx,
     setQIdx,
-    questions,
-    currentQuestion: questions[qIdx],
+    questions,           // All questions (for reference)
+    visibleQuestions,    // Filtered questions based on conditional rules
+    currentQuestion: visibleQuestions[qIdx],
 
     // Navigation handlers
     navigateToStep,

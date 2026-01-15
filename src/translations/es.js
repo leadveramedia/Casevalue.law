@@ -988,5 +988,141 @@ La identificación del producto afecta fundamentalmente los casos de responsabil
     getContent: (state) => `Si el producto que lo lesionó fue retirado del mercado—ya sea antes o después de su lesión—esto proporciona evidencia poderosa de defectos del producto y conocimiento del fabricante de peligros. En ${state}, los retiros de productos demuestran que el fabricante admitió que el producto no era seguro, fortaleciendo dramáticamente su caso de responsabilidad por productos. Los retiros prueban tanto el defecto como que el fabricante lo sabía.
 
 Los retiros de productos afectan enormemente los casos de responsabilidad por productos de ${state}. Los retiros son la admisión del fabricante de que el producto tiene defectos de seguridad. Esto elimina su capacidad de reclamar que el producto era seguro o que los defectos eran imprevisibles. En ${state}, los retiros respaldan particularmente daños punitivos cuando los fabricantes retrasaron los retiros a pesar de conocer los peligros. Si su lesión ocurrió después de que el fabricante supo sobre los defectos pero antes de que retiraran el producto, muestra que desatendieron conscientemente la seguridad del consumidor por ganancias. Los retiros también proporcionan evidencia documental: los avisos de retiro detallan el defecto específico, el peligro que representa, y cuántos productos fueron afectados. Esto corrobora las opiniones de sus expertos sobre defectos del producto. En ${state}, los retiros que afectan millones de productos prueban defectos generalizados, no anomalías de fabricación aisladas. El conocimiento del fabricante a través de decisiones de retiro muestra que el defecto fue lo suficientemente significativo para garantizar un retiro, respaldando daños sustanciales. Los retiros también generan publicidad e identificación de otras víctimas, potencialmente creando acciones de clase o consolidaciones MDL con costos de litigio compartidos. Busque bases de datos de retiros (CPSC, NHTSA, FDA) para su producto. Documente el momento del retiro relativo a su lesión. Obtenga avisos de retiro y comunicaciones del fabricante sobre el defecto. En ${state}, la evidencia de retiro de productos puede duplicar o triplicar valores de casos al probar elementos de defecto y conocimiento concluyentemente.`
+  },
+
+  // Texto de Ayuda para Compensación Laboral
+  employer_has_wc_insurance: {
+    title: "Seguro de Compensación Laboral del Empleador",
+    getContent: (state) => `La cobertura de seguro de compensación laboral de su empleador determina qué sistema legal se aplica a su reclamo por lesiones. En ${state}, la mayoría de los empleadores están obligados a tener seguro de compensación laboral. Si su empleador tiene este seguro, su reclamo pasará por el sistema de compensación laboral, que proporciona beneficios sin importar quién tuvo la culpa del accidente.
+
+${state === 'Texas' ? 'Texas es único porque permite a los empleadores optar por no tener seguro de compensación laboral (llamados "no suscriptores"). Si su empleador de Texas no tiene seguro de compensación laboral, usted puede tener derecho a demandar directamente a su empleador por negligencia, lo que a menudo resulta en liquidaciones más altas que los beneficios estándar de compensación laboral. Sin embargo, estos casos son más complejos y requieren probar negligencia del empleador.' : `En ${state}, los empleadores que no mantienen cobertura de compensación laboral pueden enfrentar sanciones significativas y perder ciertas defensas legales si los empleados los demandan directamente.`}
+
+Saber si su empleador tiene seguro de compensación laboral es el primer paso crítico para entender sus derechos y opciones después de una lesión laboral en ${state}.`
+  },
+
+  injury_date: {
+    title: "Fecha de la Lesión Laboral",
+    getContent: (state) => `La fecha de su lesión laboral establece plazos críticos y afecta sus beneficios de compensación laboral en ${state}. Esta fecha comienza el período de estatuto de limitaciones para presentar su reclamo y determina cuándo comienza su período de espera para los beneficios.
+
+En ${state}, típicamente tiene ${state === 'California' ? '1 año' : state === 'New York' ? '2 años' : '1-2 años'} desde la fecha de la lesión para presentar su reclamo de compensación laboral. Para enfermedades ocupacionales o lesiones por estrés repetitivo, la fecha de la lesión puede ser cuando notó los síntomas por primera vez o cuando un médico le dijo que su condición estaba relacionada con el trabajo.
+
+Documentar la fecha exacta de la lesión es esencial porque también afecta el cálculo de su salario semanal promedio, que se basa en sus ganancias en las semanas previas a la lesión. En ${state}, reportar rápidamente su lesión a su empleador protege sus derechos y asegura documentación médica oportuna.`
+  },
+
+  wc_claim_status: {
+    title: "Estado del Reclamo de Compensación Laboral",
+    getContent: (state) => `El estado actual de su reclamo de compensación laboral afecta significativamente su estrategia y resultados potenciales en ${state}. Cada estado de reclamo tiene diferentes implicaciones para sus beneficios y opciones legales.
+
+Si su reclamo aún no ha sido presentado, debe actuar rápidamente ya que ${state} tiene plazos estrictos de reporte. Los reclamos presentados pendientes de decisión requieren paciencia pero también monitoreo para asegurar una respuesta oportuna. Los reclamos aceptados significan que debería estar recibiendo beneficios, aunque la cantidad puede ser disputable.
+
+Los reclamos disputados o denegados en ${state} a menudo requieren representación legal. El sistema de compensación laboral de ${state} tiene procedimientos de apelación específicos con plazos estrictos. Si está en fase de negociación de acuerdo, entender el valor completo de su reclamo—incluyendo beneficios médicos futuros y discapacidad permanente—es crucial antes de aceptar cualquier oferta.`
+  },
+
+  wc_injury_type: {
+    title: "Tipo de Lesión Laboral",
+    getContent: (state) => `El tipo de lesión laboral que sufrió afecta cómo ${state} clasifica y compensa su reclamo. Las diferentes categorías de lesiones tienen reglas diferentes para beneficios, plazos, y requisitos de prueba.
+
+Las lesiones traumáticas por accidentes repentinos en el lugar de trabajo generalmente son las más fáciles de probar ya que tienen una fecha y causa clara. Las lesiones por estrés repetitivo como el túnel carpiano pueden requerir testimonio médico experto para establecer la relación con el trabajo. Las enfermedades ocupacionales por exposición tóxica o pérdida auditiva a menudo tienen períodos de estatuto de limitaciones extendidos en ${state} ya que los síntomas pueden aparecer años después de la exposición.
+
+Las lesiones por estrés mental relacionadas con el trabajo tienen estándares de prueba más altos en ${state} y pueden requerir mostrar un evento traumático específico o estrés laboral extraordinario. Las condiciones preexistentes agravadas por el trabajo aún pueden ser compensables en ${state} si puede demostrar que sus deberes laborales empeoraron materialmente su condición.`
+  },
+
+  body_part_injured: {
+    title: "Parte del Cuerpo Lesionada",
+    getContent: (state) => `La parte específica del cuerpo lesionada afecta significativamente los cálculos de beneficios de compensación laboral en ${state}. Muchos estados, incluyendo ${state}, tienen "tablas de lesiones programadas" que asignan valores específicos en semanas de compensación a diferentes partes del cuerpo.
+
+${state === 'California' ? 'California usa un sistema complejo de calificación de discapacidad permanente basado en la parte del cuerpo lesionada, su ocupación, y edad.' : `En ${state}, las lesiones en partes del cuerpo específicas como manos, brazos, piernas, u ojos pueden tener beneficios fijos predeterminados basados en la tabla de lesiones programadas del estado.`}
+
+Las lesiones en múltiples partes del cuerpo pueden calificar para beneficios aumentados. Las lesiones que afectan su capacidad para realizar su ocupación específica a menudo resultan en valores de reclamo más altos. La documentación médica de la parte exacta del cuerpo lesionada y el alcance del daño es crítica para maximizar sus beneficios de compensación laboral en ${state}.`
+  },
+
+  disability_type: {
+    title: "Tipo de Discapacidad de Compensación Laboral",
+    getContent: (state) => `El tipo de discapacidad clasificado por su médico determina qué beneficios de compensación laboral recibirá en ${state}. Las cuatro categorías principales tienen implicaciones muy diferentes para sus beneficios.
+
+La Incapacidad Total Temporal (ITT) significa que no puede trabajar en absoluto mientras se recupera. En ${state}, los beneficios de ITT típicamente pagan aproximadamente dos tercios de su salario semanal promedio, sujeto a máximos y mínimos estatales. La Incapacidad Parcial Temporal (IPT) se aplica cuando puede hacer trabajo liviano o modificado pero gana menos que antes de la lesión.
+
+La Incapacidad Parcial Permanente (IPP) significa que tiene algún deterioro duradero pero aún puede trabajar. Los beneficios de IPP en ${state} se calculan basándose en su calificación de deterioro y el tipo de lesión. La Incapacidad Total Permanente (ITP)—la clasificación más grave—significa que no puede realizar ningún trabajo sustancialmente remunerado y típicamente proporciona beneficios de por vida en ${state}.`
+  },
+
+  impairment_rating: {
+    title: "Calificación de Deterioro de Compensación Laboral",
+    getContent: (state) => `Su calificación de deterioro es una evaluación médica expresada como un porcentaje que mide su pérdida permanente de función corporal. En ${state}, esta calificación impacta directamente sus beneficios de discapacidad permanente.
+
+${state === 'California' ? 'California usa su propia guía de calificación de discapacidad permanente que considera múltiples factores más allá del deterioro médico.' : `${state} típicamente usa las Guías de la AMA para la Evaluación de Deterioro Permanente para determinar las calificaciones.`} Una calificación más alta significa mayor discapacidad permanente y beneficios más altos.
+
+Las calificaciones de deterioro son determinadas por médicos después de que alcanza la Mejora Médica Máxima (MMM). Si no está de acuerdo con su calificación, ${state} le permite solicitar una evaluación médica independiente. La diferencia entre una calificación del 10% y del 15% puede significar miles de dólares en beneficios adicionales, por lo que es importante asegurar que su calificación refleje con precisión sus limitaciones.`
+  },
+
+  average_weekly_wage: {
+    title: "Salario Semanal Promedio para Compensación Laboral",
+    getContent: (state) => `Su salario semanal promedio (SSP) es la base para calcular todos los beneficios de compensación laboral en ${state}. Este número determina su tasa de beneficio semanal para incapacidad temporal, discapacidad permanente, y beneficios por fallecimiento.
+
+En ${state}, el SSP típicamente se calcula usando sus ganancias durante las 52 semanas anteriores a su lesión, incluyendo salario base, horas extras regulares, bonos, y el valor de beneficios como seguro de salud. Si no trabajó un año completo, se pueden usar métodos de cálculo alternativos.
+
+Su tasa de beneficio semanal en ${state} es típicamente dos tercios de su SSP, pero está limitada por máximos estatales (actualmente alrededor de $${state === 'California' ? '1,619' : state === 'New York' ? '1,145' : '1,000-1,500'} por semana) y mínimos. Calcular con precisión su SSP es crucial ya que incluso diferencias pequeñas pueden sumar miles de dólares durante la vida de su reclamo.`
+  },
+
+  weeks_off_work: {
+    title: "Semanas Sin Trabajar por Lesión Laboral",
+    getContent: (state) => `El número de semanas que ha estado sin trabajar debido a su lesión laboral afecta directamente sus beneficios de incapacidad temporal en ${state}. Este tiempo fuera del trabajo establece la duración de los pagos de beneficios que debe recibir.
+
+${state} tiene un período de espera de ${state === 'California' ? '3' : state === 'Texas' ? '7' : '3-7'} días antes de que comiencen los beneficios de incapacidad temporal. Sin embargo, si su discapacidad se extiende más allá de ${state === 'California' ? '14' : state === 'Texas' ? '14' : '14-21'} días, típicamente puede recuperar beneficios retroactivamente por el período de espera.
+
+Las semanas que no pudo trabajar también documentan la gravedad de su lesión, lo cual puede afectar las liquidaciones de discapacidad permanente. En ${state}, mantenga registros de todas las restricciones laborales ordenadas por el médico y cualquier trabajo liviano ofrecido por su empleador. Esta documentación es esencial para maximizar sus beneficios por tiempo perdido.`
+  },
+
+  returned_to_work: {
+    title: "Regreso al Trabajo Después de Lesión Laboral",
+    getContent: (state) => `Si ha regresado al trabajo después de su lesión laboral afecta varios aspectos de su reclamo de compensación laboral en ${state}. Su estado de regreso al trabajo influye en los cálculos de beneficios de incapacidad temporal y las negociaciones de liquidación.
+
+Si ha regresado a su trabajo completo sin restricciones, sus beneficios de incapacidad temporal terminan, pero aún puede tener derecho a beneficios de discapacidad permanente si tiene deterioro duradero. Si ha regresado al trabajo liviano o con restricciones, puede calificar para beneficios de incapacidad parcial temporal en ${state} si está ganando menos que antes de la lesión.
+
+En ${state}, los empleadores a menudo están obligados a ofrecer trabajo razonable dentro de sus restricciones médicas. Si no puede regresar a su trabajo anterior debido a discapacidad permanente, puede tener derecho a beneficios de rehabilitación vocacional para capacitarse para un nuevo empleo. Su estado de regreso al trabajo es un factor clave en el cálculo del valor total de su reclamo.`
+  },
+
+  surgery_required: {
+    title: "Cirugía Requerida para Lesión Laboral",
+    getContent: (state) => `Si su lesión laboral requirió cirugía impacta significativamente la valuación de su caso de compensación laboral en ${state}. La cirugía indica la gravedad de la lesión, aumenta los beneficios médicos, y a menudo resulta en calificaciones de deterioro permanente más altas.
+
+En ${state}, todos los tratamientos quirúrgicos razonables y necesarios para lesiones laborales deben ser cubiertos por el seguro de compensación laboral sin costo para usted. Esto incluye la cirugía misma, hospitalización, anestesia, rehabilitación post-quirúrgica, y cualquier dispositivo médico necesario.
+
+La cirugía típicamente extiende su período de incapacidad temporal, aumentando esos beneficios. También proporciona evidencia médica objetiva que respalda calificaciones de discapacidad permanente más altas. En ${state}, si su aseguradora de compensación laboral deniega o retrasa la cirugía necesaria, tiene derecho a apelar a través del sistema de disputas de compensación laboral del estado.`
+  },
+
+  future_medical_needed: {
+    title: "Tratamiento Médico Futuro para Lesión Laboral",
+    getContent: (state) => `La necesidad de tratamiento médico futuro es un componente crítico de la valuación de casos de compensación laboral en ${state}. Si su lesión requerirá atención médica continua, este costo futuro debe tenerse en cuenta en cualquier liquidación.
+
+En ${state}, la compensación laboral generalmente proporciona tratamiento médico de por vida para lesiones relacionadas con el trabajo. Sin embargo, si liquida su caso con un acuerdo de suma global, puede estar renunciando al derecho de que la aseguradora pague tratamiento futuro. Por eso es esencial calcular con precisión los costos médicos futuros antes de la liquidación.
+
+El tratamiento médico futuro puede incluir cirugías adicionales, medicamentos continuos, terapia física, equipos médicos, y citas de seguimiento. En ${state}, a menudo se requiere testimonio médico experto para establecer la necesidad probable y el costo del tratamiento futuro. Subestimar las necesidades médicas futuras es uno de los errores más costosos que cometen los trabajadores lesionados al liquidar casos de compensación laboral.`
+  },
+
+  reached_mmi: {
+    title: "Mejora Médica Máxima en Compensación Laboral",
+    getContent: (state) => `La Mejora Médica Máxima (MMM) es un hito crucial en los casos de compensación laboral en ${state}. MMM significa que su condición médica se ha estabilizado y es poco probable que una mejoría adicional significativa ocurra con o sin tratamiento médico.
+
+En ${state}, alcanzar la MMM desencadena varios desarrollos importantes. Sus beneficios de incapacidad temporal típicamente terminan porque ya no está en la fase de recuperación activa. Su médico puede ahora asignar una calificación de deterioro permanente, que determina sus beneficios de discapacidad permanente. Las negociaciones de liquidación a menudo comienzan en serio después de la MMM cuando el valor total del caso puede calcularse.
+
+No apresure la determinación de MMM en ${state}. Si los beneficios de incapacidad temporal se terminan prematuramente antes de que haya alcanzado verdaderamente la mejora máxima, usted puede apelar. Algunos pacientes experimentan mejora significativa meses o años después de que la MMM inicial fue declarada, potencialmente permitiendo la reapertura de reclamos en ciertas circunstancias.`
+  },
+
+  vocational_rehab_needed: {
+    title: "Rehabilitación Vocacional en Compensación Laboral",
+    getContent: (state) => `La rehabilitación vocacional ayuda a trabajadores lesionados que no pueden regresar a su trabajo anterior a capacitarse para un nuevo empleo. En ${state}, los beneficios de rehabilitación vocacional pueden aumentar significativamente el valor total de su caso de compensación laboral.
+
+${state === 'California' ? 'California proporciona un Suplemento de Regreso al Trabajo y un Fondo Suplementario de Desplazamiento Laboral para trabajadores con discapacidad permanente que no regresan a trabajar con su empleador.' : `${state} puede proporcionar beneficios de rehabilitación vocacional incluyendo evaluaciones de habilidades, asesoría de carrera, capacitación laboral, y asistencia de colocación laboral.`}
+
+Si su discapacidad permanente le impide realizar su trabajo anterior, la rehabilitación vocacional en ${state} puede proporcionar semanas o meses adicionales de beneficios mientras se capacita para un nuevo trabajo. Documente cualquier restricción laboral que le impida regresar a su ocupación anterior. La rehabilitación vocacional puede valer decenas de miles de dólares además de otros beneficios de compensación laboral.`
+  },
+
+  can_return_same_job: {
+    title: "Capacidad para Regresar al Trabajo Anterior",
+    getContent: (state) => `Su capacidad para regresar al mismo trabajo que tenía antes de su lesión afecta significativamente su caso de compensación laboral en ${state}. Si no puede realizar su trabajo anterior debido a restricciones permanentes, puede calificar para beneficios adicionales.
+
+En ${state}, los trabajadores que no pueden regresar a su ocupación anterior debido a discapacidad permanente a menudo tienen derecho a beneficios de rehabilitación vocacional, suplementos de regreso al trabajo, o liquidaciones de discapacidad permanente aumentadas. La incapacidad para regresar a su empleo anterior demuestra el impacto real de su lesión en su capacidad de ganancia.
+
+Documente todas las restricciones laborales permanentes de su médico y compárelas con los requisitos de su trabajo anterior. Si hay un desajuste—por ejemplo, su trabajo requiere levantar objetos pesados pero tiene restricciones permanentes de levantamiento—esto respalda beneficios aumentados en ${state}. Su empleador puede estar obligado a ofrecerle trabajo alternativo dentro de sus restricciones si está disponible.`
   }
 };

@@ -16,7 +16,8 @@ export const caseTypes = [
   { id: 'disability', gradient: 'from-sky-600 to-blue-600', img: 'https://images.unsplash.com/photo-1653130892007-6d74996a7978?w=400&fm=webp&q=80' },
   { id: 'professional', gradient: 'from-slate-600 to-zinc-600', img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&fm=webp&q=80' },
   { id: 'civil_rights', gradient: 'from-rose-600 to-red-600', img: 'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=400&fm=webp&q=80' },
-  { id: 'ip', gradient: 'from-fuchsia-600 to-pink-600', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&fm=webp&q=80' }
+  { id: 'ip', gradient: 'from-fuchsia-600 to-pink-600', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&fm=webp&q=80' },
+  { id: 'workers_comp', gradient: 'from-orange-600 to-amber-600', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&fm=webp&q=80' }
 ];
 
 // ============================================================================
@@ -47,10 +48,66 @@ export const POLICY_TYPE_OPTIONS = ['employer_group', 'individual', 'social_secu
 export const IP_TYPE_OPTIONS = ['patent', 'trademark', 'copyright', 'trade_secret'];
 export const CLASS_ACTION_TYPE_OPTIONS = ['consumer_fraud', 'data_breach', 'defective_product', 'securities', 'employment', 'other'];
 
+// ============================================================================
+// WORKER'S COMPENSATION OPTIONS
+// ============================================================================
+export const WORKERS_COMP_CLAIM_STATUS_OPTIONS = [
+  'not_filed',           // Pre-claim - injury happened but no claim filed
+  'filed_pending',       // Claim filed, awaiting decision
+  'accepted',            // Claim accepted by insurer
+  'disputed',            // Employer/insurer disputing the claim
+  'denied',              // Claim denied
+  'appeal_pending',      // Appeal in progress
+  'settlement_offered'   // Settlement negotiation phase
+];
+
+export const WORKERS_COMP_INJURY_TYPE_OPTIONS = [
+  'traumatic_injury',       // Sudden workplace accident
+  'repetitive_stress',      // RSI, carpal tunnel, etc.
+  'occupational_disease',   // Toxic exposure, hearing loss
+  'mental_stress',          // Work-related psychological injury
+  'aggravation'             // Pre-existing condition worsened by work
+];
+
+export const WORKERS_COMP_BODY_PART_OPTIONS = [
+  'head_brain',
+  'eyes',
+  'ears_hearing',
+  'neck_cervical',
+  'shoulder',
+  'arm_elbow',
+  'hand_wrist_fingers',
+  'back_lumbar',
+  'hip_pelvis',
+  'leg_knee',
+  'foot_ankle_toes',
+  'internal_organs',
+  'skin',
+  'respiratory',
+  'multiple_body_parts'
+];
+
+export const DISABILITY_TYPE_OPTIONS = [
+  'temporary_total',      // TTD - cannot work at all temporarily
+  'temporary_partial',    // TPD - can do light duty/reduced hours
+  'permanent_partial',    // PPD - permanent but partial impairment
+  'permanent_total'       // PTD - cannot work at all permanently
+];
+
+export const IMPAIRMENT_RATING_OPTIONS = [
+  'none_0',           // 0% - No permanent impairment
+  'minimal_1_10',     // 1-10%
+  'mild_11_25',       // 11-25%
+  'moderate_26_50',   // 26-50%
+  'severe_51_75',     // 51-75%
+  'extreme_76_100'    // 76-100%
+];
+
 export const NON_CURRENCY_NUMBER_FIELDS = new Set([
   'hospital_days',
   'months_recovery',
   'weeks_unable_to_work',
+  'weeks_off_work',          // Worker's comp - weeks off work
   'age',
   'victim_age',
   'future_treatment_years',

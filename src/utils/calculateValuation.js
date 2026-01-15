@@ -607,6 +607,178 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.ongoing_infringement) factors.push('Ongoing infringement');
       break;
 
+    case 'workers_comp': {
+      // Get WC-specific state rules
+      const wcStateRules = getStateRules(state, 'workers_comp');
+
+      // TEXAS NON-SUBSCRIBER CHECK - Refer out immediately
+      if (state === 'Texas' && answers.employer_has_wc_insurance === false) {
+        return {
+          value: 0,
+          lowRange: 0,
+          highRange: 0,
+          weeklyBenefitRate: 0,
+          factors: [
+            'Your employer is a Texas non-subscriber (no workers\' compensation insurance)',
+            'Texas non-subscriber cases follow tort law, not workers\' compensation rules',
+            'You may have the right to sue your employer directly for negligence',
+            'Non-subscriber cases often result in higher settlements than standard workers\' comp claims'
+          ],
+          warnings: [
+            'IMPORTANT: Texas Non-Subscriber Employer Detected',
+            'This calculator cannot estimate non-subscriber cases.',
+            'Please consult with a personal injury attorney immediately.'
+          ],
+          breakdown: null,
+          referOut: true
+        };
+      }
+
+      // Parse answers
+      const aww = parseFloat(answers.average_weekly_wage) || 0;
+      const weeksOff = parseFloat(answers.weeks_off_work) || 0;
+      const medicalCost = parseFloat(answers.wc_medical_treatment_cost) || 0;
+
+      // Default state rules if not found
+      const ttdRate = wcStateRules?.ttdRate || 0.6667;
+      const maxWeeklyBenefit = wcStateRules?.maxWeeklyBenefit || 1000;
+      const minWeeklyBenefit = wcStateRules?.minWeeklyBenefit || 200;
+      const waitingPeriod = wcStateRules?.waitingPeriod || 7;
+      const retroactivePeriod = wcStateRules?.retroactivePeriod || 14;
+      const maxWeeksTTD = wcStateRules?.maxWeeksTTD || null;
+      const maxWeeksPPD = wcStateRules?.maxWeeksPPD || 300;
+
+      // Calculate weekly benefit rate
+      let weeklyRate = aww * ttdRate;
+      weeklyRate = Math.min(weeklyRate, maxWeeklyBenefit);
+      if (minWeeklyBenefit) {
+        weeklyRate = Math.max(weeklyRate, minWeeklyBenefit);
+      }
+
+      // Initialize breakdown
+      const wcBreakdown = {
+        ttdBenefits: 0,
+        tpdBenefits: 0,
+        ppdBenefits: 0,
+        medicalBenefits: 0,
+        futureMedical: 0,
+        vocationalBenefits: 0
+      };
+
+      // Calculate temporary disability benefits (TTD)
+      if (weeksOff > 0) {
+        const waitingDays = waitingPeriod;
+        const waitingWeeks = waitingDays / 7;
+        let compensableWeeks = Math.max(0, weeksOff - waitingWeeks);
+
+        // Add back waiting period if off long enough (retroactive)
+        if (weeksOff * 7 >= retroactivePeriod) {
+          compensableWeeks = weeksOff;
+        }
+
+        // Apply max weeks cap if exists
+        if (maxWeeksTTD && compensableWeeks > maxWeeksTTD) {
+          compensableWeeks = maxWeeksTTD;
+          factors.push(`TTD capped at ${maxWeeksTTD} weeks`);
+        }
+
+        wcBreakdown.ttdBenefits = weeklyRate * compensableWeeks;
+      }
+
+      // Calculate permanent partial disability benefits (PPD)
+      // Estimate impairment percentage from disability type (simplified - no longer asking for rating)
+      const getEstimatedImpairment = (disabilityType) => {
+        switch (disabilityType) {
+          case 'temporary_total':
+          case 'temporary_partial':
+            return 0;  // No PPD for temporary disabilities
+          case 'permanent_partial':
+            return 25; // Conservative average estimate
+          case 'permanent_total':
+            return 100;
+          default:
+            return 0;
+        }
+      };
+
+      const impairmentPercent = getEstimatedImpairment(answers.disability_type);
+      if (impairmentPercent > 0 && ['permanent_partial', 'permanent_total'].includes(answers.disability_type)) {
+        // Calculate PPD weeks based on estimated impairment percentage
+        const ppdWeeks = maxWeeksPPD ? Math.round(maxWeeksPPD * (impairmentPercent / 100)) : 0;
+        wcBreakdown.ppdBenefits = weeklyRate * ppdWeeks;
+        factors.push(`Estimated impairment: ${impairmentPercent}%`);
+      }
+
+      // Permanent total disability (PTD) - lifetime benefits
+      if (answers.disability_type === 'permanent_total') {
+        // Estimate 20 years of benefits for PTD
+        const ptdYears = 20;
+        wcBreakdown.ppdBenefits = weeklyRate * 52 * ptdYears;
+        factors.push('Permanent total disability - lifetime benefits');
+      }
+
+      // Medical benefits (typically unlimited in WC)
+      wcBreakdown.medicalBenefits = medicalCost;
+
+      // Estimate future medical if needed
+      if (answers.future_medical_needed === true) {
+        wcBreakdown.futureMedical = medicalCost * 0.5;
+        factors.push('Future medical treatment needed');
+      }
+
+      // Vocational rehabilitation
+      if (answers.vocational_rehab_needed === true && !answers.can_return_same_job) {
+        wcBreakdown.vocationalBenefits = aww * 52 * 0.25; // Estimate 25% of annual wage
+        factors.push('Vocational rehabilitation needed');
+      }
+
+      // Calculate total value
+      const totalWCValue = wcBreakdown.ttdBenefits +
+                           wcBreakdown.tpdBenefits +
+                           wcBreakdown.ppdBenefits +
+                           wcBreakdown.medicalBenefits +
+                           wcBreakdown.futureMedical +
+                           wcBreakdown.vocationalBenefits;
+
+      baseValue = totalWCValue;
+
+      // Add factors
+      factors.push(`Average weekly wage: $${aww.toLocaleString()}`);
+      factors.push(`Weekly benefit rate: $${Math.round(weeklyRate).toLocaleString()}/week`);
+      if (weeksOff > 0) factors.push(`Weeks off work: ${weeksOff}`);
+      if (answers.disability_type) factors.push(`Disability type: ${answers.disability_type}`);
+      if (answers.body_part_injured) factors.push(`Body part: ${answers.body_part_injured}`);
+
+      // Add state-specific info
+      if (wcStateRules) {
+        if (wcStateRules.monopolisticStateFund) {
+          factors.push(`${wcStateRules.stateName} uses a state-run workers' compensation fund`);
+        }
+        factors.push(`Waiting period: ${waitingPeriod} days`);
+        factors.push(`Retroactive threshold: ${retroactivePeriod} days`);
+      }
+
+      // Return with WC-specific breakdown
+      return {
+        value: Math.max(5000, Math.round(totalWCValue / 1000) * 1000),
+        lowRange: Math.max(5000, Math.round(totalWCValue * 0.75 / 1000) * 1000),
+        highRange: Math.round(totalWCValue * 1.25 / 1000) * 1000,
+        weeklyBenefitRate: Math.round(weeklyRate * 100) / 100,
+        factors: factors,
+        warnings: warnings.length > 0 ? warnings : undefined,
+        breakdown: wcBreakdown,
+        stateSpecificInfo: wcStateRules ? {
+          stateName: wcStateRules.stateName || state,
+          ttdRate: ttdRate,
+          maxWeeklyBenefit: maxWeeklyBenefit,
+          waitingPeriod: waitingPeriod,
+          impairmentGuide: wcStateRules.impairmentGuide,
+          choiceOfDoctor: wcStateRules.choiceOfDoctor,
+          monopolisticStateFund: wcStateRules.monopolisticStateFund
+        } : undefined
+      };
+    }
+
     default:
       baseValue = 50000;
       factors.push('General case estimate');

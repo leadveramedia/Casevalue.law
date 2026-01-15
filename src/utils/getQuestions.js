@@ -11,7 +11,9 @@ import {
   PROFESSIONAL_TYPE_OPTIONS,
   POLICY_TYPE_OPTIONS,
   IP_TYPE_OPTIONS,
-  CLASS_ACTION_TYPE_OPTIONS
+  CLASS_ACTION_TYPE_OPTIONS,
+  WORKERS_COMP_BODY_PART_OPTIONS,
+  DISABILITY_TYPE_OPTIONS
 } from '../constants/caseTypes';
 
 export const getQuestions = (caseType) => {
@@ -164,6 +166,27 @@ export const getQuestions = (caseType) => {
       { id: 'registered_ip', type: 'boolean' },
       { id: 'willful_infringement', type: 'boolean' },
       { id: 'ongoing_infringement', type: 'boolean' }
+    ],
+    // Worker's Compensation - streamlined 10-question flow
+    workers_comp: [
+      { id: 'employer_has_wc_insurance', type: 'boolean' },
+      { id: 'injury_date', type: 'date' },
+      { id: 'average_weekly_wage', type: 'number' },
+      { id: 'weeks_off_work', type: 'number' },
+      { id: 'disability_type', type: 'select', options: DISABILITY_TYPE_OPTIONS },
+      { id: 'body_part_injured', type: 'select', options: WORKERS_COMP_BODY_PART_OPTIONS },
+      { id: 'wc_medical_treatment_cost', type: 'number' },
+      { id: 'future_medical_needed', type: 'boolean' },
+      {
+        id: 'vocational_rehab_needed',
+        type: 'boolean',
+        showIf: { questionId: 'disability_type', operator: 'includes', value: ['permanent_partial', 'permanent_total'] }
+      },
+      {
+        id: 'can_return_same_job',
+        type: 'boolean',
+        showIf: { questionId: 'vocational_rehab_needed', operator: 'equals', value: true }
+      }
     ]
   };
 
