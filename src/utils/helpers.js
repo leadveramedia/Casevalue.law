@@ -183,12 +183,6 @@ export const buildFormSubmissionPayload = ({
     });
   }
 
-  const answersObject = {};
-  questions.forEach((question) => {
-    const label = english.questions[question.id] || question.id;
-    answersObject[label] = formatAnswerForSummary(question, answers[question.id]);
-  });
-
   if (valuationResult) {
     lines.push('');
     lines.push('Valuation Results');
@@ -220,14 +214,6 @@ export const buildFormSubmissionPayload = ({
     email: contact.email || '',
     phone: contact.phone || '',
     consent_to_contact: contact.consent ? english.yes : english.no,
-    questionnaire_summary: message,
-    questionnaire_responses_json: JSON.stringify(answersObject, null, 2),
-    valuation_estimate: valuationResult ? `$${valuationResult.value.toLocaleString()}` : 'Not calculated',
-    valuation_low_range: valuationResult ? `$${valuationResult.lowRange.toLocaleString()}` : 'Not calculated',
-    valuation_high_range: valuationResult ? `$${valuationResult.highRange.toLocaleString()}` : 'Not calculated',
-    valuation_factors: valuationResult && Array.isArray(valuationResult.factors)
-      ? valuationResult.factors.join('; ')
-      : '',
-    submitted_at: new Date().toISOString()
+    questionnaire_summary: message
   };
 };
