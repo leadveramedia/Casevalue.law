@@ -91,13 +91,15 @@
   for = "/blog"
   [headers.values]
     Netlify-CDN-Cache-Control = "no-store"
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Prerender-Revalidate = "1"
 
 [[headers]]
   for = "/blog/*"
   [headers.values]
     Netlify-CDN-Cache-Control = "no-store"
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    X-Prerender-Revalidate = "1"
 
 # ============================================================================
 # 404 HANDLING

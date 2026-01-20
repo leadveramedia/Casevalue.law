@@ -25,8 +25,10 @@ export default async function handler(request) {
     // Bypass Netlify's prerender cache for blog content
     // This ensures crawlers get fresh content from Vercel, not stale cached 404s
     newHeaders.set('Netlify-CDN-Cache-Control', 'no-store');
-    newHeaders.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    newHeaders.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     newHeaders.set('Netlify-Vary', 'query');
+    newHeaders.set('X-Prerender-Revalidate', '1');
+    newHeaders.delete('Age');
 
     // Return the response from Vercel with updated headers
     return new Response(response.body, {
