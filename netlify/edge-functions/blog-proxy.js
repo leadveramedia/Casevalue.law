@@ -1,5 +1,6 @@
 // Netlify Edge Function to proxy /blog requests to Vercel
 // Fetches from Vercel domain directly (which sets correct Host header)
+// Bypasses Netlify prerender cache to ensure fresh content for crawlers
 
 export default async function handler(request) {
   const url = new URL(request.url);
@@ -18,10 +19,19 @@ export default async function handler(request) {
       },
     });
 
-    // Return the response from Vercel
+    // Create new headers, copying from Vercel response
+    const newHeaders = new Headers(response.headers);
+
+    // Bypass Netlify's prerender cache for blog content
+    // This ensures crawlers get fresh content from Vercel, not stale cached 404s
+    newHeaders.set('Netlify-CDN-Cache-Control', 'no-store');
+    newHeaders.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    newHeaders.set('Netlify-Vary', 'query');
+
+    // Return the response from Vercel with updated headers
     return new Response(response.body, {
       status: response.status,
-      headers: response.headers,
+      headers: newHeaders,
     });
   } catch (error) {
     return new Response(`Proxy error: ${error.message}`, {

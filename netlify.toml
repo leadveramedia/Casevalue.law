@@ -8,29 +8,17 @@
 # ============================================================================
 # PRERENDERING CONFIGURATION
 # ============================================================================
-# Prerendering is enabled in Netlify UI (Site Settings > Post Processing > Prerendering)
-# Netlify automatically prerenders all pages at deploy time for better SEO
-# No plugin configuration needed - it's built into Netlify
+# Prerendering is enabled in Netlify UI for the React SPA pages
+# EXCEPTION: /blog/* paths are excluded from prerender cache (see BLOG HEADERS section)
 #
-# How it works:
-# 1. Netlify crawls your site after build completes
-# 2. Generates static HTML for each page
-# 3. Serves static HTML to search engine crawlers
-# 4. React hydrates the page for interactivity
+# Why blog is excluded:
+# - Blog is served from Vercel via edge function proxy
+# - Prerender cache can serve stale 404s if pages didn't exist when cached
+# - Edge function + no-store headers ensure crawlers get fresh Vercel content
 #
-# How to verify prerendering works:
-# 1. Check build logs for "Prerendering" messages after deploy
-# 2. Test with curl: curl -A "googlebot" https://casevalue.law/blog
-#    - Should return full HTML content (not just React root div)
-# 3. View page source in browser: Right-click → View Page Source
-#    - Look for blog post content in HTML (not loaded via JS)
-# 4. Run Lighthouse: Check "Content is visible without JavaScript"
-#
-# Enable/disable prerendering:
-# - Go to: Netlify Dashboard > Site Settings > Post Processing > Prerendering
-# - Toggle "Prerender pages with JavaScript"
-#
-# The app uses hydrateRoot() in src/index.js to handle prerendered content
+# For React SPA pages (everything except /blog/*):
+# - Prerendering generates static HTML for search engine crawlers
+# - React hydrates the page for interactivity
 # ============================================================================
 
 # Headers for better security and caching
@@ -92,6 +80,24 @@
   for = "/"
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
+
+# ============================================================================
+# BLOG HEADERS - BYPASS PRERENDER CACHE
+# ============================================================================
+# Blog is proxied from Vercel via edge function. These headers ensure:
+# 1. Netlify's prerender cache doesn't serve stale content to crawlers
+# 2. Fresh content is always fetched from Vercel
+[[headers]]
+  for = "/blog"
+  [headers.values]
+    Netlify-CDN-Cache-Control = "no-store"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/blog/*"
+  [headers.values]
+    Netlify-CDN-Cache-Control = "no-store"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # ============================================================================
 # 404 HANDLING
