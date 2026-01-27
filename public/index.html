@@ -248,7 +248,10 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <!-- SEO: H1 visible to crawlers before JS hydration -->
+      <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">What's My Case Worth? Free Legal Case Value Calculator</h1>
+    </div>
 
     <!-- Hidden form for Netlify Forms detection (required for SPA) -->
     <form name="casevalue-submission" method="POST" data-netlify="true" style="display:none">
