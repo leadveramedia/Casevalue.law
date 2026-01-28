@@ -41,9 +41,9 @@ function StateSelection({
           style={SHARED_STYLES.formInputBg}
           className={`${SHARED_STYLES.selectInput} mb-3`}
         >
-          <option value="" className="bg-primary">Choose a state...</option>
+          <option value="" className="bg-primary text-white">Choose a state...</option>
           {usStates.map(s => (
-            <option key={s} value={s} className="bg-primary">{s}</option>
+            <option key={s} value={s} className="bg-primary text-white">{s}</option>
           ))}
         </select>
         <p className="text-sm text-textMuted mb-8">Different states have different laws that affect case values</p>

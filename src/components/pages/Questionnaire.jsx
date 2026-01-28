@@ -139,9 +139,9 @@ function Questionnaire({
               style={SHARED_STYLES.formInputBg}
               className={SHARED_STYLES.selectInput}
             >
-              <option value="" className="bg-primary">{t.selectOption}</option>
+              <option value="" className="bg-primary text-white">{t.selectOption}</option>
               {q.options.map(o => (
-                <option key={o} value={o} className="bg-primary">{t.options[o]}</option>
+                <option key={o} value={o} className="bg-primary text-white">{t.options[o]}</option>
               ))}
             </select>
             {shouldShowDontKnow(q) && (
