@@ -23,6 +23,29 @@
 //   } catch (e) { return false; }
 // }
 
+const INDEXNOW_KEY = '618425fc808a4b198c7d33ddee5a1c32';
+const SITE_HOST = 'casevalue.law';
+
+/**
+ * Submit a URL to IndexNow (Bing, Yandex, etc.)
+ * @param {string} slug - Blog post slug
+ * @returns {Promise<object>}
+ */
+async function submitToIndexNow(slug) {
+  const url = `https://${SITE_HOST}/blog/${slug}`;
+  const response = await fetch('https://api.indexnow.org/indexnow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      host: SITE_HOST,
+      key: INDEXNOW_KEY,
+      keyLocation: `https://${SITE_HOST}/${INDEXNOW_KEY}.txt`,
+      urlList: [url],
+    }),
+  });
+  return { status: response.status, ok: response.ok };
+}
+
 /**
  * Trigger GitHub Action via repository_dispatch
  * @param {string} slug - Blog post slug
@@ -128,12 +151,23 @@ exports.handler = async (event) => {
       };
     }
 
-    console.log(`Triggering GitHub Action for blog post: ${slug} (${action})`);
+    console.log(`Processing blog post: ${slug} (${action})`);
 
-    // Trigger GitHub Action
-    const result = await triggerGitHubAction(slug, action);
+    // Submit to IndexNow (Bing, Yandex) and trigger GitHub Action (Google) in parallel
+    const [indexNowResult, githubResult] = await Promise.allSettled([
+      submitToIndexNow(slug),
+      triggerGitHubAction(slug, action),
+    ]);
 
-    console.log('GitHub Action triggered successfully:', result);
+    const indexNowStatus = indexNowResult.status === 'fulfilled'
+      ? `OK (HTTP ${indexNowResult.value.status})`
+      : `Failed: ${indexNowResult.reason?.message}`;
+    const githubStatus = githubResult.status === 'fulfilled'
+      ? 'OK'
+      : `Failed: ${githubResult.reason?.message}`;
+
+    console.log(`IndexNow: ${indexNowStatus}`);
+    console.log(`GitHub Action: ${githubStatus}`);
 
     return {
       statusCode: 200,
@@ -141,7 +175,8 @@ exports.handler = async (event) => {
         success: true,
         slug: slug,
         action: action,
-        message: 'GitHub Action triggered for Google indexing',
+        indexNow: indexNowStatus,
+        googleIndexing: githubStatus,
       }),
     };
   } catch (error) {

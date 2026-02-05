@@ -137,6 +137,13 @@
   function = "blog-proxy"
 
 # ============================================================================
+# PLUGINS
+# ============================================================================
+# IndexNow: Submits all URLs to Bing/Yandex after every successful deploy
+[[plugins]]
+  package = "./netlify-plugins/indexnow"
+
+# ============================================================================
 # REDIRECTS
 # ============================================================================
 # Redirects in public/_redirects file:

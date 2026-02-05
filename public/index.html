@@ -249,8 +249,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <!-- SEO: H1 visible to crawlers before JS hydration -->
-      <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">What's My Case Worth? Free Legal Case Value Calculator</h1>
+      <!-- SEO: Visible H1 for crawlers before JS hydration - styled to match React component -->
+      <div style="text-align:center;padding:4rem 1rem;">
+        <h1 style="font-size:clamp(2.25rem,5vw,4.5rem);font-weight:700;line-height:1.1;background:linear-gradient(135deg,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">What's My Case Worth?</h1>
+        <p style="font-size:clamp(1.25rem,3vw,1.875rem);color:rgba(255,255,255,0.9);max-width:56rem;margin:1.5rem auto 0;">Free Legal Case Value Calculator - Get an instant estimate of what your case is worth</p>
+      </div>
     </div>
 
     <!-- Hidden form for Netlify Forms detection (required for SPA) -->
