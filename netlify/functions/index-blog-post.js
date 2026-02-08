@@ -9,6 +9,7 @@
  * - GITHUB_TOKEN: Personal Access Token with repo scope (for triggering workflows)
  * - GITHUB_REPO: Repository in format "owner/repo" (e.g., "username/casevalue.law")
  * - SANITY_WEBHOOK_SECRET: Secret for validating Sanity webhooks
+ * - NETLIFY_AUTH_TOKEN: Personal Access Token for Netlify API (for cache purging)
  */
 
 // const crypto = require('crypto'); // Unused - signature validation disabled
@@ -95,6 +96,31 @@ async function triggerGitHubAction(slug, action) {
 }
 
 /**
+ * Purge Netlify prerender/CDN cache for blog paths
+ * Ensures newly published posts aren't served as stale 404s from cache
+ * @returns {Promise<object>}
+ */
+async function purgeNetlifyCache() {
+  const token = process.env.NETLIFY_AUTH_TOKEN;
+  const siteId = process.env.SITE_ID;
+
+  if (!token || !siteId) {
+    return { skipped: true, reason: 'Missing NETLIFY_AUTH_TOKEN or SITE_ID' };
+  }
+
+  const response = await fetch('https://api.netlify.com/api/v1/purge', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ site_id: siteId }),
+  });
+
+  return { status: response.status, ok: response.ok };
+}
+
+/**
  * Main handler
  */
 exports.handler = async (event) => {
@@ -153,10 +179,12 @@ exports.handler = async (event) => {
 
     console.log(`Processing blog post: ${slug} (${action})`);
 
-    // Submit to IndexNow (Bing, Yandex) and trigger GitHub Action (Google) in parallel
-    const [indexNowResult, githubResult] = await Promise.allSettled([
+    // Submit to IndexNow (Bing, Yandex), trigger GitHub Action (Google),
+    // and purge Netlify prerender cache in parallel
+    const [indexNowResult, githubResult, cacheResult] = await Promise.allSettled([
       submitToIndexNow(slug),
       triggerGitHubAction(slug, action),
+      purgeNetlifyCache(),
     ]);
 
     const indexNowStatus = indexNowResult.status === 'fulfilled'
@@ -165,9 +193,13 @@ exports.handler = async (event) => {
     const githubStatus = githubResult.status === 'fulfilled'
       ? 'OK'
       : `Failed: ${githubResult.reason?.message}`;
+    const cacheStatus = cacheResult.status === 'fulfilled'
+      ? (cacheResult.value.skipped ? `Skipped: ${cacheResult.value.reason}` : `OK (HTTP ${cacheResult.value.status})`)
+      : `Failed: ${cacheResult.reason?.message}`;
 
     console.log(`IndexNow: ${indexNowStatus}`);
     console.log(`GitHub Action: ${githubStatus}`);
+    console.log(`Cache purge: ${cacheStatus}`);
 
     return {
       statusCode: 200,
@@ -177,6 +209,7 @@ exports.handler = async (event) => {
         action: action,
         indexNow: indexNowStatus,
         googleIndexing: githubStatus,
+        cachePurge: cacheStatus,
       }),
     };
   } catch (error) {

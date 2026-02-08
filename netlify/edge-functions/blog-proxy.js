@@ -22,13 +22,11 @@ export default async function handler(request) {
     // Create new headers, copying from Vercel response
     const newHeaders = new Headers(response.headers);
 
-    // Bypass Netlify's prerender cache for blog content
-    // This ensures crawlers get fresh content from Vercel, not stale cached 404s
-    newHeaders.set('Netlify-CDN-Cache-Control', 'no-store');
-    newHeaders.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-    newHeaders.set('Netlify-Vary', 'query');
-    newHeaders.set('X-Prerender-Revalidate', '1');
-    newHeaders.delete('Age');
+    // Allow Netlify prerender cache to store rendered HTML for crawlers
+    // Prerender cache refreshes daily (86400s); browsers always revalidate for fresh content
+    // Cache purge on new post publish prevents stale 404s (see index-blog-post.js)
+    newHeaders.set('Cache-Control', 'public, max-age=0, must-revalidate');
+    newHeaders.set('X-Prerender-Revalidate', '86400');
 
     // Return the response from Vercel with updated headers
     return new Response(response.body, {

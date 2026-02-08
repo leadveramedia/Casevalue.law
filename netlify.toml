@@ -82,24 +82,23 @@
     Cache-Control = "no-cache, no-store, must-revalidate"
 
 # ============================================================================
-# BLOG HEADERS - BYPASS PRERENDER CACHE
+# BLOG HEADERS - PRERENDER CACHE FOR SEO
 # ============================================================================
-# Blog is proxied from Vercel via edge function. These headers ensure:
-# 1. Netlify's prerender cache doesn't serve stale content to crawlers
-# 2. Fresh content is always fetched from Vercel
+# Blog is proxied from Vercel via edge function. Prerender cache serves
+# rendered HTML to crawlers (Googlebot). Cache refreshes daily (86400s).
+# Stale 404s for new posts are prevented by cache purge in the Sanity
+# webhook handler (netlify/functions/index-blog-post.js).
 [[headers]]
   for = "/blog"
   [headers.values]
-    Netlify-CDN-Cache-Control = "no-store"
-    Cache-Control = "no-cache, no-store, must-revalidate"
-    X-Prerender-Revalidate = "1"
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Prerender-Revalidate = "86400"
 
 [[headers]]
   for = "/blog/*"
   [headers.values]
-    Netlify-CDN-Cache-Control = "no-store"
-    Cache-Control = "no-cache, no-store, must-revalidate"
-    X-Prerender-Revalidate = "1"
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Prerender-Revalidate = "86400"
 
 # ============================================================================
 # 404 HANDLING
