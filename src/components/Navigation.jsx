@@ -21,7 +21,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           <button
             onClick={onLogoClick}
             className="flex items-center text-text hover:opacity-80 transition-opacity"
-            aria-label="Return to home"
+            aria-label="CaseValue.law – Return to home"
           >
             <Logo />
           </button>
@@ -29,7 +29,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
           <Link
             to="/#landing"
             className="flex items-center text-text hover:opacity-80 transition-opacity"
-            aria-label="Return to home"
+            aria-label="CaseValue.law – Return to home"
           >
             <Logo />
           </Link>
@@ -73,7 +73,7 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
                     ? 'bg-gradient-gold text-textDark shadow-md'
                     : 'bg-transparent hover:bg-card/50 text-text/70 hover:text-text'
                 }`}
-                aria-label={`Switch to ${option.ariaLabel}`}
+                aria-label={`${option.desktopLabel} – Switch to ${option.ariaLabel}`}
               >
                 {option.desktopLabel}
               </button>

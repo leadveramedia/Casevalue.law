@@ -56,9 +56,8 @@ export default function BlogLayout({ children, categories }) {
           <Link
             to="/"
             className="flex items-center text-text hover:opacity-80 transition-opacity"
-            aria-label="Return to home"
+            aria-label="CaseValue.law – Return to home"
           >
-            <span className="sr-only">CaseValue.law</span>
             <div className="hidden sm:flex flex-col leading-none text-left">
               <span className="text-2xl md:text-3xl font-serif tracking-tight text-text">case</span>
               <span className="relative mt-1 inline-flex">
@@ -127,7 +126,6 @@ export default function BlogLayout({ children, categories }) {
         <Link
           to={getQuestionnaireLink(categories)}
           className="pointer-events-auto w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
-          aria-label="Calculate your case value"
         >
           What's My Case Worth?
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />

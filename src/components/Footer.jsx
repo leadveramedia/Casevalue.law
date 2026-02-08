@@ -13,7 +13,6 @@ export default function Footer({ t, onPrivacyClick, onTermsClick }) {
         <button
           onClick={onPrivacyClick}
           className="text-accent hover:text-accentHover underline transition-colors text-base md:text-lg font-semibold"
-          aria-label="Open privacy policy"
         >
           {t.privacyPolicy}
         </button>
@@ -21,7 +20,6 @@ export default function Footer({ t, onPrivacyClick, onTermsClick }) {
         <button
           onClick={onTermsClick}
           className="text-accent hover:text-accentHover underline transition-colors text-base md:text-lg font-semibold"
-          aria-label="Open terms of service"
         >
           {t.termsOfService}
         </button>

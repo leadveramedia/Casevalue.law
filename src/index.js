@@ -8,6 +8,13 @@ import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const rootElement = document.getElementById('root');
+
+// Remove static SEO placeholder before mounting React.
+// The placeholder provides an H1 for non-JS crawlers; it must be removed
+// so hydrateRoot only activates for actual prerendered (Netlify) content.
+const placeholder = rootElement.querySelector('[data-placeholder]');
+if (placeholder) placeholder.remove();
+
 const app = (
   <React.StrictMode>
     <HelmetProvider>
