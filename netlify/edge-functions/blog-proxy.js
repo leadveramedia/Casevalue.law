@@ -1,6 +1,6 @@
 // Netlify Edge Function to proxy /blog requests to Vercel
 // Fetches from Vercel domain directly (which sets correct Host header)
-// Bypasses Netlify prerender cache to ensure fresh content for crawlers
+// Vercel returns server-rendered HTML — no prerendering needed
 
 export default async function handler(request) {
   const url = new URL(request.url);
@@ -22,11 +22,9 @@ export default async function handler(request) {
     // Create new headers, copying from Vercel response
     const newHeaders = new Headers(response.headers);
 
-    // Allow Netlify prerender cache to store rendered HTML for crawlers
-    // Prerender cache refreshes daily (86400s); browsers always revalidate for fresh content
-    // Cache purge on new post publish prevents stale 404s (see index-blog-post.js)
+    // Vercel returns server-rendered HTML directly — Googlebot gets full content
+    // No prerendering needed (prerendering is disabled; it conflicts with Next.js RSC streaming)
     newHeaders.set('Cache-Control', 'public, max-age=0, must-revalidate');
-    newHeaders.set('X-Prerender-Revalidate', '86400');
 
     // Return the response from Vercel with updated headers
     return new Response(response.body, {
