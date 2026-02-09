@@ -13,12 +13,6 @@
 /sitemap.xml  /.netlify/functions/sitemap  200
 
 # ============================================================================
-# NETLIFY FUNCTIONS
-# ============================================================================
-# Allow Netlify functions to pass through (don't rewrite to index.html)
-/.netlify/functions/*  /.netlify/functions/:splat  200
-
-# ============================================================================
 # SPA FALLBACK
 # ============================================================================
 # Serve index.html for all other requests (status 200 = rewrite, not redirect)
