@@ -147,9 +147,9 @@ export function generateStructuredData(selectedCase, t) {
         "url": "https://casevalue.law",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://casevalue.law/casevalue-preview.webp",
-          "width": 512,
-          "height": 512
+          "url": "https://casevalue.law/apple-touch-icon.png",
+          "width": 180,
+          "height": 180
         },
         "description": "Free legal case value calculator and legal information resource",
         "address": {

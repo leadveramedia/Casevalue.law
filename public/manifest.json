@@ -9,9 +9,9 @@
       "type": "image/x-icon"
     },
     {
-      "src": "casevalue-preview.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
@@ -24,7 +24,7 @@
   "screenshots": [
     {
       "src": "casevalue-preview.webp",
-      "sizes": "512x512",
+      "sizes": "1344x768",
       "type": "image/webp"
     }
   ],
