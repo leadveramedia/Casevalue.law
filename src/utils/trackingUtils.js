@@ -215,3 +215,18 @@ export function getTrackingStatus() {
     hasConsent: hasConsentedToTracking(),
   };
 }
+
+// ============================================================================
+// GTM DATALAYER FUNNEL EVENTS
+// ============================================================================
+
+/**
+ * Push a funnel event to the GTM dataLayer
+ * @param {string} eventName - The event name (e.g., 'cta_click', 'case_type_selected')
+ * @param {Object} data - Additional event data
+ */
+export function pushFunnelEvent(eventName, data = {}) {
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({ event: eventName, ...data });
+  }
+}

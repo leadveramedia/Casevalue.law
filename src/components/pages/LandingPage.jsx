@@ -106,6 +106,29 @@ function LandingPage({
             <span className="font-medium">{t.confidential}</span>
           </div>
         </div>
+
+        {/* Social Proof Trust Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 py-4 px-6 mx-auto max-w-3xl rounded-2xl bg-card/40 border border-cardBorder/50 backdrop-blur-sm">
+          <div className="flex items-center gap-2 text-sm text-textMuted">
+            <span className="text-green-400 font-bold" aria-hidden="true">&#10003;</span>
+            <span>{t.socialProofCasesValued}</span>
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-cardBorder" aria-hidden="true" />
+          <div className="flex items-center gap-2 text-sm text-textMuted">
+            <span className="text-orange-400 font-bold" aria-hidden="true">&#10003;</span>
+            <span>{t.socialProofAccuracy}</span>
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-cardBorder" aria-hidden="true" />
+          <div className="flex items-center gap-2 text-sm text-textMuted">
+            <span className="text-blue-400 font-bold" aria-hidden="true">&#10003;</span>
+            <span>{t.socialProofPrivate}</span>
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-cardBorder" aria-hidden="true" />
+          <div className="flex items-center gap-2 text-sm text-textMuted">
+            <span className="text-accent font-bold" aria-hidden="true">&#10003;</span>
+            <span>{t.socialProofFree}</span>
+          </div>
+        </div>
       </div>
 
       <section ref={howItWorksRef} className="px-4">

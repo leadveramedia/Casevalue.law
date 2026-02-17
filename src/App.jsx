@@ -4,7 +4,7 @@ import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/cas
 import { LANGUAGE_OPTIONS } from './constants/languages';
 import { parseDeepLinkHash } from './constants/stateSlugs';
 import { parseShareHash, getDaysUntilExpiration, generateShareUrl } from './utils/shareUtils';
-import { trackConversion } from './utils/trackingUtils';
+import { trackConversion, pushFunnelEvent } from './utils/trackingUtils';
 import { useTranslations, getQuestionExplanations } from './hooks/useTranslations';
 import { useHistoryManagement } from './hooks/useHistoryManagement';
 import { useFormValidation } from './hooks/useFormValidation';
@@ -35,6 +35,7 @@ const HelpModal = lazy(() => import('./components/HelpModal'));
 const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
 const CookieConsent = lazy(() => import('./components/CookieConsent'));
+const ExitIntentPopup = lazy(() => import('./components/ExitIntentPopup'));
 
 // ============================================================================
 // MAIN COMPONENT
@@ -188,6 +189,15 @@ export default function CaseValueWebsite() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Capture UTM parameters from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+      const val = params.get(key);
+      if (val) sessionStorage.setItem(key, val);
+    });
+  }, []);
+
   // Check for share link on mount
   useEffect(() => {
     const shareData = parseShareHash(window.location.hash);
@@ -322,6 +332,7 @@ export default function CaseValueWebsite() {
   // Wrapper for handleCaseSelect to reset answers
   const resetAnswers = useCallback(() => setAnswers({}), []);
   const onCaseSelect = useCallback((caseId) => {
+    pushFunnelEvent('case_type_selected', { case_type: caseId });
     handleCaseSelect(caseId, resetAnswers);
   }, [handleCaseSelect, resetAnswers]);
 
@@ -386,6 +397,13 @@ export default function CaseValueWebsite() {
         currency: 'USD',
         caseType: selectedCase,
         state: selectedState
+      });
+
+      // Fire GTM funnel event
+      pushFunnelEvent('form_submitted', {
+        case_type: selectedCase,
+        state: selectedState,
+        value: result.value
       });
 
       setLoading(false);
@@ -475,7 +493,7 @@ export default function CaseValueWebsite() {
           <LandingPage
             t={t}
             primaryCTARef={primaryCTARef}
-            onGetStarted={() => navigateToStep('select')}
+            onGetStarted={() => { pushFunnelEvent('cta_click'); navigateToStep('select'); }}
           />
         )}
 
@@ -504,7 +522,7 @@ export default function CaseValueWebsite() {
               selectedState={selectedState}
               onStateChange={setSelectedState}
               onBack={() => navigateToStep('select')}
-              onNext={() => selectedState && navigateToStep('questionnaire')}
+              onNext={() => { if (selectedState) { pushFunnelEvent('state_selected', { state: selectedState }); navigateToStep('questionnaire'); } }}
             />
           </Suspense>
         )}
@@ -527,7 +545,7 @@ export default function CaseValueWebsite() {
               onUpdateAnswer={handleUpdateAnswer}
               onDontKnow={handleDontKnow}
               onPrevious={handlePreviousQuestion}
-              onNext={handleNextQuestion}
+              onNext={() => { if (qIdx >= visibleQuestions.length - 1) { pushFunnelEvent('questionnaire_completed', { case_type: selectedCase }); } handleNextQuestion(); }}
               shouldShowDontKnow={shouldShowDontKnow}
             />
           </Suspense>
@@ -590,6 +608,18 @@ export default function CaseValueWebsite() {
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
+      )}
+
+      {/* ========================================================================
+          EXIT-INTENT POPUP (landing page only)
+      ======================================================================== */}
+      {step === 'landing' && (
+        <Suspense fallback={null}>
+          <ExitIntentPopup
+            lang={lang}
+            onGetStarted={() => { pushFunnelEvent('cta_click'); navigateToStep('select'); }}
+          />
+        </Suspense>
       )}
 
       {/* ========================================================================
@@ -752,6 +782,7 @@ export default function CaseValueWebsite() {
           setShowTermsPage(true);
           pushStateToHistory();
         }}
+        onGetStarted={step === 'landing' ? () => navigateToStep('select') : undefined}
       />
 
       {/* Shake animation for error states - used in ContactForm */}

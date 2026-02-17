@@ -199,10 +199,28 @@ export const buildFormSubmissionPayload = ({
     }
   }
 
+  // UTM parameters (captured from URL on page load, stored in sessionStorage)
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  const utmValues = utmKeys.map(k => sessionStorage.getItem(k)).filter(Boolean);
+  if (utmValues.length > 0) {
+    lines.push('');
+    lines.push('Marketing Attribution');
+    utmKeys.forEach(key => {
+      const val = sessionStorage.getItem(key);
+      if (val) lines.push(`${key}: ${val}`);
+    });
+  }
+
   lines.push('');
   lines.push('--- End of Submission ---');
 
   const message = lines.join('\n');
+
+  // Build UTM string for structured field
+  const utmData = utmKeys
+    .map(k => { const v = sessionStorage.getItem(k); return v ? `${k}=${v}` : null; })
+    .filter(Boolean)
+    .join('&');
 
   return {
     subject: subject,
@@ -214,6 +232,7 @@ export const buildFormSubmissionPayload = ({
     email: contact.email || '',
     phone: contact.phone || '',
     consent_to_contact: contact.consent ? english.yes : english.no,
+    utm_parameters: utmData || 'none',
     questionnaire_summary: message
   };
 };
