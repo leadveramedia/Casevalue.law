@@ -5,15 +5,18 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { getAllPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
-import { Calendar, User, ArrowRight, Loader } from 'lucide-react';
+import { Calendar, User, ArrowRight, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
+
+const POSTS_PER_PAGE = 12;
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Scroll to top when component mounts
   useScrollToTop();
@@ -44,6 +47,39 @@ export default function BlogPage() {
     ? posts
     : posts.filter(post => post.categories?.includes(selectedCategory));
 
+  // Pagination
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
+  // Reset to page 1 when category changes
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  };
+
+  // Change page and scroll to top of grid
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Generate page numbers with ellipsis for large ranges
+  const getPageNumbers = () => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const pages = [];
+    if (currentPage <= 3) {
+      pages.push(1, 2, 3, 4, '...', totalPages);
+    } else if (currentPage >= totalPages - 2) {
+      pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+    }
+    return pages;
+  };
+
   return (
     <BlogLayout>
       <Helmet>
@@ -72,7 +108,7 @@ export default function BlogPage() {
               {categories.map(category => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${selectedCategory === category
                       ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
                       : 'bg-card/50 text-text/70 hover:bg-card border border-cardBorder'
@@ -124,7 +160,7 @@ export default function BlogPage() {
           {/* Blog Posts Grid */}
           {!loading && !error && filteredPosts.length > 0 && (
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0 m-0">
-              {filteredPosts.map((post, index) => (
+              {paginatedPosts.map((post, index) => (
                 <li key={post._id}>
                 <Link
                   to={`/blog/${post.slug.current}`}
@@ -191,6 +227,54 @@ export default function BlogPage() {
                 </li>
               ))}
             </ul>
+          )}
+
+          {/* Pagination */}
+          {!loading && !error && totalPages > 1 && (
+            <nav className="flex items-center justify-center gap-2 mt-12" aria-label="Blog pagination">
+              {/* Previous */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card border border-cardBorder"
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Prev
+              </button>
+
+              {/* Page Numbers */}
+              {getPageNumbers().map((page, i) =>
+                page === '...' ? (
+                  <span key={`ellipsis-${i}`} className="px-2 text-textMuted">...</span>
+                ) : (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-bold transition-all ${
+                      currentPage === page
+                        ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
+                        : 'bg-card/50 text-textMuted hover:bg-card border border-cardBorder'
+                    }`}
+                    aria-label={`Page ${page}`}
+                    aria-current={currentPage === page ? 'page' : undefined}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              {/* Next */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card border border-cardBorder"
+                aria-label="Next page"
+              >
+                Next
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </nav>
           )}
         </div>
       </div>

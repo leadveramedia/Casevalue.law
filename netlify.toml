@@ -8,15 +8,8 @@
 # ============================================================================
 # PRERENDERING CONFIGURATION
 # ============================================================================
-# Prerendering is enabled in Netlify UI for the React SPA pages
-# EXCEPTION: /blog/* paths are excluded from prerender cache (see BLOG HEADERS section)
-#
-# Why blog is excluded:
-# - Blog is served from Vercel via edge function proxy
-# - Prerender cache can serve stale 404s if pages didn't exist when cached
-# - Edge function + no-store headers ensure crawlers get fresh Vercel content
-#
-# For React SPA pages (everything except /blog/*):
+# Prerendering is enabled in Netlify UI for all React SPA pages
+# including /blog/* routes (blog is rendered by React, content from Sanity CMS)
 # - Prerendering generates static HTML for search engine crawlers
 # - React hydrates the page for interactivity
 # ============================================================================
@@ -40,12 +33,11 @@
     # - images.unsplash.com: Stock images
     # - clarity.ms: Microsoft Clarity analytics
     # CSP updated to allow:
-    # - Blog assets from Vercel
     # - PPC tracking: Google Ads, Facebook, Bing, LinkedIn
     # - Google Tag Manager (including preview mode)
     # - Microsoft Clarity analytics
     # - Google Fonts
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://tagmanager.google.com https://www.google-analytics.com https://www.clarity.ms https://scripts.clarity.ms https://casevalue-blog.vercel.app https://connect.facebook.net https://bat.bing.com https://snap.licdn.com https://www.googleadservices.com; style-src 'self' 'unsafe-inline' https://casevalue-blog.vercel.app https://tagmanager.google.com https://fonts.googleapis.com; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com https://casevalue-blog.vercel.app https://www.facebook.com https://bat.bing.com https://c.bing.com https://px.ads.linkedin.com https://ssl.gstatic.com https://www.gstatic.com https://c.clarity.ms; font-src 'self' https://casevalue-blog.vercel.app https://fonts.gstatic.com; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://*.clarity.ms https://*.nsvcs.net https://region1.google-analytics.com https://casevalue-blog.vercel.app https://connect.facebook.net https://www.facebook.com https://bat.bing.com https://px.ads.linkedin.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net; frame-src 'self' https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://tagmanager.google.com https://www.google-analytics.com https://www.clarity.ms https://scripts.clarity.ms https://connect.facebook.net https://bat.bing.com https://snap.licdn.com https://www.googleadservices.com; style-src 'self' 'unsafe-inline' https://tagmanager.google.com https://fonts.googleapis.com; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://bat.bing.com https://c.bing.com https://px.ads.linkedin.com https://ssl.gstatic.com https://www.gstatic.com https://c.clarity.ms; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.clarity.ms https://*.clarity.ms https://*.nsvcs.net https://region1.google-analytics.com https://connect.facebook.net https://www.facebook.com https://bat.bing.com https://px.ads.linkedin.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net; frame-src 'self' https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
 
 # Cache static assets for better performance
 [[headers]]
@@ -84,8 +76,8 @@
 # ============================================================================
 # BLOG HEADERS
 # ============================================================================
-# Blog is proxied from Vercel via edge function. Vercel returns server-rendered
-# HTML directly. Prerendering is disabled (conflicts with Next.js RSC streaming).
+# Blog is rendered by React SPA, content fetched from Sanity CMS.
+# No caching so crawlers always get fresh content via Netlify prerendering.
 [[headers]]
   for = "/blog"
   [headers.values]
@@ -113,23 +105,6 @@
 # 2. Test invalid route: https://casevalue.law/invalid-page (should show NotFoundPage)
 # 3. Test invalid blog post: https://casevalue.law/blog/invalid-slug (should show NotFoundPage)
 # ============================================================================
-
-# ============================================================================
-# EDGE FUNCTIONS
-# ============================================================================
-# Blog proxy to Vercel using Edge Function for proper Host header handling
-[[edge_functions]]
-  path = "/blog"
-  function = "blog-proxy"
-
-[[edge_functions]]
-  path = "/blog/*"
-  function = "blog-proxy"
-
-# Next.js image optimization proxy
-[[edge_functions]]
-  path = "/_next/image"
-  function = "blog-proxy"
 
 # ============================================================================
 # PLUGINS

@@ -1,14 +1,136 @@
 // ============================================================================
 // INDIVIDUAL BLOG POST PAGE
 // ============================================================================
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { PortableText } from '@portabletext/react';
 import { getPostBySlug, getRecentPosts, getRelatedPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
-import { Calendar, User, ArrowLeft, Loader, Tag } from 'lucide-react';
+import { Calendar, User, ArrowLeft, ArrowRight, Loader, Tag, DollarSign, CheckCircle, Lock } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import Breadcrumbs from '../Breadcrumbs';
+import { getQuestionnaireLink } from '../../utils/categoryToCaseType';
+
+/**
+ * Convert heading text to a URL-friendly slug for anchor IDs
+ */
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+/**
+ * Extract plain text from Portable Text block children
+ */
+function extractText(block) {
+  return (block.children || []).map(child => child.text || '').join('');
+}
+
+/**
+ * Extract all h2/h3 headings from Portable Text body for table of contents
+ */
+function extractHeadings(body) {
+  if (!body) return [];
+  return body
+    .filter(block => block.style === 'h2' || block.style === 'h3')
+    .map(block => {
+      const text = extractText(block);
+      return {
+        text,
+        level: block.style,
+        id: slugify(text),
+      };
+    });
+}
+
+/**
+ * Find the split point for mid-article CTA: the index of the second h2 heading.
+ * Falls back to ~40% of blocks if fewer than 2 h2s exist.
+ */
+function findCtaSplitIndex(body) {
+  if (!body) return -1;
+  let h2Count = 0;
+  for (let i = 0; i < body.length; i++) {
+    if (body[i].style === 'h2') {
+      h2Count++;
+      if (h2Count === 2) return i;
+    }
+  }
+  // Fallback: insert after ~40% of blocks
+  return Math.max(1, Math.floor(body.length * 0.4));
+}
+
+/**
+ * Mid-article CTA — horizontal layout matching the live site design
+ */
+function MidArticleCTA({ categories }) {
+  const ctaLink = getQuestionnaireLink(categories);
+  const primaryCategory = categories?.find(c => c !== 'personal-injury') || categories?.[0];
+  const topicLabel = primaryCategory
+    ? primaryCategory.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    : 'Personal Injury';
+
+  return (
+    <div className="my-10 p-6 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h3 className="text-xl font-bold text-text mb-1">
+          Affected by a {topicLabel} Issue?
+        </h3>
+        <p className="text-textMuted text-sm">
+          Our specialized tool can help you estimate the potential worth of your case based on current laws and precedents.
+        </p>
+      </div>
+      <Link
+        to={ctaLink}
+        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all whitespace-nowrap shrink-0"
+      >
+        Check Case Worth
+        <ArrowRight className="w-4 h-4" />
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Sidebar CTA card — "What's My Case Worth?"
+ */
+function SidebarCTA({ categories }) {
+  const ctaLink = getQuestionnaireLink(categories);
+
+  return (
+    <div className="bg-gradient-to-b from-amber-500/20 to-amber-600/10 border-2 border-accent/40 rounded-2xl p-6 text-center mb-6">
+      <DollarSign className="w-10 h-10 text-accent mx-auto mb-3" />
+      <h3 className="text-xl font-bold text-text mb-2">What's My Case Worth?</h3>
+      <p className="text-sm text-textMuted mb-4">
+        Answer a few simple questions to get an instant estimate of your potential settlement value.
+      </p>
+      <Link
+        to={ctaLink}
+        className="block w-full px-6 py-3 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all mb-4"
+      >
+        Start Free Calculator
+      </Link>
+      <div className="space-y-1.5 text-xs text-textMuted">
+        <div className="flex items-center justify-center gap-1.5">
+          <CheckCircle className="w-3.5 h-3.5 text-green-400" />
+          No contact info required
+        </div>
+        <div className="flex items-center justify-center gap-1.5">
+          <CheckCircle className="w-3.5 h-3.5 text-green-400" />
+          Free & confidential
+        </div>
+        <div className="flex items-center justify-center gap-1.5">
+          <Lock className="w-3.5 h-3.5 text-green-400" />
+          256-bit encryption
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -57,12 +179,22 @@ export default function BlogPostPage() {
     fetchData();
   }, [slug]);
 
+  // Extract table of contents headings from post body
+  const headings = useMemo(() => post?.body ? extractHeadings(post.body) : [], [post?.body]);
+
+  // Split body at the second h2 to insert mid-article CTA between sections
+  const { firstPart, secondPart } = useMemo(() => {
+    if (!post?.body) return { firstPart: [], secondPart: [] };
+    const splitIndex = findCtaSplitIndex(post.body);
+    if (splitIndex <= 0) return { firstPart: post.body, secondPart: [] };
+    return {
+      firstPart: post.body.slice(0, splitIndex),
+      secondPart: post.body.slice(splitIndex),
+    };
+  }, [post?.body]);
+
   // Custom components for rendering Portable Text
-  // NOTE: For proper heading hierarchy and SEO, blog content in Sanity should:
-  // - Start with h2 headings for main sections
-  // - Use h3 for subsections under h2
-  // - Use h4 for subsections under h3
-  // The page h1 is the post title, so content headings should start at h2
+  // Headings get id attributes for anchor links + scroll-margin for sticky nav offset
   const portableTextComponents = {
     types: {
       image: ({ value }) => (
@@ -85,12 +217,24 @@ export default function BlogPostPage() {
       ),
     },
     block: {
-      h2: ({ children }) => (
-        <h2 className="text-3xl font-bold text-text mt-12 mb-4">{children}</h2>
-      ),
-      h3: ({ children }) => (
-        <h3 className="text-2xl font-bold text-text mt-10 mb-3">{children}</h3>
-      ),
+      h2: ({ children, value }) => {
+        const text = extractText(value);
+        const id = slugify(text);
+        return (
+          <h2 id={id} className="text-3xl font-bold text-text mt-12 mb-4 scroll-mt-24">
+            {children}
+          </h2>
+        );
+      },
+      h3: ({ children, value }) => {
+        const text = extractText(value);
+        const id = slugify(text);
+        return (
+          <h3 id={id} className="text-2xl font-bold text-text mt-10 mb-3 scroll-mt-24">
+            {children}
+          </h3>
+        );
+      },
       h4: ({ children }) => (
         <h4 className="text-xl font-bold text-text mt-8 mb-3">{children}</h4>
       ),
@@ -160,13 +304,13 @@ export default function BlogPostPage() {
           <div className="max-w-2xl mx-auto text-center px-4">
             <div className="bg-red-500/20 border-2 border-red-500/40 rounded-3xl p-8 backdrop-blur-xl">
               <p className="text-red-200 text-lg mb-4">{error || 'Post not found'}</p>
-              <a
-                href="/blog"
+              <Link
+                to="/blog"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-textDark rounded-xl transition-all font-bold hover:opacity-90"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to Blog
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -239,18 +383,18 @@ export default function BlogPostPage() {
 
       <div className="min-h-screen bg-gradient-hero">
         {/* Back to Blog Link */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-          <a
-            href="/blog"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+          <Link
+            to="/blog"
             className="inline-flex items-center gap-2 text-accent hover:text-accentHover transition-colors font-semibold"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Blog
-          </a>
+          </Link>
         </div>
 
-        {/* Article Container */}
-        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Article Header (full width) */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-0">
           {/* Breadcrumbs */}
           <Breadcrumbs
             items={[
@@ -317,23 +461,74 @@ export default function BlogPostPage() {
               </time>
             </div>
           </div>
+        </div>
 
-          {/* Article Body */}
-          <div className="prose prose-invert prose-lg max-w-none">
-            <PortableText
-              value={post.body}
-              components={portableTextComponents}
-            />
-          </div>
+        {/* Two-column layout: Article Body + Sidebar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+            {/* Article Body */}
+            <article className="lg:col-span-8 prose prose-invert prose-lg max-w-none pb-12">
+              {/* First section (up to second h2) */}
+              {firstPart.length > 0 && (
+                <PortableText
+                  value={firstPart}
+                  components={portableTextComponents}
+                />
+              )}
 
-          {/* Disclaimer */}
-          <div className="mt-12 p-6 bg-yellow-500/10 border-2 border-yellow-500/30 rounded-xl">
-            <p className="text-sm text-yellow-200/90">
-              <strong>Disclaimer:</strong> This blog post is for informational purposes only and does not constitute legal advice.
-              For specific legal guidance regarding your situation, please consult with a qualified attorney.
-            </p>
+              {/* Mid-article CTA — after first section */}
+              <MidArticleCTA categories={post.categories} />
+
+              {/* Remaining content (from second h2 onward) */}
+              {secondPart.length > 0 && (
+                <PortableText
+                  value={secondPart}
+                  components={portableTextComponents}
+                />
+              )}
+
+              {/* Disclaimer */}
+              <div className="mt-12 p-6 bg-yellow-500/10 border-2 border-yellow-500/30 rounded-xl">
+                <p className="text-sm text-yellow-200/90">
+                  <strong>Disclaimer:</strong> This blog post is for informational purposes only and does not constitute legal advice.
+                  For specific legal guidance regarding your situation, please consult with a qualified attorney.
+                </p>
+              </div>
+            </article>
+
+            {/* Sidebar (desktop only) */}
+            <aside className="hidden lg:block lg:col-span-4">
+              <div className="sticky top-24">
+                {/* CTA Card */}
+                <SidebarCTA categories={post.categories} />
+
+                {/* Table of Contents */}
+                {headings.length > 0 && (
+                  <nav className="bg-card/50 backdrop-blur-xl border-2 border-cardBorder rounded-2xl p-6" aria-label="Table of contents">
+                    <h2 className="text-sm font-bold text-text mb-4 uppercase tracking-wide">
+                      On This Page
+                    </h2>
+                    <ul className="space-y-2">
+                      {headings.map(heading => (
+                        <li
+                          key={heading.id}
+                          className={heading.level === 'h3' ? 'ml-4' : ''}
+                        >
+                          <a
+                            href={`#${heading.id}`}
+                            className="text-sm text-textMuted hover:text-accent transition-colors leading-snug block py-0.5"
+                          >
+                            {heading.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                )}
+              </div>
+            </aside>
           </div>
-        </article>
+        </div>
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
