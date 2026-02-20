@@ -1,5 +1,6 @@
 // Netlify Edge Function to proxy /blog requests to Vercel
-// Fetches from Vercel domain directly (which sets correct Host header)
+// Fetches from Vercel domain directly with proper host headers
+// so Next.js generates asset URLs pointing to casevalue.law (not vercel.app)
 // Vercel returns server-rendered HTML — no prerendering needed
 
 export default async function handler(request) {
@@ -10,9 +11,14 @@ export default async function handler(request) {
 
   try {
     // Proxy the request to Vercel
+    // Host must match Vercel's expected domain so it accepts the request
+    // X-Forwarded-Host tells Next.js to use casevalue.law in generated HTML/asset URLs
     const response = await fetch(vercelUrl, {
       method: request.method,
       headers: {
+        'Host': 'casevalue-blog.vercel.app',
+        'X-Forwarded-Host': 'casevalue.law',
+        'X-Forwarded-Proto': 'https',
         'Accept': request.headers.get('Accept') || '*/*',
         'Accept-Encoding': request.headers.get('Accept-Encoding') || 'gzip, deflate, br',
         'User-Agent': request.headers.get('User-Agent') || 'Netlify Edge Function',

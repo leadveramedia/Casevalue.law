@@ -1,0 +1,131 @@
+# Batch submit all site URLs to Google Indexing API
+# Mirrors what IndexNow does for Bing — ensures Google discovers all pages
+#
+# Triggers:
+#   - Manual (workflow_dispatch) for on-demand submission
+#   - Weekly on Monday at 6am UTC
+#
+# Uses Workload Identity Federation (same auth as index-blog-post.yml)
+# Google Indexing API quota: 200 URLs/day — submits in batches with delay
+
+name: Submit Sitemap URLs to Google
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 6am UTC
+
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC token request
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch blog slugs from Sanity
+        id: slugs
+        run: |
+          QUERY='*[_type == "blogPost"]{slug}'
+          ENCODED_QUERY=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$QUERY'))")
+          API_URL="https://s8mux3ix.api.sanity.io/v2024-01-01/data/query/production?query=${ENCODED_QUERY}"
+
+          echo "Fetching blog posts from Sanity..."
+          RESPONSE=$(curl -s "$API_URL")
+
+          # Extract slugs and build URL list
+          SLUGS=$(echo "$RESPONSE" | jq -r '.result[] | select(.slug.current != null) | .slug.current')
+          SLUG_COUNT=$(echo "$SLUGS" | wc -l | tr -d ' ')
+          echo "Found ${SLUG_COUNT} blog posts"
+
+          # Build full URL list (static pages + blog posts)
+          {
+            echo "https://casevalue.law/"
+            echo "https://casevalue.law/blog"
+            echo "$SLUGS" | while read -r slug; do
+              [ -n "$slug" ] && echo "https://casevalue.law/blog/${slug}"
+            done
+          } > /tmp/urls.txt
+
+          TOTAL=$(wc -l < /tmp/urls.txt | tr -d ' ')
+          echo "Total URLs to submit: ${TOTAL}"
+          echo "total=${TOTAL}" >> "$GITHUB_OUTPUT"
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          token_format: 'access_token'
+          access_token_scopes: 'https://www.googleapis.com/auth/indexing'
+
+      - name: Submit URLs to Google Indexing API
+        env:
+          ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+        run: |
+          TOTAL=$(wc -l < /tmp/urls.txt | tr -d ' ')
+          SUCCESS=0
+          FAILED=0
+          SKIPPED=0
+          BATCH_LIMIT=200
+
+          echo "Submitting ${TOTAL} URLs (batch limit: ${BATCH_LIMIT}/day)..."
+
+          COUNT=0
+          while IFS= read -r URL; do
+            [ -z "$URL" ] && continue
+            COUNT=$((COUNT + 1))
+
+            # Respect daily quota
+            if [ "$COUNT" -gt "$BATCH_LIMIT" ]; then
+              SKIPPED=$((SKIPPED + 1))
+              continue
+            fi
+
+            # Submit to Google Indexing API
+            HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" -X POST \
+              "https://indexing.googleapis.com/v3/urlNotifications:publish" \
+              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "{\"url\": \"${URL}\", \"type\": \"URL_UPDATED\"}")
+
+            if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+              SUCCESS=$((SUCCESS + 1))
+            else
+              FAILED=$((FAILED + 1))
+              echo "FAILED (HTTP ${HTTP_CODE}): ${URL}"
+              cat /tmp/response.json 2>/dev/null
+            fi
+
+            # Small delay to avoid rate limiting (100ms)
+            sleep 0.1
+          done < /tmp/urls.txt
+
+          echo ""
+          echo "=== Results ==="
+          echo "Submitted: ${SUCCESS}"
+          echo "Failed: ${FAILED}"
+          echo "Skipped (over quota): ${SKIPPED}"
+
+          # Save for summary
+          echo "SUCCESS=${SUCCESS}" >> "$GITHUB_ENV"
+          echo "FAILED=${FAILED}" >> "$GITHUB_ENV"
+          echo "SKIPPED=${SKIPPED}" >> "$GITHUB_ENV"
+
+      - name: Summary
+        run: |
+          echo "## Google Indexing API — Batch Submission" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Submitted | ${SUCCESS} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Failed | ${FAILED} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Skipped (quota) | ${SKIPPED} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Quota:** 200 URLs/day" >> $GITHUB_STEP_SUMMARY
+          if [ "${SKIPPED}" -gt 0 ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> **Note:** ${SKIPPED} URLs were skipped due to daily quota. Run again tomorrow to submit remaining URLs." >> $GITHUB_STEP_SUMMARY
+          fi
