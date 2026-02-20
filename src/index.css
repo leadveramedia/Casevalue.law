@@ -133,3 +133,41 @@
     box-shadow: none !important;
   }
 }
+
+/* Aurora background animations — outside @layer so keyframes are globally accessible */
+@keyframes auroraFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40vw, 30vh) scale(1.1); }
+  50% { transform: translate(10vw, 60vh) scale(0.9); }
+  75% { transform: translate(50vw, 15vh) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50vw, 20vh) scale(1.15); }
+  66% { transform: translate(20vw, 50vh) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraFloat3 {
+  0% { transform: translate(0, 0) scale(1); }
+  30% { transform: translate(-20vw, -30vh) scale(1.2); }
+  60% { transform: translate(30vw, -15vh) scale(0.85); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes auroraFloat4 {
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-30vw, 40vh) scale(1.1); }
+  50% { transform: translate(25vw, 55vh) scale(0.9); }
+  75% { transform: translate(45vw, -20vh) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob {
+    animation: none !important;
+  }
+}
+
