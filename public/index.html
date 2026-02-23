@@ -52,11 +52,14 @@
       document.addEventListener('keydown', loadGTMOnInteraction, { passive: true, once: true });
 
       // Fallback: Load GTM after 2 seconds if no interaction
-      setTimeout(function() {
-        if (!gtmLoaded) {
-          loadGTMOnInteraction();
-        }
-      }, 2000);
+      // Skip during prerendering (react-snap sets UA to "ReactSnap")
+      if (!/ReactSnap/.test(navigator.userAgent)) {
+        setTimeout(function() {
+          if (!gtmLoaded) {
+            loadGTMOnInteraction();
+          }
+        }, 2000);
+      }
     </script>
     <!-- End Google Tag Manager -->
 
