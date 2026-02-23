@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
 
+    <!-- Prerender-ready signal: tells headless browsers (Netlify Prerender Extension)
+         to wait until the app sets this to true before capturing the page -->
+    <script>window.prerenderReady = false;</script>
+
     <!-- Preconnect for performance optimization -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.google-analytics.com" />

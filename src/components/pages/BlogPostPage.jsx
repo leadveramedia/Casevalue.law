@@ -173,6 +173,7 @@ export default function BlogPostPage() {
         setError('Failed to load blog post. Please try again later.');
       } finally {
         setLoading(false);
+        window.prerenderReady = true;
       }
     };
 

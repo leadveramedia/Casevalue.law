@@ -180,6 +180,11 @@ export default function CaseValueWebsite() {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  // Signal to prerender services that the homepage is ready to capture
+  useEffect(() => {
+    window.prerenderReady = true;
+  }, []);
+
   // Check for cookie consent on mount
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');

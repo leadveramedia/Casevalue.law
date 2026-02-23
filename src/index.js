@@ -9,10 +9,14 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const rootElement = document.getElementById('root');
 
-// Remove static SEO placeholder before mounting React.
-// The placeholder provides an H1 for non-JS crawlers; it must be removed
-// so hydrateRoot only activates for actual prerendered (Netlify) content.
+// Detect prerendered content BEFORE removing the placeholder.
+// The placeholder is a static H1 for non-JS crawlers and should not trigger hydration.
+// Prerendered content (from Netlify Prerender Extension) will have real React markup
+// alongside or instead of the placeholder.
 const placeholder = rootElement.querySelector('[data-placeholder]');
+const hasPrerenderedContent = rootElement.childElementCount > 1 ||
+  (rootElement.childElementCount === 1 && !placeholder);
+
 if (placeholder) placeholder.remove();
 
 const app = (
@@ -25,31 +29,19 @@ const app = (
   </React.StrictMode>
 );
 
-// Check if page was prerendered (by Netlify or other service)
-// If root has children, use hydrate; otherwise use render
-if (rootElement.hasChildNodes()) {
+// If the page was prerendered (by Netlify or other service), use hydrate
+// to attach event listeners to existing markup. Otherwise, render fresh.
+if (hasPrerenderedContent) {
   ReactDOM.hydrateRoot(rootElement, app);
 } else {
   const root = ReactDOM.createRoot(rootElement);
   root.render(app);
 }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register({
-  onSuccess: () => {
-    console.log('Service Worker registered successfully. App is ready for offline use.');
-  },
-  onUpdate: (registration) => {
-    console.log('New version available! Refresh to update.');
-    // Optionally show a notification to the user
-    if (window.confirm('New version available! Click OK to refresh.')) {
-      registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
-      window.location.reload();
-    }
-  }
-});
+// Unregister service worker — the SW was caching the empty SPA shell,
+// interfering with Netlify prerendering and Google indexing.
+// The self-destructing service-worker.js in /public clears existing caches.
+serviceWorkerRegistration.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
