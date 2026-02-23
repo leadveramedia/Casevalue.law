@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build && react-snap && node scripts/optimize-html.js",
+    "build": "craco build && node scripts/prerender.js && node scripts/optimize-html.js",
     "build:no-snap": "craco build && node scripts/optimize-html.js",
     "build:base": "craco build",
     "sitemap": "node scripts/generate-sitemap.js",
@@ -45,14 +45,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "reactSnap": {
-    "source": "build",
-    "crawl": true,
-    "inlineCss": false,
-    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-web-security"],
-    "skipThirdPartyRequests": false,
-    "concurrency": 1
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
