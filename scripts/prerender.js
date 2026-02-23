@@ -6,6 +6,20 @@
  * Usage: node scripts/prerender.js (called automatically by npm run build)
  */
 
+// Suppress non-critical puppeteer "Target closed" errors from react-snap's
+// bundled puppeteer 1.x. These occur when a page tab closes before all
+// network response handlers finish, but the page HTML is already captured.
+// Without this handler, Node 22 treats unhandled rejections as fatal.
+process.on('unhandledRejection', (reason) => {
+  const msg = reason?.message || '';
+  if (msg.includes('Target closed') || msg.includes('Session closed')) {
+    console.warn('⚠️  Puppeteer warning (non-critical):', msg);
+    return;
+  }
+  // Re-throw unexpected rejections
+  throw reason;
+});
+
 const { run } = require('react-snap');
 
 const SANITY_PROJECT_ID = 's8mux3ix';
