@@ -37,6 +37,11 @@ export function useLocalStorage(state, setters) {
       return; // Let useHistoryManagement handle hash-based navigation
     }
 
+    // Skip restoration on /calculator/ routes (URL-specified case type takes priority)
+    if (window.location.pathname.startsWith('/calculator/')) {
+      return;
+    }
+
     try {
       const savedProgress = localStorage.getItem('casevalue_progress');
       if (savedProgress) {

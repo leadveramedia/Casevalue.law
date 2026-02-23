@@ -35,6 +35,14 @@ function formatDate(date) {
 function generateSitemapXML(blogPosts) {
   const today = formatDate(new Date());
 
+  const calculatorSlugs = [
+    'motor-vehicle-accident', 'medical-malpractice', 'premises-liability',
+    'product-liability', 'wrongful-death', 'dog-bite', 'wrongful-termination',
+    'wage-and-hour', 'class-action', 'insurance-bad-faith', 'disability-denial',
+    'professional-malpractice', 'civil-rights', 'intellectual-property',
+    'workers-compensation',
+  ];
+
   const staticPages = [
     {
       loc: 'https://casevalue.law/',
@@ -43,6 +51,13 @@ function generateSitemapXML(blogPosts) {
       priority: '1.0',
       hreflang: true
     },
+    ...calculatorSlugs.map(slug => ({
+      loc: `https://casevalue.law/calculator/${slug}`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: '0.9',
+      hreflang: true
+    })),
     {
       loc: 'https://casevalue.law/blog',
       lastmod: today,

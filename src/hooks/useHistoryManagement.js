@@ -63,7 +63,10 @@ export function useHistoryManagement(state, setters) {
       showMissingDataWarning, showPrivacyPage, showTermsPage, answers, contact]);
 
   // Build URL hash based on current state
+  // On /calculator/ routes, skip the hash — the case type is in the path
+  // and back-button navigation uses the history state object, not the hash.
   const buildUrlHash = useCallback(() => {
+    if (window.location.pathname.startsWith('/calculator/')) return '';
     let hash = '';
     if (step === 'select') {
       hash = '#select';
@@ -181,11 +184,15 @@ export function useHistoryManagement(state, setters) {
 
   // Initialize history and handle URL hash on mount
   useEffect(() => {
+    // Skip hash-based deep link parsing on /calculator/ routes
+    // (the route param already sets the initial state via initialCaseType prop)
+    const isCalculatorRoute = window.location.pathname.startsWith('/calculator/');
+
     // Parse URL hash on mount for deep linking
     const hash = window.location.hash;
     let hasDeepLink = false;
 
-    if (hash) {
+    if (hash && !isCalculatorRoute) {
       if (hash === '#select') {
         setStep('select');
         hasDeepLink = true;

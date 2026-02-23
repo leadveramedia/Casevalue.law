@@ -21,8 +21,8 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build && node scripts/prerender.js && node scripts/optimize-html.js",
-    "build:no-snap": "craco build && node scripts/optimize-html.js",
+    "build": "craco build && node scripts/optimize-html.js",
+    "build:prerender": "craco build && node scripts/prerender.js && node scripts/optimize-html.js",
     "build:base": "craco build",
     "sitemap": "node scripts/generate-sitemap.js",
     "test": "craco test",

@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronRight, AlertCircle } from 'lucide-react';
 import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/caseTypes';
+import { caseIdToSlug } from './constants/caseTypeSlugs';
 import { LANGUAGE_OPTIONS } from './constants/languages';
 import { parseDeepLinkHash } from './constants/stateSlugs';
 import { parseShareHash, getDaysUntilExpiration, generateShareUrl } from './utils/shareUtils';
@@ -41,7 +43,8 @@ const ExitIntentPopup = lazy(() => import('./components/ExitIntentPopup'));
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
-export default function CaseValueWebsite() {
+export default function CaseValueWebsite({ initialCaseType = null }) {
+  const routerNavigate = useNavigate();
   // Get initial language from URL hash for deep linking
   const getInitialLang = () => {
     const parsed = parseDeepLinkHash(window.location.hash);
@@ -71,7 +74,7 @@ export default function CaseValueWebsite() {
     handleCaseSelect,
     handleNextQuestion,
     handlePreviousQuestion
-  } = useAppNavigation(pushStateToHistoryRef, answers);
+  } = useAppNavigation(pushStateToHistoryRef, answers, initialCaseType);
   const [contact, setContact] = useState({
     firstName: '',
     lastName: '',
@@ -160,7 +163,7 @@ export default function CaseValueWebsite() {
   );
 
   // Metadata hook for SEO management
-  const { MetaTags } = useMetadata(step, selectedCase, t);
+  const { MetaTags } = useMetadata(step, selectedCase, t, initialCaseType);
 
   // Handler to show question help modal
   const handleShowQuestionHelp = useCallback(async (questionId) => {
@@ -340,6 +343,12 @@ export default function CaseValueWebsite() {
   const onCaseSelect = useCallback((caseId) => {
     pushFunnelEvent('case_type_selected', { case_type: caseId });
     handleCaseSelect(caseId, resetAnswers);
+    // Update URL to clean calculator path without triggering a full router navigation
+    // (router navigation would remount App and lose the state transition from handleCaseSelect)
+    const slug = caseIdToSlug[caseId];
+    if (slug) {
+      window.history.replaceState(null, '', `/calculator/${slug}`);
+    }
   }, [handleCaseSelect, resetAnswers]);
 
   const submit = useCallback(async () => {
@@ -488,7 +497,7 @@ export default function CaseValueWebsite() {
           setLang(newLang);
           setTimeout(() => pushStateToHistory(), 0);
         }}
-        onLogoClick={() => navigateToStep('landing')}
+        onLogoClick={() => (initialCaseType || window.location.pathname.startsWith('/calculator/')) ? routerNavigate('/') : navigateToStep('landing')}
       />
 
       {/* ========================================================================
@@ -548,6 +557,8 @@ export default function CaseValueWebsite() {
               qIdx={qIdx}
               questions={visibleQuestions}
               answers={answers}
+              selectedCase={selectedCase}
+              selectedState={selectedState}
               hasHelpForQuestion={hasHelpForQuestion}
               NON_CURRENCY_NUMBER_FIELDS={NON_CURRENCY_NUMBER_FIELDS}
               onBack={() => navigateToStep('landing')}

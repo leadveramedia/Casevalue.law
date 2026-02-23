@@ -43,7 +43,7 @@ function DateInputField({ value, onChange, helpText }) {
           min="1900-01-01"
           max={new Date().toISOString().split('T')[0]}
           style={SHARED_STYLES.formInputBg}
-          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer"
+          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden"
           onClick={openDatePicker}
         />
         <button
@@ -68,6 +68,8 @@ function Questionnaire({
   qIdx,
   questions,
   answers,
+  selectedCase,
+  selectedState,
   hasHelpForQuestion,
   NON_CURRENCY_NUMBER_FIELDS,
   onBack,
@@ -87,6 +89,20 @@ function Questionnaire({
       >
         {t.backHome}
       </button>
+
+      {/* Case type + state badge */}
+      {selectedCase && t.caseTypes[selectedCase] && (
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-accent/20 text-accent border border-accent/30">
+            {t.caseTypes[selectedCase]}
+          </span>
+          {selectedState && (
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card text-text/70 border border-text/10">
+              {selectedState}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Progress Bar */}
       <div className="mb-10">
@@ -462,6 +478,8 @@ Questionnaire.propTypes = {
   qIdx: PropTypes.number.isRequired,
   questions: PropTypes.array.isRequired,
   answers: PropTypes.object.isRequired,
+  selectedCase: PropTypes.string,
+  selectedState: PropTypes.string,
   hasHelpForQuestion: PropTypes.object.isRequired,
   NON_CURRENCY_NUMBER_FIELDS: PropTypes.instanceOf(Set).isRequired,
   onBack: PropTypes.func.isRequired,

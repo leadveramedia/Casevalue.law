@@ -1,113 +1,51 @@
 import { Helmet } from 'react-helmet-async';
+import { caseTypeSEO, caseIdToSlug } from '../constants/caseTypeSlugs';
 
 /**
  * Get SEO-optimized meta tags based on current step and case type
  * @param {string} step - Current application step
- * @param {string} selectedCase - Selected case type
+ * @param {string} selectedCase - Selected case type ID
  * @param {Object} t - UI translations object
+ * @param {string|null} initialCaseType - Pre-selected case type from /calculator/:slug route
  * @returns {Object} Object with title and description
  */
-export function getMetaTags(step, selectedCase, t) {
+export function getMetaTags(step, selectedCase, t, initialCaseType = null) {
+  // If on a practice area page (via /calculator/:slug), use dedicated SEO content
+  if (initialCaseType && caseTypeSEO[initialCaseType]) {
+    const seo = caseTypeSEO[initialCaseType];
+    const caseTypeName = t.caseTypes[initialCaseType] || initialCaseType;
+
+    if (step === 'state') {
+      return seo;
+    } else if (step === 'questionnaire') {
+      return {
+        title: `${caseTypeName} Calculator Questions | CaseValue.law`,
+        description: `Answer questions about your ${caseTypeName.toLowerCase()} case to calculate its value. Free instant estimate based on your specific case details.`,
+      };
+    } else if (step === 'contact') {
+      return {
+        title: `Get Your ${caseTypeName} Case Valuation Results`,
+        description: `Enter your information to receive your personalized ${caseTypeName.toLowerCase()} case valuation based on your specific details and state laws.`,
+      };
+    } else if (step === 'results') {
+      return {
+        title: `Your ${caseTypeName} Case Valuation Results - What Your Case Is Worth`,
+        description: `View your ${caseTypeName.toLowerCase()} case value estimate. See key factors affecting your case worth and settlement range.`,
+      };
+    }
+    // Fallback for practice area pages
+    return seo;
+  }
+
   // Default homepage meta tags - optimized for broad keywords
   let title = "What's My Case Worth? Free Legal Case Value Calculator | CaseValue.law";
   let description = "Free case value calculator for personal injury, employment law, and IP cases. Get an instant estimate of what your case is worth with our data-driven legal case value estimator.";
 
-  // Case type specific keywords mapping
-  const caseKeywords = {
-    'personal-injury': {
-      short: 'Personal Injury',
-      calculator: 'personal injury calculator',
-      estimator: 'injury case value estimator'
-    },
-    'medical-malpractice': {
-      short: 'Medical Malpractice',
-      calculator: 'medical malpractice calculator',
-      estimator: 'malpractice case estimator'
-    },
-    'car-accident': {
-      short: 'Car Accident',
-      calculator: 'car accident settlement calculator',
-      estimator: 'auto accident case value'
-    },
-    'slip-and-fall': {
-      short: 'Slip and Fall',
-      calculator: 'slip and fall calculator',
-      estimator: 'premises liability case value'
-    },
-    'wrongful-death': {
-      short: 'Wrongful Death',
-      calculator: 'wrongful death calculator',
-      estimator: 'wrongful death case value'
-    },
-    'product-liability': {
-      short: 'Product Liability',
-      calculator: 'product liability calculator',
-      estimator: 'defective product case value'
-    },
-    'workplace-injury': {
-      short: 'Workplace Injury',
-      calculator: 'workplace injury calculator',
-      estimator: 'work injury claim value'
-    },
-    'employment-discrimination': {
-      short: 'Employment Discrimination',
-      calculator: 'discrimination case calculator',
-      estimator: 'employment discrimination claim value'
-    },
-    'wrongful-termination': {
-      short: 'Wrongful Termination',
-      calculator: 'wrongful termination calculator',
-      estimator: 'wrongful termination case value'
-    },
-    'wage-dispute': {
-      short: 'Wage Dispute',
-      calculator: 'wage dispute calculator',
-      estimator: 'unpaid wages claim value'
-    },
-    'sexual-harassment': {
-      short: 'Sexual Harassment',
-      calculator: 'harassment case calculator',
-      estimator: 'sexual harassment claim value'
-    },
-    'retaliation': {
-      short: 'Workplace Retaliation',
-      calculator: 'retaliation case calculator',
-      estimator: 'retaliation claim value'
-    },
-    'hostile-work-environment': {
-      short: 'Hostile Work Environment',
-      calculator: 'hostile work environment calculator',
-      estimator: 'hostile workplace claim value'
-    },
-    'patent-infringement': {
-      short: 'Patent Infringement',
-      calculator: 'patent infringement calculator',
-      estimator: 'patent case value estimator'
-    },
-    'copyright-infringement': {
-      short: 'Copyright Infringement',
-      calculator: 'copyright infringement calculator',
-      estimator: 'copyright case value'
-    },
-    'trademark-infringement': {
-      short: 'Trademark Infringement',
-      calculator: 'trademark infringement calculator',
-      estimator: 'trademark case value'
-    }
-  };
-
-  const caseInfo = caseKeywords[selectedCase];
-  const caseTypeName = selectedCase ? (t.caseTypes[selectedCase] || caseInfo?.short || selectedCase) : '';
+  const caseTypeName = selectedCase ? (t.caseTypes[selectedCase] || selectedCase) : '';
 
   if (step === 'select') {
     title = 'Legal Case Value Calculator - Personal Injury, Employment & IP Cases';
     description = 'Free legal case value calculator. Select your case type - personal injury, employment law, or intellectual property. Get instant case value estimates based on real case data.';
-  } else if (step === 'state' && selectedCase && caseInfo) {
-    title = `${caseInfo.short} Case Value Calculator - What's My ${caseInfo.short} Case Worth?`;
-    description = `Free ${caseInfo.calculator}. Select your state to get an accurate ${caseInfo.estimator}. Calculate your case worth with our data-driven ${caseInfo.short.toLowerCase()} case estimator.`;
-  } else if (step === 'questionnaire' && selectedCase && caseInfo) {
-    title = `${caseInfo.short} ${step === 'questionnaire' ? 'Calculator Questions' : 'Case Estimator'} | CaseValue.law`;
-    description = `Answer questions about your ${caseInfo.short.toLowerCase()} case to calculate its value. Our ${caseInfo.calculator} provides instant estimates. Find out what your case is worth now.`;
   } else if (step === 'contact') {
     title = 'Get Your Free Case Valuation Results - Case Value Estimator';
     description = 'Enter your information to receive your personalized case valuation. Free case value estimate based on your specific case details and local laws.';
@@ -233,11 +171,11 @@ export function generateStructuredData(selectedCase, t) {
             "name": "Home",
             "item": "https://casevalue.law"
           },
-          ...(selectedCase ? [{
+          ...(selectedCase && caseIdToSlug[selectedCase] ? [{
             "@type": "ListItem",
             "position": 2,
             "name": t.caseTypes[selectedCase] || selectedCase,
-            "item": `https://casevalue.law/${selectedCase}`
+            "item": `https://casevalue.law/calculator/${caseIdToSlug[selectedCase]}`
           }] : [])
         ]
       }
@@ -265,8 +203,8 @@ export function generateStructuredData(selectedCase, t) {
  * @param {Object} t - UI translations object
  * @returns {Object} Helmet component with meta tags and structured data
  */
-export function useMetadata(step, selectedCase, t) {
-  const { title, description } = getMetaTags(step, selectedCase, t);
+export function useMetadata(step, selectedCase, t, initialCaseType = null) {
+  const { title, description } = getMetaTags(step, selectedCase, t, initialCaseType);
   const structuredData = generateStructuredData(selectedCase, t);
 
   // Return the Helmet component configuration

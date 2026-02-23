@@ -90,6 +90,16 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 # ============================================================================
+# CALCULATOR HEADERS
+# ============================================================================
+# Practice area calculator pages (/calculator/:slug) are React SPA routes.
+# No caching so crawlers always get fresh content via Netlify prerendering.
+[[headers]]
+  for = "/calculator/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ============================================================================
 # 404 HANDLING
 # ============================================================================
 # Static 404.html is served with proper 404 status code for missing files

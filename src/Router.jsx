@@ -3,7 +3,8 @@
 // ============================================================================
 // Handles routing for the calculator app and blog
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { caseSlugToId } from './constants/caseTypeSlugs';
 
 // Lazy load all page components for optimal code splitting
 const App = lazy(() => import('./App.jsx'));
@@ -18,6 +19,26 @@ const LoadingFallback = () => (
   </div>
 );
 
+// Route wrapper that validates the case slug and passes initialCaseType to App
+function CalculatorRoute() {
+  const { caseSlug } = useParams();
+  const caseTypeId = caseSlugToId[caseSlug];
+
+  if (!caseTypeId) {
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        <NotFoundPage />
+      </Suspense>
+    );
+  }
+
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <App initialCaseType={caseTypeId} />
+    </Suspense>
+  );
+}
+
 export default function Router() {
   return (
     <BrowserRouter>
@@ -31,6 +52,12 @@ export default function Router() {
             </Suspense>
           }
         />
+
+        {/* Practice area calculator - pre-selects case type */}
+        <Route path="/calculator/:caseSlug" element={<CalculatorRoute />} />
+
+        {/* /calculator with no slug redirects to home */}
+        <Route path="/calculator" element={<Navigate to="/" replace />} />
 
         {/* Blog listing */}
         <Route
