@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
-import { caseTypeSEO, caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
+import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
 
@@ -137,7 +137,6 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
   const dbKey = caseTypeToDbKey[caseTypeId];
   const stateRules = stateData?.[dbKey] || {};
 
-  const seo = caseTypeSEO[caseTypeId];
   const content = caseTypeContent[caseTypeId];
   const caseSlug = caseIdToSlug[caseTypeId];
   const stateSlugForLink = stateCodeToSlug[stateCode];
