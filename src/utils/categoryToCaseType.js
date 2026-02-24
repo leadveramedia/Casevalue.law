@@ -11,6 +11,13 @@ export const categoryToCaseType = {
   'dog-bites': 'dog_bite',
   'civil-rights': 'civil_rights',
   'employment-law': 'wrongful_term',
+  'wage-and-hour': 'wage',
+  'class-action': 'class_action',
+  'insurance-bad-faith': 'insurance',
+  'disability': 'disability',
+  'professional-malpractice': 'professional',
+  'intellectual-property': 'ip',
+  'workers-compensation': 'workers_comp',
   'personal-injury': 'motor', // default to motor for generic PI
 };
 

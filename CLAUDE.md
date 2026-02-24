@@ -57,9 +57,13 @@ src/
 | `src/utils/calculateValuation.js` | Valuation formulas for all case types | ~900 |
 | `src/constants/caseTypes.js` | Case type IDs, option arrays | ~180 |
 | `src/constants/stateLegalDatabase.js` | State rules (SOL, caps, negligence) | ~1200 |
+| `src/constants/caseTypeSlugs.js` | SEO slugs, headings, intros, FAQs per case type | ~350 |
+| `src/constants/stateSlugMap.js` | State slug ↔ code ↔ name mappings, negligence labels | ~100 |
 | `src/translations/ui-en.js` | English UI translations | ~400 |
 | `src/hooks/useAppNavigation.js` | Navigation state machine | ~200 |
 | `src/components/pages/ResultsPage.jsx` | Results display with breakdown | ~350 |
+| `src/Router.jsx` | All routes including SEO landing pages | ~150 |
+| `netlify/functions/sitemap.js` | **Production sitemap** (authoritative — not the static file) | ~100 |
 
 ---
 
@@ -160,9 +164,37 @@ npm test         # Run tests
 
 ---
 
+## SEO Pages & Routes
+
+Three tiers of SEO landing pages sit on top of the calculator app:
+
+| Route pattern | Component | Purpose |
+|---|---|---|
+| `/calculator/:caseSlug` | `CalculatorLandingPage` | Practice area landing (FAQ schema, Browse by State grid) |
+| `/states/:stateSlug` | `StateHubPage` | State hub — pick practice area for that state |
+| `/:stateSlug/:caseSlug-calculator` | `StateCalculatorPage` | State × case type landing (765 pages) |
+
+**Key constants for these pages:**
+- `caseTypeSlugs.js` — `caseIdToSlug`, `caseSlugToId`, `caseTypeContent` (heading/intro/FAQs), `caseTypeSEO` (title/description)
+- `stateSlugMap.js` — `stateSlugToInfo`, `stateCodeToSlug`, `allStateSlugs`, `negligenceLabels`
+- `categoryToCaseType.js` — maps blog post categories → case type IDs for CTA deep links
+
+**Internal linking touchpoints** (ensures pages are crawlable):
+- `CalculatorLandingPage` — Browse by State grid (links to `/:stateSlug/:caseSlug-calculator`)
+- `BlogLayout` footer — state directory (links to `/states/:stateSlug`)
+- `BlogPostPage` MidArticleCTA — 6 state chips (links to `/:stateSlug/:caseSlug-calculator`)
+- `ResultsPage` — link to state landing for user's selected state + case type
+
+**Flag backgrounds:** State flag PNGs live in `public/flags/{state-slug}-large.png` (51 files: 50 states + DC). Used as CSS `background-image` at `opacity-20` with a `bg-primary/50` dark overlay for readability. A `<link rel="preload">` in `<Helmet>` ensures early browser discovery for LCP.
+
+**Sitemaps:** `netlify/functions/sitemap.js` is the production sitemap. `scripts/generate-sitemap.js` generates the static fallback. Both include all three page tiers. When adding new routes, update both.
+
+---
+
 ## Recent Features
 - **Worker's Compensation** (Jan 2025): 10-question flow, state-specific benefit calculations, Texas non-subscriber detection
 - **WCAG Accessibility**: Focus management, ARIA labels, keyboard navigation
 - **Conditional Questions**: showIf system for dynamic question visibility
 - **Code Cleanup** (Feb 2026): Removed dead hooks (`useFormSubmission`, `useQuestionnaireState`), extracted `DontKnowButton` component, consolidated duplicate `parseFloat` calls in `calculateValuation.js` into function-scope variables, removed `@vue/preload-webpack-plugin` devDependency
 - **Workers' Comp Help Text** (Feb 2026): All 10 Workers' Comp questions now have full help text in EN, ES, and ZH
+- **SEO Landing Pages** (Feb 2026): 3-tier landing page system (calculator, state hub, state × case type), state flag backgrounds, internal linking across 4 touchpoints, both sitemaps updated

@@ -43,6 +43,31 @@ function generateSitemapXML(blogPosts) {
     'workers-compensation',
   ];
 
+  // All 51 state slugs (50 states + DC)
+  const stateSlugs = [
+    'alabama', 'alaska', 'arizona', 'arkansas', 'california',
+    'colorado', 'connecticut', 'delaware', 'washington-dc', 'florida',
+    'georgia', 'hawaii', 'idaho', 'illinois', 'indiana',
+    'iowa', 'kansas', 'kentucky', 'louisiana', 'maine',
+    'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi',
+    'missouri', 'montana', 'nebraska', 'nevada', 'new-hampshire',
+    'new-jersey', 'new-mexico', 'new-york', 'north-carolina', 'north-dakota',
+    'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode-island',
+    'south-carolina', 'south-dakota', 'tennessee', 'texas', 'utah',
+    'vermont', 'virginia', 'washington', 'west-virginia', 'wisconsin', 'wyoming',
+  ];
+
+  // Generate 765 state × case type page entries (51 states × 15 case types)
+  const statePages = stateSlugs.flatMap(stateSlug =>
+    calculatorSlugs.map(caseSlug => ({
+      loc: `https://casevalue.law/${stateSlug}/${caseSlug}-calculator`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: '0.8',
+      hreflang: false,
+    }))
+  );
+
   const staticPages = [
     {
       loc: 'https://casevalue.law/',
@@ -90,6 +115,30 @@ function generateSitemapXML(blogPosts) {
     }
 
     xml += `
+  </url>
+`;
+  });
+
+  // Add state hub pages (51 URLs)
+  stateSlugs.forEach(stateSlug => {
+    xml += `
+  <url>
+    <loc>https://casevalue.law/states/${stateSlug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+`;
+  });
+
+  // Add state × case type landing pages (765 URLs)
+  statePages.forEach(page => {
+    xml += `
+  <url>
+    <loc>${page.loc}</loc>
+    <lastmod>${page.lastmod}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
   </url>
 `;
   });

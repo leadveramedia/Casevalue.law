@@ -9,7 +9,9 @@ import { getPostBySlug, getRecentPosts, getRelatedPosts, urlFor, generateSrcSet 
 import { Calendar, User, ArrowLeft, ArrowRight, Loader, Tag, DollarSign, CheckCircle, Lock } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import Breadcrumbs from '../Breadcrumbs';
-import { getQuestionnaireLink } from '../../utils/categoryToCaseType';
+import { getQuestionnaireLink, getCaseTypeFromCategory } from '../../utils/categoryToCaseType';
+import { caseIdToSlug } from '../../constants/caseTypeSlugs';
+import { stateSlugToInfo } from '../../constants/stateSlugMap';
 
 /**
  * Convert heading text to a URL-friendly slug for anchor IDs
@@ -91,6 +93,25 @@ function MidArticleCTA({ categories }) {
         Check Case Worth
         <ArrowRight className="w-4 h-4" />
       </Link>
+      {(() => {
+        const caseTypeId = getCaseTypeFromCategory(primaryCategory);
+        const caseSlug = (caseTypeId && caseIdToSlug[caseTypeId]) || 'motor-vehicle-accident';
+        const topStates = ['california', 'texas', 'new-york', 'florida', 'illinois', 'pennsylvania'];
+        return (
+          <div className="flex flex-wrap gap-2 items-center w-full border-t border-accent/20 mt-3 pt-3">
+            <span className="text-xs text-textMuted shrink-0">Calculate by state:</span>
+            {topStates.map(slug => (
+              <Link
+                key={slug}
+                to={`/${slug}/${caseSlug}-calculator`}
+                className="text-xs text-accent hover:underline whitespace-nowrap"
+              >
+                {stateSlugToInfo[slug].name}
+              </Link>
+            ))}
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -366,6 +387,31 @@ export default function BlogPostPage() {
                 "item": `https://casevalue.law/blog/${slug}`
               }
             ]
+          })}
+        </script>
+
+        {/* BlogPosting Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "@id": `https://casevalue.law/blog/${slug}#article`,
+            "headline": post.title,
+            "description": post.seo?.metaDescription || post.excerpt,
+            "image": post.mainImage ? urlFor(post.mainImage).width(1200).url() : undefined,
+            "datePublished": post.publishedAt,
+            "dateModified": post._updatedAt || post.publishedAt,
+            "author": {
+              "@type": "Person",
+              "name": post.author
+            },
+            "publisher": {
+              "@id": "https://casevalue.law/#organization"
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://casevalue.law/blog/${slug}`
+            }
           })}
         </script>
 

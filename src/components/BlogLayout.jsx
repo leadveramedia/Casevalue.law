@@ -6,12 +6,13 @@ import { useState, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Calculator } from 'lucide-react';
 import { getQuestionnaireLink } from '../utils/categoryToCaseType';
+import { allStateSlugs, stateSlugToInfo } from '../constants/stateSlugMap';
 
 // Lazy load legal documents
 const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./TermsOfService'));
 
-export default function BlogLayout({ children, categories }) {
+export default function BlogLayout({ children, categories, ctaLink }) {
   const [showPrivacyPage, setShowPrivacyPage] = useState(false);
   const [showTermsPage, setShowTermsPage] = useState(false);
 
@@ -100,23 +101,44 @@ export default function BlogLayout({ children, categories }) {
 
       {/* Footer */}
       <footer className="bg-primary border-t border-cardBorder py-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-textMuted text-sm">
-            © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
-          </p>
-          <div className="mt-4 flex justify-center gap-6 text-sm">
-            <button
-              onClick={() => setShowPrivacyPage(true)}
-              className="text-textMuted hover:text-text transition-colors underline"
-            >
-              Privacy Policy
-            </button>
-            <button
-              onClick={() => setShowTermsPage(true)}
-              className="text-textMuted hover:text-text transition-colors underline"
-            >
-              Terms of Service
-            </button>
+        <div className="max-w-7xl mx-auto px-4">
+          {/* State Calculator Directory */}
+          <div className="mb-8">
+            <h3 className="text-xs font-semibold text-textMuted uppercase tracking-widest mb-4 text-center">
+              State Calculators
+            </h3>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1">
+              {allStateSlugs.map(stateSlug => (
+                <Link
+                  key={stateSlug}
+                  to={`/states/${stateSlug}`}
+                  className="text-xs text-textMuted hover:text-text transition-colors py-1 px-2 rounded hover:bg-card/40 text-center"
+                >
+                  {stateSlugToInfo[stateSlug].name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Copyright & Legal Links */}
+          <div className="text-center border-t border-cardBorder pt-6">
+            <p className="text-textMuted text-sm">
+              © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
+            </p>
+            <div className="mt-4 flex justify-center gap-6 text-sm">
+              <button
+                onClick={() => setShowPrivacyPage(true)}
+                className="text-textMuted hover:text-text transition-colors underline"
+              >
+                Privacy Policy
+              </button>
+              <button
+                onClick={() => setShowTermsPage(true)}
+                className="text-textMuted hover:text-text transition-colors underline"
+              >
+                Terms of Service
+              </button>
+            </div>
           </div>
         </div>
       </footer>
@@ -124,7 +146,7 @@ export default function BlogLayout({ children, categories }) {
       {/* Floating CTA Button - Links to relevant case questionnaire */}
       <div className="fixed inset-x-0 bottom-6 sm:bottom-8 z-40 flex justify-center pointer-events-none px-4">
         <Link
-          to={getQuestionnaireLink(categories)}
+          to={ctaLink || getQuestionnaireLink(categories)}
           className="pointer-events-auto w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
         >
           What's My Case Worth?

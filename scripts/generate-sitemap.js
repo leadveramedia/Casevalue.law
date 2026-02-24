@@ -47,6 +47,38 @@ function formatDate(date) {
 function generateSitemapXML(blogPosts) {
   const today = formatDate(new Date());
 
+  const calculatorSlugs = [
+    'motor-vehicle-accident',
+    'medical-malpractice',
+    'premises-liability',
+    'product-liability',
+    'wrongful-death',
+    'dog-bite',
+    'wrongful-termination',
+    'wage-and-hour',
+    'class-action',
+    'insurance-bad-faith',
+    'disability-denial',
+    'professional-malpractice',
+    'civil-rights',
+    'intellectual-property',
+    'workers-compensation',
+  ];
+
+  // All 51 state slugs (50 states + DC)
+  const stateSlugs = [
+    'alabama', 'alaska', 'arizona', 'arkansas', 'california',
+    'colorado', 'connecticut', 'delaware', 'washington-dc', 'florida',
+    'georgia', 'hawaii', 'idaho', 'illinois', 'indiana',
+    'iowa', 'kansas', 'kentucky', 'louisiana', 'maine',
+    'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi',
+    'missouri', 'montana', 'nebraska', 'nevada', 'new-hampshire',
+    'new-jersey', 'new-mexico', 'new-york', 'north-carolina', 'north-dakota',
+    'ohio', 'oklahoma', 'oregon', 'pennsylvania', 'rhode-island',
+    'south-carolina', 'south-dakota', 'tennessee', 'texas', 'utah',
+    'vermont', 'virginia', 'washington', 'west-virginia', 'wisconsin', 'wyoming',
+  ];
+
   const staticPages = [
     {
       loc: 'https://casevalue.law/',
@@ -61,7 +93,14 @@ function generateSitemapXML(blogPosts) {
       changefreq: 'weekly',
       priority: '0.8',
       hreflang: true
-    }
+    },
+    ...calculatorSlugs.map(slug => ({
+      loc: `https://casevalue.law/calculator/${slug}`,
+      lastmod: today,
+      changefreq: 'monthly',
+      priority: '0.9',
+      hreflang: true,
+    })),
   ];
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -89,6 +128,32 @@ function generateSitemapXML(blogPosts) {
     xml += `
   </url>
 `;
+  });
+
+  // Add state hub pages (51 URLs)
+  stateSlugs.forEach(stateSlug => {
+    xml += `
+  <url>
+    <loc>https://casevalue.law/states/${stateSlug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+`;
+  });
+
+  // Add state × case type landing pages (765 URLs)
+  stateSlugs.forEach(stateSlug => {
+    calculatorSlugs.forEach(caseSlug => {
+      xml += `
+  <url>
+    <loc>https://casevalue.law/${stateSlug}/${caseSlug}-calculator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+    });
   });
 
   // Add blog posts
@@ -127,7 +192,7 @@ async function generateSitemap() {
   fs.writeFileSync(sitemapPath, sitemapXML, 'utf8');
 
   console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
-  console.log(`📊 Total URLs: ${2 + blogPosts.length} (2 static + ${blogPosts.length} blog posts)`);
+  console.log(`📊 Total URLs: ${2 + 15 + 51 + 765 + blogPosts.length} (2 static + 15 calculators + 51 state hubs + 765 state pages + ${blogPosts.length} blog posts)`);
 }
 
 // Run the generator

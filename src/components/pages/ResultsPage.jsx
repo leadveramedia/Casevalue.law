@@ -4,8 +4,10 @@
  * Also handles shared results and expired share links
  */
 import { memo, useState, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Check, AlertCircle, Share2, CheckCircle, Clock, Copy } from 'lucide-react';
+import { caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
 function ResultsPage({
@@ -393,6 +395,18 @@ function ResultsPage({
           >
             {t.generateNewEstimate}
           </button>
+        </div>
+      )}
+
+      {/* State landing page link */}
+      {!isSharedResult && selectedState && selectedCase && caseIdToSlug[selectedCase] && (
+        <div className="mt-6 text-center">
+          <Link
+            to={`/${selectedState.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '')}/${caseIdToSlug[selectedCase]}-calculator`}
+            className="text-sm text-accent hover:underline"
+          >
+            View {selectedState} {caseIdToSlug[selectedCase].replace(/-/g, ' ')} laws &amp; resources →
+          </Link>
         </div>
       )}
     </div>
