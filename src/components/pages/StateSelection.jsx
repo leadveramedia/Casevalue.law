@@ -9,6 +9,7 @@ import { SHARED_STYLES } from '../shared/sharedStyles';
 function StateSelection({
   t,
   usStates,
+  selectedCase,
   selectedState,
   onStateChange,
   onBack,
@@ -24,6 +25,11 @@ function StateSelection({
         {t.backHome}
       </button>
 
+      {selectedCase && t.caseTypes[selectedCase] && (
+        <p className="text-center text-lg text-accent font-semibold mb-2">
+          {t.caseTypes[selectedCase]}
+        </p>
+      )}
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 px-4 text-text">
         {t.selectState}
       </h2>
@@ -74,6 +80,7 @@ function StateSelection({
 StateSelection.propTypes = {
   t: PropTypes.object.isRequired,
   usStates: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedCase: PropTypes.string,
   selectedState: PropTypes.string,
   onStateChange: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,

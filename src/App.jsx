@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, AlertCircle } from 'lucide-react';
 import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/caseTypes';
-import { caseIdToSlug } from './constants/caseTypeSlugs';
 import { LANGUAGE_OPTIONS } from './constants/languages';
 import { parseDeepLinkHash } from './constants/stateSlugs';
 import { parseShareHash, getDaysUntilExpiration, generateShareUrl } from './utils/shareUtils';
@@ -343,12 +342,6 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
   const onCaseSelect = useCallback((caseId) => {
     pushFunnelEvent('case_type_selected', { case_type: caseId });
     handleCaseSelect(caseId, resetAnswers);
-    // Update URL to clean calculator path without triggering a full router navigation
-    // (router navigation would remount App and lose the state transition from handleCaseSelect)
-    const slug = caseIdToSlug[caseId];
-    if (slug) {
-      window.history.replaceState(null, '', `/calculator/${slug}`);
-    }
   }, [handleCaseSelect, resetAnswers]);
 
   const submit = useCallback(async () => {
@@ -538,6 +531,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             <StateSelection
               t={t}
               usStates={usStates}
+              selectedCase={selectedCase}
               selectedState={selectedState}
               onStateChange={setSelectedState}
               onBack={() => navigateToStep('select')}
