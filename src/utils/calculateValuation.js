@@ -16,6 +16,12 @@ export const calculateValuation = (caseType, answers, state) => {
   const stateRules = getStateRules(state, caseType);
   const warnings = [];
 
+  // Pre-parse common economic fields shared across multiple case types
+  const medicalBills = parseFloat(answers.medical_bills) || 0;
+  const annualIncome = parseFloat(answers.annual_income) || 0;
+  const weeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
+  const lostWages = (annualIncome / 52) * weeksUnableToWork;
+
   // Severity multipliers for emotional distress and injury severity
   const injurySeverityMultipliers = {
     minor: 1.5,
@@ -34,11 +40,6 @@ export const calculateValuation = (caseType, answers, state) => {
   // Case-specific calculations
   switch(caseType) {
     case 'motor':
-      // Economic damages
-      const medicalBills = parseFloat(answers.medical_bills) || 0;
-      const annualIncome = parseFloat(answers.annual_income) || 0;
-      const weeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
-      const lostWages = (annualIncome / 52) * weeksUnableToWork;
       const faultPercentage = parseInt(answers.fault_percentage) || 0;
 
       baseValue = medicalBills + lostWages;
@@ -88,12 +89,7 @@ export const calculateValuation = (caseType, answers, state) => {
       break;
 
     case 'medical':
-      const medBills = parseFloat(answers.medical_bills) || 0;
-      const medAnnualIncome = parseFloat(answers.annual_income) || 0;
-      const medWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
-      const medLostWages = (medAnnualIncome / 52) * medWeeksUnableToWork;
-
-      baseValue = medBills + medLostWages;
+      baseValue = medicalBills + lostWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
 
       if (answers.permanent_injury === true) multiplier *= 2.0;
@@ -101,9 +97,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
       baseValue = baseValue * multiplier;
 
-      factors.push(`Medical bills: $${medBills.toLocaleString()}`);
-      if (medAnnualIncome > 0 && medWeeksUnableToWork > 0) {
-        factors.push(`Lost wages: $${medLostWages.toLocaleString()} (${medWeeksUnableToWork} weeks)`);
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
+      if (annualIncome > 0 && weeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${lostWages.toLocaleString()} (${weeksUnableToWork} weeks)`);
       }
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.surgery_error) factors.push('Surgery error involved');
@@ -111,12 +107,7 @@ export const calculateValuation = (caseType, answers, state) => {
       break;
 
     case 'premises':
-      const premBills = parseFloat(answers.medical_bills) || 0;
-      const premAnnualIncome = parseFloat(answers.annual_income) || 0;
-      const premWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
-      const premWages = (premAnnualIncome / 52) * premWeeksUnableToWork;
-
-      baseValue = premBills + premWages;
+      baseValue = medicalBills + lostWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.5;
 
       // Hazard type multipliers (some are more egregious)
@@ -141,9 +132,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
       baseValue = baseValue * multiplier;
 
-      factors.push(`Medical bills: $${premBills.toLocaleString()}`);
-      if (premAnnualIncome > 0 && premWeeksUnableToWork > 0) {
-        factors.push(`Lost wages: $${premWages.toLocaleString()} (${premWeeksUnableToWork} weeks)`);
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
+      if (annualIncome > 0 && weeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${lostWages.toLocaleString()} (${weeksUnableToWork} weeks)`);
       }
       if (answers.hazard_type) factors.push(`Hazard type: ${answers.hazard_type}`);
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
@@ -153,12 +144,7 @@ export const calculateValuation = (caseType, answers, state) => {
       break;
 
     case 'product':
-      const prodBills = parseFloat(answers.medical_bills) || 0;
-      const prodAnnualIncome = parseFloat(answers.annual_income) || 0;
-      const prodWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
-      const prodWages = (prodAnnualIncome / 52) * prodWeeksUnableToWork;
-
-      baseValue = prodBills + prodWages;
+      baseValue = medicalBills + lostWages;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 3.0;
 
       if (answers.permanent_injury === true) multiplier *= 1.8;
@@ -166,9 +152,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
       baseValue = baseValue * multiplier;
 
-      factors.push(`Medical bills: $${prodBills.toLocaleString()}`);
-      if (prodAnnualIncome > 0 && prodWeeksUnableToWork > 0) {
-        factors.push(`Lost wages: $${prodWages.toLocaleString()} (${prodWeeksUnableToWork} weeks)`);
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
+      if (annualIncome > 0 && weeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${lostWages.toLocaleString()} (${weeksUnableToWork} weeks)`);
       }
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.product_recalled) factors.push('Product was recalled');
@@ -181,12 +167,11 @@ export const calculateValuation = (caseType, answers, state) => {
       // Calculate life expectancy based on age (average US life expectancy ~78 years)
       const lifeExpectancy = Math.max(78 - victimAge, 5);
       const numDependents = parseFloat(answers.num_dependents) || 1;
-      const deathMedBills = parseFloat(answers.medical_bills) || 0;
       const funeralCosts = parseFloat(answers.funeral_costs) || 15000;
 
       // Economic damages: lost future income
       const futureEarnings = victimIncome * lifeExpectancy * 0.7; // 70% for household consumption
-      baseValue = futureEarnings + deathMedBills + funeralCosts;
+      baseValue = futureEarnings + medicalBills + funeralCosts;
 
       // Multiplier based on dependents
       multiplier = 1.0 + (numDependents * 0.3);
@@ -212,7 +197,7 @@ export const calculateValuation = (caseType, answers, state) => {
       baseValue = baseValue * multiplier;
 
       factors.push(`Future earnings lost: $${futureEarnings.toLocaleString()}`);
-      factors.push(`Medical bills: $${deathMedBills.toLocaleString()}`);
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
       factors.push(`Funeral costs: $${funeralCosts.toLocaleString()}`);
       factors.push(`Dependents: ${numDependents}`);
       factors.push(`Life expectancy: ${lifeExpectancy} years (based on age ${victimAge})`);
@@ -221,9 +206,7 @@ export const calculateValuation = (caseType, answers, state) => {
       break;
 
     case 'dog_bite':
-      const dogBills = parseFloat(answers.medical_bills) || 0;
-
-      baseValue = dogBills;
+      baseValue = medicalBills;
       multiplier = injurySeverityMultipliers[answers.injury_severity] || 2.0;
 
       if (answers.permanent_injury === true) multiplier *= 1.5;
@@ -238,7 +221,7 @@ export const calculateValuation = (caseType, answers, state) => {
 
       baseValue = baseValue * multiplier;
 
-      factors.push(`Medical bills: $${dogBills.toLocaleString()}`);
+      factors.push(`Medical bills: $${medicalBills.toLocaleString()}`);
       if (answers.injury_severity) factors.push(`Injury severity: ${answers.injury_severity}`);
       if (answers.scarring) factors.push('Permanent scarring');
       if (answers.child_victim) factors.push('Child victim');
@@ -516,12 +499,9 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'civil_rights':
       const economicDamages = parseFloat(answers.economic_damages) || 0;
-      const civilAnnualIncome = parseFloat(answers.annual_income) || 0;
-      const civilWeeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
-      const civilWages = (civilAnnualIncome / 52) * civilWeeksUnableToWork;
       const violationDuration = parseFloat(answers.duration_of_violation) || 12;
 
-      baseValue = economicDamages + civilWages;
+      baseValue = economicDamages + lostWages;
 
       // Civil rights cases often have punitive damages
       multiplier = 2.0;
@@ -554,8 +534,8 @@ export const calculateValuation = (caseType, answers, state) => {
       baseValue = baseValue * multiplier;
 
       factors.push(`Economic damages: $${economicDamages.toLocaleString()}`);
-      if (civilAnnualIncome > 0 && civilWeeksUnableToWork > 0) {
-        factors.push(`Lost wages: $${civilWages.toLocaleString()} (${civilWeeksUnableToWork} weeks)`);
+      if (annualIncome > 0 && weeksUnableToWork > 0) {
+        factors.push(`Lost wages: $${lostWages.toLocaleString()} (${weeksUnableToWork} weeks)`);
       }
       factors.push(`Duration: ${violationDuration} months`);
       if (answers.violation_type) factors.push(`Violation type: ${answers.violation_type}`);

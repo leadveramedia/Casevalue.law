@@ -62,6 +62,22 @@ function DateInputField({ value, onChange, helpText }) {
   );
 }
 
+function DontKnowButton({ questionId, answer, onDontKnow, t, className }) {
+  return (
+    <button
+      onClick={() => onDontKnow(questionId)}
+      aria-pressed={answer === 'unknown'}
+      className={`${className} px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
+        answer === 'unknown'
+          ? 'bg-accent text-textDark border-2 border-accent'
+          : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+      }`}
+    >
+      {answer === 'unknown' ? '✓ ' : ''}{t.dontKnow}
+    </button>
+  );
+}
+
 function Questionnaire({
   t,
   q,
@@ -161,17 +177,7 @@ function Questionnaire({
               ))}
             </select>
             {shouldShowDontKnow(q) && (
-              <button
-                onClick={() => onDontKnow(q.id)}
-                aria-pressed={answers[q.id] === 'unknown'}
-                className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
-                  answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
-                }`}
-              >
-                {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
-              </button>
+              <DontKnowButton questionId={q.id} answer={answers[q.id]} onDontKnow={onDontKnow} t={t} className="mt-3" />
             )}
           </div>
         )}
@@ -294,17 +300,7 @@ function Questionnaire({
               {QUESTION_HELP_TEXT[q.id] || (NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter the number' : 'Enter the total amount in dollars')}
             </p>
             {shouldShowDontKnow(q) && (
-              <button
-                onClick={() => onDontKnow(q.id)}
-                aria-pressed={answers[q.id] === 'unknown'}
-                className={`mt-3 px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
-                  answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
-                }`}
-              >
-                {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
-              </button>
+              <DontKnowButton questionId={q.id} answer={answers[q.id]} onDontKnow={onDontKnow} t={t} className="mt-3" />
             )}
           </div>
         )}
@@ -359,17 +355,7 @@ function Questionnaire({
             ))}
           </div>
             {shouldShowDontKnow(q) && (
-              <button
-                onClick={() => onDontKnow(q.id)}
-                aria-pressed={answers[q.id] === 'unknown'}
-                className={`mt-3 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
-                  answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
-                }`}
-              >
-                {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
-              </button>
+              <DontKnowButton questionId={q.id} answer={answers[q.id]} onDontKnow={onDontKnow} t={t} className="mt-3 w-full" />
             )}
         </div>
         )}
@@ -420,17 +406,7 @@ function Questionnaire({
               </div>
             </div>
             {shouldShowDontKnow(q) && (
-              <button
-                onClick={() => onDontKnow(q.id)}
-                aria-pressed={answers[q.id] === 'unknown'}
-                className={`mt-4 w-full px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
-                  answers[q.id] === 'unknown'
-                    ? 'bg-accent text-textDark border-2 border-accent'
-                    : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
-                }`}
-              >
-                {answers[q.id] === 'unknown' ? '✓ ' : ''}{t.dontKnow}
-              </button>
+              <DontKnowButton questionId={q.id} answer={answers[q.id]} onDontKnow={onDontKnow} t={t} className="mt-4 w-full" />
             )}
           </div>
         )}

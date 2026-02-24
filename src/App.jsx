@@ -310,13 +310,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
   // ============================================================================
 
   const handleUpdateAnswer = useCallback((questionId, value) => {
-    setAnswers(prev => {
-      // If user is entering a value and it was previously 'unknown', clear the unknown status
-      if (prev[questionId] === 'unknown' && value !== 'unknown' && value !== '') {
-        return { ...prev, [questionId]: value };
-      }
-      return { ...prev, [questionId]: value };
-    });
+    setAnswers(prev => ({ ...prev, [questionId]: value }));
   }, []);
 
   const handleDontKnow = useCallback((questionId) => {

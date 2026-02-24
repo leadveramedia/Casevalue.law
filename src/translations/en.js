@@ -992,20 +992,6 @@ However, some employers—particularly in ${state === 'Texas' ? 'Texas, which is
 Most states require you to report workplace injuries within a specific timeframe—often 30 to 90 days—and file formal claims within one to two years. In ${state}, the statute of limitations for workers' compensation claims affects your ability to receive benefits. The injury date also establishes when your benefits begin, calculates waiting periods, and determines which year's benefit rates apply to your claim.`
   },
 
-  claim_status: {
-    title: "Understanding Your Claim Status",
-    getContent: (state) => `The status of your workers' compensation claim significantly impacts your case valuation and strategy. In ${state}, claims progress through various stages, each with different implications.
-
-If your claim hasn't been filed yet, you should file promptly to preserve your rights. Claims that are pending await a decision from the insurance company, which typically must respond within a set timeframe. Accepted claims mean you're entitled to benefits, while denied claims may require appeal. Disputed claims—where the employer or insurer challenges some aspect—often require hearings before a workers' compensation judge in ${state}. Settlement negotiations typically occur once you've reached Maximum Medical Improvement (MMI) and the full extent of your injury is known.`
-  },
-
-  injury_type: {
-    title: "How Injury Type Affects Your Claim",
-    getContent: (state) => `The type of workplace injury you sustained affects how ${state} processes and values your workers' compensation claim. Different injury types have different documentation requirements, benefit structures, and typical outcomes.
-
-Traumatic injuries from sudden accidents are the most straightforward to prove—you can point to a specific event that caused the injury. Repetitive stress injuries (like carpal tunnel) develop over time and may require more documentation to establish the work connection. Occupational diseases from toxic exposure or environmental factors require proving the workplace caused the condition. Mental stress claims are recognized in some states but face higher proof requirements. Understanding your injury type helps navigate ${state}'s specific requirements for each category.`
-  },
-
   body_part_injured: {
     title: "Why Body Part Matters for Benefits",
     getContent: (state) => `The specific body part injured in your workplace accident significantly impacts your workers' compensation benefits in ${state}. Many states use "scheduled injury" tables that assign specific benefit amounts or weeks of compensation based on which body part was affected.
@@ -1018,6 +1004,15 @@ For example, ${state} may provide different compensation for loss of use of a ha
     getContent: (state) => `Your disability classification is one of the most important factors in determining your workers' compensation benefits in ${state}. Workers' comp recognizes four main categories of disability, each with different benefit structures and durations.
 
 Temporary Total Disability (TTD) applies when you cannot work at all during recovery but are expected to improve. Temporary Partial Disability (TPD) means you can work in a limited capacity during recovery. Permanent Partial Disability (PPD) indicates lasting impairment that doesn't completely prevent work. Permanent Total Disability (PTD) means you can never return to any gainful employment. In ${state}, each category has specific benefit rates and duration limits that directly affect your total compensation.`
+  },
+
+  wc_medical_treatment_cost: {
+    title: "Medical Treatment Costs in Workers' Compensation",
+    getContent: (state) => `Your total medical treatment costs are a core component of your workers' compensation claim in ${state}. Workers' comp is designed to cover all reasonable and necessary medical expenses related to your workplace injury—including emergency care, surgeries, specialist visits, physical therapy, prescription medications, and medical equipment.
+
+In ${state}, your employer's workers' compensation insurer is responsible for authorizing and paying for your medical care. This means you generally should not be receiving personal medical bills for covered treatment. Keep detailed records of all medical costs, including out-of-pocket expenses that were not reimbursed, as these support your claim valuation.
+
+If you are settling your case, the total medical costs incurred to date establish the foundation for your settlement demand. Accurate documentation of all treatment costs—including any treatment your insurer wrongfully denied or delayed—is essential for maximizing your recovery in ${state}. Never discard medical bills, explanation-of-benefits statements, or receipts related to your workplace injury.`
   },
 
   impairment_rating: {
@@ -1034,11 +1029,29 @@ Most states use the American Medical Association (AMA) Guides to evaluate impair
 In ${state}, workers' compensation benefits are usually calculated as a percentage of your AWW (often two-thirds), subject to state maximum and minimum limits. Include all earnings: regular wages, overtime, bonuses, tips, and the value of non-cash benefits like housing. The higher your documented AWW, the higher your weekly benefit rate will be, up to the state maximum. Accurate AWW calculation can mean thousands of dollars difference in your total benefits.`
   },
 
+  weeks_off_work: {
+    title: "Time Off Work and Your Benefit Duration",
+    getContent: (state) => `The number of weeks you've been unable to work directly determines the duration and total amount of your temporary disability benefits in ${state}. Each week off corresponds to a weekly benefit payment—typically two-thirds of your Average Weekly Wage, subject to state limits.
+
+${state} imposes a waiting period (usually 3–7 days) before temporary disability benefits begin. However, if your disability extends beyond a set threshold (commonly 14–21 days), you typically receive retroactive benefits covering the waiting period. The longer you are off work, the more important it is to have clear medical documentation from your treating physician supporting your inability to return.
+
+Accurate tracking of your missed work time also strengthens your case for permanent disability benefits if your condition doesn't fully resolve. Any periods where your employer offered light-duty work and you declined without good cause could reduce your temporary disability payments in ${state}. Keep records of all work absences, doctor-ordered restrictions, and any correspondence with your employer about returning to work.`
+  },
+
   reached_mmi: {
     title: "Maximum Medical Improvement Affects Settlement",
     getContent: (state) => `Maximum Medical Improvement (MMI) is a critical milestone in your workers' compensation case. MMI occurs when your treating physician determines that your condition has stabilized and further medical treatment is unlikely to significantly improve your condition.
 
 In ${state}, reaching MMI triggers important changes in your case. Your impairment rating is assessed, determining permanent disability benefits. Your temporary disability benefits may end or convert to permanent benefits. Settlement negotiations typically begin in earnest. Until you reach MMI, the full extent of your injury isn't known, making it difficult to value your case completely. Never accept a settlement offer before reaching MMI, as you may not fully understand the permanent impacts of your injury.`
+  },
+
+  future_medical_needed: {
+    title: "Future Medical Care and Your Settlement Value",
+    getContent: (state) => `Whether you will need ongoing medical treatment after your workers' compensation case resolves can significantly affect your settlement value in ${state}. Workers' comp is designed to cover lifetime medical care for work-related injuries—but accepting a lump-sum settlement typically means you assume responsibility for those future costs.
+
+Before settling, obtain a clear medical opinion about what treatment you're likely to need going forward. Future medical needs can include follow-up surgeries, ongoing medication management, physical therapy, pain management, or assistive devices. Each of these should be factored into any settlement amount in ${state}.
+
+Accepting a settlement without accounting for future medical expenses is one of the most common and costly mistakes injured workers make—once you settle, you typically cannot reopen your claim for additional medical benefits. In cases involving significant future care needs, an expert life-care planner may be needed to project lifetime medical costs and ensure your settlement is adequate.`
   },
 
   vocational_rehab_needed: {
@@ -1048,10 +1061,13 @@ In ${state}, reaching MMI triggers important changes in your case. Your impairme
 Vocational rehabilitation can include career counseling, job placement assistance, retraining programs, educational benefits, and resume preparation. In ${state}, eligibility for vocational rehabilitation typically requires demonstrating that you cannot return to your previous occupation due to permanent restrictions. These benefits can significantly impact your total compensation by helping you maintain earning capacity and providing additional support during career transition.`
   },
 
-  is_death_claim: {
-    title: "Death Benefits for Surviving Dependents",
-    getContent: (state) => `Workers' compensation death benefits provide financial support to dependents of workers who die from workplace injuries or occupational diseases. In ${state}, these benefits typically include wage replacement for surviving spouses and dependent children, plus funeral and burial expenses.
+  can_return_same_job: {
+    title: "Returning to Your Pre-Injury Position",
+    getContent: (state) => `Whether you can return to the exact job you held before your injury is a pivotal factor in your workers' compensation case in ${state}. If permanent medical restrictions prevent you from performing your former job duties, you may be entitled to vocational rehabilitation, wage-loss benefits, or an enhanced permanent disability settlement.
 
-Death benefits in ${state} are calculated based on the deceased worker's Average Weekly Wage and the number of dependents. Surviving spouses may receive benefits for a specific period or until remarriage. Dependent children typically receive benefits until age 18 or through college. ${state} sets maximum death benefit amounts that may apply. The number of dependents significantly affects total benefits, making accurate dependent identification crucial for maximizing recovery.`
-  }
+In ${state}, your treating physician's work restrictions are compared against your former job's physical demands. If there is a mismatch—for example, your job required heavy lifting but you now have a permanent weight restriction—your employer may be required to offer alternative modified-duty work within your restrictions. If no suitable position exists, vocational rehabilitation benefits may apply.
+
+The inability to return to your pre-injury job also affects how permanent disability benefits are calculated in ${state}. Some states apply wage-loss formulas that account for earning capacity reduction, which can significantly increase your permanent disability award. Document your prior job duties carefully and obtain clear written restrictions from your physician to establish your limitations on record.`
+  },
+
 };

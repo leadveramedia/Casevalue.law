@@ -250,8 +250,6 @@ export const uiTranslationsEN = {
       class_action_type: "What type of class action case is this?",
       employer_has_wc_insurance: "Does your employer have workers' compensation insurance?",
       injury_date: "When did your workplace injury occur?",
-      claim_status: "What is the current status of your claim?",
-      injury_type: "What type of workplace injury do you have?",
       body_part_injured: "What body part was injured?",
       disability_type: "What is your disability classification?",
       impairment_rating: "What is your impairment rating?",
@@ -264,8 +262,7 @@ export const uiTranslationsEN = {
       future_medical_needed: "Will you need ongoing medical treatment?",
       reached_mmi: "Have you reached Maximum Medical Improvement (MMI)?",
       vocational_rehab_needed: "Do you need vocational rehabilitation?",
-      can_return_same_job: "Can you return to the same job you had before?",
-      is_death_claim: "Is this a death benefits claim?"
+      can_return_same_job: "Can you return to the same job you had before?"
     },
     options: {
       minor: "Minor (cuts, bruises, sprains)",

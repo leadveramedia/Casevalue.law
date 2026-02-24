@@ -28,7 +28,15 @@ src/
 │   ├── stateLegalDatabase.js  # State-specific legal rules (all 50 states)
 │   └── questionConfig.js      # Question placeholders/hints
 ├── hooks/
-│   └── useAppNavigation.js    # App flow state machine
+│   ├── useAppNavigation.js    # App flow state machine
+│   ├── useHistoryManagement.js # Browser history + back-button logic
+│   ├── useTranslations.js     # Language switching + lazy-load help text
+│   ├── useMetadata.js         # SEO/Helmet meta tags per route
+│   ├── useModals.js           # Help/privacy/terms modal state
+│   ├── useFormValidation.js   # Answer validation before submission
+│   ├── useLocalStorage.js     # Persisted state across sessions
+│   ├── useFloatingCTA.js      # Floating call-to-action button visibility
+│   └── useScrollToTop.js      # Scroll-to-top on route change
 ├── translations/
 │   ├── ui-en.js, ui-es.js, ui-zh.js   # UI strings (questions, options, labels)
 │   └── en.js, es.js, zh.js            # Help text (long-form explanations)
@@ -46,7 +54,7 @@ src/
 | File | Purpose | Lines |
 |------|---------|-------|
 | `src/utils/getQuestions.js` | Question arrays for each case type | ~200 |
-| `src/utils/calculateValuation.js` | Valuation formulas for all case types | ~960 |
+| `src/utils/calculateValuation.js` | Valuation formulas for all case types | ~900 |
 | `src/constants/caseTypes.js` | Case type IDs, option arrays | ~180 |
 | `src/constants/stateLegalDatabase.js` | State rules (SOL, caps, negligence) | ~1200 |
 | `src/translations/ui-en.js` | English UI translations | ~400 |
@@ -113,10 +121,12 @@ Operators: `equals`, `notEquals`, `greaterThan`, `lessThan`, `includes`
 1. **caseTypes.js**: Add to `caseTypes` array + any new option arrays
 2. **getQuestions.js**: Add question array for new case type
 3. **calculateValuation.js**: Add `case 'new_type':` in switch statement
+   - Use the pre-declared function-scope vars (`medicalBills`, `annualIncome`, `weeksUnableToWork`, `lostWages`) — no need to re-parse these per-case
 4. **stateLegalDatabase.js**: Add state rules if case type has state-specific logic
 5. **Translations** (6 files):
    - `ui-en.js`, `ui-es.js`, `ui-zh.js`: Add question labels, option labels
    - `en.js`, `es.js`, `zh.js`: Add help text for questions
+   - **Note:** The `?` help button only appears if a matching key exists in `en.js`/`es.js`/`zh.js`. Missing keys = no button shown for that question.
 
 ---
 
@@ -125,6 +135,10 @@ Operators: `equals`, `notEquals`, `greaterThan`, `lessThan`, `includes`
 - Options: `options.{option_value}`
 - Case types: `caseTypes.{case_type_id}`
 - Help text: Export object with `{question_id}: { title, getContent(state) }`
+
+**Help text coverage** — all 10 Workers' Comp question IDs have entries in all 3 help text files (`en.js`, `es.js`, `zh.js`) as of Feb 2026.
+
+**Questionnaire sub-components** — `Questionnaire.jsx` contains a `DontKnowButton` inline component. Use it for any new "I don't know" toggles rather than duplicating the button JSX.
 
 ---
 
@@ -150,3 +164,5 @@ npm test         # Run tests
 - **Worker's Compensation** (Jan 2025): 10-question flow, state-specific benefit calculations, Texas non-subscriber detection
 - **WCAG Accessibility**: Focus management, ARIA labels, keyboard navigation
 - **Conditional Questions**: showIf system for dynamic question visibility
+- **Code Cleanup** (Feb 2026): Removed dead hooks (`useFormSubmission`, `useQuestionnaireState`), extracted `DontKnowButton` component, consolidated duplicate `parseFloat` calls in `calculateValuation.js` into function-scope variables, removed `@vue/preload-webpack-plugin` devDependency
+- **Workers' Comp Help Text** (Feb 2026): All 10 Workers' Comp questions now have full help text in EN, ES, and ZH

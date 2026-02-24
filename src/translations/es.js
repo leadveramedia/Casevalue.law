@@ -1009,24 +1009,6 @@ En ${state}, típicamente tiene ${state === 'California' ? '1 año' : state === 
 Documentar la fecha exacta de la lesión es esencial porque también afecta el cálculo de su salario semanal promedio, que se basa en sus ganancias en las semanas previas a la lesión. En ${state}, reportar rápidamente su lesión a su empleador protege sus derechos y asegura documentación médica oportuna.`
   },
 
-  wc_claim_status: {
-    title: "Estado del Reclamo de Compensación Laboral",
-    getContent: (state) => `El estado actual de su reclamo de compensación laboral afecta significativamente su estrategia y resultados potenciales en ${state}. Cada estado de reclamo tiene diferentes implicaciones para sus beneficios y opciones legales.
-
-Si su reclamo aún no ha sido presentado, debe actuar rápidamente ya que ${state} tiene plazos estrictos de reporte. Los reclamos presentados pendientes de decisión requieren paciencia pero también monitoreo para asegurar una respuesta oportuna. Los reclamos aceptados significan que debería estar recibiendo beneficios, aunque la cantidad puede ser disputable.
-
-Los reclamos disputados o denegados en ${state} a menudo requieren representación legal. El sistema de compensación laboral de ${state} tiene procedimientos de apelación específicos con plazos estrictos. Si está en fase de negociación de acuerdo, entender el valor completo de su reclamo—incluyendo beneficios médicos futuros y discapacidad permanente—es crucial antes de aceptar cualquier oferta.`
-  },
-
-  wc_injury_type: {
-    title: "Tipo de Lesión Laboral",
-    getContent: (state) => `El tipo de lesión laboral que sufrió afecta cómo ${state} clasifica y compensa su reclamo. Las diferentes categorías de lesiones tienen reglas diferentes para beneficios, plazos, y requisitos de prueba.
-
-Las lesiones traumáticas por accidentes repentinos en el lugar de trabajo generalmente son las más fáciles de probar ya que tienen una fecha y causa clara. Las lesiones por estrés repetitivo como el túnel carpiano pueden requerir testimonio médico experto para establecer la relación con el trabajo. Las enfermedades ocupacionales por exposición tóxica o pérdida auditiva a menudo tienen períodos de estatuto de limitaciones extendidos en ${state} ya que los síntomas pueden aparecer años después de la exposición.
-
-Las lesiones por estrés mental relacionadas con el trabajo tienen estándares de prueba más altos en ${state} y pueden requerir mostrar un evento traumático específico o estrés laboral extraordinario. Las condiciones preexistentes agravadas por el trabajo aún pueden ser compensables en ${state} si puede demostrar que sus deberes laborales empeoraron materialmente su condición.`
-  },
-
   body_part_injured: {
     title: "Parte del Cuerpo Lesionada",
     getContent: (state) => `La parte específica del cuerpo lesionada afecta significativamente los cálculos de beneficios de compensación laboral en ${state}. Muchos estados, incluyendo ${state}, tienen "tablas de lesiones programadas" que asignan valores específicos en semanas de compensación a diferentes partes del cuerpo.
@@ -1043,6 +1025,15 @@ Las lesiones en múltiples partes del cuerpo pueden calificar para beneficios au
 La Incapacidad Total Temporal (ITT) significa que no puede trabajar en absoluto mientras se recupera. En ${state}, los beneficios de ITT típicamente pagan aproximadamente dos tercios de su salario semanal promedio, sujeto a máximos y mínimos estatales. La Incapacidad Parcial Temporal (IPT) se aplica cuando puede hacer trabajo liviano o modificado pero gana menos que antes de la lesión.
 
 La Incapacidad Parcial Permanente (IPP) significa que tiene algún deterioro duradero pero aún puede trabajar. Los beneficios de IPP en ${state} se calculan basándose en su calificación de deterioro y el tipo de lesión. La Incapacidad Total Permanente (ITP)—la clasificación más grave—significa que no puede realizar ningún trabajo sustancialmente remunerado y típicamente proporciona beneficios de por vida en ${state}.`
+  },
+
+  wc_medical_treatment_cost: {
+    title: "Costos de Tratamiento Médico en Compensación Laboral",
+    getContent: (state) => `Sus costos totales de tratamiento médico son un componente central de su reclamo de compensación laboral en ${state}. La compensación laboral está diseñada para cubrir todos los gastos médicos razonables y necesarios relacionados con su lesión laboral, incluyendo atención de emergencia, cirugías, visitas a especialistas, fisioterapia, medicamentos recetados y equipo médico.
+
+En ${state}, el asegurador de compensación laboral de su empleador es responsable de autorizar y pagar su atención médica. Esto significa que generalmente no debería estar recibiendo facturas médicas personales por el tratamiento cubierto. Mantenga registros detallados de todos los costos médicos, incluyendo los gastos de bolsillo que no fueron reembolsados, ya que estos respaldan la valuación de su reclamo.
+
+Si está liquidando su caso, los costos médicos totales incurridos hasta la fecha establecen la base para su demanda de liquidación. La documentación precisa de todos los costos de tratamiento—incluyendo cualquier tratamiento que su aseguradora negó o retrasó injustamente—es esencial para maximizar su recuperación en ${state}. Nunca descarte facturas médicas, declaraciones de beneficios o recibos relacionados con su lesión laboral.`
   },
 
   impairment_rating: {
