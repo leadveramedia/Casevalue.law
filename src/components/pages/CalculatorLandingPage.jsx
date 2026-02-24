@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet-async';
 import { ChevronDown, ChevronUp, ArrowRight, Calculator } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import { caseTypeSEO, caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
-import { allStateSlugs, stateSlugToInfo } from '../../constants/stateSlugMap';
+import { caseTypes } from '../../constants/caseTypes';
 
 function FAQItem({ faq, isOpen, onToggle }) {
   return (
@@ -43,6 +43,9 @@ export default function CalculatorLandingPage({ caseTypeId }) {
   const slug = caseIdToSlug[caseTypeId];
   const calculatorLink = `/#case/${caseTypeId}/0`;
   const canonicalUrl = `https://casevalue.law/calculator/${slug}`;
+
+  const caseType = caseTypes.find(c => c.id === caseTypeId);
+  const heroImg = caseType?.img?.replace('w=400', 'w=1200') ?? caseType?.img;
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -77,11 +80,26 @@ export default function CalculatorLandingPage({ caseTypeId }) {
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
+        {heroImg && <link rel="preload" as="image" href={heroImg} fetchPriority="high" />}
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-hero">
+      <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
+        {heroImg && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
+            style={{ backgroundImage: `url('${heroImg}')` }}
+            aria-hidden="true"
+          />
+        )}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(26,31,58,0.78) 35%, rgba(26,31,58,0.78) 65%, transparent 100%)' }}
+          aria-hidden="true"
+        />
+
+        <div className="relative">
         {/* Hero Section */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 border border-accent/30 rounded-full text-accent text-sm font-semibold mb-6">
@@ -152,23 +170,7 @@ export default function CalculatorLandingPage({ caseTypeId }) {
           </div>
         </section>
 
-        {/* Browse by State */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          <h2 className="text-xl font-bold text-text mb-6 text-center">
-            {content.heading} by State
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1">
-            {allStateSlugs.map(stateSlug => (
-              <Link
-                key={stateSlug}
-                to={`/${stateSlug}/${slug}-calculator`}
-                className="text-sm text-textMuted hover:text-accent transition-colors px-3 py-2 rounded-lg hover:bg-card/40 text-center"
-              >
-                {stateSlugToInfo[stateSlug].name}
-              </Link>
-            ))}
-          </div>
-        </section>
+        </div>{/* end relative content wrapper */}
       </div>
     </BlogLayout>
   );

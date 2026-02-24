@@ -193,11 +193,15 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
       <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
         {/* State flag background */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
           style={{ backgroundImage: `url('/flags/${stateSlug}-large.png')` }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-primary/50 pointer-events-none" aria-hidden="true" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(26,31,58,0.78) 35%, rgba(26,31,58,0.78) 65%, transparent 100%)' }}
+          aria-hidden="true"
+        />
 
         <div className="relative">
         {/* Hero */}
