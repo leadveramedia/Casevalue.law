@@ -38,7 +38,7 @@ export default function Footer({ t, onPrivacyClick, onTermsClick, onGetStarted }
         </button>
       </div>
       <p className="text-sm md:text-base text-textMuted">
-        © 2025 CaseValue.law - {t.copyright}
+        © {new Date().getFullYear()} CaseValue.law - {t.copyright}
       </p>
     </footer>
   );

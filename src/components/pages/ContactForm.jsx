@@ -18,8 +18,13 @@ function ContactForm({
   onTermsClick,
   onSubmit
 }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <div className="max-w-2xl mx-auto animate-fade-in">
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto animate-fade-in" noValidate>
       {/* Back to Home Button */}
       <button
         onClick={onBack}
@@ -48,6 +53,7 @@ function ContactForm({
           <div className="relative">
             <input
               type="text"
+              name="firstName"
               autoComplete="given-name"
               placeholder={t.firstName}
               value={contact.firstName}
@@ -66,6 +72,7 @@ function ContactForm({
           </div>
           <input
             type="text"
+            name="lastName"
             autoComplete="family-name"
             placeholder={t.lastName}
             value={contact.lastName}
@@ -79,6 +86,7 @@ function ContactForm({
         <div className="relative">
           <input
             type="email"
+            name="email"
             inputMode="email"
             autoComplete="email"
             placeholder={t.email}
@@ -105,6 +113,7 @@ function ContactForm({
         <div className="relative">
           <input
             type="tel"
+            name="phone"
             inputMode="tel"
             autoComplete="tel"
             placeholder={t.phone}
@@ -157,7 +166,7 @@ function ContactForm({
 
         {/* Submit Button */}
         <button
-          onClick={onSubmit}
+          type="submit"
           disabled={loading}
           className={`w-full px-8 py-5 ${SHARED_STYLES.goldButton} disabled:opacity-50 disabled:cursor-not-allowed`}
         >
@@ -172,7 +181,7 @@ function ContactForm({
           ) : t.viewResults}
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 

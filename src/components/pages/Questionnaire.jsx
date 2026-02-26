@@ -432,6 +432,9 @@ function Questionnaire({
           {qIdx === questions.length - 1 ? t.getValuation : t.next}
         </button>
       </div>
+      {answers[q.id] === undefined && (
+        <p className="text-center text-sm text-textMuted mt-2">{t.answerToContinue}</p>
+      )}
     </div>
   );
 }

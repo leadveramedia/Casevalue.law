@@ -11,6 +11,7 @@ import { ChevronDown, ChevronUp, ArrowRight, Calculator } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import { caseTypeSEO, caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { caseTypes } from '../../constants/caseTypes';
+import SocialMeta from '../SocialMeta';
 
 function FAQItem({ faq, isOpen, onToggle }) {
   return (
@@ -75,15 +76,11 @@ export default function CalculatorLandingPage({ caseTypeId }) {
         <title>{seo.title}</title>
         <meta name="description" content={seo.description} />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={seo.title} />
-        <meta property="og:description" content={seo.description} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
         {heroImg && <link rel="preload" as="image" href={heroImg} fetchPriority="high" />}
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
+      <SocialMeta title={seo.title} description={seo.description} url={canonicalUrl} />
 
       <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
         {heroImg && (
@@ -119,7 +116,7 @@ export default function CalculatorLandingPage({ caseTypeId }) {
             Start Free Calculator
             <ArrowRight className="w-5 h-5" />
           </Link>
-          <p className="mt-4 text-sm text-textMuted">No contact info required · Takes 2 minutes · 100% free</p>
+          <p className="mt-4 text-sm text-textMuted">Quick & easy · Takes 2 minutes · 100% free</p>
         </section>
 
         {/* Trust Stats */}

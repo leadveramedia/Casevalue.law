@@ -8,6 +8,7 @@ import { PortableText } from '@portabletext/react';
 import { getPostBySlug, getRecentPosts, getRelatedPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowLeft, ArrowRight, Loader, Tag, DollarSign, CheckCircle, Lock } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import SocialMeta from '../SocialMeta';
 import Breadcrumbs from '../Breadcrumbs';
 import { getQuestionnaireLink, getCaseTypeFromCategory } from '../../utils/categoryToCaseType';
 import { caseIdToSlug } from '../../constants/caseTypeSlugs';
@@ -352,13 +353,7 @@ export default function BlogPostPage() {
         {/* Canonical URL - point to the specific blog post */}
         <link rel="canonical" href={`https://casevalue.law/blog/${slug}`} />
 
-        {/* Open Graph */}
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:url" content={`https://casevalue.law/blog/${slug}`} />
-        {post.mainImage && (
-          <meta property="og:image" content={urlFor(post.mainImage).width(1200).url()} />
-        )}
+        {/* Article-specific OG (SocialMeta handles the rest) */}
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={post.publishedAt} />
 
@@ -427,6 +422,13 @@ export default function BlogPostPage() {
           />
         )}
       </Helmet>
+      <SocialMeta
+        title={post.title}
+        description={post.excerpt}
+        url={`https://casevalue.law/blog/${slug}`}
+        image={post.mainImage ? urlFor(post.mainImage).width(1200).url() : undefined}
+        type="article"
+      />
 
       <div className="min-h-screen bg-gradient-hero">
         {/* Back to Blog Link */}

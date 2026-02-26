@@ -12,6 +12,7 @@ import {
   HardHat, ArrowRight,
 } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import SocialMeta from '../SocialMeta';
 import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
@@ -84,14 +85,10 @@ export default function StateHubPage({ stateCode }) {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
         <link rel="preload" as="image" href={`/flags/${stateSlug}-large.png`} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
+      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} />
 
       <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
         {/* State flag background */}

@@ -38,7 +38,7 @@ export function getMetaTags(step, selectedCase, t, initialCaseType = null) {
   }
 
   // Default homepage meta tags - optimized for broad keywords
-  let title = "What's My Case Worth? Free Legal Case Value Calculator | CaseValue.law";
+  let title = "What's My Case Worth? Free Case Value Calculator";
   let description = "Free case value calculator for personal injury, employment law, and IP cases. Get an instant estimate of what your case is worth with our data-driven legal case value estimator.";
 
   const caseTypeName = selectedCase ? (t.caseTypes[selectedCase] || selectedCase) : '';
@@ -220,17 +220,17 @@ export function useMetadata(step, selectedCase, t, initialCaseType = null) {
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://casevalue.law" />
+        <meta property="og:url" content={`https://casevalue.law${window.location.pathname || '/'}`} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
 
         {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://casevalue.law" />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta property="twitter:image" content="https://casevalue.law/casevalue-preview.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`https://casevalue.law${window.location.pathname || '/'}`} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="https://casevalue.law/casevalue-preview.webp" />
 
         {/* Canonical URL - Always point to clean URL without query params */}
         <link rel="canonical" href={`https://casevalue.law${window.location.pathname || '/'}`} />

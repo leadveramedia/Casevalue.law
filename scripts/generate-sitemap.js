@@ -96,11 +96,18 @@ function generateSitemapXML(blogPosts) {
     },
     ...calculatorSlugs.map(slug => ({
       loc: `https://casevalue.law/calculator/${slug}`,
-      lastmod: today,
+      lastmod: '2026-02-26',
       changefreq: 'monthly',
       priority: '0.9',
       hreflang: true,
     })),
+    {
+      loc: 'https://casevalue.law/embed/docs',
+      lastmod: '2026-02-26',
+      changefreq: 'monthly',
+      priority: '0.5',
+      hreflang: false
+    },
   ];
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -135,7 +142,7 @@ function generateSitemapXML(blogPosts) {
     xml += `
   <url>
     <loc>https://casevalue.law/states/${stateSlug}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>2026-02-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -148,7 +155,7 @@ function generateSitemapXML(blogPosts) {
       xml += `
   <url>
     <loc>https://casevalue.law/${stateSlug}/${caseSlug}-calculator</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>2026-02-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -192,7 +199,7 @@ async function generateSitemap() {
   fs.writeFileSync(sitemapPath, sitemapXML, 'utf8');
 
   console.log(`✅ Sitemap generated successfully at: ${sitemapPath}`);
-  console.log(`📊 Total URLs: ${2 + 15 + 51 + 765 + blogPosts.length} (2 static + 15 calculators + 51 state hubs + 765 state pages + ${blogPosts.length} blog posts)`);
+  console.log(`📊 Total URLs: ${3 + 15 + 51 + 765 + blogPosts.length} (3 static + 15 calculators + 51 state hubs + 765 state pages + ${blogPosts.length} blog posts)`);
 }
 
 // Run the generator

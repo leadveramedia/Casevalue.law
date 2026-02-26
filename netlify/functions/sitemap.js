@@ -61,7 +61,7 @@ function generateSitemapXML(blogPosts) {
   const statePages = stateSlugs.flatMap(stateSlug =>
     calculatorSlugs.map(caseSlug => ({
       loc: `https://casevalue.law/${stateSlug}/${caseSlug}-calculator`,
-      lastmod: today,
+      lastmod: '2026-02-26',
       changefreq: 'monthly',
       priority: '0.8',
       hreflang: false,
@@ -78,7 +78,7 @@ function generateSitemapXML(blogPosts) {
     },
     ...calculatorSlugs.map(slug => ({
       loc: `https://casevalue.law/calculator/${slug}`,
-      lastmod: today,
+      lastmod: '2026-02-26',
       changefreq: 'monthly',
       priority: '0.9',
       hreflang: true
@@ -89,6 +89,13 @@ function generateSitemapXML(blogPosts) {
       changefreq: 'weekly',
       priority: '0.8',
       hreflang: true
+    },
+    {
+      loc: 'https://casevalue.law/embed/docs',
+      lastmod: '2026-02-26',
+      changefreq: 'monthly',
+      priority: '0.5',
+      hreflang: false
     }
   ];
 
@@ -124,7 +131,7 @@ function generateSitemapXML(blogPosts) {
     xml += `
   <url>
     <loc>https://casevalue.law/states/${stateSlug}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>2026-02-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>

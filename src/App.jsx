@@ -107,6 +107,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
   } = useModals();
 
   const [hasHelpForQuestion, setHasHelpForQuestion] = useState({});
+  const [showSavedNotice, setShowSavedNotice] = useState(false);
   const primaryCTARef = useRef(null);
 
   // Floating CTA visibility (extracted to hook)
@@ -549,12 +550,12 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
               selectedState={selectedState}
               hasHelpForQuestion={hasHelpForQuestion}
               NON_CURRENCY_NUMBER_FIELDS={NON_CURRENCY_NUMBER_FIELDS}
-              onBack={() => navigateToStep('landing')}
+              onBack={() => { setShowSavedNotice(true); setTimeout(() => { setShowSavedNotice(false); navigateToStep('landing'); }, 1500); }}
               onShowHelp={handleShowQuestionHelp}
               onUpdateAnswer={handleUpdateAnswer}
               onDontKnow={handleDontKnow}
               onPrevious={handlePreviousQuestion}
-              onNext={() => { if (qIdx >= visibleQuestions.length - 1) { pushFunnelEvent('questionnaire_completed', { case_type: selectedCase }); } handleNextQuestion(); }}
+              onNext={() => { pushFunnelEvent('question_answered', { case_type: selectedCase, question_id: visibleQuestions[qIdx]?.id, question_index: qIdx, total_questions: visibleQuestions.length }); if (qIdx >= visibleQuestions.length - 1) { pushFunnelEvent('questionnaire_completed', { case_type: selectedCase }); } handleNextQuestion(); }}
               shouldShowDontKnow={shouldShowDontKnow}
             />
           </Suspense>
@@ -698,7 +699,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
                   }}
                   className="px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-xl shadow-2xl hover:shadow-accent/50 transition-all font-bold text-lg transform hover:scale-105"
                 >
-                  Find Out What Your Case is Worth
+                  {t.findOutWorth}
                 </button>
               </div>
             </div>
@@ -761,7 +762,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
 
               <div className="bg-accent/10 border-2 border-accent/30 rounded-xl p-5">
                 <p className="text-sm md:text-base text-textMuted leading-relaxed">
-                  <strong className="text-accent">Tip:</strong> Gathering documents like medical bills, pay stubs, and insurance information before completing the questionnaire will give you the most accurate estimate.
+                  <strong className="text-accent">{t.missingDataTipLabel}</strong> {t.missingDataTip}
                 </p>
               </div>
 
@@ -775,6 +776,13 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Progress Saved Toast */}
+      {showSavedNotice && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-card border-2 border-accent/40 rounded-xl shadow-card animate-fade-in">
+          <p className="text-sm font-medium text-text">{t.progressSaved}</p>
         </div>
       )}
 

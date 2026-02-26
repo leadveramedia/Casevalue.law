@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { getAllPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
 import { Calendar, User, ArrowRight, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import SocialMeta from '../SocialMeta';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
 
 const POSTS_PER_PAGE = 12;
@@ -84,12 +85,16 @@ export default function BlogPage() {
   return (
     <BlogLayout>
       <Helmet>
-        <title>Legal Blog - CaseValue.law</title>
+        <title>Legal Insights & Case Value Guides | CaseValue.law Blog</title>
         <meta name="description" content="Expert insights on personal injury law, medical malpractice, motor vehicle accidents, and more. Learn about your legal rights and case values." />
         <meta name="keywords" content="legal blog, personal injury law, texas law, case value, statute of limitations" />
         <link rel="canonical" href="https://casevalue.law/blog" />
-        <meta property="og:url" content="https://casevalue.law/blog" />
       </Helmet>
+      <SocialMeta
+        title="Legal Insights & Case Value Guides | CaseValue.law Blog"
+        description="Expert insights on personal injury law, medical malpractice, motor vehicle accidents, and more. Learn about your legal rights and case values."
+        url="https://casevalue.law/blog"
+      />
 
       <div className="min-h-screen bg-gradient-hero">
         {/* Header */}

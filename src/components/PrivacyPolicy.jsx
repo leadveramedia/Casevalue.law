@@ -246,7 +246,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
         >
           Close
         </button>
-        <p>© 2025 CaseValue.law - All Rights Reserved</p>
+        <p>© {new Date().getFullYear()} CaseValue.law - All Rights Reserved</p>
       </footer>
     </div>
   );

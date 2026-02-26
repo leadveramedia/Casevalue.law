@@ -6,6 +6,7 @@ import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Copy, CheckCircle } from 'lucide-react';
 import Navigation from '../Navigation';
+import SocialMeta from '../SocialMeta';
 import Footer from '../Footer';
 
 const CASE_TYPES = [
@@ -114,7 +115,13 @@ export default function EmbedDocsPage() {
       <Helmet>
         <title>Embed Calculator - CaseValue.law</title>
         <meta name="description" content="Add a free case value calculator to your law firm website. Step-by-step guide with copy-paste code snippets." />
+        <link rel="canonical" href="https://casevalue.law/embed/docs" />
       </Helmet>
+      <SocialMeta
+        title="Embed Calculator - CaseValue.law"
+        description="Add a free case value calculator to your law firm website. Step-by-step guide with copy-paste code snippets."
+        url="https://casevalue.law/embed/docs"
+      />
 
       {/* Background pattern */}
       <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30 pointer-events-none"></div>

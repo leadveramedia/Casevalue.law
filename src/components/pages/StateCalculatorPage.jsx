@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
+import SocialMeta from '../SocialMeta';
 import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
@@ -180,15 +181,11 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://casevalue.law/casevalue-preview.webp" />
         <link rel="preload" as="image" href={`/flags/${stateSlug}-large.png`} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
+      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} />
 
       <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
         {/* State flag background */}
@@ -223,7 +220,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
             Start Free {stateName} Calculator
             <ArrowRight className="w-5 h-5" />
           </Link>
-          <p className="mt-4 text-sm text-textMuted">No contact info required · Takes 2 minutes · 100% free</p>
+          <p className="mt-4 text-sm text-textMuted">Quick & easy · Takes 2 minutes · 100% free</p>
         </section>
 
         {/* State-specific facts */}
