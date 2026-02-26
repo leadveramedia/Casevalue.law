@@ -15,6 +15,8 @@ const NotFoundPage = lazy(() => import('./components/pages/NotFoundPage'));
 const CalculatorLandingPage = lazy(() => import('./components/pages/CalculatorLandingPage'));
 const StateCalculatorPage = lazy(() => import('./components/pages/StateCalculatorPage'));
 const StateHubPage = lazy(() => import('./components/pages/StateHubPage'));
+const EmbedApp = lazy(() => import('./EmbedApp.jsx'));
+const EmbedDocsPage = lazy(() => import('./components/pages/EmbedDocsPage'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -124,6 +126,26 @@ export default function Router() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <BlogPostPage />
+            </Suspense>
+          }
+        />
+
+        {/* Embeddable calculator widget (iframe) — no header/footer/tracking */}
+        <Route
+          path="/embed"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <EmbedApp />
+            </Suspense>
+          }
+        />
+
+        {/* Embed documentation page for law firm webmasters */}
+        <Route
+          path="/embed/docs"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <EmbedDocsPage />
             </Suspense>
           }
         />

@@ -39,6 +39,18 @@
     # - Google Fonts
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://tagmanager.google.com https://www.google-analytics.com https://www.clarity.ms https://scripts.clarity.ms https://connect.facebook.net https://bat.bing.com https://snap.licdn.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://tagmanager.google.com https://fonts.googleapis.com; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.facebook.com https://bat.bing.com https://c.bing.com https://px.ads.linkedin.com https://ssl.gstatic.com https://www.gstatic.com https://c.clarity.ms; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://analytics.google.com https://www.google.com https://www.clarity.ms https://*.clarity.ms https://*.nsvcs.net https://region1.google-analytics.com https://connect.facebook.net https://www.facebook.com https://bat.bing.com https://px.ads.linkedin.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net; frame-src 'self' https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
 
+# ============================================================================
+# EMBED WIDGET HEADERS
+# ============================================================================
+# Allow iframe embedding for the /embed route (overrides global X-Frame-Options: DENY).
+# frame-ancestors * allows any domain to embed the calculator widget.
+[[headers]]
+  for = "/embed"
+  [headers.values]
+    X-Frame-Options = ""
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com; font-src 'self'; connect-src 'self' https://*.sanity.io; frame-ancestors *; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # Cache static assets for better performance
 [[headers]]
   for = "/static/*"

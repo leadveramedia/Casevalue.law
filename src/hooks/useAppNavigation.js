@@ -46,14 +46,20 @@ function parseInitialQIdx() {
  * Hook for managing app navigation state
  * @param {Object} pushStateToHistoryRef - Ref containing push state function (allows late binding)
  * @param {Object} answers - Current answers object (for conditional question filtering)
- * @param {string|null} initialCaseType - Pre-selected case type from /calculator/:slug route
+ * @param {Object} options - Optional configuration
+ * @param {string|null} options.initialCaseType - Pre-selected case type from /calculator/:slug route
+ * @param {string|null} options.initialState - Pre-selected state (for embed mode)
  * @returns {Object} Navigation state and handlers
  */
-export function useAppNavigation(pushStateToHistoryRef, answers = {}, initialCaseType = null) {
+export function useAppNavigation(pushStateToHistoryRef, answers = {}, { initialCaseType = null, initialState = null } = {}) {
   // Navigation state with lazy initialization from URL hash (or route prop)
-  const [step, setStep] = useState(() => initialCaseType ? 'state' : parseInitialStep());
+  const [step, setStep] = useState(() => {
+    if (initialCaseType && initialState) return 'questionnaire';
+    if (initialCaseType) return 'state';
+    return parseInitialStep();
+  });
   const [selectedCase, setSelectedCase] = useState(() => initialCaseType || parseInitialCase());
-  const [selectedState, setSelectedState] = useState(parseInitialState);
+  const [selectedState, setSelectedState] = useState(() => initialState || parseInitialState());
   const [qIdx, setQIdx] = useState(parseInitialQIdx);
   const [questions, setQuestions] = useState([]);
 

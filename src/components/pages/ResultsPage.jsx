@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { Check, AlertCircle, Share2, CheckCircle, Clock, Copy } from 'lucide-react';
 import { caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { SHARED_STYLES } from '../shared/sharedStyles';
+import { useIsEmbed } from '../../contexts/EmbedContext';
 
 function ResultsPage({
   t,
@@ -21,6 +22,7 @@ function ResultsPage({
   selectedState,
   onGenerateShareUrl
 }) {
+  const isEmbed = useIsEmbed();
   const [linkCopied, setLinkCopied] = useState(false);
   const [shareUrl, setShareUrl] = useState(null);
   const inputRef = useRef(null);
@@ -314,8 +316,8 @@ function ResultsPage({
           </p>
         </div>
 
-        {/* Share Results Button - only show for non-shared results */}
-        {!isSharedResult && onGenerateShareUrl && (
+        {/* Share Results Button - hidden in embed mode and for shared results */}
+        {!isSharedResult && !isEmbed && onGenerateShareUrl && (
           <div className="mt-8 pt-8 border-t-2 border-primary/20">
             {!shareUrl ? (
               // Initial state - show "Share Results" button
@@ -398,8 +400,8 @@ function ResultsPage({
         </div>
       )}
 
-      {/* State landing page link */}
-      {!isSharedResult && selectedState && selectedCase && caseIdToSlug[selectedCase] && (
+      {/* State landing page link (hidden in embed mode — Link doesn't work in iframe) */}
+      {!isSharedResult && !isEmbed && selectedState && selectedCase && caseIdToSlug[selectedCase] && (
         <div className="mt-6 text-center">
           <Link
             to={`/${selectedState.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '')}/${caseIdToSlug[selectedCase]}-calculator`}

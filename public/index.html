@@ -21,7 +21,10 @@
     <!-- Google Tag Manager - Load on First User Interaction -->
     <script>
       // Defer GTM loading until first user interaction for better performance
+      // Skip all tracking on /embed route (law firms have their own tracking)
+      var isEmbedRoute = window.location.pathname.startsWith('/embed');
       function loadGTM() {
+        if (isEmbedRoute) return;
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -281,6 +284,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <input type="text" name="valuation_high_range" />
       <textarea name="valuation_factors"></textarea>
       <input type="text" name="submitted_at" />
+      <input type="text" name="source" />
+      <input type="text" name="embed_referrer" />
+      <input type="text" name="partner_id" />
     </form>
 
     <!--

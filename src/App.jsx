@@ -73,7 +73,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
     handleCaseSelect,
     handleNextQuestion,
     handlePreviousQuestion
-  } = useAppNavigation(pushStateToHistoryRef, answers, initialCaseType);
+  } = useAppNavigation(pushStateToHistoryRef, answers, { initialCaseType });
   const [contact, setContact] = useState({
     firstName: '',
     lastName: '',
