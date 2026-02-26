@@ -15,25 +15,24 @@ import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
 
-function FAQItem({ faq, isOpen, onToggle }) {
+function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
     <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-xl overflow-hidden">
       <button
         onClick={onToggle}
         className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/70 transition-colors"
         aria-expanded={isOpen}
+        aria-controls={`faq-panel-${index}`}
       >
         <span className="font-semibold text-text text-base leading-snug">{faq.q}</span>
         {isOpen
-          ? <ChevronUp className="w-5 h-5 text-accent shrink-0" />
-          : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" />
+          ? <ChevronUp className="w-5 h-5 text-accent shrink-0" aria-hidden="true" />
+          : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" aria-hidden="true" />
         }
       </button>
-      {isOpen && (
-        <div className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder pt-4">
-          {faq.a}
-        </div>
-      )}
+      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder pt-4">
+        {faq.a}
+      </div>
     </div>
   );
 }
@@ -253,6 +252,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               <FAQItem
                 key={i}
                 faq={faq}
+                index={i}
                 isOpen={openFAQ === i}
                 onToggle={() => setOpenFAQ(openFAQ === i ? null : i)}
               />

@@ -138,6 +138,7 @@ function ResultsPage({
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+      <h1 className="sr-only">{t.resultsTitle || 'Your Case Value Estimate'}</h1>
       {/* Back to Home Button */}
       <button
         onClick={onBack}
@@ -362,7 +363,7 @@ function ResultsPage({
                     {linkCopied ? (
                       <>
                         <CheckCircle className="w-5 h-5" aria-hidden="true" />
-                        <span aria-live="polite">{t.linkCopied}</span>
+                        {t.linkCopied}
                       </>
                     ) : (
                       <>
@@ -371,6 +372,7 @@ function ResultsPage({
                       </>
                     )}
                   </button>
+                  <span aria-live="polite" className="sr-only">{linkCopied ? t.linkCopied : ''}</span>
                 </div>
               </div>
             )}

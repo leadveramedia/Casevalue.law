@@ -21,7 +21,7 @@ const EmbedDocsPage = lazy(() => import('./components/pages/EmbedDocsPage'));
 // Loading fallback component
 const LoadingFallback = () => (
   <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
-    <div className="text-textMuted text-lg">Loading...</div>
+    <div className="text-textMuted text-lg" role="status" aria-live="polite">Loading...</div>
   </div>
 );
 

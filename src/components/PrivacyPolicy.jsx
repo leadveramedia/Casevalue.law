@@ -187,6 +187,9 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
 
   return (
     <div className="min-h-screen bg-background text-text">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-accent focus:text-textDark focus:rounded-lg focus:font-bold focus:shadow-lg focus:outline-none">
+        Skip to main content
+      </a>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
@@ -195,7 +198,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
               onClick={onClose}
               className="text-text hover:text-accent transition-colors flex items-center gap-2"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
               <span className="font-semibold">Close</span>
@@ -206,7 +209,7 @@ const PrivacyPolicy = ({ onClose, lang = 'en' }) => {
       </header>
 
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-center mb-4 text-text">
           {content.title}
         </h1>

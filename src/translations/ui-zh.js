@@ -104,6 +104,8 @@ export const uiTranslationsZH = {
     findOutWorth: "了解您的案件价值",
     answerToContinue: "请回答上方问题以继续",
     progressSaved: "您的进度已保存。您可以随时返回继续。",
+    questionnaire: "问卷",
+    practiceAreas: "法律领域",
     weeklyBenefitRate: "每周福利金额",
     benefitsBreakdown: "福利明细",
     ttdBenefits: "暂时性完全残疾 (TTD)",

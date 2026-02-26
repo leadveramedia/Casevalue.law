@@ -10,6 +10,7 @@ import { SHARED_STYLES } from '../shared/sharedStyles';
 function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">
+      <h1 className="sr-only">{t.selectCase}</h1>
       {/* Back to Home Button */}
       <button
         onClick={onBack}

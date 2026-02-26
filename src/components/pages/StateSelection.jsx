@@ -17,6 +17,7 @@ function StateSelection({
 }) {
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
+      <h1 className="sr-only">{t.selectState}</h1>
       {/* Back to Home Button */}
       <button
         onClick={onBack}

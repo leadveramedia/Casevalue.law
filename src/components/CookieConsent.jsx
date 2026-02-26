@@ -58,8 +58,7 @@ const CookieConsent = ({ onAccept, onDecline, onPrivacyClick, lang = 'en' }) => 
   return (
     <div
       className="fixed inset-x-0 bottom-0 z-[100] p-4 sm:p-6 pointer-events-none animate-fade-in"
-      role="dialog"
-      aria-modal="true"
+      role="region"
       aria-live="polite"
       aria-label="Cookie consent"
     >

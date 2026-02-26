@@ -85,14 +85,36 @@ const ExitIntentPopup = ({ lang = 'en', onGetStarted }) => {
     };
   }, [showPopup]);
 
-  // Escape key to dismiss
+  // Keyboard: Escape to dismiss + focus trapping
   useEffect(() => {
     if (!isVisible) return;
-    const handleEscape = (e) => {
-      if (e.key === 'Escape') dismiss();
+    const previousFocus = document.activeElement;
+    // Focus the first button in the dialog
+    requestAnimationFrame(() => {
+      const dialog = document.getElementById('exit-intent-dialog');
+      if (dialog) {
+        const firstBtn = dialog.querySelector('button');
+        if (firstBtn) firstBtn.focus();
+      }
+    });
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') { dismiss(); return; }
+      if (e.key === 'Tab') {
+        const dialog = document.getElementById('exit-intent-dialog');
+        if (!dialog) return;
+        const focusable = dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      if (previousFocus && previousFocus.focus) previousFocus.focus();
+    };
   }, [isVisible, dismiss]);
 
   // Lock body scroll when visible
@@ -114,6 +136,7 @@ const ExitIntentPopup = ({ lang = 'en', onGetStarted }) => {
       onClick={dismiss}
     >
       <div
+        id="exit-intent-dialog"
         className="bg-card rounded-3xl w-full max-w-lg border-2 border-accent/40 shadow-card animate-scale-in p-8 text-center space-y-6"
         onClick={(e) => e.stopPropagation()}
       >

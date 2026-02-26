@@ -104,6 +104,8 @@ export const uiTranslationsES = {
     findOutWorth: "Descubra Cuánto Vale Su Caso",
     answerToContinue: "Responda la pregunta anterior para continuar",
     progressSaved: "Su progreso ha sido guardado. Puede regresar en cualquier momento para continuar.",
+    questionnaire: "Cuestionario",
+    practiceAreas: "Áreas de Práctica",
     weeklyBenefitRate: "Tasa de Beneficio Semanal",
     benefitsBreakdown: "Desglose de Beneficios",
     ttdBenefits: "Incapacidad Total Temporal (ITT)",

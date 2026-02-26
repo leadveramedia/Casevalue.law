@@ -115,6 +115,7 @@ export default function BlogPage() {
                 <button
                   key={category}
                   onClick={() => handleCategoryChange(category)}
+                  aria-pressed={selectedCategory === category}
                   className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${selectedCategory === category
                       ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
                       : 'bg-card/50 text-text/70 hover:bg-card border border-cardBorder'

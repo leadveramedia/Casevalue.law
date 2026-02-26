@@ -25,6 +25,7 @@ function ContactForm({
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto animate-fade-in" noValidate>
+      <h1 className="sr-only">{t.enterInfo}</h1>
       {/* Back to Home Button */}
       <button
         onClick={onBack}

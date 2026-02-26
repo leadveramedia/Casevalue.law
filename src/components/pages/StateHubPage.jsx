@@ -128,6 +128,7 @@ export default function StateHubPage({ stateCode }) {
 
         {/* Practice area grid */}
         <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+          <h2 className="text-2xl font-bold text-text mb-6">Practice Areas</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {CASE_TYPE_ORDER.map(caseTypeId => {
               const content = caseTypeContent[caseTypeId];
@@ -144,9 +145,9 @@ export default function StateHubPage({ stateCode }) {
                     <div className="p-2 bg-accent/15 rounded-lg shrink-0 group-hover:bg-accent/25 transition-colors">
                       <Icon className="w-5 h-5 text-accent" />
                     </div>
-                    <h2 className="text-base font-bold text-text leading-snug">
+                    <h3 className="text-base font-bold text-text leading-snug">
                       {content.heading.replace(' Calculator', '').replace(' Settlement Calculator', '').replace(' Case Value Calculator', '')}
-                    </h2>
+                    </h3>
                   </div>
                   <p className="text-sm text-textMuted leading-relaxed flex-1">
                     {CASE_DESCRIPTIONS[caseTypeId]}

@@ -12,7 +12,7 @@ import { QUESTION_PLACEHOLDERS, QUESTION_HELP_TEXT } from '../../constants/quest
  * DateInputField - Custom date input with reliable calendar button
  * Fixes issues with native date picker icon being finicky
  */
-function DateInputField({ value, onChange, helpText }) {
+function DateInputField({ value, onChange, helpText, questionId }) {
   const dateInputRef = useRef(null);
 
   const openDatePicker = useCallback(() => {
@@ -38,6 +38,7 @@ function DateInputField({ value, onChange, helpText }) {
         <input
           ref={dateInputRef}
           type="date"
+          aria-labelledby={questionId ? `question-${questionId}` : undefined}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           min="1900-01-01"
@@ -48,8 +49,8 @@ function DateInputField({ value, onChange, helpText }) {
         />
         <button
           type="button"
-          onClick={openDatePicker}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 pointer-events-none"
+          onClick={(e) => { e.stopPropagation(); openDatePicker(); }}
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
           aria-label="Open date picker"
         >
           <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" aria-hidden="true" />
@@ -98,6 +99,7 @@ function Questionnaire({
 }) {
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
+      <h1 className="sr-only">{t.questionnaire || 'Questionnaire'}</h1>
       {/* Back to Home Button */}
       <button
         onClick={onBack}
@@ -126,7 +128,7 @@ function Questionnaire({
           <span className="font-semibold">{t.question} {qIdx + 1} {t.of} {questions.length}</span>
           <span className="font-bold text-accent">{Math.round(((qIdx + 1) / questions.length) * 100)}%</span>
         </div>
-        <div className="h-3 bg-card rounded-full overflow-hidden shadow-inner">
+        <div className="h-3 bg-card rounded-full overflow-hidden shadow-inner" role="progressbar" aria-valuenow={qIdx + 1} aria-valuemin={1} aria-valuemax={questions.length} aria-label={`${t.question} ${qIdx + 1} ${t.of} ${questions.length}`}>
           <div
             className="h-full transition-all duration-500 ease-out rounded-full shadow-lg"
             style={{
@@ -143,9 +145,9 @@ function Questionnaire({
         style={SHARED_STYLES.questionCardBg}
       >
         <div className="flex items-start gap-3 mb-8">
-          <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold break-words leading-tight flex-1 text-text">
+          <h2 id={`question-${q.id}`} className="text-2xl md:text-3xl lg:text-4xl font-bold break-words leading-tight flex-1 text-text">
             {t.questions[q.id]}
-          </h3>
+          </h2>
           {hasHelpForQuestion[q.id] && (
             <button
               onClick={() => onShowHelp(q.id)}
@@ -161,6 +163,7 @@ function Questionnaire({
         {q.type === 'select' && (
           <div>
             <select
+              aria-labelledby={`question-${q.id}`}
               value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
               onChange={(e) => {
                 const newValue = e.target.value;
@@ -185,6 +188,7 @@ function Questionnaire({
         {/* Date Input */}
         {q.type === 'date' && (
           <DateInputField
+            questionId={q.id}
             value={answers[q.id] === 'unknown' ? '' : (answers[q.id] || '')}
             onChange={(newValue) => {
               if (newValue !== '') {
@@ -293,7 +297,7 @@ function Questionnaire({
                 className={SHARED_STYLES.numberInput(!NON_CURRENCY_NUMBER_FIELDS.has(q.id))}
                 placeholder={QUESTION_PLACEHOLDERS[q.id] || (NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'Enter number' : t.enterAmount)}
                 pattern="[0-9]*\.?[0-9]*"
-                aria-label={`Enter ${NON_CURRENCY_NUMBER_FIELDS.has(q.id) ? 'a number' : 'an amount'}`}
+                aria-labelledby={`question-${q.id}`}
               />
             </div>
             <p className="mt-2 text-sm text-text/60">
@@ -310,6 +314,7 @@ function Questionnaire({
           <div>
             <input
               type="text"
+              aria-labelledby={`question-${q.id}`}
               value={answers[q.id] || ''}
               onChange={(e) => onUpdateAnswer(q.id, e.target.value)}
               onKeyDown={(e) => {
@@ -366,6 +371,8 @@ function Questionnaire({
             <div className="relative">
               <input
                 type="range"
+                aria-labelledby={`question-${q.id}`}
+                aria-valuetext={`${answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0)}% - ${answers[q.id] === 'unknown' ? 'Unknown' : answers[q.id] > 50 ? 'Mostly my fault' : answers[q.id] > 0 ? 'Partially my fault' : 'Not my fault at all'}`}
                 min={q.min}
                 max={q.max}
                 value={answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0)}
@@ -442,7 +449,8 @@ function Questionnaire({
 DateInputField.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  helpText: PropTypes.string
+  helpText: PropTypes.string,
+  questionId: PropTypes.string
 };
 
 Questionnaire.propTypes = {

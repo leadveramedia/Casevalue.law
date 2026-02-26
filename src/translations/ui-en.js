@@ -104,6 +104,8 @@ export const uiTranslationsEN = {
     findOutWorth: "Find Out What Your Case is Worth",
     answerToContinue: "Answer the question above to continue",
     progressSaved: "Your progress has been saved. You can return anytime to continue.",
+    questionnaire: "Questionnaire",
+    practiceAreas: "Practice Areas",
     weeklyBenefitRate: "Weekly Benefit Rate",
     benefitsBreakdown: "Benefits Breakdown",
     ttdBenefits: "Temporary Total Disability (TTD)",

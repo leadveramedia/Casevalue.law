@@ -14,6 +14,7 @@ import { useMetadata } from './hooks/useMetadata';
 import { useModals } from './hooks/useModals';
 import { useFloatingCTA } from './hooks/useFloatingCTA';
 import { useAppNavigation } from './hooks/useAppNavigation';
+import { useModalFocus } from './hooks/useModalFocus';
 import {
   getCalculateValuation,
   shouldShowDontKnow,
@@ -108,7 +109,12 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
 
   const [hasHelpForQuestion, setHasHelpForQuestion] = useState({});
   const [showSavedNotice, setShowSavedNotice] = useState(false);
+  const [stepAnnouncement, setStepAnnouncement] = useState('');
+  const [langAnnouncement, setLangAnnouncement] = useState('');
   const primaryCTARef = useRef(null);
+
+  // Modal focus management
+  useModalFocus(showPrivacy || showHelpModal || showMissingDataWarning);
 
   // Floating CTA visibility (extracted to hook)
   const showFloatingCTA = useFloatingCTA(step, primaryCTARef);
@@ -181,7 +187,26 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
   // Update HTML lang attribute when language changes (accessibility)
   useEffect(() => {
     document.documentElement.lang = lang;
+    const langNames = { en: 'Language changed to English', es: 'Idioma cambiado a Español', zh: '语言已切换为中文' };
+    setLangAnnouncement(langNames[lang] || '');
+    const timer = setTimeout(() => setLangAnnouncement(''), 2000);
+    return () => clearTimeout(timer);
   }, [lang]);
+
+  // Announce step changes to screen readers
+  useEffect(() => {
+    const announcements = {
+      landing: '',
+      select: t.selectCase || 'Select Your Case Type',
+      state: t.selectState || 'Select Your State',
+      questionnaire: `${t.question || 'Question'} ${qIdx + 1} ${t.of || 'of'} ${visibleQuestions.length}`,
+      contact: t.enterInfo || 'Enter Your Information',
+      results: t.resultsTitle || 'Your Case Estimate',
+    };
+    if (step !== 'landing') {
+      setStepAnnouncement(announcements[step] || '');
+    }
+  }, [step, qIdx, visibleQuestions.length, t]);
 
   // Signal to prerender services that the homepage is ready to capture
   useEffect(() => {
@@ -491,6 +516,10 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
       {/* ========================================================================
           MAIN CONTENT
       ======================================================================== */}
+      {/* Screen reader announcements */}
+      <div role="status" aria-live="polite" className="sr-only">{stepAnnouncement}</div>
+      <div aria-live="assertive" className="sr-only">{langAnnouncement}</div>
+
       <main id="main-content" className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12 lg:py-16">
         
         {/* ====================================================================
@@ -508,7 +537,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             CASE SELECTION PAGE
         ==================================================================== */}
         {step === 'select' && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted" role="status" aria-live="polite">Loading...</div></div>}>
             <CaseSelection
               t={t}
               caseTypes={caseTypes}
@@ -522,7 +551,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             STATE SELECTION PAGE
         ==================================================================== */}
         {step === 'state' && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted" role="status" aria-live="polite">Loading...</div></div>}>
             <StateSelection
               t={t}
               usStates={usStates}
@@ -539,7 +568,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             QUESTIONNAIRE PAGE
         ==================================================================== */}
         {step === 'questionnaire' && q && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted" role="status" aria-live="polite">Loading...</div></div>}>
             <Questionnaire
               t={t}
               q={q}
@@ -565,7 +594,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             CONTACT FORM PAGE
         ==================================================================== */}
         {step === 'contact' && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted" role="status" aria-live="polite">Loading...</div></div>}>
             <ContactForm
               t={t}
               contact={contact}
@@ -587,7 +616,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
             RESULTS PAGE
         ==================================================================== */}
         {step === 'results' && (sharedLinkExpired || valuation) && (
-          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted">Loading...</div></div>}>
+          <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="text-textMuted" role="status" aria-live="polite">Loading...</div></div>}>
             <ResultsPage
               t={t}
               valuation={valuation}

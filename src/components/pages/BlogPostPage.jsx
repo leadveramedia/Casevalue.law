@@ -125,7 +125,7 @@ function SidebarCTA({ categories }) {
 
   return (
     <div className="bg-gradient-to-b from-amber-500/20 to-amber-600/10 border-2 border-accent/40 rounded-2xl p-6 text-center mb-6">
-      <DollarSign className="w-10 h-10 text-accent mx-auto mb-3" />
+      <DollarSign className="w-10 h-10 text-accent mx-auto mb-3" aria-hidden="true" />
       <h3 className="text-xl font-bold text-text mb-2">What's My Case Worth?</h3>
       <p className="text-sm text-textMuted mb-4">
         Answer a few simple questions to get an instant estimate of your potential settlement value.
@@ -138,15 +138,15 @@ function SidebarCTA({ categories }) {
       </Link>
       <div className="space-y-1.5 text-xs text-textMuted">
         <div className="flex items-center justify-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-green-400" />
+          <CheckCircle className="w-3.5 h-3.5 text-green-400" aria-hidden="true" />
           No contact info required
         </div>
         <div className="flex items-center justify-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-green-400" />
+          <CheckCircle className="w-3.5 h-3.5 text-green-400" aria-hidden="true" />
           Free & confidential
         </div>
         <div className="flex items-center justify-center gap-1.5">
-          <Lock className="w-3.5 h-3.5 text-green-400" />
+          <Lock className="w-3.5 h-3.5 text-green-400" aria-hidden="true" />
           256-bit encryption
         </div>
       </div>
@@ -311,8 +311,8 @@ export default function BlogPostPage() {
     return (
       <BlogLayout>
         <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
-          <div className="flex flex-col items-center">
-            <Loader className="w-12 h-12 text-accent animate-spin mb-4" />
+          <div className="flex flex-col items-center" role="status" aria-live="polite">
+            <Loader className="w-12 h-12 text-accent animate-spin mb-4" aria-hidden="true" />
             <p className="text-textMuted text-lg">Loading post...</p>
           </div>
         </div>
@@ -476,7 +476,7 @@ export default function BlogPostPage() {
                   key={category}
                   className="inline-flex items-center gap-1 text-sm px-3 py-1 bg-accent/20 text-accent rounded-full border border-accent/30 font-semibold"
                 >
-                  <Tag className="w-3 h-3" />
+                  <Tag className="w-3 h-3" aria-hidden="true" />
                   {category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
                 </span>
               ))}
@@ -496,11 +496,11 @@ export default function BlogPostPage() {
           {/* Meta Information */}
           <div className="flex flex-wrap items-center gap-6 text-textMuted pb-8 mb-8 border-b border-cardBorder">
             <div className="flex items-center gap-2">
-              <User className="w-5 h-5" />
+              <User className="w-5 h-5" aria-hidden="true" />
               <span className="font-medium">{post.author}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
+              <Calendar className="w-5 h-5" aria-hidden="true" />
               <time dateTime={post.publishedAt}>
                 {new Date(post.publishedAt).toLocaleDateString('en-US', {
                   month: 'long',
