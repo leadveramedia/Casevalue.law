@@ -43,13 +43,13 @@ function DateInputField({ value, onChange, helpText }) {
           min="1900-01-01"
           max={new Date().toISOString().split('T')[0]}
           style={SHARED_STYLES.formInputBg}
-          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer [&::-webkit-calendar-picker-indicator]:hidden"
+          className="w-full p-4 md:p-5 pr-14 border-3 border-accent rounded-xl text-textDark placeholder:text-textDark/60 text-base md:text-lg focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all shadow-md [color-scheme:light] cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:top-0 [&::-webkit-calendar-picker-indicator]:w-14 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
           onClick={openDatePicker}
         />
         <button
           type="button"
           onClick={openDatePicker}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
+          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center bg-accent hover:bg-accent/80 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 pointer-events-none"
           aria-label="Open date picker"
         >
           <Calendar className="w-5 h-5 md:w-6 md:h-6 text-textDark" aria-hidden="true" />
