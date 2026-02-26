@@ -434,14 +434,14 @@ export default function EmbedApp() {
         )}
 
         {/* Powered by footer */}
-        <div className="relative z-10 py-3 text-center border-t border-cardBorder bg-primary/30">
+        <div className="relative z-10 py-2 pr-4 text-right">
           <a
             href="https://casevalue.law"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-textMuted hover:text-accent transition-colors"
+            className="text-xs text-textMuted hover:text-accent transition-colors"
           >
-            Powered by <span className="font-semibold text-accent">CaseValue.law</span>
+            Powered by CaseValue.law
           </a>
         </div>
 
