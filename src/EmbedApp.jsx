@@ -83,7 +83,7 @@ export default function EmbedApp() {
     handleCaseSelect,
     handleNextQuestion,
     handlePreviousQuestion
-  } = useAppNavigation(pushStateToHistoryRef, answers, { initialCaseType: effectiveCaseType, initialState });
+  } = useAppNavigation(pushStateToHistoryRef, answers, { initialCaseType: effectiveCaseType, initialState, initialStep: 'select' });
 
   const [contact, setContact] = useState({
     firstName: '',

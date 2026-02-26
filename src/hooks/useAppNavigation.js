@@ -49,13 +49,15 @@ function parseInitialQIdx() {
  * @param {Object} options - Optional configuration
  * @param {string|null} options.initialCaseType - Pre-selected case type from /calculator/:slug route
  * @param {string|null} options.initialState - Pre-selected state (for embed mode)
+ * @param {string|null} options.initialStep - Override the starting step (e.g., 'select' for embed mode)
  * @returns {Object} Navigation state and handlers
  */
-export function useAppNavigation(pushStateToHistoryRef, answers = {}, { initialCaseType = null, initialState = null } = {}) {
+export function useAppNavigation(pushStateToHistoryRef, answers = {}, { initialCaseType = null, initialState = null, initialStep = null } = {}) {
   // Navigation state with lazy initialization from URL hash (or route prop)
   const [step, setStep] = useState(() => {
     if (initialCaseType && initialState) return 'questionnaire';
     if (initialCaseType) return 'state';
+    if (initialStep) return initialStep;
     return parseInitialStep();
   });
   const [selectedCase, setSelectedCase] = useState(() => initialCaseType || parseInitialCase());
