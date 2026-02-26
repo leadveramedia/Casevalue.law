@@ -61,7 +61,7 @@ export default function EmbedApp() {
     || (filteredCaseTypes.length === 1 ? filteredCaseTypes[0].id : null);
 
   // Translations
-  const { lang, setLang, uiTranslations } = useTranslations(initialLang);
+  const { lang, uiTranslations } = useTranslations(initialLang);
   const t = uiTranslations;
 
   // No-op history ref (embed doesn't use browser history)
@@ -73,9 +73,9 @@ export default function EmbedApp() {
   // Navigation state machine
   const {
     step, setStep,
-    selectedCase, setSelectedCase,
+    selectedCase,
     selectedState, setSelectedState,
-    qIdx, setQIdx,
+    qIdx,
     questions,
     visibleQuestions,
     currentQuestion: q,
