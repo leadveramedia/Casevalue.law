@@ -11,7 +11,7 @@ import imageUrlBuilder from '@sanity/image-url';
 export const client = createClient({
   projectId: 's8mux3ix',
   dataset: 'production',
-  apiVersion: '2024-01-01', // Use current date in YYYY-MM-DD format
+  apiVersion: '2026-02-01', // Use current date in YYYY-MM-DD format
   useCdn: true, // Enable CDN for faster, cached responses (set to false for fresh data)
 });
 

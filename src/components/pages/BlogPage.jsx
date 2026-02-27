@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { getAllPosts, urlFor, generateSrcSet } from '../../utils/sanityClient';
-import { Calendar, User, ArrowRight, Loader, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, User, ArrowRight, Loader, ChevronLeft, ChevronRight, Search, X } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import SocialMeta from '../SocialMeta';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
@@ -18,6 +18,7 @@ export default function BlogPage() {
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Scroll to top when component mounts
   useScrollToTop();
@@ -45,9 +46,18 @@ export default function BlogPage() {
   const categories = ['all', ...new Set(posts.flatMap(post => post.categories || []))];
 
   // Filter posts by selected category
-  const filteredPosts = selectedCategory === 'all'
+  const categoryPosts = selectedCategory === 'all'
     ? posts
     : posts.filter(post => post.categories?.includes(selectedCategory));
+
+  // Filter by search query (title + excerpt)
+  const filteredPosts = searchQuery.trim()
+    ? categoryPosts.filter(post => {
+        const q = searchQuery.toLowerCase();
+        return (post.title || '').toLowerCase().includes(q)
+          || (post.excerpt || '').toLowerCase().includes(q);
+      })
+    : categoryPosts;
 
   // Pagination
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
@@ -59,6 +69,13 @@ export default function BlogPage() {
   // Reset to page 1 when category changes
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
+    setSearchQuery('');
+    setCurrentPage(1);
+  };
+
+  // Reset to page 1 when search changes
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
     setCurrentPage(1);
   };
 
@@ -106,6 +123,28 @@ export default function BlogPage() {
             <p className="text-xl text-textMuted max-w-3xl mx-auto">
               Expert guidance on personal injury law, case valuations, and your legal rights
             </p>
+          </div>
+
+          {/* Search Bar */}
+          <div className="max-w-xl mx-auto mb-8 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-textMuted pointer-events-none" aria-hidden="true" />
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search articles..."
+              className="w-full pl-12 pr-10 py-3 bg-card/50 border border-cardBorder rounded-xl text-text placeholder:text-textMuted/60 focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all"
+              aria-label="Search blog posts"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => { setSearchQuery(''); setCurrentPage(1); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-textMuted hover:text-text transition-colors"
+                aria-label="Clear search"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
           </div>
 
           {/* Category Filter */}
@@ -156,7 +195,9 @@ export default function BlogPage() {
               <div className="bg-card backdrop-blur-xl border-2 border-cardBorder rounded-3xl p-8 shadow-card">
                 <p className="text-text text-lg mb-2">No blog posts found</p>
                 <p className="text-textMuted">
-                  {selectedCategory !== 'all'
+                  {searchQuery
+                    ? 'No articles match your search. Try different keywords.'
+                    : selectedCategory !== 'all'
                     ? 'Try selecting a different category.'
                     : 'Check back soon for new content!'}
                 </p>

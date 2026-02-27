@@ -164,8 +164,8 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
 
   // LocalStorage hook for progress saving/loading
   useLocalStorage(
-    { step, selectedCase, selectedState, qIdx, lang, answers, contact },
-    { setStep, setSelectedCase, setSelectedState, setQIdx, setLang, setAnswers, setContact }
+    { step, selectedCase, selectedState, qIdx, lang, answers },
+    { setStep, setSelectedCase, setSelectedState, setQIdx, setLang, setAnswers }
   );
 
   // Metadata hook for SEO management
@@ -366,7 +366,13 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
 
   const submit = useCallback(async () => {
     setError('');
-    
+
+    // Ensure case type and state are selected
+    if (!selectedCase || !selectedState) {
+      setError(t.selectCaseAndState || 'Please select a case type and state before submitting.');
+      return;
+    }
+
     // Validation
     if (!contact.firstName || !contact.email || !contact.phone || !contact.consent) {
       setError(t.fillAllFields);

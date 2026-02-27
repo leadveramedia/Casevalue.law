@@ -5,7 +5,19 @@
 
 const SANITY_PROJECT_ID = 's8mux3ix';
 const SANITY_DATASET = 'production';
-const SANITY_API_VERSION = '2024-01-01';
+const SANITY_API_VERSION = '2026-02-01';
+
+/**
+ * Escape special XML characters to prevent injection
+ */
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
 
 /**
  * Fetch all published blog posts from Sanity
@@ -91,6 +103,13 @@ function generateSitemapXML(blogPosts) {
       hreflang: true
     },
     {
+      loc: 'https://casevalue.law/sitemap',
+      lastmod: '2026-02-27',
+      changefreq: 'monthly',
+      priority: '0.3',
+      hreflang: false
+    },
+    {
       loc: 'https://casevalue.law/embed/docs',
       lastmod: '2026-02-26',
       changefreq: 'monthly',
@@ -156,7 +175,7 @@ function generateSitemapXML(blogPosts) {
       const lastmod = post._updatedAt ? formatDate(post._updatedAt) : today;
       xml += `
   <url>
-    <loc>https://casevalue.law/blog/${post.slug.current}</loc>
+    <loc>https://casevalue.law/blog/${escapeXml(post.slug.current)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

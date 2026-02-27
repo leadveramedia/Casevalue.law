@@ -1,7 +1,8 @@
 /**
  * Footer Component
- * Displays the site footer with links to privacy policy and terms of service
+ * Displays the site footer with links to privacy policy, terms of service, and sitemap
  */
+import { Link } from 'react-router-dom';
 
 export default function Footer({ t, onPrivacyClick, onTermsClick, onGetStarted }) {
   return (
@@ -36,6 +37,13 @@ export default function Footer({ t, onPrivacyClick, onTermsClick, onGetStarted }
         >
           {t.termsOfService}
         </button>
+        <span className="hidden sm:inline text-textMuted/60" aria-hidden="true">|</span>
+        <Link
+          to="/sitemap"
+          className="text-accent hover:text-accentHover underline transition-colors text-base md:text-lg font-semibold"
+        >
+          {t.sitemap || 'Sitemap'}
+        </Link>
       </div>
       <p className="text-sm md:text-base text-textMuted">
         © {new Date().getFullYear()} CaseValue.law - {t.copyright}

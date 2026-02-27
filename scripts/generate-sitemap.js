@@ -102,6 +102,13 @@ function generateSitemapXML(blogPosts) {
       hreflang: true,
     })),
     {
+      loc: 'https://casevalue.law/sitemap',
+      lastmod: '2026-02-27',
+      changefreq: 'monthly',
+      priority: '0.3',
+      hreflang: false
+    },
+    {
       loc: 'https://casevalue.law/embed/docs',
       lastmod: '2026-02-26',
       changefreq: 'monthly',

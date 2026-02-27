@@ -16,7 +16,6 @@ export function useLocalStorage(state, setters) {
     qIdx,
     lang,
     answers,
-    contact
   } = state;
 
   const {
@@ -26,7 +25,6 @@ export function useLocalStorage(state, setters) {
     setQIdx,
     setLang,
     setAnswers,
-    setContact
   } = setters;
 
   // Load saved progress from localStorage on mount
@@ -72,7 +70,7 @@ export function useLocalStorage(state, setters) {
               setQIdx(parsed.qIdx || 0);
               setLang(parsed.lang || 'en');
               setAnswers(parsed.answers || {});
-              setContact(parsed.contact || { firstName: '', lastName: '', email: '', phone: '', consent: false });
+              // contact intentionally not restored from localStorage (PII protection)
             } else {
               // Invalid step, clear the saved data
               localStorage.removeItem('casevalue_progress');
@@ -104,12 +102,12 @@ export function useLocalStorage(state, setters) {
         qIdx,
         lang,
         answers,
-        contact,
+        // contact intentionally excluded — PII should not persist in localStorage
         timestamp: Date.now()
       };
       localStorage.setItem('casevalue_progress', JSON.stringify(progressData));
     } catch (error) {
       console.error('Failed to save progress:', error);
     }
-  }, [step, selectedCase, selectedState, qIdx, lang, answers, contact]);
+  }, [step, selectedCase, selectedState, qIdx, lang, answers]);
 }

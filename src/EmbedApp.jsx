@@ -117,6 +117,18 @@ export default function EmbedApp() {
     setError
   );
 
+  // Derive target origin from document.referrer for secure postMessage
+  const targetOrigin = (() => {
+    try {
+      if (document.referrer) {
+        return new URL(document.referrer).origin;
+      }
+    } catch (e) {
+      // Invalid referrer URL
+    }
+    return '*'; // Fallback when referrer is unavailable (e.g., privacy settings)
+  })();
+
   // ResizeObserver — post height to parent for iframe auto-sizing
   const rootRef = useRef(null);
   useEffect(() => {
@@ -130,7 +142,7 @@ export default function EmbedApp() {
           const height = entry.borderBoxSize?.[0]?.blockSize ?? entry.target.scrollHeight;
           window.parent.postMessage(
             { type: 'casevalue-resize', height: Math.ceil(height) },
-            '*'
+            targetOrigin
           );
         }
       }, 100);
@@ -141,7 +153,7 @@ export default function EmbedApp() {
       clearTimeout(debounceTimer);
       observer.disconnect();
     };
-  }, []);
+  }, [targetOrigin]);
 
   // Update HTML lang attribute
   useEffect(() => {

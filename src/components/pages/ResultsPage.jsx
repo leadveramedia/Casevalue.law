@@ -151,6 +151,18 @@ function ResultsPage({
         {isSharedResult ? t.sharedResults : t.yourEstimate}
       </h2>
 
+      {/* Shared result disclaimer banner */}
+      {isSharedResult && (
+        <div className="bg-yellow-500/10 border-2 border-yellow-500/40 rounded-2xl p-4 text-center" role="alert">
+          <p className="text-yellow-400 font-bold text-lg">
+            {t.sharedResultDisclaimer || 'Shared Result \u2014 Values Not Verified'}
+          </p>
+          <p className="text-text/60 text-sm mt-1">
+            {t.sharedResultDisclaimerDetail || 'This estimate was shared by another user. Values have not been independently verified.'}
+          </p>
+        </div>
+      )}
+
       {/* Valuation Card */}
       <div className="bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-2 border-accent/40 shadow-2xl">
         <div className="text-center mb-10">

@@ -271,16 +271,20 @@ export default function BlogPostPage() {
       ),
     },
     marks: {
-      link: ({ children, value }) => (
-        <a
-          href={value.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-accent hover:text-accentHover underline font-semibold"
-        >
-          {children}
-        </a>
-      ),
+      link: ({ children, value }) => {
+        const href = value.href || '#';
+        const isSafe = /^(https?:\/\/|\/|mailto:|#)/.test(href);
+        return (
+          <a
+            href={isSafe ? href : '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent hover:text-accentHover underline font-semibold"
+          >
+            {children}
+          </a>
+        );
+      },
       strong: ({ children }) => (
         <strong className="font-bold text-text">{children}</strong>
       ),

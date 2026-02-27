@@ -71,7 +71,8 @@ export function decodeShareData(encoded) {
         factors: payload.v.f,
         warnings: payload.v.w
       },
-      expiresAt: payload.exp
+      expiresAt: payload.exp,
+      isSharedResult: true
     };
   } catch (e) {
     console.error('Failed to decode share data:', e);

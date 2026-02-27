@@ -17,8 +17,8 @@ export const calculateValuation = (caseType, answers, state) => {
   const warnings = [];
 
   // Pre-parse common economic fields shared across multiple case types
-  const medicalBills = parseFloat(answers.medical_bills) || 0;
-  const annualIncome = parseFloat(answers.annual_income) || 0;
+  const medicalBills = Math.min(parseFloat(answers.medical_bills) || 0, 50000000);
+  const annualIncome = Math.min(parseFloat(answers.annual_income) || 0, 10000000);
   const weeksUnableToWork = parseFloat(answers.weeks_unable_to_work) || 0;
   const lostWages = (annualIncome / 52) * weeksUnableToWork;
 
@@ -315,7 +315,7 @@ export const calculateValuation = (caseType, answers, state) => {
 
     case 'class_action':
       const individualDamages = parseFloat(answers.individual_damages) || 1000;
-      const classMembers = parseFloat(answers.num_class_members) || 100;
+      const classMembers = Math.min(parseFloat(answers.num_class_members) || 100, 100000);
       const durationHarm = parseFloat(answers.duration_of_harm) || 12;
 
       baseValue = individualDamages * classMembers;

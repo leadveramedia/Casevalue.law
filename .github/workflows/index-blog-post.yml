@@ -19,17 +19,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate payload
+        env:
+          SLUG: ${{ github.event.client_payload.slug }}
+          ACTION: ${{ github.event.client_payload.action }}
         run: |
-          if [ -z "${{ github.event.client_payload.slug }}" ]; then
+          if [ -z "$SLUG" ]; then
             echo "Error: No slug provided in payload"
             exit 1
           fi
-          echo "Processing blog post: ${{ github.event.client_payload.slug }}"
-          echo "Action type: ${{ github.event.client_payload.action }}"
+          # Validate slug format (lowercase alphanumeric + hyphens only)
+          if ! echo "$SLUG" | grep -qE '^[a-z0-9-]+$'; then
+            echo "Error: Invalid slug format"
+            exit 1
+          fi
+          echo "Processing blog post: $SLUG"
+          echo "Action type: $ACTION"
 
       - name: Authenticate to Google Cloud
         id: auth
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
@@ -37,14 +45,14 @@ jobs:
           access_token_scopes: 'https://www.googleapis.com/auth/indexing'
 
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+        uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f # v2.2.1
 
       - name: Submit URL to Google Indexing API
         env:
           ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          SLUG: ${{ github.event.client_payload.slug }}
+          ACTION: ${{ github.event.client_payload.action }}
         run: |
-          SLUG="${{ github.event.client_payload.slug }}"
-          ACTION="${{ github.event.client_payload.action }}"
           URL="https://casevalue.law/blog/${SLUG}"
 
           # Determine notification type
@@ -84,9 +92,12 @@ jobs:
           fi
 
       - name: Summary
+        env:
+          SLUG: ${{ github.event.client_payload.slug }}
+          ACTION: ${{ github.event.client_payload.action }}
         run: |
           echo "## Blog Post Indexed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **URL:** https://casevalue.law/blog/${{ github.event.client_payload.slug }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Action:** ${{ github.event.client_payload.action }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL:** https://casevalue.law/blog/${SLUG}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Action:** ${ACTION}" >> $GITHUB_STEP_SUMMARY
           echo "- **Time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

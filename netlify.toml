@@ -20,10 +20,11 @@
   [headers.values]
     # X-Frame-Options removed — using CSP frame-ancestors instead (can be overridden per-path for /embed)
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
+    X-XSS-Protection = "0"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     # HSTS - Force HTTPS for all requests
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     # Content Security Policy - controls which resources can be loaded
     # - 'self': same origin
     # - 'unsafe-inline': needed for Tailwind CSS and inline styles
