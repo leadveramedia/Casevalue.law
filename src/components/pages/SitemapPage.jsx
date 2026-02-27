@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { Home, Scale, MapPin, BookOpen } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import SocialMeta from '../SocialMeta';
-import { caseSlugToId, caseIdToSlug } from '../../constants/caseTypeSlugs';
+import { caseSlugToId } from '../../constants/caseTypeSlugs';
 import { allStateSlugs, stateSlugToInfo } from '../../constants/stateSlugMap';
 
 const CANONICAL_URL = 'https://casevalue.law/sitemap';
