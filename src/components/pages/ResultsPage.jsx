@@ -240,6 +240,35 @@ function ResultsPage({
           </div>
         )}
 
+        {/* Lemon Law Recovery Breakdown */}
+        {valuation.breakdown && valuation.breakdown.vehiclePurchasePrice > 0 && (
+          <div className="border-t-2 border-primary/20 pt-6 mb-8">
+            <h3 className="text-xl font-bold text-text mb-4">{t.recoveryBreakdown || 'Recovery Breakdown'}</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                <span>{t.vehiclePurchasePrice || 'Vehicle Purchase Price'}</span>
+                <span className="font-semibold text-accent">${valuation.breakdown.vehiclePurchasePrice.toLocaleString()}</span>
+              </div>
+              {valuation.breakdown.mileageOffset > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.mileageOffset || 'Mileage Offset Deduction'}</span>
+                  <span className="font-semibold text-red-400">-${valuation.breakdown.mileageOffset.toLocaleString()}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                <span>{t.estimatedRecovery || 'Estimated Recovery'}</span>
+                <span className="font-semibold text-accent">${valuation.breakdown.estimatedRecovery.toLocaleString()}</span>
+              </div>
+              {valuation.breakdown.attorneyFees > 0 && (
+                <div className="flex justify-between items-center text-text/80 py-2 border-b border-primary/10">
+                  <span>{t.attorneyFeeShifting || 'Attorney Fees (manufacturer pays)'}</span>
+                  <span className="font-semibold text-green-400">+${valuation.breakdown.attorneyFees.toLocaleString()}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Factors */}
         <div className="border-t-2 border-primary/20 pt-8">
           <h3 className="font-bold mb-6 flex items-center gap-3 text-xl md:text-2xl text-text">

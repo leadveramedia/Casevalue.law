@@ -12,6 +12,8 @@ Legal case valuation calculator for personal injury cases. Users select a case t
 - React 18 (CRA + CRACO)
 - Tailwind CSS
 - Custom i18n (no library)
+- Sanity CMS (blog content)
+- Netlify (hosting, serverless functions, form honeypot)
 - Static site (no backend)
 
 ---
@@ -54,16 +56,18 @@ src/
 | File | Purpose | Lines |
 |------|---------|-------|
 | `src/utils/getQuestions.js` | Question arrays for each case type | ~200 |
-| `src/utils/calculateValuation.js` | Valuation formulas for all case types | ~900 |
+| `src/utils/calculateValuation.js` | Valuation formulas for all case types (inputs clamped) | ~900 |
 | `src/constants/caseTypes.js` | Case type IDs, option arrays | ~180 |
 | `src/constants/stateLegalDatabase.js` | State rules (SOL, caps, negligence) | ~1200 |
 | `src/constants/caseTypeSlugs.js` | SEO slugs, headings, intros, FAQs per case type | ~350 |
 | `src/constants/stateSlugMap.js` | State slug ↔ code ↔ name mappings, negligence labels | ~100 |
 | `src/translations/ui-en.js` | English UI translations | ~400 |
 | `src/hooks/useAppNavigation.js` | Navigation state machine | ~200 |
-| `src/components/pages/ResultsPage.jsx` | Results display with breakdown | ~350 |
-| `src/Router.jsx` | All routes including SEO landing pages | ~150 |
-| `netlify/functions/sitemap.js` | **Production sitemap** (authoritative — not the static file) | ~100 |
+| `src/components/pages/ResultsPage.jsx` | Results display with breakdown + shared-result disclaimer | ~360 |
+| `src/components/pages/SitemapPage.jsx` | User-facing HTML sitemap (grouped sections) | ~140 |
+| `src/Router.jsx` | All routes including SEO landing pages | ~180 |
+| `netlify/functions/sitemap.js` | **Production sitemap** (authoritative — not the static file) | ~215 |
+| `craco.config.js` | Webpack overrides (no source maps, strip console in prod) | ~25 |
 
 ---
 
@@ -173,6 +177,11 @@ Three tiers of SEO landing pages sit on top of the calculator app:
 | `/calculator/:caseSlug` | `CalculatorLandingPage` | Practice area landing (FAQ schema, Browse by State grid) |
 | `/states/:stateSlug` | `StateHubPage` | State hub — pick practice area for that state |
 | `/:stateSlug/:caseSlug-calculator` | `StateCalculatorPage` | State × case type landing (765 pages) |
+| `/blog` | `BlogPage` | Blog listing with search + category filter |
+| `/blog/:slug` | `BlogPostPage` | Individual blog post (Sanity CMS) |
+| `/sitemap` | `SitemapPage` | User-facing HTML sitemap (grouped sections) |
+| `/embed` | `EmbedApp` | Embeddable calculator widget (iframe) |
+| `/embed/docs` | `EmbedDocsPage` | Embed integration docs for webmasters |
 
 **Key constants for these pages:**
 - `caseTypeSlugs.js` — `caseIdToSlug`, `caseSlugToId`, `caseTypeContent` (heading/intro/FAQs), `caseTypeSEO` (title/description)
@@ -189,6 +198,24 @@ Three tiers of SEO landing pages sit on top of the calculator app:
 
 **Sitemaps:** `netlify/functions/sitemap.js` is the production sitemap. `scripts/generate-sitemap.js` generates the static fallback. Both include all three page tiers. When adding new routes, update both.
 
+**Blog search:** `BlogPage.jsx` has a client-side search bar that filters posts by title + excerpt. Works alongside category filter tabs — both apply together. Resets pagination on search/category change.
+
+---
+
+## Security
+
+- **GitHub Actions**: SHA-pinned all third-party actions; slug/payload values passed via `env:` not inline `${{ }}` to prevent script injection
+- **Production build**: Source maps disabled, `console.log` stripped via Terser (configured in `craco.config.js`)
+- **Headers** (`netlify.toml`): CSP, `Permissions-Policy`, HSTS with `preload`, `X-Content-Type-Options: nosniff`
+- **Sensitive paths blocked** (`public/_redirects`): `/.env`, `/.git/*`, `/package.json`, `/netlify.toml` → 404
+- **Shared results**: Disclaimer banner on shared result URLs (`isSharedResult` flag in `shareUtils.js`)
+- **No PII in localStorage**: `useLocalStorage.js` no longer persists contact info (name/email/phone)
+- **Input clamping**: `calculateValuation.js` caps medical bills, income, class members to sane maximums
+- **CMS link sanitization**: `BlogPostPage.jsx` validates link protocols (blocks `javascript:`, `data:`)
+- **Embed postMessage**: `EmbedApp.jsx` restricts `postMessage` to parent origin (not `*`)
+- **Form honeypot**: Handled server-side by Netlify (no client-side implementation needed)
+- **XML escaping**: `netlify/functions/sitemap.js` escapes blog slugs in sitemap output
+
 ---
 
 ## Recent Features
@@ -198,3 +225,6 @@ Three tiers of SEO landing pages sit on top of the calculator app:
 - **Code Cleanup** (Feb 2026): Removed dead hooks (`useFormSubmission`, `useQuestionnaireState`), extracted `DontKnowButton` component, consolidated duplicate `parseFloat` calls in `calculateValuation.js` into function-scope variables, removed `@vue/preload-webpack-plugin` devDependency
 - **Workers' Comp Help Text** (Feb 2026): All 10 Workers' Comp questions now have full help text in EN, ES, and ZH
 - **SEO Landing Pages** (Feb 2026): 3-tier landing page system (calculator, state hub, state × case type), state flag backgrounds, internal linking across 4 touchpoints, both sitemaps updated
+- **Security Hardening** (Feb 2026): Red team remediation — 16 fixes across GitHub Actions, headers, input validation, PII removal, CMS sanitization, embed origin restriction
+- **HTML Sitemap** (Feb 2026): `/sitemap` page with grouped sections (Home, Calculators, States, Resources) + footer link
+- **Blog Search** (Feb 2026): Client-side search bar on `/blog` filtering by title + excerpt, works with category filter

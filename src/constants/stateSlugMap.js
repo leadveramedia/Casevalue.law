@@ -51,6 +51,7 @@ export const caseTypeToDbKey = {
   civil_rights: 'civilRights',
   ip: 'intellectualProperty',
   workers_comp: 'workersCompensation',
+  lemon_law: 'lemonLaw',
 };
 
 // Human-readable negligence system labels

@@ -1115,5 +1115,92 @@ Si su discapacidad permanente le impide realizar su trabajo anterior, la rehabil
 En ${state}, los trabajadores que no pueden regresar a su ocupación anterior debido a discapacidad permanente a menudo tienen derecho a beneficios de rehabilitación vocacional, suplementos de regreso al trabajo, o liquidaciones de discapacidad permanente aumentadas. La incapacidad para regresar a su empleo anterior demuestra el impacto real de su lesión en su capacidad de ganancia.
 
 Documente todas las restricciones laborales permanentes de su médico y compárelas con los requisitos de su trabajo anterior. Si hay un desajuste—por ejemplo, su trabajo requiere levantar objetos pesados pero tiene restricciones permanentes de levantamiento—esto respalda beneficios aumentados en ${state}. Su empleador puede estar obligado a ofrecerle trabajo alternativo dentro de sus restricciones si está disponible.`
+  },
+
+  // ========================================================================
+  // TEXTO DE AYUDA - LEY LIMÓN
+  // ========================================================================
+  purchase_date: {
+    title: "Por qué importa la fecha de compra del vehículo",
+    getContent: (state) => `La fecha de compra es el punto de partida para determinar si su vehículo está dentro del período de cobertura de la ley limón de ${state}. La mayoría de los estados requieren que los defectos aparezcan dentro de un período específico — típicamente 12 a 24 meses desde la compra.
+
+La fecha de compra también afecta el plazo de prescripción para presentar una reclamación de ley limón en ${state}. La mayoría de los estados permiten 3 a 4 años desde la fecha de compra. Además, la fecha de compra ayuda a calcular cualquier deducción por kilometraje que el fabricante pueda restar de su recuperación.`
+  },
+
+  vehicle_type: {
+    title: "Cómo el tipo de vehículo afecta su reclamación",
+    getContent: (state) => `El tipo de vehículo que compró determina directamente qué protecciones legales están disponibles bajo la ley limón de ${state}. La mayoría de las leyes limón estatales cubren vehículos de pasajeros estándar, pero la cobertura para motocicletas, vehículos recreativos y botes varía significativamente.
+
+Los vehículos recreativos (RV) presentan un desafío único porque involucran dos fabricantes: el fabricante del chasis y el fabricante del área habitable. Los botes están cubiertos por la ley limón en muy pocos estados — la mayoría de los propietarios deben recurrir a la Ley Federal Magnuson-Moss o reclamaciones bajo el UCC.`
+  },
+
+  vehicle_purchase_price: {
+    title: "Por qué el precio de compra es la base de su recuperación",
+    getContent: (state) => `En casos de ley limón, su remedio principal es la recompra o reemplazo del vehículo. El precio de compra establece el monto máximo que el fabricante debe reembolsar si su vehículo califica como "limón" bajo la ley de ${state}.
+
+El fabricante puede deducir una "compensación por kilometraje" — una reducción basada en las millas conducidas antes del primer defecto. En ${state}, esta compensación se calcula típicamente dividiendo el kilometraje al primer defecto entre 120,000 millas y multiplicando por el precio de compra.`
+  },
+
+  defect_severity: {
+    title: "Cómo la gravedad del defecto impacta el valor de su caso",
+    getContent: (state) => `La gravedad del defecto es el factor más importante para determinar si su vehículo califica como limón bajo la ley de ${state}. Los defectos críticos para la seguridad — problemas con frenos, dirección o airbags — crean las reclamaciones más fuertes.
+
+Defectos menores como problemas eléctricos o características de comodidad pueden apoyar una reclamación, pero típicamente requieren más intentos de reparación. Algunos estados excluyen específicamente defectos cosméticos o defectos que no afectan sustancialmente el uso, valor o seguridad del vehículo.`
+  },
+
+  repair_attempts: {
+    title: "Por qué el número de intentos de reparación es crítico",
+    getContent: (state) => `La mayoría de las leyes limón, incluyendo la de ${state}, requieren un número mínimo de intentos de reparación antes de que el vehículo califique como limón. Este umbral de "presunción" — típicamente 3 a 4 intentos — traslada la carga de la prueba al fabricante.
+
+Cada intento de reparación debe estar documentado con una orden de reparación de un concesionario autorizado. En ${state}, las reparaciones en instalaciones no autorizadas pueden no contar hacia la presunción. Algunos estados tienen umbrales más bajos para defectos relacionados con la seguridad.`
+  },
+
+  days_out_of_service: {
+    title: "Cómo los días fuera de servicio fortalecen su reclamación",
+    getContent: (state) => `Además de los intentos de reparación, la mayoría de las leyes limón incluyendo la de ${state} cuentan los días acumulados que su vehículo ha estado fuera de servicio. Si este total excede el umbral estatal — típicamente 30 días — se activa la presunción de la ley limón.
+
+Estos días son acumulativos a través de todas las visitas de reparación. Cada día que el vehículo está en el taller contando. Documente cada fecha de entrega y recogida en sus órdenes de reparación.`
+  },
+
+  vehicle_new_when_purchased: {
+    title: "Cobertura de la ley limón para vehículos nuevos vs. usados",
+    getContent: (state) => `Si su vehículo era nuevo o usado cuando lo compró afecta dramáticamente sus protecciones. En ${state}, la cobertura de la ley limón para vehículos nuevos es típicamente fuerte y bien establecida.
+
+La cobertura para vehículos usados varía ampliamente. Algunos estados como California, Nueva York, Connecticut y Massachusetts tienen leyes limón específicas para autos usados. Si ${state} no cubre vehículos usados, puede tener remedios bajo la Ley Federal Magnuson-Moss o el UCC.`
+  },
+
+  manufacturer_response: {
+    title: "Cómo la respuesta del fabricante afecta su caso",
+    getContent: (state) => `La respuesta del fabricante a sus quejas sobre defectos es un factor significativo. Un fabricante que se niega a reconocer el problema o no responde fortalece su caso — demuestra mala fe.
+
+Si el fabricante ha reconocido el defecto o intentó una reparación parcial, esto puede ayudar a su caso al establecer que el defecto existe. En ${state}, la conducta del fabricante puede afectar si hay daños adicionales disponibles. Documente todas las comunicaciones por escrito.`
+  },
+
+  manufacturer_notified: {
+    title: "Por qué la notificación escrita al fabricante es esencial",
+    getContent: (state) => `Muchas leyes limón, incluyendo la de ${state}, requieren que notifique al fabricante por escrito antes de presentar una reclamación. Esto le da al fabricante una oportunidad final de reparar el defecto.
+
+La notificación debe enviarse por correo certificado al departamento de asuntos del consumidor del fabricante. El aviso debe describir el defecto, listar todos los intentos de reparación y exigir la recompra o reemplazo. En ${state}, los fabricantes típicamente tienen 10 a 30 días para responder.`
+  },
+
+  mileage_at_first_defect: {
+    title: "Por qué el kilometraje al primer defecto es un factor clave",
+    getContent: (state) => `El kilometraje cuando apareció el defecto determina dos aspectos críticos de su reclamación en ${state}. Primero, establece si el defecto apareció dentro del período de cobertura del estado, definido por un límite de tiempo y un límite de kilometraje.
+
+Segundo, el kilometraje afecta directamente la deducción por uso — el monto que el fabricante puede restar de su reembolso. La fórmula estándar divide el kilometraje al primer defecto entre 120,000 millas y multiplica por el precio de compra. Menor kilometraje significa una menor deducción y un mayor reembolso.`
+  },
+
+  rv_chassis_defect: {
+    title: "Defectos del chasis vs. área habitable en reclamaciones de RV",
+    getContent: (state) => `Los vehículos recreativos involucran dos fabricantes separados. El chasis — incluyendo motor, transmisión y componentes de conducción — generalmente es fabricado por un fabricante de automóviles. El área habitable — plomería, electricidad, deslizadores — es construida por el fabricante del RV.
+
+Esta distinción importa en ${state} porque el fabricante del chasis puede estar sujeto a la ley limón automotriz, mientras que los defectos del área habitable pueden caer bajo diferentes leyes de protección al consumidor.`
+  },
+
+  boat_engine_defect: {
+    title: "Defectos del motor en reclamaciones de ley limón para botes",
+    getContent: (state) => `Los defectos del motor son el tipo más comúnmente cubierto bajo las leyes limón que incluyen embarcaciones. Un bote con un motor fundamentalmente defectuoso que no puede ser reparado tiene la reclamación más fuerte posible.
+
+La mayoría de los estados no tienen leyes limón que cubran botes. Los propietarios de botes típicamente recurren a la Ley Federal Magnuson-Moss o garantías implícitas del UCC. Estas reclamaciones pueden ser efectivas pero no ofrecen las mismas presunciones estatutarias que las leyes limón automotrices.`
   }
 };

@@ -1070,4 +1070,91 @@ In ${state}, your treating physician's work restrictions are compared against yo
 The inability to return to your pre-injury job also affects how permanent disability benefits are calculated in ${state}. Some states apply wage-loss formulas that account for earning capacity reduction, which can significantly increase your permanent disability award. Document your prior job duties carefully and obtain clear written restrictions from your physician to establish your limitations on record.`
   },
 
+  // ========================================================================
+  // LEMON LAW HELP TEXT
+  // ========================================================================
+  purchase_date: {
+    title: "Why Your Vehicle Purchase Date Matters",
+    getContent: (state) => `The purchase date is the starting point for determining whether your vehicle falls within ${state}'s lemon law coverage period. Most states require that defects appear within a specific time window — typically 12 to 24 months from the date of purchase. If your vehicle's problems started after this period expired, your lemon law claim may be weakened or unavailable.
+
+The purchase date also affects your statute of limitations for filing a lemon law claim in ${state}. Most states allow 3 to 4 years from the purchase date to file a lawsuit. Additionally, the purchase date helps calculate any mileage offset the manufacturer may deduct from your recovery — the longer you've owned the vehicle, the larger this deduction may be.`
+  },
+
+  vehicle_type: {
+    title: "How Vehicle Type Affects Your Lemon Law Claim",
+    getContent: (state) => `The type of vehicle you purchased directly determines what legal protections are available under ${state}'s lemon law. Most state lemon laws cover standard passenger vehicles — cars, trucks, and SUVs — but coverage for motorcycles, RVs, and boats varies significantly from state to state.
+
+Recreational vehicles (RVs) present a unique challenge because they involve two manufacturers: the chassis manufacturer and the coach/living area manufacturer. In ${state}, lemon law coverage for RVs may apply to the chassis, the living area, or both. Boats and watercraft are covered by lemon law in very few states — most boat owners must rely on the federal Magnuson-Moss Warranty Act or UCC breach of warranty claims instead.`
+  },
+
+  vehicle_purchase_price: {
+    title: "Why Purchase Price Is the Foundation of Your Recovery",
+    getContent: (state) => `In lemon law cases, your primary remedy is a vehicle buyback or replacement. The purchase price establishes the maximum amount the manufacturer must refund if your vehicle qualifies as a "lemon" under ${state} law. This includes the purchase price, taxes, registration fees, and often incidental damages like rental car costs.
+
+The manufacturer may be entitled to deduct a "mileage offset" — a reduction based on the miles you drove before the first defect appeared. In ${state}, this offset is typically calculated as mileage at first defect divided by 120,000 miles, multiplied by the purchase price. A higher purchase price means more at stake, which often motivates manufacturers to resolve claims more quickly.`
+  },
+
+  defect_severity: {
+    title: "How Defect Severity Impacts Your Case Value",
+    getContent: (state) => `Defect severity is the most important factor in determining whether your vehicle qualifies as a lemon under ${state} law. Safety-critical defects — problems with brakes, steering, airbags, or systems that could cause injury — create the strongest lemon law claims. Drivetrain defects that render the vehicle inoperable also create strong claims.
+
+Lesser defects like electrical problems, comfort features, or cosmetic issues can still support a lemon law claim in ${state}, but they typically require more repair attempts and longer out-of-service periods. Some states specifically exclude cosmetic defects or defects that do not substantially impair the vehicle's use, value, or safety.`
+  },
+
+  repair_attempts: {
+    title: "Why the Number of Repair Attempts Is Critical",
+    getContent: (state) => `Most state lemon laws, including ${state}'s, require a minimum number of repair attempts before the vehicle qualifies as a lemon. This "presumption" threshold — typically 3 to 4 repair attempts for the same defect — shifts the burden to the manufacturer to prove the vehicle is not defective.
+
+Each repair attempt should be documented with a repair order from an authorized dealer showing the date, complaint, work performed, and whether the problem was resolved. In ${state}, repairs at non-authorized facilities may not count toward the presumption. Some states have lower thresholds for safety-critical defects (sometimes just 1-2 attempts).`
+  },
+
+  days_out_of_service: {
+    title: "How Days Out of Service Strengthen Your Claim",
+    getContent: (state) => `In addition to repair attempts, most state lemon laws including ${state}'s count the total cumulative days your vehicle has been out of service for repairs. If this total exceeds the state threshold — typically 30 days — the lemon law presumption is triggered even if repair attempts haven't met the separate threshold.
+
+These days are cumulative across all repair visits for any defect, not just a single problem. Each day the vehicle is at the dealership or shop waiting for parts, diagnosis, or repair counts. Document every drop-off and pick-up date on your repair orders. In ${state}, weekends and holidays while the vehicle is at the shop generally count toward the total.`
+  },
+
+  vehicle_new_when_purchased: {
+    title: "New vs. Used Vehicle Lemon Law Coverage",
+    getContent: (state) => `Whether your vehicle was new or used when purchased dramatically affects your lemon law protections. In ${state}, lemon law coverage for new vehicles is typically strong and well-established, applying during the manufacturer's warranty period.
+
+Used vehicle lemon law coverage varies widely by state. Some states like California, New York, Connecticut, and Massachusetts have specific used car lemon laws. Others provide no lemon law protection for used vehicles. If ${state} does not cover used vehicles, you may still have remedies under the federal Magnuson-Moss Warranty Act or the Uniform Commercial Code (UCC) — but these claims are generally harder to win.`
+  },
+
+  manufacturer_response: {
+    title: "How the Manufacturer's Response Affects Your Case",
+    getContent: (state) => `The manufacturer's response to your defect complaints is a significant factor in evaluating your lemon law claim. A manufacturer that refuses to acknowledge the problem or fails to respond strengthens your case — it demonstrates bad faith and unwillingness to honor warranty obligations.
+
+If the manufacturer has acknowledged the defect or attempted a partial fix, this can help your case by establishing that the defect exists. In ${state}, the manufacturer's conduct during the repair process can affect whether additional damages — such as civil penalties for willful violations — are available. Document all communications with the manufacturer in writing.`
+  },
+
+  manufacturer_notified: {
+    title: "Why Written Manufacturer Notification Is Essential",
+    getContent: (state) => `Many state lemon laws, including ${state}'s, require that you notify the manufacturer in writing before filing a claim. This gives the manufacturer a final opportunity to repair the defect. Failure to provide this notice can delay or bar your claim.
+
+Written notification should be sent via certified mail to the manufacturer's consumer affairs or legal department — not just the local dealership. The notice should describe the defect, list all repair attempts with dates, and demand a buyback or replacement. In ${state}, manufacturers typically have 10 to 30 days to respond after receiving notice.`
+  },
+
+  mileage_at_first_defect: {
+    title: "Why Mileage at First Defect Is a Key Factor",
+    getContent: (state) => `The mileage when the defect first appeared determines two critical aspects of your claim in ${state}. First, it establishes whether the defect appeared within the state's lemon law coverage period, which is typically defined by both a time limit and a mileage limit.
+
+Second, mileage at first defect directly affects the mileage offset — the amount the manufacturer can deduct from your buyback refund. The standard formula divides your mileage at first defect by a statutory denominator (often 120,000 miles) and multiplies by the purchase price. Lower mileage means a smaller deduction and a larger refund.`
+  },
+
+  rv_chassis_defect: {
+    title: "Chassis vs. Living Area Defects in RV Claims",
+    getContent: (state) => `Recreational vehicles involve two separate manufacturers. The chassis — including engine, transmission, frame, and driving components — is usually made by a major automaker. The living area — plumbing, electrical, slide-outs — is built by the RV manufacturer.
+
+This distinction matters in ${state} because the chassis manufacturer may be subject to the automobile lemon law, while living area defects may fall under different warranty or consumer protection laws. Chassis defects generally create stronger lemon law claims because they fall squarely within automobile lemon law statutes.`
+  },
+
+  boat_engine_defect: {
+    title: "Engine Defects in Boat Lemon Law Claims",
+    getContent: (state) => `Engine and motor defects are the most commonly covered type of boat defect under the limited number of state lemon laws that include watercraft. A boat with a fundamentally defective engine that cannot be repaired after multiple attempts has the strongest possible claim.
+
+Most states do not have specific lemon laws covering boats. In those states, boat owners with defective engines typically pursue claims under the federal Magnuson-Moss Warranty Act or UCC implied warranty of merchantability. These claims can still be effective but may not offer the same statutory presumptions or attorney fee shifting that automobile lemon laws provide.`
+  },
+
 };

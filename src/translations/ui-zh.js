@@ -136,7 +136,8 @@ export const uiTranslationsZH = {
       professional: "专业失职",
       civil_rights: "民权侵犯",
       ip: "知识产权",
-      workers_comp: "工伤赔偿"
+      workers_comp: "工伤赔偿",
+      lemon_law: "柠檬法"
     },
     questions: {
       incident_date: "事件是什么时候发生的？",
@@ -275,7 +276,20 @@ export const uiTranslationsZH = {
       future_medical_needed: "将来需要医疗吗？",
       reached_mmi: "您是否已达到最大医疗改善 (MMI)？",
       vocational_rehab_needed: "您需要职业康复吗？",
-      can_return_same_job: "您能回到以前的工作岗位吗？"
+      can_return_same_job: "您能回到以前的工作岗位吗？",
+      // 柠檬法
+      purchase_date: "您何时购买了该车辆？",
+      vehicle_type: "涉及什么类型的车辆？",
+      vehicle_purchase_price: "车辆的购买价格是多少？($)",
+      defect_severity: "缺陷有多严重？",
+      repair_attempts: "已经进行了多少次维修尝试？",
+      days_out_of_service: "车辆因维修总共停用了多少天？",
+      vehicle_new_when_purchased: "购买时车辆是新的吗？",
+      manufacturer_response: "制造商如何回应？",
+      manufacturer_notified: "您是否已书面通知制造商？",
+      mileage_at_first_defect: "缺陷首次出现时的里程是多少？",
+      rv_chassis_defect: "缺陷是在底盘上（而不是生活区域）吗？",
+      boat_engine_defect: "缺陷是在发动机或马达上吗？"
     },
     options: {
       minor: "轻微（割伤、瘀伤）",
@@ -363,6 +377,22 @@ export const uiTranslationsZH = {
       mild_11_25: "11-25% - 轻度残疾",
       moderate_26_50: "26-50% - 中度残疾",
       severe_51_75: "51-75% - 重度残疾",
-      extreme_76_100: "76-100% - 极重度残疾"
+      extreme_76_100: "76-100% - 极重度残疾",
+      // 柠檬法 — 车辆类型
+      car: "轿车",
+      truck: "卡车 / SUV",
+      motorcycle: "摩托车",
+      rv: "房车 / 露营车",
+      boat: "船 / 水上交通工具",
+      // 柠檬法 — 缺陷严重程度
+      safety_critical: "安全关键（刹车、转向、安全气囊）",
+      drivetrain: "动力总成（发动机、变速箱）",
+      electrical: "电气系统",
+      comfort_convenience: "舒适/便利（空调、信息娱乐系统）",
+      cosmetic: "外观（油漆、装饰）",
+      // 柠檬法 — 制造商回应
+      no_response: "制造商未回应",
+      partial_fix: "尝试修复但缺陷仍然存在",
+      acknowledged: "制造商承认了缺陷"
     }
 };

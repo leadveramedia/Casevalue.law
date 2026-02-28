@@ -31,6 +31,7 @@ const CASE_TYPE_NAMES = {
   civil_rights: 'Civil Rights Violations',
   ip: 'Intellectual Property',
   workers_comp: "Worker's Compensation",
+  lemon_law: "Lemon Law",
 };
 
 const breadcrumbSchema = {

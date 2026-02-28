@@ -136,7 +136,8 @@ export const uiTranslationsES = {
       professional: "Negligencia Profesional",
       civil_rights: "Violaciones de Derechos Civiles",
       ip: "Propiedad Intelectual",
-      workers_comp: "Compensación Laboral"
+      workers_comp: "Compensación Laboral",
+      lemon_law: "Ley Limón"
     },
     questions: {
       incident_date: "¿Cuándo ocurrió el incidente?",
@@ -275,7 +276,20 @@ export const uiTranslationsES = {
       future_medical_needed: "¿Necesitará tratamiento médico futuro?",
       reached_mmi: "¿Ha alcanzado la mejoría médica máxima (MMI)?",
       vocational_rehab_needed: "¿Necesita rehabilitación vocacional?",
-      can_return_same_job: "¿Puede regresar al mismo trabajo que tenía antes?"
+      can_return_same_job: "¿Puede regresar al mismo trabajo que tenía antes?",
+      // Ley Limón
+      purchase_date: "¿Cuándo compró el vehículo?",
+      vehicle_type: "¿Qué tipo de vehículo está involucrado?",
+      vehicle_purchase_price: "¿Cuál fue el precio de compra del vehículo? ($)",
+      defect_severity: "¿Qué tan grave es el defecto?",
+      repair_attempts: "¿Cuántos intentos de reparación se han realizado?",
+      days_out_of_service: "¿Cuántos días en total ha estado el vehículo fuera de servicio por reparaciones?",
+      vehicle_new_when_purchased: "¿El vehículo era nuevo cuando lo compró?",
+      manufacturer_response: "¿Cómo ha respondido el fabricante?",
+      manufacturer_notified: "¿Ha notificado al fabricante por escrito?",
+      mileage_at_first_defect: "¿Cuál era el kilometraje cuando apareció el defecto por primera vez?",
+      rv_chassis_defect: "¿El defecto está en el chasis (vs. el área habitable)?",
+      boat_engine_defect: "¿El defecto está en el motor?"
     },
     options: {
       minor: "Menor (cortes, moretones)",
@@ -363,6 +377,22 @@ export const uiTranslationsES = {
       mild_11_25: "11-25% - Discapacidad leve",
       moderate_26_50: "26-50% - Discapacidad moderada",
       severe_51_75: "51-75% - Discapacidad grave",
-      extreme_76_100: "76-100% - Discapacidad extrema"
+      extreme_76_100: "76-100% - Discapacidad extrema",
+      // Ley Limón — tipos de vehículo
+      car: "Auto / Sedán",
+      truck: "Camioneta / SUV",
+      motorcycle: "Motocicleta",
+      rv: "Vehículo Recreativo (RV)",
+      boat: "Bote / Embarcación",
+      // Ley Limón — gravedad del defecto
+      safety_critical: "Crítico para la seguridad (frenos, dirección, airbags)",
+      drivetrain: "Tren motriz (motor, transmisión)",
+      electrical: "Sistema eléctrico",
+      comfort_convenience: "Comodidad/conveniencia (A/C, sistema de info)",
+      cosmetic: "Cosmético (pintura, molduras, apariencia)",
+      // Ley Limón — respuesta del fabricante
+      no_response: "Sin respuesta del fabricante",
+      partial_fix: "Intentó reparar pero el defecto persiste",
+      acknowledged: "El fabricante reconoció el defecto"
     }
 };

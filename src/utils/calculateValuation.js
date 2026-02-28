@@ -313,45 +313,124 @@ export const calculateValuation = (caseType, answers, state) => {
       if (answers.misclassified) factors.push('Misclassification involved');
       break;
 
-    case 'class_action':
-      const individualDamages = parseFloat(answers.individual_damages) || 1000;
-      const classMembers = Math.min(parseFloat(answers.num_class_members) || 100, 100000);
-      const durationHarm = parseFloat(answers.duration_of_harm) || 12;
-
-      baseValue = individualDamages * classMembers;
-
+    case 'class_action': {
       multiplier = 1.0;
 
-      // Class action type multipliers (different recovery potential)
-      const classActionTypeMultipliers = {
-        data_breach: 1.5,           // High statutory damages
-        consumer_fraud: 1.3,
-        defective_product: 1.4,
-        securities: 1.5,            // High damages potential
-        employment: 1.2,
-        other: 1.0
-      };
-      if (answers.class_action_type) {
-        multiplier *= classActionTypeMultipliers[answers.class_action_type] || 1.0;
+      // Shared multipliers
+      if (answers.has_documentation === true) multiplier *= 1.3;
+      if (answers.others_affected === true) multiplier *= 1.3;
+
+      switch (answers.class_action_type) {
+        case 'consumer_fraud': {
+          const personalLoss = Math.min(parseFloat(answers.personal_financial_loss) || 1000, 10000000);
+          const fraudMonths = parseFloat(answers.fraud_duration_months) || 0;
+          baseValue = personalLoss;
+          const fraudMultipliers = { deceptive_advertising: 1.3, hidden_fees: 1.2, bait_and_switch: 1.4, false_labeling: 1.2, unauthorized_charges: 1.5, other_fraud: 1.0 };
+          multiplier *= fraudMultipliers[answers.fraud_type] || 1.0;
+          if (fraudMonths > 24) multiplier *= 1.4;
+          else if (fraudMonths > 12) multiplier *= 1.2;
+          if (answers.received_refund_or_credit === true) multiplier *= 0.5;
+          if (answers.company_acknowledged_issue === true) multiplier *= 1.3;
+          factors.push(`Personal loss: $${personalLoss.toLocaleString()}`);
+          if (answers.fraud_type) factors.push(`Fraud type: ${answers.fraud_type}`);
+          if (fraudMonths > 0) factors.push(`Duration: ${fraudMonths} months`);
+          if (answers.received_refund_or_credit) factors.push('Partial refund/credit received');
+          if (answers.company_acknowledged_issue) factors.push('Company acknowledged issue');
+          break;
+        }
+        case 'data_breach': {
+          const oopCosts = Math.min(parseFloat(answers.out_of_pocket_costs) || 0, 1000000);
+          const statutoryFloors = { ssn_financial: 150, medical_records: 200, payment_cards: 100, login_credentials: 50, basic_pii: 25 };
+          const floor = statutoryFloors[answers.data_type_exposed] || 50;
+          baseValue = Math.max(oopCosts, floor);
+          if (answers.breach_notification_received === false) multiplier *= 1.3;
+          if (answers.experienced_identity_theft === true) multiplier *= 2.0;
+          if (answers.credit_frozen === true) multiplier *= 1.2;
+          if (answers.company_offered_remediation === true) multiplier *= 0.8;
+          if (answers.data_type_exposed) factors.push(`Data exposed: ${answers.data_type_exposed}`);
+          factors.push(`Out-of-pocket costs: $${oopCosts.toLocaleString()}`);
+          if (answers.experienced_identity_theft) factors.push('Identity theft documented');
+          if (answers.credit_frozen) factors.push('Credit frozen');
+          if (!answers.breach_notification_received) factors.push('Late/no breach notification');
+          if (answers.company_offered_remediation) factors.push('Remediation offered');
+          break;
+        }
+        case 'defective_product': {
+          const medCosts = Math.min(parseFloat(answers.personal_medical_costs) || 0, 50000000);
+          const severityBases = { no_injury: Math.max(medCosts, 500), minor_injury: Math.max(medCosts, 2000) * 2, moderate_injury: Math.max(medCosts, 10000) * 3, serious_injury: Math.max(medCosts, 50000) * 4, death_of_loved_one: 500000 };
+          baseValue = severityBases[answers.injury_severity_dp] || Math.max(medCosts, 500);
+          const defectMultipliers = { design_defect: 1.3, manufacturing_defect: 1.1, inadequate_warning: 1.0 };
+          multiplier *= defectMultipliers[answers.defect_type] || 1.0;
+          if (answers.product_recalled === true) multiplier *= 1.3;
+          if (answers.reported_to_manufacturer === true) multiplier *= 1.1;
+          if (answers.has_product_or_evidence === true) multiplier *= 1.3;
+          if (answers.injury_severity_dp) factors.push(`Injury severity: ${answers.injury_severity_dp}`);
+          if (medCosts > 0) factors.push(`Medical costs: $${medCosts.toLocaleString()}`);
+          if (answers.defect_type) factors.push(`Defect type: ${answers.defect_type}`);
+          if (answers.product_recalled) factors.push('Product recalled');
+          if (answers.has_product_or_evidence) factors.push('Physical evidence preserved');
+          break;
+        }
+        case 'securities': {
+          const investLoss = Math.min(parseFloat(answers.personal_investment_loss) || 10000, 50000000);
+          baseValue = investLoss;
+          const secMultipliers = { false_statements: 1.2, insider_trading: 1.4, accounting_fraud: 1.5, ponzi_scheme: 1.3, misleading_omission: 1.1 };
+          multiplier *= secMultipliers[answers.securities_fraud_type] || 1.0;
+          const investTypeMultipliers = { stocks: 1.0, bonds: 0.9, mutual_fund: 1.0, crypto: 0.8, other_investment: 0.9 };
+          multiplier *= investTypeMultipliers[answers.investment_type] || 1.0;
+          if (answers.relied_on_false_info === true) multiplier *= 1.4;
+          if (answers.still_holding_investment === true) multiplier *= 0.8;
+          if (answers.sec_action_reported === true) multiplier *= 1.5;
+          factors.push(`Investment loss: $${investLoss.toLocaleString()}`);
+          if (answers.securities_fraud_type) factors.push(`Fraud type: ${answers.securities_fraud_type}`);
+          if (answers.investment_type) factors.push(`Investment: ${answers.investment_type}`);
+          if (answers.relied_on_false_info) factors.push('Relied on false information');
+          if (answers.sec_action_reported) factors.push('SEC action or media coverage');
+          if (answers.still_holding_investment) factors.push('Still holding investment');
+          break;
+        }
+        case 'employment': {
+          const lostWagesCA = Math.min(parseFloat(answers.personal_lost_wages) || 5000, 10000000);
+          const violMonths = parseFloat(answers.violation_duration_months) || 0;
+          baseValue = lostWagesCA;
+          const empMultipliers = { unpaid_wages: 1.2, misclassification: 1.3, discrimination: 1.5, harassment: 1.4, retaliation: 1.5, unpaid_overtime: 1.3 };
+          multiplier *= empMultipliers[answers.employment_violation_type] || 1.0;
+          if (violMonths > 24) multiplier *= 1.5;
+          else if (violMonths > 12) multiplier *= 1.3;
+          if (answers.reported_to_employer === true) multiplier *= 1.2;
+          if (answers.retaliation_experienced === true) multiplier *= 1.5;
+          if (answers.still_employed === false) multiplier *= 1.3;
+          factors.push(`Lost wages: $${lostWagesCA.toLocaleString()}`);
+          if (answers.employment_violation_type) factors.push(`Violation: ${answers.employment_violation_type}`);
+          if (violMonths > 0) factors.push(`Duration: ${violMonths} months`);
+          if (answers.reported_to_employer) factors.push('Reported to employer');
+          if (answers.retaliation_experienced) factors.push('Retaliation experienced');
+          if (answers.still_employed === false) factors.push('No longer employed');
+          break;
+        }
+        default: {
+          // "other" subtype
+          const personalDmg = Math.min(parseFloat(answers.personal_damages_est) || 1000, 50000000);
+          const harmMonths = parseFloat(answers.harm_duration_months) || 0;
+          baseValue = personalDmg;
+          const otherMultipliers = { environmental: 1.3, antitrust: 1.4, civil_rights: 1.4, healthcare: 1.2, government_overreach: 1.1, other_misc: 1.0 };
+          multiplier *= otherMultipliers[answers.other_claim_type] || 1.0;
+          if (harmMonths > 24) multiplier *= 1.4;
+          else if (harmMonths > 12) multiplier *= 1.2;
+          if (answers.harm_still_ongoing === true) multiplier *= 1.2;
+          factors.push(`Personal damages: $${personalDmg.toLocaleString()}`);
+          if (answers.other_claim_type) factors.push(`Claim type: ${answers.other_claim_type}`);
+          if (harmMonths > 0) factors.push(`Duration: ${harmMonths} months`);
+          if (answers.harm_still_ongoing) factors.push('Harm still ongoing');
+          break;
+        }
       }
 
-      if (answers.documented_evidence === true) multiplier *= 1.3;
-      if (answers.pattern_of_conduct === true) multiplier *= 1.4;
-      if (answers.regulatory_violations === true) multiplier *= 1.5;
-
-      // Duration factor
-      if (durationHarm > 24) multiplier *= 1.3;
-
       baseValue = baseValue * multiplier;
-
-      factors.push(`Individual damages: $${individualDamages.toLocaleString()}`);
-      factors.push(`Class members: ${classMembers}`);
-      factors.push(`Duration: ${durationHarm} months`);
-      if (answers.class_action_type) factors.push(`Class action type: ${answers.class_action_type}`);
-      if (answers.documented_evidence) factors.push('Strong documentation');
-      if (answers.pattern_of_conduct) factors.push('Pattern of conduct');
-      if (answers.regulatory_violations) factors.push('Regulatory violations');
+      if (answers.has_documentation) factors.push('Strong documentation');
+      if (answers.others_affected) factors.push('Others affected');
       break;
+    }
 
     case 'insurance':
       const claimAmount = parseFloat(answers.claim_amount) || 50000;
@@ -755,6 +834,247 @@ export const calculateValuation = (caseType, answers, state) => {
           impairmentGuide: wcStateRules.impairmentGuide,
           choiceOfDoctor: wcStateRules.choiceOfDoctor,
           monopolisticStateFund: wcStateRules.monopolisticStateFund
+        } : undefined
+      };
+    }
+
+    // ========================================================================
+    // LEMON LAW — early return (buyback recovery, not injury damages)
+    // ========================================================================
+    case 'lemon_law': {
+      const llStateRules = getStateRules(state, 'lemon_law');
+
+      // Parse answers with input clamping
+      const vehiclePurchasePrice = Math.min(parseFloat(answers.vehicle_purchase_price) || 0, 5000000);
+      const repairAttempts = Math.min(parseInt(answers.repair_attempts) || 0, 50);
+      const daysOutOfService = Math.min(parseInt(answers.days_out_of_service) || 0, 365);
+      const mileageAtFirstDefect = parseInt(answers.mileage_at_first_defect) || 0;
+
+      // Base value = vehicle purchase price
+      let lemonValue = vehiclePurchasePrice;
+
+      // Defect severity multiplier
+      const defectSeverityMultipliers = {
+        safety_critical: 1.0,
+        drivetrain: 0.9,
+        electrical: 0.8,
+        comfort_convenience: 0.5,
+        cosmetic: 0.3
+      };
+      const severityMult = defectSeverityMultipliers[answers.defect_severity] || 0.7;
+      lemonValue *= severityMult;
+      if (answers.defect_severity) {
+        factors.push(`Defect severity: ${answers.defect_severity.replace(/_/g, ' ')}`);
+      }
+
+      // Repair attempts multiplier
+      let repairMult = 1.0;
+      if (repairAttempts >= 4) {
+        repairMult = 1.3;
+        factors.push(`${repairAttempts} repair attempts (strong presumption)`);
+      } else if (repairAttempts === 3) {
+        repairMult = 1.2;
+        factors.push(`${repairAttempts} repair attempts`);
+      } else if (repairAttempts === 2) {
+        repairMult = 1.0;
+        factors.push(`${repairAttempts} repair attempts`);
+      } else if (repairAttempts === 1) {
+        repairMult = 0.7;
+        factors.push(`Only ${repairAttempts} repair attempt (weak presumption)`);
+      }
+      lemonValue *= repairMult;
+
+      // Days out of service multiplier
+      let daysMult = 1.0;
+      if (daysOutOfService >= 30) {
+        daysMult = 1.2;
+        factors.push(`${daysOutOfService} days out of service (meets threshold)`);
+      } else if (daysOutOfService >= 15) {
+        daysMult = 1.0;
+        factors.push(`${daysOutOfService} days out of service`);
+      } else if (daysOutOfService > 0) {
+        daysMult = 0.8;
+        factors.push(`Only ${daysOutOfService} days out of service (below threshold)`);
+      }
+      lemonValue *= daysMult;
+
+      // Used vehicle factor
+      if (answers.vehicle_new_when_purchased === false) {
+        lemonValue *= 0.7;
+        factors.push('Used vehicle (weaker lemon law protections in most states)');
+      }
+
+      // Manufacturer response factor
+      const responseMult = { no_response: 1.2, denied: 1.1, partial_fix: 1.0, acknowledged: 0.8 };
+      if (answers.manufacturer_response) {
+        lemonValue *= responseMult[answers.manufacturer_response] || 1.0;
+        factors.push(`Manufacturer response: ${answers.manufacturer_response.replace(/_/g, ' ')}`);
+      }
+
+      // Manufacturer notified in writing
+      if (answers.manufacturer_notified === true) {
+        lemonValue *= 1.15;
+        factors.push('Manufacturer notified in writing');
+      } else if (answers.manufacturer_notified === false) {
+        lemonValue *= 0.85;
+        factors.push('Manufacturer not yet notified in writing');
+      }
+
+      // Vehicle type factor
+      const vehicleTypeMult = { car: 1.0, truck: 1.0, motorcycle: 1.0, rv: 1.1, boat: 0.8 };
+      if (answers.vehicle_type) {
+        lemonValue *= vehicleTypeMult[answers.vehicle_type] || 1.0;
+        factors.push(`Vehicle type: ${answers.vehicle_type}`);
+      }
+
+      // Mileage at first defect (car/truck/motorcycle only)
+      if (mileageAtFirstDefect > 0 && ['car', 'truck', 'motorcycle'].includes(answers.vehicle_type)) {
+        if (mileageAtFirstDefect < 12000) {
+          lemonValue *= 1.2;
+          factors.push(`Low mileage at first defect (${mileageAtFirstDefect.toLocaleString()} mi)`);
+        } else if (mileageAtFirstDefect > 50000) {
+          lemonValue *= 0.7;
+          factors.push(`High mileage at first defect (${mileageAtFirstDefect.toLocaleString()} mi)`);
+        } else {
+          factors.push(`Mileage at first defect: ${mileageAtFirstDefect.toLocaleString()} mi`);
+        }
+      }
+
+      // RV conditional: chassis vs coach defect
+      if (answers.vehicle_type === 'rv' && answers.rv_chassis_defect === true) {
+        lemonValue *= 1.1;
+        factors.push('Chassis defect (auto manufacturer responsible)');
+      }
+
+      // Boat conditional: engine defect
+      if (answers.vehicle_type === 'boat' && answers.boat_engine_defect === true) {
+        lemonValue *= 1.2;
+        factors.push('Engine/motor defect (most commonly covered)');
+      }
+
+      // ==== STATE-SPECIFIC ADJUSTMENTS ====
+      const llBreakdown = {
+        vehiclePurchasePrice: vehiclePurchasePrice,
+        estimatedRecovery: 0,
+        mileageOffset: 0,
+        attorneyFees: 0
+      };
+
+      if (llStateRules) {
+        // Used vehicle coverage check
+        if (answers.vehicle_new_when_purchased === false && llStateRules.coversUsedVehicles === false) {
+          lemonValue *= 0.3;
+          warnings.push(`${llStateRules.stateName}'s lemon law does NOT cover used vehicles. Your claim may require a different legal theory (e.g., breach of warranty).`);
+        }
+
+        // RV coverage check
+        if (answers.vehicle_type === 'rv' && llStateRules.coversRVs === false) {
+          lemonValue *= 0.3;
+          warnings.push(`${llStateRules.stateName}'s lemon law does NOT cover recreational vehicles (RVs). You may need to pursue a breach of warranty or UCC claim instead.`);
+        }
+
+        // Boat coverage check
+        if (answers.vehicle_type === 'boat' && llStateRules.coversBoats === false) {
+          lemonValue *= 0.2;
+          warnings.push(`${llStateRules.stateName}'s lemon law does NOT cover boats. You may need to pursue a Magnuson-Moss Warranty Act or UCC claim instead.`);
+        }
+
+        // Repair attempts below state presumption threshold
+        if (llStateRules.presumptionRepairAttempts && repairAttempts > 0 && repairAttempts < llStateRules.presumptionRepairAttempts) {
+          warnings.push(`${llStateRules.stateName} requires at least ${llStateRules.presumptionRepairAttempts} repair attempts to trigger the lemon law presumption. You have ${repairAttempts}.`);
+        }
+
+        // Days out of service below state threshold
+        if (llStateRules.presumptionDaysOutOfService && daysOutOfService > 0 && daysOutOfService < llStateRules.presumptionDaysOutOfService) {
+          warnings.push(`${llStateRules.stateName} requires at least ${llStateRules.presumptionDaysOutOfService} cumulative days out of service. You have ${daysOutOfService} days.`);
+        }
+
+        // Mileage limit check
+        if (llStateRules.mileageLimit && mileageAtFirstDefect > llStateRules.mileageLimit) {
+          lemonValue *= 0.5;
+          warnings.push(`${llStateRules.stateName}'s lemon law applies to defects appearing within ${llStateRules.mileageLimit.toLocaleString()} miles. Your defect appeared at ${mileageAtFirstDefect.toLocaleString()} miles.`);
+        }
+
+        // Time limit check (months from purchase)
+        if (llStateRules.timeLimit && answers.purchase_date) {
+          const purchaseDate = new Date(answers.purchase_date);
+          const today = new Date();
+          const monthsSincePurchase = (today.getFullYear() - purchaseDate.getFullYear()) * 12 +
+            (today.getMonth() - purchaseDate.getMonth());
+
+          if (monthsSincePurchase > llStateRules.timeLimit) {
+            lemonValue *= 0.5;
+            warnings.push(`${llStateRules.stateName}'s lemon law covers vehicles within ${llStateRules.timeLimit} months of purchase. Your vehicle was purchased ${monthsSincePurchase} months ago.`);
+          } else {
+            const monthsRemaining = llStateRules.timeLimit - monthsSincePurchase;
+            if (monthsRemaining <= 3) {
+              warnings.push(`Your lemon law protection in ${llStateRules.stateName} expires in approximately ${monthsRemaining} month${monthsRemaining !== 1 ? 's' : ''}. Act promptly.`);
+            }
+            factors.push(`${llStateRules.stateName} coverage: ${monthsRemaining} months remaining`);
+          }
+        }
+
+        // Statute of limitations check
+        if (llStateRules.statuteOfLimitations && answers.purchase_date) {
+          const purchaseDate = new Date(answers.purchase_date);
+          const today = new Date();
+          const yearsSincePurchase = (today - purchaseDate) / (1000 * 60 * 60 * 24 * 365.25);
+          if (yearsSincePurchase > llStateRules.statuteOfLimitations) {
+            warnings.push(`CRITICAL: Your case may be time-barred. The vehicle was purchased ${yearsSincePurchase.toFixed(1)} years ago, potentially exceeding ${llStateRules.stateName}'s ${llStateRules.statuteOfLimitations}-year statute of limitations.`);
+          }
+        }
+
+        // Mileage offset deduction
+        if (llStateRules.mileageOffsetAllowed && mileageAtFirstDefect > 0 && vehiclePurchasePrice > 0) {
+          const mileageOffset = (mileageAtFirstDefect / 120000) * vehiclePurchasePrice;
+          llBreakdown.mileageOffset = Math.round(mileageOffset);
+          lemonValue -= mileageOffset;
+          if (mileageOffset > 0) {
+            factors.push(`Mileage offset deduction: -$${Math.round(mileageOffset).toLocaleString()}`);
+          }
+        }
+
+        // Attorney fee shifting note
+        if (llStateRules.attorneyFeeShifting) {
+          const estimatedAttorneyFees = Math.max(0, lemonValue) * 0.33;
+          llBreakdown.attorneyFees = Math.round(estimatedAttorneyFees);
+          factors.push(`${llStateRules.stateName} requires the manufacturer to pay your attorney fees if you prevail`);
+        }
+
+        // Manufacturer buyback required
+        if (llStateRules.manufacturerBuybackRequired) {
+          factors.push(`${llStateRules.stateName} law allows you to demand a vehicle buyback or replacement`);
+        }
+
+        factors.push(`State: ${llStateRules.stateName}`);
+      } else {
+        factors.push(`State: ${state}`);
+      }
+
+      // Ensure minimum value
+      lemonValue = Math.max(1000, lemonValue);
+      llBreakdown.estimatedRecovery = Math.round(lemonValue);
+
+      factors.push(`Case type: lemon_law`);
+
+      return {
+        value: Math.max(1000, Math.round(lemonValue / 1000) * 1000),
+        lowRange: Math.max(1000, Math.round(lemonValue * 0.75 / 1000) * 1000),
+        highRange: Math.round(lemonValue * 1.25 / 1000) * 1000,
+        factors: factors,
+        warnings: warnings.length > 0 ? warnings : undefined,
+        breakdown: llBreakdown,
+        stateSpecificInfo: llStateRules ? {
+          stateName: llStateRules.stateName,
+          coversUsedVehicles: llStateRules.coversUsedVehicles,
+          coversRVs: llStateRules.coversRVs,
+          coversBoats: llStateRules.coversBoats,
+          presumptionRepairAttempts: llStateRules.presumptionRepairAttempts,
+          presumptionDaysOutOfService: llStateRules.presumptionDaysOutOfService,
+          mileageLimit: llStateRules.mileageLimit,
+          timeLimit: llStateRules.timeLimit,
+          attorneyFeeShifting: llStateRules.attorneyFeeShifting,
+          manufacturerBuybackRequired: llStateRules.manufacturerBuybackRequired
         } : undefined
       };
     }

@@ -63,6 +63,7 @@ function generateSitemapXML(blogPosts) {
     'civil-rights',
     'intellectual-property',
     'workers-compensation',
+    'lemon-law',
   ];
 
   // All 51 state slugs (50 states + DC)

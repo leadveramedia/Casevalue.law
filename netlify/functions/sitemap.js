@@ -53,6 +53,7 @@ function generateSitemapXML(blogPosts) {
     'wage-and-hour', 'class-action', 'insurance-bad-faith', 'disability-denial',
     'professional-malpractice', 'civil-rights', 'intellectual-property',
     'workers-compensation',
+    'lemon-law',
   ];
 
   // All 51 state slugs (50 states + DC)

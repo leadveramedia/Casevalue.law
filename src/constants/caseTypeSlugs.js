@@ -19,6 +19,7 @@ export const caseSlugToId = {
   'civil-rights': 'civil_rights',
   'intellectual-property': 'ip',
   'workers-compensation': 'workers_comp',
+  'lemon-law': 'lemon_law',
 };
 
 // Reverse mapping: case type ID → URL slug
@@ -358,6 +359,28 @@ export const caseTypeContent = {
       }
     ]
   },
+  lemon_law: {
+    heading: "Lemon Law Case Value Calculator",
+    intro: "Estimate your lemon law recovery for a defective vehicle. Our free calculator applies your state's specific lemon law — repair attempt thresholds, days out of service requirements, mileage limits, and buyback formulas — to your vehicle's defect history.",
+    faqs: [
+      {
+        q: "How is a lemon law recovery calculated?",
+        a: "Lemon law recovery typically equals the full purchase price of the vehicle minus a mileage offset — a deduction for miles driven before the first defect appeared. Most states use a formula dividing pre-defect mileage by 120,000 miles and multiplying by the purchase price. You may also recover incidental damages, and in many states the manufacturer must pay your attorney fees."
+      },
+      {
+        q: "What qualifies a vehicle as a 'lemon'?",
+        a: "A vehicle is generally considered a lemon if it has a substantial defect covered by the manufacturer's warranty that the dealer cannot repair after a reasonable number of attempts. Most states define 'reasonable' as 3–4 repair attempts for the same defect, or 30+ cumulative days out of service, within the first 18–24 months or 18,000–24,000 miles of ownership."
+      },
+      {
+        q: "Does my state's lemon law cover used vehicles?",
+        a: "Coverage varies significantly. About a dozen states — including California, New York, Connecticut, Massachusetts, and Minnesota — have used vehicle lemon laws. Most states only cover new vehicles purchased with a manufacturer's warranty. If your state doesn't cover used vehicles, you may still have remedies under the federal Magnuson-Moss Warranty Act."
+      },
+      {
+        q: "Do I need a lawyer for a lemon law claim?",
+        a: "While not required, an attorney is highly recommended. Most state lemon laws include attorney fee-shifting — the manufacturer pays your attorney fees if you prevail. This means lemon law attorneys typically handle cases on contingency at no upfront cost. An experienced attorney can navigate manufacturer arbitration and significantly increase your recovery."
+      }
+    ]
+  },
 };
 
 // SEO metadata for each practice area calculator page
@@ -421,5 +444,9 @@ export const caseTypeSEO = {
   workers_comp: {
     title: "Workers' Compensation Calculator | Free Benefits Estimate",
     description: "Calculate your workers' compensation benefits. Free estimate based on injury type, wages, disability rating, and state-specific benefit rates.",
+  },
+  lemon_law: {
+    title: "Lemon Law Calculator | Free Vehicle Buyback Estimate",
+    description: "Calculate your lemon law recovery for a defective vehicle. Free calculator estimates buyback value based on your vehicle's defect history and state-specific lemon laws.",
   },
 };

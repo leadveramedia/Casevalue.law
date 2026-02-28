@@ -134,7 +134,8 @@ export const uiTranslationsEN = {
       professional: "Professional Malpractice",
       civil_rights: "Civil Rights Violations",
       ip: "Intellectual Property",
-      workers_comp: "Worker's Compensation"
+      workers_comp: "Worker's Compensation",
+      lemon_law: "Lemon Law"
     },
     questions: {
       incident_date: "When did the incident occur?",
@@ -188,14 +189,47 @@ export const uiTranslationsEN = {
       time_records: "Do you have time records?",
       written_policy: "Is there a written policy?",
       misclassified: "Were you misclassified?",
-      individual_damages: "What are your individual damages? ($)",
-      num_class_members: "How many potential class members?",
-      duration_of_harm: "Duration of harm (months)?",
-      documented_evidence: "Do you have documented evidence?",
-      company_knowledge: "Did the company know about the issue?",
-      pattern_of_conduct: "Is there a pattern of conduct?",
-      regulatory_violations: "Were there regulatory violations?",
-      previous_settlements: "Were there previous settlements?",
+      // Class action — shared
+      has_documentation: "Do you have documentation supporting your claim (receipts, records, correspondence)?",
+      others_affected: "Are you aware of others affected by the same issue?",
+      // Class action — consumer fraud
+      fraud_type: "What type of fraud did you experience?",
+      personal_financial_loss: "How much money did you personally lose? ($)",
+      fraud_duration_months: "How many months were you affected?",
+      received_refund_or_credit: "Did you receive any refund or credit from the company?",
+      company_acknowledged_issue: "Has the company publicly acknowledged the issue?",
+      // Class action — data breach
+      data_type_exposed: "What type of personal data was exposed?",
+      breach_notification_received: "Were you officially notified of the breach?",
+      experienced_identity_theft: "Have you experienced identity theft or fraud as a result?",
+      out_of_pocket_costs: "How much have you spent out-of-pocket (credit monitoring, lost time, etc.)? ($)",
+      credit_frozen: "Did you have to freeze your credit?",
+      company_offered_remediation: "Did the company offer free credit monitoring or compensation?",
+      // Class action — defective product
+      defect_type: "What type of product defect was involved?",
+      injury_severity_dp: "How severe were your injuries from this product?",
+      personal_medical_costs: "What were your personal medical costs? ($)",
+      reported_to_manufacturer: "Did you report the issue to the manufacturer?",
+      has_product_or_evidence: "Do you still have the product or other physical evidence?",
+      // Class action — securities fraud
+      securities_fraud_type: "What type of securities issue is involved?",
+      personal_investment_loss: "How much did you personally lose on this investment? ($)",
+      investment_type: "What type of investment was it?",
+      relied_on_false_info: "Did you rely on specific false or misleading statements when investing?",
+      still_holding_investment: "Are you still holding the investment?",
+      sec_action_reported: "Has the SEC taken action or has this been in the news?",
+      // Class action — employment
+      employment_violation_type: "What type of workplace violation occurred?",
+      personal_lost_wages: "How much are you personally owed in unpaid wages or compensation? ($)",
+      violation_duration_months: "How many months has this been going on?",
+      reported_to_employer: "Did you report the issue to HR or a supervisor?",
+      retaliation_experienced: "Did you face retaliation for reporting or complaining?",
+      still_employed: "Are you still employed at this company?",
+      // Class action — other
+      other_claim_type: "What category best describes your situation?",
+      personal_damages_est: "What is your estimated personal financial loss? ($)",
+      harm_duration_months: "How many months has this been going on?",
+      harm_still_ongoing: "Is the harmful conduct still ongoing?",
       claim_filed_date: "When did you file your insurance claim?",
       claim_amount: "What was your claim amount? ($)",
       policy_limits: "What are the policy limits? ($)",
@@ -272,7 +306,20 @@ export const uiTranslationsEN = {
       future_medical_needed: "Will you need ongoing medical treatment?",
       reached_mmi: "Have you reached Maximum Medical Improvement (MMI)?",
       vocational_rehab_needed: "Do you need vocational rehabilitation?",
-      can_return_same_job: "Can you return to the same job you had before?"
+      can_return_same_job: "Can you return to the same job you had before?",
+      // Lemon Law
+      purchase_date: "When did you purchase the vehicle?",
+      vehicle_type: "What type of vehicle is involved?",
+      vehicle_purchase_price: "What was the vehicle's purchase price? ($)",
+      defect_severity: "How severe is the defect?",
+      repair_attempts: "How many repair attempts have been made?",
+      days_out_of_service: "How many total days has the vehicle been out of service for repairs?",
+      vehicle_new_when_purchased: "Was the vehicle new when purchased?",
+      manufacturer_response: "How has the manufacturer responded?",
+      manufacturer_notified: "Have you notified the manufacturer in writing?",
+      mileage_at_first_defect: "What was the mileage when the defect first appeared?",
+      rv_chassis_defect: "Is the defect in the chassis (vs. the living area)?",
+      boat_engine_defect: "Is the defect in the engine or motor?"
     },
     options: {
       minor: "Minor (cuts, bruises, sprains)",
@@ -324,6 +371,55 @@ export const uiTranslationsEN = {
       defective_product: "Defective product",
       securities: "Securities fraud",
       employment: "Employment violations",
+      // Consumer fraud subtypes
+      deceptive_advertising: "Deceptive advertising",
+      hidden_fees: "Hidden fees or charges",
+      bait_and_switch: "Bait and switch",
+      false_labeling: "False labeling or packaging",
+      unauthorized_charges: "Unauthorized charges",
+      other_fraud: "Other fraud",
+      // Data breach data types
+      ssn_financial: "Social Security number or financial data",
+      medical_records: "Medical records",
+      payment_cards: "Credit/debit card numbers",
+      login_credentials: "Login credentials (usernames/passwords)",
+      basic_pii: "Basic personal info (name, email, address)",
+      // Defective product subtypes
+      design_defect: "Design defect",
+      manufacturing_defect: "Manufacturing defect",
+      inadequate_warning: "Inadequate warning or instructions",
+      // Defective product injury severity
+      no_injury: "No physical injury (economic loss only)",
+      minor_injury: "Minor injury (treated and released)",
+      moderate_injury: "Moderate injury (ongoing treatment needed)",
+      serious_injury: "Serious injury (hospitalization, surgery)",
+      death_of_loved_one: "Death of a loved one",
+      // Securities fraud subtypes
+      false_statements: "False or misleading statements",
+      insider_trading: "Insider trading",
+      accounting_fraud: "Accounting fraud or restatements",
+      ponzi_scheme: "Ponzi scheme or investment fraud",
+      misleading_omission: "Misleading omission of key facts",
+      // Investment types
+      stocks: "Stocks",
+      bonds: "Bonds",
+      mutual_fund: "Mutual fund or ETF",
+      crypto: "Cryptocurrency",
+      other_investment: "Other investment",
+      // Employment violation subtypes
+      unpaid_wages: "Unpaid wages",
+      misclassification: "Employee misclassification",
+      discrimination: "Workplace discrimination",
+      harassment: "Workplace harassment",
+      retaliation: "Retaliation for reporting",
+      unpaid_overtime: "Unpaid overtime",
+      // Other claim types
+      environmental: "Environmental harm",
+      antitrust: "Antitrust / price fixing",
+      civil_rights: "Civil rights violation",
+      healthcare: "Healthcare fraud or overcharging",
+      government_overreach: "Government overreach",
+      other_misc: "Other",
       not_filed: "Claim not yet filed",
       filed_pending: "Claim filed, awaiting decision",
       accepted: "Claim accepted",
@@ -360,6 +456,22 @@ export const uiTranslationsEN = {
       mild_11_25: "11-25% - Mild impairment",
       moderate_26_50: "26-50% - Moderate impairment",
       severe_51_75: "51-75% - Severe impairment",
-      extreme_76_100: "76-100% - Extreme impairment"
+      extreme_76_100: "76-100% - Extreme impairment",
+      // Lemon law — vehicle types
+      car: "Car / Sedan",
+      truck: "Truck / SUV",
+      motorcycle: "Motorcycle",
+      rv: "RV / Motorhome",
+      boat: "Boat / Watercraft",
+      // Lemon law — defect severity
+      safety_critical: "Safety-critical (brakes, steering, airbags)",
+      drivetrain: "Drivetrain (engine, transmission)",
+      electrical: "Electrical system",
+      comfort_convenience: "Comfort/convenience (A/C, infotainment)",
+      cosmetic: "Cosmetic (paint, trim, appearance)",
+      // Lemon law — manufacturer response
+      no_response: "No response from manufacturer",
+      partial_fix: "Attempted fix but defect persists",
+      acknowledged: "Manufacturer acknowledged the defect"
     }
 };

@@ -18,6 +18,7 @@ export const categoryToCaseType = {
   'professional-malpractice': 'professional',
   'intellectual-property': 'ip',
   'workers-compensation': 'workers_comp',
+  'lemon-law': 'lemon_law',
   'personal-injury': 'motor', // default to motor for generic PI
 };
 

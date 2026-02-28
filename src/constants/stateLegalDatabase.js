@@ -98,6 +98,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -172,6 +185,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -245,6 +271,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -316,6 +355,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -394,6 +446,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 18,
+      coversRVs: true,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -466,6 +531,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -537,6 +615,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: true,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -608,6 +699,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -679,6 +783,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: true,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -751,6 +868,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -823,6 +953,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -895,6 +1038,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -966,6 +1122,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 12000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1037,6 +1206,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 18,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1108,6 +1290,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1180,6 +1375,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 12000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1251,6 +1459,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 12000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1322,6 +1543,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 1
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 12000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1393,6 +1627,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1466,6 +1713,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 15000,
+      timeLimit: 15,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1537,6 +1797,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 15000,
+      timeLimit: 15,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1609,6 +1882,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1680,6 +1966,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1752,6 +2051,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 3,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1824,6 +2136,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 5,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 12000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1896,6 +2221,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -1968,6 +2306,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2040,6 +2391,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2111,6 +2475,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 36,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2182,6 +2559,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2254,6 +2644,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2325,6 +2728,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2397,6 +2813,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2470,6 +2899,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2543,6 +2985,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2615,6 +3070,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2688,6 +3156,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2759,6 +3240,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 6,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2830,6 +3324,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: true,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2902,6 +3409,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -2974,6 +3494,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3046,6 +3579,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3119,6 +3665,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: true,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3191,6 +3750,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3262,6 +3834,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 6,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3335,6 +3920,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 18,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3407,6 +4005,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3480,6 +4091,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 5
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3552,6 +4176,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 6
+    },
+    lemonLaw: {
+      statuteOfLimitations: 6,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 12,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3624,6 +4261,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 4
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 3,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 24000,
+      timeLimit: 24,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   },
 
@@ -3696,6 +4346,19 @@ export const STATE_LEGAL_DATABASE = {
     },
     intellectualProperty: {
       statuteOfLimitations: 3
+    },
+    lemonLaw: {
+      statuteOfLimitations: 4,
+      coversUsedVehicles: false,
+      presumptionRepairAttempts: 4,
+      presumptionDaysOutOfService: 30,
+      mileageLimit: 18000,
+      timeLimit: 18,
+      coversRVs: false,
+      coversBoats: false,
+      attorneyFeeShifting: true,
+      manufacturerBuybackRequired: true,
+      mileageOffsetAllowed: true
     }
   }
 };
@@ -3754,7 +4417,8 @@ export const getStateRules = (state, caseType) => {
     'professional': 'professionalMalpractice',
     'civil_rights': 'civilRights',
     'ip': 'intellectualProperty',
-    'workers_comp': 'workersCompensation'
+    'workers_comp': 'workersCompensation',
+    'lemon_law': 'lemonLaw'
   };
 
   const dbKey = caseTypeMap[caseType];
