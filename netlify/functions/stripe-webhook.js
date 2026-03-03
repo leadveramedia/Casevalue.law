@@ -124,7 +124,13 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: `Webhook Error: ${err.message}` };
   }
 
-  const store = getStore('partners');
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+  const netlifyToken = process.env.NETLIFY_AUTH_TOKEN;
+  const store = getStore({
+    name: 'partners',
+    siteID,
+    token: netlifyToken,
+  });
 
   try {
     switch (stripeEvent.type) {
