@@ -7,11 +7,12 @@
  *   &state=California           - Pre-select state (skips state selection)
  *   &lang=en                    - Language (en|es|zh)
  *   &partner=acme-law           - Partner ID for lead attribution
+ *   &intakeEmail=intake@firm.com - Partner intake email for lead delivery
  */
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Scale } from 'lucide-react';
 import { caseTypes, usStates, NON_CURRENCY_NUMBER_FIELDS } from './constants/caseTypes';
 import { useTranslations, getQuestionExplanations } from './hooks/useTranslations';
 import { useFormValidation } from './hooks/useFormValidation';
@@ -24,6 +25,67 @@ import {
   buildFormSubmissionPayload
 } from './utils/helpers';
 
+// Lightweight analytics for embed events (fire-and-forget via sendBeacon)
+function trackEmbedEvent(eventName, extra = {}) {
+  try {
+    const payload = JSON.stringify({
+      event: eventName,
+      partner: new URLSearchParams(window.location.search).get('partner') || '',
+      referrer: document.referrer || '',
+      timestamp: new Date().toISOString(),
+      ...extra,
+    });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/.netlify/functions/embed-analytics', payload);
+    }
+  } catch {
+    // Analytics should never break the app
+  }
+}
+
+// Color conversion utilities for CSS variable injection
+function hexToRgb(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return null;
+  return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)];
+}
+
+function hexToHsl(hex) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  const [rr, gg, bb] = rgb.map(v => v / 255);
+  const max = Math.max(rr, gg, bb), min = Math.min(rr, gg, bb);
+  let h = 0, s = 0;
+  const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === rr) h = ((gg - bb) / d + (gg < bb ? 6 : 0)) / 6;
+    else if (max === gg) h = ((bb - rr) / d + 2) / 6;
+    else h = ((rr - gg) / d + 4) / 6;
+  }
+  return [Math.round(h * 360), s, l];
+}
+
+function hslToRgb(h, s, l) {
+  const hNorm = ((h % 360) + 360) % 360 / 360;
+  if (s === 0) { const v = Math.round(l * 255); return [v, v, v]; }
+  const hue2rgb = (p, q, t) => {
+    if (t < 0) t += 1; if (t > 1) t -= 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+  };
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  return [
+    Math.round(hue2rgb(p, q, hNorm + 1/3) * 255),
+    Math.round(hue2rgb(p, q, hNorm) * 255),
+    Math.round(hue2rgb(p, q, hNorm - 1/3) * 255),
+  ];
+}
+
 // Lazy load page components
 const CaseSelection = lazy(() => import('./components/pages/CaseSelection'));
 const StateSelection = lazy(() => import('./components/pages/StateSelection'));
@@ -33,11 +95,25 @@ const ResultsPage = lazy(() => import('./components/pages/ResultsPage'));
 const HelpModal = lazy(() => import('./components/HelpModal'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
 
-const SuspenseFallback = () => (
-  <div className="flex items-center justify-center min-h-[400px]">
-    <div className="text-textMuted">Loading...</div>
-  </div>
-);
+function SuspenseFallback({ logoUrl }) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+      <div className="flex items-center gap-2 animate-pulse">
+        {logoUrl ? (
+          <img src={logoUrl} alt="Logo" className="h-8 max-w-[200px] object-contain" />
+        ) : (
+          <>
+            <Scale className="w-6 h-6 text-accent" />
+            <span className="text-lg font-bold text-text tracking-tight">
+              case<span className="px-1.5 py-0.5 bg-gradient-gold text-textDark rounded-sm mx-0.5 text-lg font-black">value</span>.law
+            </span>
+          </>
+        )}
+      </div>
+      <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
+    </div>
+  );
+}
 
 export default function EmbedApp() {
   const [searchParams] = useSearchParams();
@@ -48,6 +124,48 @@ export default function EmbedApp() {
   const initialState = searchParams.get('state') || null;
   const initialLang = searchParams.get('lang') || 'en';
   const partnerId = searchParams.get('partner') || '';
+  const intakeEmail = searchParams.get('intakeEmail') || '';
+
+  // White-label theming params
+  const accentColor = searchParams.get('accentColor') || '';
+  const logoUrl = searchParams.get('logoUrl') || '';
+  const hideBranding = searchParams.get('hideBranding') === '1';
+
+  // Compute CSS variable overrides — derives entire palette from accent color
+  const themeStyle = useMemo(() => {
+    if (!accentColor) return {};
+    const rgb = hexToRgb(accentColor);
+    const hsl = hexToHsl(accentColor);
+    if (!rgb || !hsl) return {};
+    const [r, g, b] = rgb;
+    const [h] = hsl;
+    const darker = [Math.round(r * 0.82), Math.round(g * 0.82), Math.round(b * 0.82)];
+
+    // Derive full palette from accent hue
+    const bg = hslToRgb(h, 0.35, 0.06);
+    const primary = hslToRgb(h, 0.25, 0.12);
+    const card = hslToRgb(h, 0.40, 0.20);
+    const questionCard = hslToRgb(h, 0.35, 0.25);
+    const btnActive = hslToRgb(h, 0.50, 0.45);
+    const btnInactive = hslToRgb(h, 0.35, 0.30);
+    const border = hslToRgb(h, 0.15, 0.55);
+
+    return {
+      '--cv-accent-rgb': `${r} ${g} ${b}`,
+      '--cv-accent-hover-rgb': `${darker[0]} ${darker[1]} ${darker[2]}`,
+      '--cv-gradient-gold': `linear-gradient(90deg, rgb(${r},${g},${b}), rgb(${darker[0]},${darker[1]},${darker[2]}))`,
+      '--cv-gradient-text': `linear-gradient(90deg, rgb(${r},${g},${b}), rgb(${darker[0]},${darker[1]},${darker[2]}))`,
+      '--cv-bg': `rgb(${bg[0]},${bg[1]},${bg[2]})`,
+      '--cv-primary-rgb': `${primary[0]} ${primary[1]} ${primary[2]}`,
+      '--cv-card-rgb': `${card[0]} ${card[1]} ${card[2]}`,
+      '--cv-card-border-rgb': `${border[0]} ${border[1]} ${border[2]}`,
+      '--cv-question-card': `rgba(${questionCard[0]},${questionCard[1]},${questionCard[2]},0.75)`,
+      '--cv-button-active': `rgba(${btnActive[0]},${btnActive[1]},${btnActive[2]},0.85)`,
+      '--cv-button-inactive': `rgba(${btnInactive[0]},${btnInactive[1]},${btnInactive[2]},0.4)`,
+      '--cv-progress-fill': accentColor,
+      '--cv-slider-fill': accentColor,
+    };
+  }, [accentColor]);
 
   // Filter available case types: caseTypes param limits which practice areas are shown.
   // If only one is allowed, treat it like caseType (auto-select it).
@@ -116,6 +234,13 @@ export default function EmbedApp() {
     setContact,
     setError
   );
+
+  // Track embed load and step transitions
+  useEffect(() => { trackEmbedEvent('embed_loaded'); }, []);
+  useEffect(() => {
+    if (step === 'contact') trackEmbedEvent('questionnaire_completed', { caseType: selectedCase, state: selectedState });
+    if (step === 'results') trackEmbedEvent('results_shown', { caseType: selectedCase, state: selectedState });
+  }, [step, selectedCase, selectedState]);
 
   // Derive target origin from document.referrer for secure postMessage
   const targetOrigin = (() => {
@@ -227,6 +352,7 @@ export default function EmbedApp() {
 
   const resetAnswers = useCallback(() => setAnswers({}), []);
   const onCaseSelect = useCallback((caseId) => {
+    trackEmbedEvent('case_selected', { caseType: caseId });
     handleCaseSelect(caseId, resetAnswers);
   }, [handleCaseSelect, resetAnswers]);
 
@@ -265,23 +391,35 @@ export default function EmbedApp() {
       payload.embed_referrer = document.referrer || 'unknown';
       if (partnerId) payload.partner_id = partnerId;
 
-      const formData = new URLSearchParams();
-      formData.append('form-name', 'casevalue-submission');
-
-      Object.keys(payload).forEach(key => {
-        formData.append(key, payload[key]);
-      });
-
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString()
-      });
-
-      if (!response.ok) {
-        throw new Error(`Form submission failed with status ${response.status}`);
+      if (intakeEmail) {
+        // Route through process-lead function (emails lead to partner intake)
+        payload.intake_email = intakeEmail;
+        const response = await fetch('/.netlify/functions/process-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+          throw new Error(`Lead submission failed with status ${response.status}`);
+        }
+      } else {
+        // Fallback: submit to Netlify Forms (no partner intake email)
+        const formData = new URLSearchParams();
+        formData.append('form-name', 'casevalue-submission');
+        Object.keys(payload).forEach(key => {
+          formData.append(key, payload[key]);
+        });
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
+        });
+        if (!response.ok) {
+          throw new Error(`Form submission failed with status ${response.status}`);
+        }
       }
 
+      trackEmbedEvent('contact_form_submitted', { caseType: selectedCase, state: selectedState });
       setValuation(result);
       setLoading(false);
       setStep('results');
@@ -290,7 +428,7 @@ export default function EmbedApp() {
       setLoading(false);
       setError('We could not send your information. Please try again.');
     }
-  }, [contact, selectedCase, answers, selectedState, t, validateEmail, validatePhone, lang, questions, partnerId, setStep]);
+  }, [contact, selectedCase, answers, selectedState, t, validateEmail, validatePhone, lang, questions, partnerId, intakeEmail, setStep]);
 
   // ============================================================================
   // RENDER
@@ -308,7 +446,7 @@ export default function EmbedApp() {
 
   return (
     <EmbedProvider isEmbed={true}>
-      <div ref={rootRef} className="min-h-[400px] bg-background text-text flex flex-col">
+      <div ref={rootRef} style={themeStyle} className="min-h-[400px] bg-background text-text flex flex-col">
         <Helmet>
           <meta name="robots" content="noindex, nofollow" />
           <title>CaseValue.law - Calculator</title>
@@ -321,18 +459,18 @@ export default function EmbedApp() {
         <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-12">
 
           {step === 'select' && (
-            <Suspense fallback={<SuspenseFallback />}>
+            <Suspense fallback={<SuspenseFallback logoUrl={logoUrl} />}>
               <CaseSelection
                 t={t}
                 caseTypes={filteredCaseTypes}
-                onBack={() => {}} // No back from first step in embed
                 onCaseSelect={onCaseSelect}
+                showBackButton={false}
               />
             </Suspense>
           )}
 
           {step === 'state' && (
-            <Suspense fallback={<SuspenseFallback />}>
+            <Suspense fallback={<SuspenseFallback logoUrl={logoUrl} />}>
               <StateSelection
                 t={t}
                 usStates={usStates}
@@ -340,13 +478,14 @@ export default function EmbedApp() {
                 selectedState={selectedState}
                 onStateChange={setSelectedState}
                 onBack={() => effectiveCaseType ? null : navigateToStep('select')}
-                onNext={() => { if (selectedState) navigateToStep('questionnaire'); }}
+                onNext={() => { if (selectedState) { trackEmbedEvent('state_selected', { state: selectedState }); navigateToStep('questionnaire'); } }}
+                showBackButton={!effectiveCaseType}
               />
             </Suspense>
           )}
 
           {step === 'questionnaire' && q && (
-            <Suspense fallback={<SuspenseFallback />}>
+            <Suspense fallback={<SuspenseFallback logoUrl={logoUrl} />}>
               <Questionnaire
                 t={t}
                 q={q}
@@ -364,12 +503,13 @@ export default function EmbedApp() {
                 onPrevious={handlePreviousQuestion}
                 onNext={() => handleNextQuestion()}
                 shouldShowDontKnow={shouldShowDontKnow}
+                showBackButton={!effectiveCaseType}
               />
             </Suspense>
           )}
 
           {step === 'contact' && (
-            <Suspense fallback={<SuspenseFallback />}>
+            <Suspense fallback={<SuspenseFallback logoUrl={logoUrl} />}>
               <ContactForm
                 t={t}
                 contact={contact}
@@ -380,12 +520,13 @@ export default function EmbedApp() {
                 onUpdateContact={handleUpdateContact}
                 onTermsClick={() => setShowTermsPage(true)}
                 onSubmit={submit}
+                showBackButton={!effectiveCaseType}
               />
             </Suspense>
           )}
 
           {step === 'results' && valuation && (
-            <Suspense fallback={<SuspenseFallback />}>
+            <Suspense fallback={<SuspenseFallback logoUrl={logoUrl} />}>
               <ResultsPage
                 t={t}
                 valuation={valuation}
@@ -414,7 +555,7 @@ export default function EmbedApp() {
         {/* Missing Data Warning Modal */}
         {showMissingDataWarning && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="warning-title">
-            <div className="bg-card rounded-3xl w-full max-w-2xl border-2 border-accent/40 shadow-card animate-fade-in">
+            <div className="bg-card/60 rounded-3xl w-full max-w-2xl border-2 border-accent/40 shadow-card animate-fade-in">
               <div className="bg-accent/20 border-b-2 border-accent/30 p-6 md:p-8">
                 <div className="flex items-start gap-4">
                   <AlertCircle className="w-10 h-10 text-accent flex-shrink-0" />
@@ -445,17 +586,25 @@ export default function EmbedApp() {
           </div>
         )}
 
-        {/* Powered by footer */}
-        <div className="relative z-10 py-2 pr-4 text-right">
-          <a
-            href="https://casevalue.law"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-textMuted hover:text-accent transition-colors"
-          >
-            Powered by CaseValue.law
-          </a>
-        </div>
+        {/* Powered by footer (hidden when white-labeled) */}
+        {!hideBranding && (
+          <div className="relative z-10 border-t border-cardBorder/40 py-3 px-4">
+            <a
+              href="https://casevalue.law/embed/docs?utm_source=embed&utm_medium=widget&utm_campaign=powered_by"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-center gap-2 text-sm text-textMuted hover:text-accent transition-colors"
+              title="Free case value calculator for your website"
+              onClick={() => trackEmbedEvent('powered_by_clicked')}
+            >
+              <Scale className="w-4 h-4 text-accent/70 group-hover:text-accent transition-colors" />
+              <span>Powered by</span>
+              <span className="font-bold text-text group-hover:text-accent transition-colors tracking-tight">
+                case<span className="px-1 py-0.5 bg-gradient-gold text-textDark rounded-sm mx-0.5 text-xs font-black">value</span>.law
+              </span>
+            </a>
+          </div>
+        )}
 
         {/* Shake animation for error states */}
         <style>{`

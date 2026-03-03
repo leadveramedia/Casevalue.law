@@ -17,6 +17,7 @@ const StateCalculatorPage = lazy(() => import('./components/pages/StateCalculato
 const StateHubPage = lazy(() => import('./components/pages/StateHubPage'));
 const EmbedApp = lazy(() => import('./EmbedApp.jsx'));
 const EmbedDocsPage = lazy(() => import('./components/pages/EmbedDocsPage'));
+const EmbedSignupPage = lazy(() => import('./components/pages/EmbedSignupPage'));
 const SitemapPage = lazy(() => import('./components/pages/SitemapPage'));
 
 // Loading fallback component
@@ -147,6 +148,16 @@ export default function Router() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <EmbedDocsPage />
+            </Suspense>
+          }
+        />
+
+        {/* Embed partner signup / registration */}
+        <Route
+          path="/embed/signup"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <EmbedSignupPage />
             </Suspense>
           }
         />

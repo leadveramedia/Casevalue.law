@@ -51,6 +51,14 @@
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com; font-src 'self'; connect-src 'self' https://*.sanity.io; frame-ancestors *; object-src 'none'; base-uri 'self'; form-action 'self' https://api.netlify.com;"
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Wix Custom Element widget — CORS for cross-origin loading
+[[headers]]
+  for = "/wix-widget.js"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "application/javascript"
+
 # Cache static assets for better performance
 [[headers]]
   for = "/static/*"

@@ -18,7 +18,7 @@ export default function NotFoundPage() {
 
       <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-4">
         <div className="max-w-2xl w-full">
-          <div className="bg-card backdrop-blur-3xl rounded-3xl overflow-hidden border-2 border-cardBorder shadow-card p-8 md:p-12 text-center">
+          <div className="bg-card/60 backdrop-blur-3xl rounded-3xl overflow-hidden border-2 border-cardBorder/15 shadow-card p-8 md:p-12 text-center">
             {/* 404 Number */}
             <div className="text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-gold mb-6">
               404
@@ -43,7 +43,7 @@ export default function NotFoundPage() {
               </Link>
               <a
                 href="/blog"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-card/50 text-text rounded-xl transition-all font-bold hover:bg-card border-2 border-cardBorder hover:border-accent/50"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-card/50 text-text rounded-xl transition-all font-bold hover:bg-card/60 border-2 border-cardBorder/15 hover:border-accent/50"
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back to Blog
@@ -51,7 +51,7 @@ export default function NotFoundPage() {
             </div>
 
             {/* Home Link */}
-            <div className="mt-8 pt-8 border-t border-cardBorder">
+            <div className="mt-8 pt-8 border-t border-cardBorder/15">
               <Link
                 to="/"
                 className="inline-flex items-center gap-2 text-accent hover:text-accentHover transition-colors font-semibold"

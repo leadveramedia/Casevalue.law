@@ -89,7 +89,7 @@ export default function SitemapPage() {
 
           <div className="space-y-12">
             {/* Home */}
-            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-2xl p-6 md:p-8">
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <SectionHeading icon={Home}>Home</SectionHeading>
               <ul className="space-y-2">
                 <SitemapLink to="/">CaseValue.law — Free Legal Case Value Calculator</SitemapLink>
@@ -97,7 +97,7 @@ export default function SitemapPage() {
             </div>
 
             {/* Practice Area Calculators */}
-            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-2xl p-6 md:p-8">
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <SectionHeading icon={Scale}>Practice Area Calculators</SectionHeading>
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
                 {caseTypeSlugs.map((slug) => {
@@ -112,7 +112,7 @@ export default function SitemapPage() {
             </div>
 
             {/* States */}
-            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-2xl p-6 md:p-8">
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <SectionHeading icon={MapPin}>States</SectionHeading>
               <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-2">
                 {allStateSlugs.map((slug) => (
@@ -124,10 +124,12 @@ export default function SitemapPage() {
             </div>
 
             {/* Resources */}
-            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-2xl p-6 md:p-8">
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <SectionHeading icon={BookOpen}>Resources</SectionHeading>
               <ul className="space-y-2">
                 <SitemapLink to="/blog">Blog</SitemapLink>
+                <SitemapLink to="/embed/docs">Embed Calculator for Law Firms</SitemapLink>
+                <SitemapLink to="/embed/signup">Get Free Calculator Widget</SitemapLink>
               </ul>
             </div>
           </div>

@@ -119,7 +119,7 @@ export default function StateHubPage({ stateCode }) {
 
           {/* State facts chip */}
           {negligenceLabel && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card/40 border border-cardBorder rounded-xl text-sm text-textMuted mb-2">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card/40 border border-cardBorder/15 rounded-xl text-sm text-textMuted mb-2">
               <Scale className="w-4 h-4 text-accent shrink-0" />
               <span><span className="text-text font-semibold">{stateName}</span> uses <span className="text-text font-semibold">{negligenceLabel}</span> — statutes of limitations vary by case type below.</span>
             </div>
@@ -139,7 +139,7 @@ export default function StateHubPage({ stateCode }) {
                 <Link
                   key={caseTypeId}
                   to={`/${stateSlug}/${caseSlug}-calculator`}
-                  className="group flex flex-col p-5 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-2xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                  className="group flex flex-col p-5 bg-card/40 backdrop-blur-xl border border-cardBorder/15 rounded-2xl hover:border-accent/50 hover:bg-card/60 transition-all"
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className="p-2 bg-accent/15 rounded-lg shrink-0 group-hover:bg-accent/25 transition-colors">

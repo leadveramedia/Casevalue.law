@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaseValue Calculator Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      color: #333;
+      padding: 16px;
+      background: #fff;
+    }
+    .field { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+    }
+    .case-types { display: flex; flex-wrap: wrap; gap: 4px; }
+    .case-types label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: normal;
+      font-size: 12px;
+      padding: 4px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .case-types label:hover { background: #f3f4f6; }
+    .case-types input:checked + span { color: #2563eb; font-weight: 600; }
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <h2>CaseValue Calculator</h2>
+
+  <div class="field">
+    <label for="intakeEmail">Lead Intake Email *</label>
+    <div class="hint">Leads will be emailed here in real-time</div>
+    <input type="email" id="intakeEmail" placeholder="intake@yourfirm.com" />
+  </div>
+
+  <div class="field">
+    <label for="partner">Partner ID</label>
+    <div class="hint">Your firm identifier for lead attribution</div>
+    <input type="text" id="partner" placeholder="your-firm-name" />
+  </div>
+
+  <div class="field">
+    <label for="state">Default State</label>
+    <select id="state">
+      <option value="">Let visitors choose</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="lang">Language</label>
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="zh">Chinese</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Practice Areas</label>
+    <div class="hint">Select which to show (leave all unchecked for all)</div>
+    <div class="case-types" id="caseTypes"></div>
+  </div>
+
+  <h2 style="margin-top:24px">Branding</h2>
+
+  <div class="field">
+    <label for="accentColor">Accent Color</label>
+    <div class="hint">Your brand color for buttons and highlights</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <input type="color" id="accentColor" value="#FFC447" style="width:40px;height:36px;padding:2px;border:1px solid #d1d5db;border-radius:6px;cursor:pointer" />
+      <input type="text" id="accentColorHex" placeholder="#FFC447" style="flex:1" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="logoUrl">Logo URL</label>
+    <div class="hint">URL to your logo image (replaces CaseValue logo)</div>
+    <input type="text" id="logoUrl" placeholder="https://yourfirm.com/logo.png" />
+  </div>
+
+  <div class="field">
+    <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+      <input type="checkbox" id="hideBranding" />
+      <span>Hide "Powered by CaseValue.law" footer</span>
+    </label>
+  </div>
+
+  <script>
+    // US States
+    var states = [
+      'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+      'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+      'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
+      'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
+      'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
+      'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
+      'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
+      'Wisconsin','Wyoming','Washington D.C.'
+    ];
+
+    var caseTypes = [
+      { id: 'motor', name: 'Motor Vehicle' },
+      { id: 'medical', name: 'Medical Malpractice' },
+      { id: 'premises', name: 'Premises Liability' },
+      { id: 'product', name: 'Product Liability' },
+      { id: 'wrongful_death', name: 'Wrongful Death' },
+      { id: 'dog_bite', name: 'Dog Bites' },
+      { id: 'wrongful_term', name: 'Wrongful Termination' },
+      { id: 'wage', name: 'Wage & Hour' },
+      { id: 'class_action', name: 'Class Action' },
+      { id: 'insurance', name: 'Insurance Bad Faith' },
+      { id: 'disability', name: 'Disability Denial' },
+      { id: 'professional', name: 'Professional Malpractice' },
+      { id: 'civil_rights', name: 'Civil Rights' },
+      { id: 'ip', name: 'Intellectual Property' },
+      { id: 'workers_comp', name: "Worker's Comp" },
+      { id: 'lemon_law', name: 'Lemon Law' }
+    ];
+
+    // Populate state dropdown
+    var stateSelect = document.getElementById('state');
+    states.forEach(function (s) {
+      var opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      stateSelect.appendChild(opt);
+    });
+
+    // Populate case type checkboxes
+    var caseTypesEl = document.getElementById('caseTypes');
+    caseTypes.forEach(function (ct) {
+      var lbl = document.createElement('label');
+      var inp = document.createElement('input');
+      inp.type = 'checkbox';
+      inp.value = ct.id;
+      inp.dataset.field = 'caseType';
+      var span = document.createElement('span');
+      span.textContent = ct.name;
+      lbl.appendChild(inp);
+      lbl.appendChild(span);
+      caseTypesEl.appendChild(lbl);
+    });
+
+    // Wix SDK communication
+    function getProps() {
+      var selected = [];
+      document.querySelectorAll('[data-field="caseType"]:checked').forEach(function (el) {
+        selected.push(el.value);
+      });
+      return {
+        'intake-email': document.getElementById('intakeEmail').value,
+        'partner': document.getElementById('partner').value,
+        'state': document.getElementById('state').value,
+        'lang': document.getElementById('lang').value,
+        'case-types': selected.join(','),
+        'accent-color': document.getElementById('accentColorHex').value,
+        'logo-url': document.getElementById('logoUrl').value,
+        'hide-branding': document.getElementById('hideBranding').checked ? 'true' : ''
+      };
+    }
+
+    function notifyWix() {
+      var props = getProps();
+      // Wix Custom Element communicates via window.parent.postMessage
+      try {
+        window.parent.postMessage({
+          type: 'setProps',
+          props: props
+        }, '*');
+      } catch (e) {
+        // Silently fail if not in Wix context
+      }
+    }
+
+    // Sync color picker and hex input
+    var colorPicker = document.getElementById('accentColor');
+    var colorHex = document.getElementById('accentColorHex');
+    colorPicker.addEventListener('input', function () {
+      colorHex.value = colorPicker.value;
+      notifyWix();
+    });
+    colorHex.addEventListener('input', function () {
+      if (/^#[0-9a-fA-F]{6}$/.test(colorHex.value)) {
+        colorPicker.value = colorHex.value;
+      }
+      notifyWix();
+    });
+
+    // Listen for changes
+    document.querySelectorAll('input, select').forEach(function (el) {
+      el.addEventListener('change', notifyWix);
+      el.addEventListener('input', notifyWix);
+    });
+  </script>
+</body>
+</html>

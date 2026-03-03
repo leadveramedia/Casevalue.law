@@ -44,20 +44,20 @@ export const GOLD_BUTTON = "bg-gradient-gold hover:opacity-90 rounded-xl shadow-
  * Includes: multi-layered shadows, slate border, ring effects
  * Usage: <div className={SHARED_STYLES.questionCard} style={SHARED_STYLES.questionCardBg}>
  */
-export const QUESTION_CARD = "bg-questionCard backdrop-blur-3xl rounded-3xl p-8 md:p-10 border-4 border-slate-500 ring-2 ring-slate-400/30 ring-offset-2 ring-offset-background animate-scale-in shadow-[0_25px_60px_rgba(0,0,0,0.8),0_10px_25px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.1)]";
+export const QUESTION_CARD = "bg-questionCard backdrop-blur-3xl rounded-3xl p-8 md:p-10 border-4 border-cardBorder/40 ring-2 ring-cardBorder/20 ring-offset-2 ring-offset-background animate-scale-in shadow-[0_25px_60px_rgba(0,0,0,0.8),0_10px_25px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.1)]";
 
 /**
  * Question Card Background - Inline style for gradient lighting effect
  * Usage: style={SHARED_STYLES.questionCardBg}
  */
 export const QUESTION_CARD_BG = {
-  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(40,75,140,0.75) 40%, rgba(0,0,0,0.15) 100%)'
+  background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, var(--cv-question-card, rgba(40,75,140,0.75)) 40%, rgba(0,0,0,0.15) 100%)'
 };
 
 /**
  * Simple Card - For less prominent content areas
  */
-export const SIMPLE_CARD = "bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-card";
+export const SIMPLE_CARD = "bg-card/60 backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder/15 shadow-card";
 
 // ============================================================================
 // INPUT STYLES

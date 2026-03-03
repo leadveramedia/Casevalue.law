@@ -4,7 +4,8 @@
  */
 import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Copy, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Copy, CheckCircle, ArrowRight } from 'lucide-react';
 import Navigation from '../Navigation';
 import SocialMeta from '../SocialMeta';
 import Footer from '../Footer';
@@ -25,6 +26,7 @@ const CASE_TYPES = [
   { id: 'civil_rights', name: 'Civil Rights Violations' },
   { id: 'ip', name: 'Intellectual Property' },
   { id: 'workers_comp', name: "Worker's Compensation" },
+  { id: 'lemon_law', name: 'Lemon Law' },
 ];
 
 const CONFIG_OPTIONS = [
@@ -33,9 +35,35 @@ const CONFIG_OPTIONS = [
   { attr: 'data-state', desc: 'Pre-select the state. Use the full state name. Skips the state selection screen.', example: '"California"' },
   { attr: 'data-lang', desc: 'Set the language. Options: en (English), es (Spanish), zh (Chinese). Defaults to English.', example: '"es"' },
   { attr: 'data-partner', desc: 'Your firm identifier. Used to track which leads came from your site.', example: '"smith-law"' },
+  { attr: 'data-intake-email', desc: 'Email address where leads will be sent in real-time. Each form submission is emailed directly to this address.', example: '"intake@smithlaw.com"' },
   { attr: 'data-width', desc: 'Widget width. Any CSS width value. Defaults to 100%.', example: '"800px"' },
   { attr: 'data-min-height', desc: 'Minimum height in pixels. The widget auto-resizes, but this sets the floor. Defaults to 600.', example: '"700"' },
+  { attr: 'data-accent-color', desc: 'Custom brand color. Derives the entire color palette — background, cards, buttons, progress bar, and highlights all shift to match. Hex color code.', example: '"#3B82F6"' },
+  { attr: 'data-logo-url', desc: 'URL to your logo image. Replaces the CaseValue logo on the loading screen.', example: '"https://yourfirm.com/logo.png"' },
+  { attr: 'data-hide-branding', desc: 'Set to "true" to hide the "Powered by CaseValue.law" footer.', example: '"true"' },
 ];
+
+const FAQ_ITEMS = [
+  { q: 'Does this slow down my website?', a: 'No. The script loads the calculator lazily inside an iframe. It does not add any CSS or JavaScript to your page outside of the iframe.' },
+  { q: "Will it conflict with my website's styles?", a: 'No. The calculator runs inside an iframe, so its styles are completely isolated from your website.' },
+  { q: 'Where do the leads go?', a: 'When you set the data-intake-email attribute, leads are emailed directly to that address in real-time. Each submission includes the visitor\'s contact info, case type, state, and estimated case value.' },
+  { q: 'Can I customize the colors or branding?', a: 'Yes! Set data-accent-color to your brand color and the entire calculator — background, cards, buttons, progress bar — will shift to match. You can also use data-logo-url to display your logo and data-hide-branding to remove the "Powered by CaseValue.law" footer.' },
+  { q: 'Does it work on mobile?', a: 'Yes. The calculator is fully responsive and works on phones, tablets, and desktops.' },
+  { q: 'Does it work with WordPress / Squarespace / Wix?', a: "Yes. Any platform that lets you add custom HTML can use the script embed. For platforms that block external scripts, use the iframe method instead." },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQ_ITEMS.map(item => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
 
 const EXAMPLES = [
   {
@@ -55,7 +83,7 @@ const EXAMPLES = [
   },
   {
     title: 'All Practice Areas',
-    desc: 'No filtering — visitors pick from all 15 case types',
+    desc: 'No filtering — visitors pick from all 16 case types',
     code: `<script\n  src="https://casevalue.law/embed.js"\n  data-partner="your-firm-name"\n></script>`,
   },
 ];
@@ -102,7 +130,7 @@ function CodeBlock({ code }) {
       <div className="absolute top-3 right-3 z-10">
         <CopyButton text={code} />
       </div>
-      <pre className="bg-primary/60 border-2 border-cardBorder rounded-xl p-5 pr-24 overflow-x-auto text-sm text-text/90 font-mono leading-relaxed">
+      <pre className="bg-primary/60 border-2 border-cardBorder/15 rounded-xl p-5 pr-24 overflow-x-auto text-sm text-text/90 font-mono leading-relaxed">
         <code>{code}</code>
       </pre>
     </div>
@@ -113,13 +141,14 @@ export default function EmbedDocsPage() {
   return (
     <div className="min-h-screen text-text flex flex-col">
       <Helmet>
-        <title>Embed Calculator - CaseValue.law</title>
-        <meta name="description" content="Add a free case value calculator to your law firm website. Step-by-step guide with copy-paste code snippets." />
+        <title>Free Case Value Calculator Widget for Law Firms | CaseValue.law</title>
+        <meta name="description" content="Add a free settlement value calculator to your law firm website. 16 practice areas, 50 states, 3 languages. Copy-paste embed code — no coding required." />
         <link rel="canonical" href="https://casevalue.law/embed/docs" />
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
       <SocialMeta
-        title="Embed Calculator - CaseValue.law"
-        description="Add a free case value calculator to your law firm website. Step-by-step guide with copy-paste code snippets."
+        title="Free Case Value Calculator Widget for Law Firms | CaseValue.law"
+        description="Add a free settlement value calculator to your law firm website. 16 practice areas, 50 states, 3 languages. Copy-paste embed code — no coding required."
         url="https://casevalue.law/embed/docs"
       />
 
@@ -135,9 +164,15 @@ export default function EmbedDocsPage() {
           <h1 className="text-3xl md:text-5xl font-bold text-text mb-4">
             Embed the Calculator on Your Website
           </h1>
-          <p className="text-lg md:text-xl text-textMuted max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-textMuted max-w-2xl mx-auto mb-8">
             Add a free case value calculator to your law firm's website. Visitors answer a short questionnaire and get an estimated settlement value — directly on your site.
           </p>
+          <Link
+            to="/embed/signup"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold hover:opacity-90 rounded-xl shadow-2xl transition-all font-bold text-lg text-textDark transform hover:scale-105"
+          >
+            Get Your Free Embed Code <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
 
         {/* Quick Start */}
@@ -146,7 +181,7 @@ export default function EmbedDocsPage() {
           <p className="text-textMuted mb-6">
             Paste this code anywhere in your website's HTML where you want the calculator to appear. Replace the attribute values with your own.
           </p>
-          <CodeBlock code={`<script\n  src="https://casevalue.law/embed.js"\n  data-case-types="motor,medical,premises"\n  data-state="California"\n  data-partner="your-firm-name"\n></script>`} />
+          <CodeBlock code={`<script\n  src="https://casevalue.law/embed.js"\n  data-case-types="motor,medical,premises"\n  data-state="California"\n  data-partner="your-firm-name"\n  data-intake-email="intake@yourfirm.com"\n></script>`} />
         </section>
 
         {/* Configuration Options */}
@@ -158,7 +193,7 @@ export default function EmbedDocsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b-2 border-cardBorder">
+                <tr className="border-b-2 border-cardBorder/15">
                   <th className="py-3 pr-4 text-sm font-bold text-accent uppercase tracking-wider">Attribute</th>
                   <th className="py-3 pr-4 text-sm font-bold text-accent uppercase tracking-wider">What it does</th>
                   <th className="py-3 text-sm font-bold text-accent uppercase tracking-wider">Example</th>
@@ -239,19 +274,56 @@ export default function EmbedDocsPage() {
           </ul>
         </section>
 
+        {/* Platform Guides */}
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-text mb-4">Platform Installation Guides</h2>
+          <p className="text-textMuted mb-6">
+            Step-by-step instructions for popular website platforms.
+          </p>
+          <div className="space-y-6">
+            <div className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-5 md:p-6">
+              <h3 className="font-bold text-text mb-3">WordPress</h3>
+              <p className="text-sm text-textMuted mb-3">
+                Install our <a href="https://wordpress.org/plugins/casevalue-calculator/" className="text-accent hover:underline" target="_blank" rel="noopener noreferrer">free WordPress plugin</a> for the easiest setup — or paste the embed code manually:
+              </p>
+              <ol className="text-sm text-textMuted space-y-1.5 list-decimal list-inside">
+                <li>Go to <strong className="text-text">Pages &rarr; Add New</strong> (or edit an existing page)</li>
+                <li>Add a <strong className="text-text">Custom HTML</strong> block (or switch to the Code Editor)</li>
+                <li>Paste the embed code and publish</li>
+              </ol>
+            </div>
+            <div className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-5 md:p-6">
+              <h3 className="font-bold text-text mb-3">Squarespace</h3>
+              <ol className="text-sm text-textMuted space-y-1.5 list-decimal list-inside">
+                <li>Open the page editor and click <strong className="text-text">Add Block &rarr; Code</strong></li>
+                <li>In the code block settings, set the display to <strong className="text-text">HTML</strong></li>
+                <li>Paste the embed code, close the editor, and publish</li>
+              </ol>
+            </div>
+            <div className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-5 md:p-6">
+              <h3 className="font-bold text-text mb-3">Wix</h3>
+              <ol className="text-sm text-textMuted space-y-1.5 list-decimal list-inside">
+                <li>In the Wix Editor, click <strong className="text-text">Add (+) &rarr; Embed Code &rarr; Custom Element</strong></li>
+                <li>Set the <strong className="text-text">Server URL</strong> to <code className="bg-primary/60 px-1.5 py-0.5 rounded text-accent text-xs">https://casevalue.law/wix-widget.js</code></li>
+                <li>Set the <strong className="text-text">Tag Name</strong> to <code className="bg-primary/60 px-1.5 py-0.5 rounded text-accent text-xs">casevalue-calculator</code></li>
+                <li>Add attributes for your case types, state, partner ID, and intake email</li>
+              </ol>
+            </div>
+            <div className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-5 md:p-6">
+              <h3 className="font-bold text-text mb-3">Webflow / Other Platforms</h3>
+              <p className="text-sm text-textMuted">
+                Any platform that supports custom HTML or embed blocks will work. Paste the script tag into an HTML embed element. If your platform blocks external scripts, use the iframe method above instead.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ */}
         <section className="mb-12 md:mb-16">
           <h2 className="text-2xl md:text-3xl font-bold text-text mb-6">Frequently Asked Questions</h2>
           <div className="space-y-6">
-            {[
-              { q: 'Does this slow down my website?', a: 'No. The script loads the calculator lazily inside an iframe. It does not add any CSS or JavaScript to your page outside of the iframe.' },
-              { q: "Will it conflict with my website's styles?", a: 'No. The calculator runs inside an iframe, so its styles are completely isolated from your website.' },
-              { q: 'Where do the leads go?', a: 'Contact form submissions are sent to CaseValue.law. Your partner value is included with each submission so leads from your site can be identified and routed to you.' },
-              { q: 'Can I customize the colors or branding?', a: 'The calculator currently uses the CaseValue.law brand with a "Powered by CaseValue.law" footer. Custom styling is not available at this time.' },
-              { q: 'Does it work on mobile?', a: 'Yes. The calculator is fully responsive and works on phones, tablets, and desktops.' },
-              { q: 'Does it work with WordPress / Squarespace / Wix?', a: "Yes. Any platform that lets you add custom HTML can use the script embed. For platforms that block external scripts, use the iframe method instead." },
-            ].map((faq) => (
-              <div key={faq.q} className="bg-card/50 border-2 border-cardBorder rounded-2xl p-5 md:p-6">
+            {FAQ_ITEMS.map((faq) => (
+              <div key={faq.q} className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-5 md:p-6">
                 <h3 className="font-bold text-text mb-2">{faq.q}</h3>
                 <p className="text-sm text-textMuted leading-relaxed">{faq.a}</p>
               </div>
@@ -259,8 +331,17 @@ export default function EmbedDocsPage() {
           </div>
         </section>
 
+        {/* Attribution Snippet */}
+        <section className="mb-12 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-text mb-4">Recommended: Add Attribution</h2>
+          <p className="text-textMuted mb-6">
+            For the best SEO benefit, add this attribution line near the calculator on your page. This creates a crawlable link that search engines can follow (links inside iframes are not indexed).
+          </p>
+          <CodeBlock code={`<p style="text-align: center; margin-top: 8px; font-size: 14px; color: #888;">\n  Calculator provided by <a href="https://casevalue.law">CaseValue.law</a>\n</p>`} />
+        </section>
+
         {/* Support */}
-        <section className="text-center py-8 border-t border-cardBorder">
+        <section className="text-center py-8 border-t border-cardBorder/15">
           <p className="text-textMuted">
             Questions or issues? Contact us at{' '}
             <a href="mailto:info@leadveramedia.com" className="text-accent hover:underline">

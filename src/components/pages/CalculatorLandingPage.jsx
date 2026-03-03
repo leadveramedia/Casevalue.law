@@ -15,7 +15,7 @@ import SocialMeta from '../SocialMeta';
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
-    <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-xl overflow-hidden">
+    <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-xl overflow-hidden">
       <button
         onClick={onToggle}
         className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/70 transition-colors"
@@ -28,7 +28,7 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
           : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" aria-hidden="true" />
         }
       </button>
-      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder pt-4">
+      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder/15 pt-4">
         {faq.a}
       </div>
     </div>
@@ -120,7 +120,7 @@ export default function CalculatorLandingPage({ caseTypeId }) {
 
         {/* Trust Stats */}
         <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <div className="grid grid-cols-3 gap-4 p-6 bg-card/30 backdrop-blur-xl border border-cardBorder rounded-2xl">
+          <div className="grid grid-cols-3 gap-4 p-6 bg-card/30 backdrop-blur-xl border border-cardBorder/15 rounded-2xl">
             {[
               { stat: "25,000+", label: "Cases Valued" },
               { stat: "50 States", label: "State-Specific Laws" },

@@ -672,8 +672,8 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
       ======================================================================== */}
       {showPrivacy && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-          <div className="bg-card rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-y-auto border-2 border-cardBorder shadow-card my-auto">
-            <div className="sticky top-0 bg-card border-b-2 border-cardBorder p-6 md:p-8 z-10">
+          <div className="bg-card/60 rounded-3xl w-full max-w-5xl max-h-[90vh] overflow-y-auto border-2 border-cardBorder/15 shadow-card my-auto">
+            <div className="sticky top-0 bg-card/60 border-b-2 border-cardBorder/15 p-6 md:p-8 z-10">
               {/* Header with title and close button */}
               <div className="flex justify-between items-center gap-4 mb-4">
                 <h2 id="privacy-title" className="text-2xl md:text-3xl lg:text-4xl font-bold text-text">
@@ -688,7 +688,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
               </div>
 
               {/* Language Buttons */}
-              <div className="flex items-center justify-center gap-1.5 bg-card/50 p-1 rounded-lg border border-cardBorder backdrop-blur w-fit mx-auto">
+              <div className="flex items-center justify-center gap-1.5 bg-card/50 p-1 rounded-lg border border-cardBorder/15 backdrop-blur w-fit mx-auto">
                 {LANGUAGE_OPTIONS.map(option => (
                   <button
                     key={option.code}
@@ -716,7 +716,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
                 { color: 'blue', title: t.estimateDisclaimer, text: t.estimateDisclaimerText },
                 { color: 'green', title: t.privacyCommitment, text: t.privacyCommitmentText }
               ].map((section, i) => (
-                <div key={i} className="bg-card/50 border-2 border-cardBorder rounded-2xl p-6 md:p-8 hover:border-accent/40 transition-all shadow-card">
+                <div key={i} className="bg-card/50 border-2 border-cardBorder/15 rounded-2xl p-6 md:p-8 hover:border-accent/40 transition-all shadow-card">
                   <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-text mb-4 break-words">
                     {section.title}
                   </h3>
@@ -780,7 +780,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
       ======================================================================== */}
       {showMissingDataWarning && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="warning-title">
-          <div className="bg-card rounded-3xl w-full max-w-2xl border-2 border-accent/40 shadow-card animate-fade-in">
+          <div className="bg-card/60 rounded-3xl w-full max-w-2xl border-2 border-accent/40 shadow-card animate-fade-in">
             <div className="bg-accent/20 border-b-2 border-accent/30 p-6 md:p-8">
               <div className="flex items-start gap-4">
                 <AlertCircle className="w-10 h-10 text-accent flex-shrink-0" />
@@ -816,7 +816,7 @@ export default function CaseValueWebsite({ initialCaseType = null }) {
 
       {/* Progress Saved Toast */}
       {showSavedNotice && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-card border-2 border-accent/40 rounded-xl shadow-card animate-fade-in">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-card/60 border-2 border-accent/40 rounded-xl shadow-card animate-fade-in">
           <p className="text-sm font-medium text-text">{t.progressSaved}</p>
         </div>
       )}

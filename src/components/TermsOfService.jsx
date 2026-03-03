@@ -239,7 +239,7 @@ const TermsOfService = ({ onClose, lang = 'en' }) => {
         Skip to main content
       </a>
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
+      <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-md border-b border-cardBorder/15 shadow-lg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <button
@@ -264,7 +264,7 @@ const TermsOfService = ({ onClose, lang = 'en' }) => {
 
         <div className="space-y-8 mt-12">
           {content.sections.map((section, index) => (
-            <div key={index} className="bg-card backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder shadow-card">
+            <div key={index} className="bg-card/60 backdrop-blur-xl rounded-2xl p-6 md:p-8 border-2 border-cardBorder/15 shadow-card">
               <h2 className="text-xl md:text-2xl font-bold text-accent mb-4">
                 {section.title}
               </h2>

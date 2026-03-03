@@ -133,7 +133,7 @@ export default function BlogPage() {
               value={searchQuery}
               onChange={handleSearchChange}
               placeholder="Search articles..."
-              className="w-full pl-12 pr-10 py-3 bg-card/50 border border-cardBorder rounded-xl text-text placeholder:text-textMuted/60 focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all"
+              className="w-full pl-12 pr-10 py-3 bg-card/50 border border-cardBorder/15 rounded-xl text-text placeholder:text-textMuted/60 focus:border-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all"
               aria-label="Search blog posts"
             />
             {searchQuery && (
@@ -157,7 +157,7 @@ export default function BlogPage() {
                   aria-pressed={selectedCategory === category}
                   className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${selectedCategory === category
                       ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
-                      : 'bg-card/50 text-text/70 hover:bg-card border border-cardBorder'
+                      : 'bg-card/50 text-text/70 hover:bg-card/60 border border-cardBorder/15'
                     }`}
                 >
                   {category === 'all' ? 'All Posts' : category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
@@ -192,7 +192,7 @@ export default function BlogPage() {
           {/* Empty State */}
           {!loading && !error && filteredPosts.length === 0 && (
             <div className="max-w-2xl mx-auto text-center py-20">
-              <div className="bg-card backdrop-blur-xl border-2 border-cardBorder rounded-3xl p-8 shadow-card">
+              <div className="bg-card/60 backdrop-blur-xl border-2 border-cardBorder/15 rounded-3xl p-8 shadow-card">
                 <p className="text-text text-lg mb-2">No blog posts found</p>
                 <p className="text-textMuted">
                   {searchQuery
@@ -212,7 +212,7 @@ export default function BlogPage() {
                 <li key={post._id}>
                 <Link
                   to={`/blog/${post.slug.current}`}
-                  className="group block bg-card rounded-3xl overflow-hidden border-3 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
+                  className="group block bg-card/60 rounded-3xl overflow-hidden border-3 border-cardBorder/15 hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft hover:scale-[1.02]"
                 >
                   {/* Post Image - first image is LCP, load eagerly with high priority */}
                   {post.mainImage && (
@@ -257,7 +257,7 @@ export default function BlogPage() {
                     </p>
 
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-textMuted border-t border-cardBorder pt-4">
+                    <div className="flex items-center justify-between text-sm text-textMuted border-t border-cardBorder/15 pt-4">
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1">
                           <User className="w-4 h-4" aria-hidden="true" />
@@ -284,7 +284,7 @@ export default function BlogPage() {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card border border-cardBorder"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card/60 border border-cardBorder/15"
                 aria-label="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -302,7 +302,7 @@ export default function BlogPage() {
                     className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-bold transition-all ${
                       currentPage === page
                         ? 'bg-gradient-gold text-textDark shadow-glow-gold-soft'
-                        : 'bg-card/50 text-textMuted hover:bg-card border border-cardBorder'
+                        : 'bg-card/50 text-textMuted hover:bg-card/60 border border-cardBorder/15'
                     }`}
                     aria-label={`Page ${page}`}
                     aria-current={currentPage === page ? 'page' : undefined}
@@ -316,7 +316,7 @@ export default function BlogPage() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card border border-cardBorder"
+                className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-30 disabled:cursor-not-allowed bg-card/50 text-textMuted hover:bg-card/60 border border-cardBorder/15"
                 aria-label="Next page"
               >
                 Next

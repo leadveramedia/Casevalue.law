@@ -292,7 +292,7 @@ export default function BlogPostPage() {
         <em className="italic">{children}</em>
       ),
       code: ({ children }) => (
-        <code className="bg-card text-accent px-2 py-1 rounded text-sm font-mono border border-cardBorder">
+        <code className="bg-card/60 text-accent px-2 py-1 rounded text-sm font-mono border border-cardBorder/15">
           {children}
         </code>
       ),
@@ -458,7 +458,7 @@ export default function BlogPostPage() {
           />
           {/* Hero Image */}
           {post.mainImage && (
-            <div className="aspect-video overflow-hidden rounded-3xl mb-8 shadow-card border-2 border-cardBorder">
+            <div className="aspect-video overflow-hidden rounded-3xl mb-8 shadow-card border-2 border-cardBorder/15">
               <img
                 srcSet={generateSrcSet(post.mainImage, [600, 800, 1000, 1200], 9/16)}
                 sizes="(max-width: 640px) 600px, (max-width: 1024px) 800px, 1000px"
@@ -498,7 +498,7 @@ export default function BlogPostPage() {
           </p>
 
           {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-6 text-textMuted pb-8 mb-8 border-b border-cardBorder">
+          <div className="flex flex-wrap items-center gap-6 text-textMuted pb-8 mb-8 border-b border-cardBorder/15">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" aria-hidden="true" />
               <span className="font-medium">{post.author}</span>
@@ -557,7 +557,7 @@ export default function BlogPostPage() {
 
                 {/* Table of Contents */}
                 {headings.length > 0 && (
-                  <nav className="bg-card/50 backdrop-blur-xl border-2 border-cardBorder rounded-2xl p-6" aria-label="Table of contents">
+                  <nav className="bg-card/50 backdrop-blur-xl border-2 border-cardBorder/15 rounded-2xl p-6" aria-label="Table of contents">
                     <h2 className="text-sm font-bold text-text mb-4 uppercase tracking-wide">
                       On This Page
                     </h2>
@@ -585,14 +585,14 @@ export default function BlogPostPage() {
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder/15">
             <h2 className="text-3xl font-bold text-text mb-8">Related Articles</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedPosts.map(relatedPost => (
                 <Link
                   key={relatedPost._id}
                   to={`/blog/${relatedPost.slug.current}`}
-                  className="group bg-card backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
+                  className="group bg-card/60 backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder/15 hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
                 >
                   {relatedPost.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">
@@ -628,14 +628,14 @@ export default function BlogPostPage() {
 
         {/* Previous Posts */}
         {recentPosts.length > 0 && (
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-cardBorder/15">
             <h2 className="text-3xl font-bold text-text mb-8">Previous Posts</h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {recentPosts.map(relatedPost => (
                 <Link
                   key={relatedPost._id}
                   to={`/blog/${relatedPost.slug.current}`}
-                  className="group bg-card backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
+                  className="group bg-card/60 backdrop-blur-3xl rounded-xl overflow-hidden border-2 border-cardBorder/15 hover:border-accent/50 transition-all duration-300 shadow-card hover:shadow-glow-gold-soft"
                 >
                   {relatedPost.mainImage && (
                     <div className="aspect-video overflow-hidden bg-primary">

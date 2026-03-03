@@ -17,7 +17,7 @@ import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../consta
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
-    <div className="bg-card/50 backdrop-blur-xl border border-cardBorder rounded-xl overflow-hidden">
+    <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-xl overflow-hidden">
       <button
         onClick={onToggle}
         className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/70 transition-colors"
@@ -30,7 +30,7 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
           : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" aria-hidden="true" />
         }
       </button>
-      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder pt-4">
+      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder/15 pt-4">
         {faq.a}
       </div>
     </div>
@@ -228,7 +228,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
             <h2 className="text-xl font-bold text-text mb-4 text-center">Key {stateName} Laws</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {stateFacts.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-4 p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl">
+                <div key={label} className="flex items-center gap-4 p-4 bg-card/40 backdrop-blur-xl border border-cardBorder/15 rounded-xl">
                   <div className="p-2 bg-accent/15 rounded-lg shrink-0">
                     <Icon className="w-5 h-5 text-accent" />
                   </div>

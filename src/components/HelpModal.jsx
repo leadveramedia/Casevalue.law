@@ -5,7 +5,7 @@ const HelpModal = ({ show, onClose, title, content, closeText }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
-      <div className="bg-card rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border-2 border-accent/40 shadow-card my-auto">
+      <div className="bg-card/60 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border-2 border-accent/40 shadow-card my-auto">
         <div className="sticky top-0 bg-gradient-gold border-b-2 border-primary/20 p-6 md:p-8 z-10">
           {/* Header with title and close button */}
           <div className="flex justify-between items-start gap-4">

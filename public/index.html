@@ -55,14 +55,11 @@
       document.addEventListener('keydown', loadGTMOnInteraction, { passive: true, once: true });
 
       // Fallback: Load GTM after 2 seconds if no interaction
-      // Skip during prerendering (react-snap sets UA to "ReactSnap")
-      if (!/ReactSnap/.test(navigator.userAgent)) {
-        setTimeout(function() {
-          if (!gtmLoaded) {
-            loadGTMOnInteraction();
-          }
-        }, 2000);
-      }
+      setTimeout(function() {
+        if (!gtmLoaded) {
+          loadGTMOnInteraction();
+        }
+      }, 2000);
     </script>
     <!-- End Google Tag Manager -->
 
@@ -287,6 +284,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <input type="text" name="source" />
       <input type="text" name="embed_referrer" />
       <input type="text" name="partner_id" />
+    </form>
+
+    <!-- Hidden form for Netlify Forms detection: embed partner signup -->
+    <form name="embed-partner-signup" method="POST" data-netlify="true" style="display:none" aria-hidden="true">
+      <input type="hidden" name="form-name" value="embed-partner-signup" />
+      <input type="text" name="firm_name" />
+      <input type="url" name="website" />
+      <input type="email" name="email" />
+      <input type="email" name="intake_email" />
+      <input type="text" name="state" />
+      <input type="text" name="case_types" />
+      <input type="text" name="partner_slug" />
     </form>
 
     <!--

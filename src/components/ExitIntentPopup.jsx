@@ -137,7 +137,7 @@ const ExitIntentPopup = ({ lang = 'en', onGetStarted }) => {
     >
       <div
         id="exit-intent-dialog"
-        className="bg-card rounded-3xl w-full max-w-lg border-2 border-accent/40 shadow-card animate-scale-in p-8 text-center space-y-6"
+        className="bg-card/60 rounded-3xl w-full max-w-lg border-2 border-accent/40 shadow-card animate-scale-in p-8 text-center space-y-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 id="exit-intent-title" className="text-2xl md:text-3xl font-bold text-text">

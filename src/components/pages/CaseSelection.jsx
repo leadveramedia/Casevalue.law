@@ -7,17 +7,19 @@ import PropTypes from 'prop-types';
 import { ChevronRight } from 'lucide-react';
 import { SHARED_STYLES } from '../shared/sharedStyles';
 
-function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
+function CaseSelection({ t, caseTypes, onBack, onCaseSelect, showBackButton = true }) {
   return (
     <div className="max-w-6xl mx-auto animate-fade-in">
       <h1 className="sr-only">{t.selectCase}</h1>
       {/* Back to Home Button */}
-      <button
-        onClick={onBack}
-        className={SHARED_STYLES.backToHomeButton}
-      >
-        {t.backHome}
-      </button>
+      {showBackButton && (
+        <button
+          onClick={onBack}
+          className={SHARED_STYLES.backToHomeButton}
+        >
+          {t.backHome}
+        </button>
+      )}
 
       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-10 md:mb-14 px-4 text-text">
         {t.selectCase}
@@ -27,7 +29,7 @@ function CaseSelection({ t, caseTypes, onBack, onCaseSelect }) {
           <button
             key={c.id}
             onClick={() => onCaseSelect(c.id)}
-            className="relative overflow-hidden rounded-2xl border-2 border-cardBorder hover:border-accent transition-all text-left group h-56 md:h-64 hover:scale-[1.03] transform shadow-xl hover:shadow-2xl"
+            className="relative overflow-hidden rounded-2xl border-2 border-cardBorder/15 hover:border-accent transition-all text-left group h-56 md:h-64 hover:scale-[1.03] transform shadow-xl hover:shadow-2xl"
             style={{ contain: 'layout' }}
           >
             {/* Image with fallback - First 3 images load immediately for LCP optimization */}
@@ -77,8 +79,9 @@ CaseSelection.propTypes = {
     img: PropTypes.string,
     gradient: PropTypes.string
   })).isRequired,
-  onBack: PropTypes.func.isRequired,
-  onCaseSelect: PropTypes.func.isRequired
+  onBack: PropTypes.func,
+  onCaseSelect: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool
 };
 
 export default memo(CaseSelection);

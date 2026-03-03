@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default function Footer({ t, onPrivacyClick, onTermsClick, onGetStarted }) {
   return (
     <footer
-      className="relative z-10 border-t-2 border-cardBorder mt-20 md:mt-32 py-10 text-center text-textMuted px-4 bg-primary/50 backdrop-blur min-h-[140px] md:min-h-[120px]"
+      className="relative z-10 border-t-2 border-cardBorder/15 mt-20 md:mt-32 py-10 text-center text-textMuted px-4 bg-primary/50 backdrop-blur min-h-[140px] md:min-h-[120px]"
       style={{ contentVisibility: 'auto', containIntrinsicSize: '0 200px' }}
     >
       {onGetStarted && (

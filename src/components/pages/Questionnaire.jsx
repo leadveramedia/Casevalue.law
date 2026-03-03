@@ -71,7 +71,7 @@ function DontKnowButton({ questionId, answer, onDontKnow, t, className }) {
       className={`${className} px-6 py-2.5 rounded-lg transition-all font-semibold text-sm ${
         answer === 'unknown'
           ? 'bg-accent text-textDark border-2 border-accent'
-          : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder'
+          : 'bg-card/50 hover:bg-card/70 text-text border-2 border-cardBorder/15'
       }`}
     >
       {answer === 'unknown' ? '✓ ' : ''}{t.dontKnow}
@@ -95,18 +95,21 @@ function Questionnaire({
   onDontKnow,
   onPrevious,
   onNext,
-  shouldShowDontKnow
+  shouldShowDontKnow,
+  showBackButton = true
 }) {
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
       <h1 className="sr-only">{t.questionnaire || 'Questionnaire'}</h1>
       {/* Back to Home Button */}
-      <button
-        onClick={onBack}
-        className={SHARED_STYLES.backToHomeButton}
-      >
-        {t.backHome}
-      </button>
+      {showBackButton && (
+        <button
+          onClick={onBack}
+          className={SHARED_STYLES.backToHomeButton}
+        >
+          {t.backHome}
+        </button>
+      )}
 
       {/* Case type + state badge */}
       {selectedCase && t.caseTypes[selectedCase] && (
@@ -115,7 +118,7 @@ function Questionnaire({
             {t.caseTypes[selectedCase]}
           </span>
           {selectedState && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card text-text/70 border border-text/10">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-card/60 text-text/70 border border-text/10">
               {selectedState}
             </span>
           )}
@@ -128,12 +131,12 @@ function Questionnaire({
           <span className="font-semibold">{t.question} {qIdx + 1} {t.of} {questions.length}</span>
           <span className="font-bold text-accent">{Math.round(((qIdx + 1) / questions.length) * 100)}%</span>
         </div>
-        <div className="h-3 bg-card rounded-full overflow-hidden shadow-inner" role="progressbar" aria-valuenow={qIdx + 1} aria-valuemin={1} aria-valuemax={questions.length} aria-label={`${t.question} ${qIdx + 1} ${t.of} ${questions.length}`}>
+        <div className="h-3 bg-card/60 rounded-full overflow-hidden shadow-inner" role="progressbar" aria-valuenow={qIdx + 1} aria-valuemin={1} aria-valuemax={questions.length} aria-label={`${t.question} ${qIdx + 1} ${t.of} ${questions.length}`}>
           <div
             className="h-full transition-all duration-500 ease-out rounded-full shadow-lg"
             style={{
               width: `${((qIdx + 1) / questions.length) * 100}%`,
-              background: `linear-gradient(90deg, #B8860B 0%, ${`hsl(${45 + ((qIdx + 1) / questions.length) * 10}, ${70 + ((qIdx + 1) / questions.length) * 30}%, ${40 + ((qIdx + 1) / questions.length) * 20}%)`} 100%)`
+              background: `var(--cv-progress-fill, linear-gradient(90deg, #B8860B 0%, hsl(${45 + ((qIdx + 1) / questions.length) * 10}, ${70 + ((qIdx + 1) / questions.length) * 30}%, ${40 + ((qIdx + 1) / questions.length) * 20}%) 100%))`
             }}
           />
         </div>
@@ -380,9 +383,9 @@ function Questionnaire({
                   const newValue = e.target.value;
                   onUpdateAnswer(q.id, newValue);
                 }}
-                className="w-full h-4 bg-card rounded-lg appearance-none cursor-pointer"
+                className="w-full h-4 bg-card/60 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #FFD700 0%, #FFD700 ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgba(30, 50, 100, 0.6) 100%)`,
+                  background: `linear-gradient(to right, var(--cv-slider-fill, #FFD700) 0%, var(--cv-slider-fill, #FFD700) ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgb(var(--cv-card-rgb, 30 50 100) / 0.6) ${(answers[q.id] === 'unknown' ? 0 : (answers[q.id] || 0))}%, rgb(var(--cv-card-rgb, 30 50 100) / 0.6) 100%)`,
                   accentColor: 'transparent'
                 }}
               />
@@ -393,8 +396,8 @@ function Questionnaire({
                   top: '50%',
                   transform: 'translateY(-50%)',
                   fontSize: '38px',
-                  color: '#FFD700',
-                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.6)',
+                  color: 'var(--cv-slider-fill, #FFD700)',
+                  textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.4)',
                   zIndex: 10
                 }}
               >
@@ -469,13 +472,14 @@ Questionnaire.propTypes = {
   selectedState: PropTypes.string,
   hasHelpForQuestion: PropTypes.object.isRequired,
   NON_CURRENCY_NUMBER_FIELDS: PropTypes.instanceOf(Set).isRequired,
-  onBack: PropTypes.func.isRequired,
+  onBack: PropTypes.func,
   onShowHelp: PropTypes.func.isRequired,
   onUpdateAnswer: PropTypes.func.isRequired,
   onDontKnow: PropTypes.func.isRequired,
   onPrevious: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
-  shouldShowDontKnow: PropTypes.func.isRequired
+  shouldShowDontKnow: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool
 };
 
 export default memo(Questionnaire);

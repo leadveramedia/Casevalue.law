@@ -13,18 +13,21 @@ function StateSelection({
   selectedState,
   onStateChange,
   onBack,
-  onNext
+  onNext,
+  showBackButton = true
 }) {
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
       <h1 className="sr-only">{t.selectState}</h1>
       {/* Back to Home Button */}
-      <button
-        onClick={onBack}
-        className={SHARED_STYLES.backToHomeButton}
-      >
-        {t.backHome}
-      </button>
+      {showBackButton && (
+        <button
+          onClick={onBack}
+          className={SHARED_STYLES.backToHomeButton}
+        >
+          {t.backHome}
+        </button>
+      )}
 
       {selectedCase && t.caseTypes[selectedCase] && (
         <p className="text-center text-lg text-accent font-semibold mb-2">
@@ -55,12 +58,14 @@ function StateSelection({
         </select>
         <p className="text-sm text-textMuted mb-8">Different states have different laws that affect case values</p>
         <div className="flex gap-4">
-          <button
-            onClick={onBack}
-            className={SHARED_STYLES.navButton}
-          >
-            {t.back}
-          </button>
+          {showBackButton && (
+            <button
+              onClick={onBack}
+              className={SHARED_STYLES.navButton}
+            >
+              {t.back}
+            </button>
+          )}
           <button
             onClick={onNext}
             disabled={!selectedState}
@@ -84,8 +89,9 @@ StateSelection.propTypes = {
   selectedCase: PropTypes.string,
   selectedState: PropTypes.string,
   onStateChange: PropTypes.func.isRequired,
-  onBack: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired
+  onBack: PropTypes.func,
+  onNext: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool
 };
 
 export default memo(StateSelection);

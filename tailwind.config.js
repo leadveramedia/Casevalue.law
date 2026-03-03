@@ -41,9 +41,9 @@ module.exports = {
         ],
       },
       colors: {
-        // Base colors
-        background: '#0a0e27',      // Very dark navy background
-        primary: '#1a1f3a',         // Dark navy for navigation
+        // Base colors (CSS variables enable white-label theming for embeds)
+        background: 'var(--cv-bg, #0a0e27)',
+        primary: 'rgb(var(--cv-primary-rgb, 26 31 58) / <alpha-value>)',
 
         // Text colors
         text: '#F6F7FB',            // Main text (light)
@@ -51,12 +51,15 @@ module.exports = {
         textMuted: '#B8C5E0',       // Lighter muted text for dark bg
 
         // Accent colors
-        accent: '#FFC447',          // Gold accent
-        accentHover: '#FFB320',     // Gold accent hover
+        // Fallback values match original hex: #FFC447 = rgb(255,196,71), #FFB320 = rgb(255,179,32)
+        accent: 'rgb(var(--cv-accent-rgb, 255 196 71) / <alpha-value>)',
+        accentHover: 'rgb(var(--cv-accent-hover-rgb, 255 179 32) / <alpha-value>)',
 
-        // Card/Surface colors (lighter for contrast)
-        card: 'rgba(30, 50, 100, 0.6)',        // Lighter blue with transparency
-        cardBorder: 'rgba(255, 255, 255, 0.15)', // More visible border
+        // Card/Surface colors — RGB decomposition for opacity modifier support
+        // Original: card rgba(30,50,100,0.6), cardBorder rgba(255,255,255,0.15)
+        // After conversion, bare bg-card = fully opaque; use bg-card/60 for original look
+        card: 'rgb(var(--cv-card-rgb, 30 50 100) / <alpha-value>)',
+        cardBorder: 'rgb(var(--cv-card-border-rgb, 255 255 255) / <alpha-value>)',
 
         // Stat colors (brighter for dark background)
         statBlue: '#3DE1FF',
@@ -74,15 +77,15 @@ module.exports = {
         trustCard: 'rgba(60, 100, 170, 0.6)',
 
         // Questionnaire specific colors
-        questionCard: 'rgba(40, 75, 140, 0.75)',
+        questionCard: 'var(--cv-question-card, rgba(40, 75, 140, 0.75))',
         formInput: 'rgba(210, 210, 215, 0.95)',
-        buttonActive: 'rgba(70, 120, 200, 0.85)',
-        buttonInactive: 'rgba(40, 70, 120, 0.4)',
+        buttonActive: 'var(--cv-button-active, rgba(70, 120, 200, 0.85))',
+        buttonInactive: 'var(--cv-button-inactive, rgba(40, 70, 120, 0.4))',
       },
       backgroundImage: {
         'gradient-hero': 'linear-gradient(180deg, #071530 0%, #0F2A73 45%, #1E3D96 100%)',
-        'gradient-gold': 'linear-gradient(90deg, #FFD700 0%, #FFC107 25%, #FFB300 50%, #FFA000 75%, #FF8F00 100%)',
-        'gradient-text': 'linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%)',
+        'gradient-gold': 'var(--cv-gradient-gold, linear-gradient(90deg, #FFD700 0%, #FFC107 25%, #FFB300 50%, #FFA000 75%, #FF8F00 100%))',
+        'gradient-text': 'var(--cv-gradient-text, linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%))',
         'gradient-input': 'linear-gradient(145deg, rgba(220, 220, 225, 0.95) 0%, rgba(200, 200, 205, 0.98) 100%)',
       },
       boxShadow: {

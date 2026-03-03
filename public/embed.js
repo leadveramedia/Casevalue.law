@@ -9,6 +9,10 @@
  *     data-state="California"
  *     data-lang="en"
  *     data-partner="acme-law"
+ *     data-intake-email="intake@acmelaw.com"
+ *     data-accent-color="#3B82F6"
+ *     data-logo-url="https://yourfirm.com/logo.png"
+ *     data-hide-branding="true"
  *     data-width="100%"
  *     data-min-height="600"
  *   ></script>
@@ -25,6 +29,10 @@
   var state = currentScript.getAttribute('data-state') || '';
   var lang = currentScript.getAttribute('data-lang') || '';
   var partner = currentScript.getAttribute('data-partner') || '';
+  var intakeEmail = currentScript.getAttribute('data-intake-email') || '';
+  var accentColor = currentScript.getAttribute('data-accent-color') || '';
+  var logoUrl = currentScript.getAttribute('data-logo-url') || '';
+  var hideBranding = currentScript.getAttribute('data-hide-branding') || '';
   var width = currentScript.getAttribute('data-width') || '100%';
   var minHeight = parseInt(currentScript.getAttribute('data-min-height'), 10) || 600;
 
@@ -36,6 +44,10 @@
   if (state) params.push('state=' + encodeURIComponent(state));
   if (lang) params.push('lang=' + encodeURIComponent(lang));
   if (partner) params.push('partner=' + encodeURIComponent(partner));
+  if (intakeEmail) params.push('intakeEmail=' + encodeURIComponent(intakeEmail));
+  if (accentColor) params.push('accentColor=' + encodeURIComponent(accentColor));
+  if (logoUrl) params.push('logoUrl=' + encodeURIComponent(logoUrl));
+  if (hideBranding) params.push('hideBranding=1');
   var src = baseUrl + (params.length ? '?' + params.join('&') : '');
 
   // Create iframe

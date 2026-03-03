@@ -132,7 +132,7 @@ function LandingPage({
       </div>
 
       <section ref={howItWorksRef} className="px-4">
-        <div className="max-w-6xl mx-auto bg-card backdrop-blur-xl rounded-3xl border-2 border-cardBorder shadow-2xl p-8 sm:p-10 lg:p-14 space-y-12">
+        <div className="max-w-6xl mx-auto bg-card/60 backdrop-blur-xl rounded-3xl border-2 border-cardBorder/15 shadow-2xl p-8 sm:p-10 lg:p-14 space-y-12">
           <div className="space-y-4 text-center">
             <span className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-accent/20 text-accent border border-accent/60 font-semibold uppercase tracking-wider text-xs sm:text-sm">
               {t.methodology}
@@ -225,7 +225,7 @@ function LandingPage({
             ))}
           </ol>
 
-          <div className="bg-trustOuter border border-cardBorder rounded-2xl p-6 md:p-8 shadow-card">
+          <div className="bg-trustOuter border border-cardBorder/15 rounded-2xl p-6 md:p-8 shadow-card">
             <h3 className="text-2xl md:text-3xl font-bold text-text mb-6 text-center md:text-left">
               {t.trustFactors}
             </h3>
@@ -235,7 +235,7 @@ function LandingPage({
                 { title: t.trustFactor2, text: t.trustFactor2Text },
                 { title: t.trustFactor3, text: t.trustFactor3Text }
               ].map((factor, i) => (
-                <div key={i} className="bg-trustCard border border-cardBorder rounded-2xl p-5 sm:p-6 shadow-card">
+                <div key={i} className="bg-trustCard border border-cardBorder/15 rounded-2xl p-5 sm:p-6 shadow-card">
                   <h4 className="text-xl font-bold text-text mb-3">
                     {factor.title}
                   </h4>

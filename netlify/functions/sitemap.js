@@ -116,6 +116,13 @@ function generateSitemapXML(blogPosts) {
       changefreq: 'monthly',
       priority: '0.5',
       hreflang: false
+    },
+    {
+      loc: 'https://casevalue.law/embed/signup',
+      lastmod: '2026-03-02',
+      changefreq: 'monthly',
+      priority: '0.6',
+      hreflang: false
     }
   ];
 

@@ -51,7 +51,7 @@ export default function BlogLayout({ children, categories, ctaLink }) {
       </a>
 
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-cardBorder shadow-lg">
+      <nav className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-cardBorder/15 shadow-lg">
         <div className="flex justify-between items-center p-4 md:p-6 max-w-7xl mx-auto">
           {/* Logo */}
           <Link
@@ -100,7 +100,7 @@ export default function BlogLayout({ children, categories, ctaLink }) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary border-t border-cardBorder py-8 mt-auto">
+      <footer className="bg-primary border-t border-cardBorder/15 py-8 mt-auto">
         <div className="max-w-7xl mx-auto px-4">
           {/* State Calculator Directory */}
           <div className="mb-8">
@@ -121,7 +121,7 @@ export default function BlogLayout({ children, categories, ctaLink }) {
           </div>
 
           {/* Copyright & Legal Links */}
-          <div className="text-center border-t border-cardBorder pt-6">
+          <div className="text-center border-t border-cardBorder/15 pt-6">
             <p className="text-textMuted text-sm">
               © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
             </p>

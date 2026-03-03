@@ -16,7 +16,8 @@ function ContactForm({
   onBack,
   onUpdateContact,
   onTermsClick,
-  onSubmit
+  onSubmit,
+  showBackButton = true
 }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,12 +28,14 @@ function ContactForm({
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto animate-fade-in" noValidate>
       <h1 className="sr-only">{t.enterInfo}</h1>
       {/* Back to Home Button */}
-      <button
-        onClick={onBack}
-        className={SHARED_STYLES.backToHomeButton}
-      >
-        {t.backHome}
-      </button>
+      {showBackButton && (
+        <button
+          onClick={onBack}
+          className={SHARED_STYLES.backToHomeButton}
+        >
+          {t.backHome}
+        </button>
+      )}
 
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 px-4 text-text">
         {t.enterInfo}
@@ -202,10 +205,11 @@ ContactForm.propTypes = {
   }).isRequired,
   error: PropTypes.string,
   loading: PropTypes.bool,
-  onBack: PropTypes.func.isRequired,
+  onBack: PropTypes.func,
   onUpdateContact: PropTypes.func.isRequired,
   onTermsClick: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool
 };
 
 export default memo(ContactForm);
