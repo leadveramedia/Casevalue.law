@@ -127,7 +127,7 @@ export default function FirmPortalPage() {
     if (!email.trim()) { setError('Email is required.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError('Please enter a valid email address.'); return; }
     if (!phone.trim()) { setError('Phone number is required.'); return; }
-    if (!/^[\d\s\-\+\(\)\.]{7,20}$/.test(phone.trim())) { setError('Please enter a valid phone number.'); return; }
+    if (!/^[\d\s\-()+.]{7,20}$/.test(phone.trim())) { setError('Please enter a valid phone number.'); return; }
 
     setSubmitting(true);
     try {
