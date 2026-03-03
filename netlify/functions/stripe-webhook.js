@@ -109,9 +109,13 @@ exports.handler = async (event) => {
   const stripe = Stripe(stripeKey);
   let stripeEvent;
 
+  const rawBody = event.isBase64Encoded
+    ? Buffer.from(event.body, 'base64').toString('utf8')
+    : event.body;
+
   try {
     stripeEvent = stripe.webhooks.constructEvent(
-      event.body,
+      rawBody,
       event.headers['stripe-signature'],
       webhookSecret
     );
