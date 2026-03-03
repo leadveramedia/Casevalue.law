@@ -67,6 +67,12 @@ src/
 | `src/components/pages/SitemapPage.jsx` | User-facing HTML sitemap (grouped sections) | ~140 |
 | `src/Router.jsx` | All routes including SEO landing pages | ~180 |
 | `netlify/functions/sitemap.js` | **Production sitemap** (authoritative — not the static file) | ~215 |
+| `netlify/functions/create-checkout.js` | Creates Stripe Checkout session for Pro subscription | ~90 |
+| `netlify/functions/stripe-webhook.js` | Handles Stripe subscription lifecycle events | ~245 |
+| `netlify/functions/firm-signup.js` | Free tier firm signup handler | — |
+| `netlify/functions/validate-partner.js` | Validates partner slug + access token | — |
+| `netlify/functions/verify-access.js` | Verifies embed access for a partner | — |
+| `src/components/pages/FirmPortalPage.jsx` | Law firm configurator portal (post-signup) | — |
 | `craco.config.js` | Webpack overrides (no source maps, strip console in prod) | ~25 |
 
 ---
@@ -182,6 +188,8 @@ Three tiers of SEO landing pages sit on top of the calculator app:
 | `/sitemap` | `SitemapPage` | User-facing HTML sitemap (grouped sections) |
 | `/embed` | `EmbedApp` | Embeddable calculator widget (iframe) |
 | `/embed/docs` | `EmbedDocsPage` | Embed integration docs for webmasters |
+| `/embed/signup` | `EmbedSignupPage` | Pro signup + configurator (post-payment) |
+| `/for-law-firms` | `FirmPortalPage` | Law firm landing + signup form |
 
 **Key constants for these pages:**
 - `caseTypeSlugs.js` — `caseIdToSlug`, `caseSlugToId`, `caseTypeContent` (heading/intro/FAQs), `caseTypeSEO` (title/description)
@@ -228,3 +236,4 @@ Three tiers of SEO landing pages sit on top of the calculator app:
 - **Security Hardening** (Feb 2026): Red team remediation — 16 fixes across GitHub Actions, headers, input validation, PII removal, CMS sanitization, embed origin restriction
 - **HTML Sitemap** (Feb 2026): `/sitemap` page with grouped sections (Home, Calculators, States, Resources) + footer link
 - **Blog Search** (Feb 2026): Client-side search bar on `/blog` filtering by title + excerpt, works with category filter
+- **Pro Subscription / Embed Monetization** (Mar 2026): Stripe-powered $49.99/month subscription for law firms. Flow: firm signup form → `create-checkout.js` → Stripe Checkout → `stripe-webhook.js` handles lifecycle (signup, renewal, failure, cancellation) → partner stored in Netlify Blobs → welcome email via Resend with configurator link. Webhook events: `checkout.session.completed`, `customer.subscription.deleted`, `invoice.payment_failed`, `invoice.payment_succeeded`. Stripe IDs: product `prod_U5BCIdTHfKXwuI`, price `price_1T70qBD0buN6lmbzaq2VpWnb`. Required env vars: `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID`, `STRIPE_WEBHOOK_SECRET`, `EMBED_ACCESS_SECRET`, `RESEND_API_KEY`.

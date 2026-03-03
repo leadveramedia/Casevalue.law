@@ -2,10 +2,10 @@
  * EmbedSignupPage - Self-serve partner registration for the embeddable calculator.
  * Captures firm info, generates a personalized embed code, and stores via Netlify Forms.
  */
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import { CheckCircle, Copy, Scale, ArrowRight, ChevronDown } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { CheckCircle, Copy, Scale, ArrowRight, ChevronDown, Lock } from 'lucide-react';
 import Navigation from '../Navigation';
 import SocialMeta from '../SocialMeta';
 import Footer from '../Footer';
@@ -101,6 +101,25 @@ function CopyButton({ text }) {
 }
 
 export default function EmbedSignupPage() {
+  const [searchParams] = useSearchParams();
+  const urlPartner = searchParams.get('partner') || '';
+  const urlToken = searchParams.get('token') || '';
+
+  // 'loading' | 'granted' | 'denied'
+  const [access, setAccess] = useState(urlPartner && urlToken ? 'loading' : 'denied');
+
+  useEffect(() => {
+    if (!urlPartner || !urlToken) { setAccess('denied'); return; }
+    fetch('/.netlify/functions/verify-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ partner: urlPartner, token: urlToken }),
+    })
+      .then(r => r.json())
+      .then(d => setAccess(d.valid ? 'granted' : 'denied'))
+      .catch(() => setAccess('denied'));
+  }, [urlPartner, urlToken]);
+
   const [formData, setFormData] = useState({
     firmName: '',
     website: '',
@@ -112,12 +131,14 @@ export default function EmbedSignupPage() {
     logoUrl: '',
     hideBranding: false,
   });
-  const [showBranding, setShowBranding] = useState(false);
+  const [showBranding, setShowBranding] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  const partnerSlug = generatePartnerSlug(formData.firmName);
+  // Prefer URL partner param so the embed code reflects the paid account
+  const partnerSlug = urlPartner || generatePartnerSlug(formData.firmName);
+  const isPaid = !!urlPartner;
   const embedCode = generateEmbedCode({
     partnerSlug: partnerSlug || 'your-firm-name',
     selectedCaseTypes: formData.caseTypes,
@@ -186,6 +207,42 @@ export default function EmbedSignupPage() {
     }
   };
 
+  if (access === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
+        <div className="text-textMuted text-lg" role="status" aria-live="polite">Verifying access…</div>
+      </div>
+    );
+  }
+
+  if (access === 'denied') {
+    return (
+      <div className="min-h-screen text-text flex flex-col">
+        <Navigation lang="en" onLanguageChange={() => {}} onLogoClick={() => { window.location.href = '/'; }} />
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <div className="max-w-md w-full text-center bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-10">
+            <Lock className="w-12 h-12 text-textMuted mx-auto mb-5" />
+            <h1 className="text-2xl font-bold text-text mb-3">Pro Access Required</h1>
+            <p className="text-textMuted mb-6">
+              The configurator is available to CaseValue Pro subscribers. Upgrade to get white-label branding, lead routing, and a personal configurator link.
+            </p>
+            <a
+              href="/for-law-firms"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-textDark font-bold rounded-xl hover:opacity-90 transition"
+            >
+              View Plans <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </main>
+        <Footer
+          t={{ privacyPolicy: 'Privacy Policy', termsOfService: 'Terms of Service', copyright: 'All rights reserved.' }}
+          onPrivacyClick={() => {}}
+          onTermsClick={() => {}}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen text-text flex flex-col">
       <Helmet>
@@ -208,25 +265,171 @@ export default function EmbedSignupPage() {
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/30 text-accent text-sm font-semibold mb-6">
             <Scale className="w-4 h-4" />
-            100% Free — No Credit Card Required
+            {isPaid ? 'CaseValue Pro Configurator' : '100% Free — No Credit Card Required'}
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-text mb-4">
-            Add a Case Value Calculator to Your Website
+            {isPaid ? 'Configure Your Calculator' : 'Add a Case Value Calculator to Your Website'}
           </h1>
           <p className="text-lg md:text-xl text-textMuted max-w-2xl mx-auto">
-            Give visitors an instant settlement estimate. Capture leads directly on your site. Takes 60 seconds to set up.
+            {isPaid
+              ? <>Your Partner ID: <code className="text-accent font-mono">{urlPartner}</code>. Customize your embed below, then copy the code and paste it on your website.</>
+              : 'Give visitors an instant settlement estimate. Capture leads directly on your site. Takes 60 seconds to set up.'
+            }
           </p>
         </div>
 
-        {submitted ? (
-          /* Success State */
+        {isPaid ? (
+          /* ── Paid configurator — live code generation, no form submit ── */
+          <div className="space-y-8">
+            {/* Intake Email */}
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
+              <h2 className="text-xl font-bold text-text mb-2">Lead Intake Email</h2>
+              <p className="text-sm text-textMuted mb-4">Leads from the calculator will be emailed here in real-time.</p>
+              <input
+                id="intakeEmail"
+                type="email"
+                value={formData.intakeEmail}
+                onChange={(e) => setFormData(prev => ({ ...prev, intakeEmail: e.target.value }))}
+                placeholder="intake@yourfirm.com"
+                className="w-full px-4 py-3 rounded-xl bg-primary/60 border-2 border-cardBorder/15 text-text placeholder-textMuted/50 focus:border-accent focus:outline-none transition-colors"
+              />
+            </div>
+
+            {/* Configuration */}
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
+              <h2 className="text-xl font-bold text-text mb-2">Configure Your Calculator</h2>
+              <p className="text-sm text-textMuted mb-6">Optional — customize what your visitors see.</p>
+              <div className="mb-6">
+                <label htmlFor="state" className="block text-sm font-semibold text-text mb-2">Pre-select State</label>
+                <select
+                  id="state"
+                  value={formData.state}
+                  onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                  className="w-full px-4 py-3 rounded-xl bg-primary/60 border-2 border-cardBorder/15 text-text focus:border-accent focus:outline-none transition-colors"
+                >
+                  <option value="">Let visitors choose (recommended)</option>
+                  {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-text mb-2">
+                  Practice Areas
+                  <span className="text-textMuted font-normal ml-2">
+                    {formData.caseTypes.length === 0 ? '(All selected by default)' : `(${formData.caseTypes.length} selected)`}
+                  </span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {CASE_TYPE_OPTIONS.map(ct => (
+                    <button
+                      key={ct.id}
+                      type="button"
+                      onClick={() => toggleCaseType(ct.id)}
+                      className={`text-left px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
+                        formData.caseTypes.includes(ct.id)
+                          ? 'bg-accent/20 border-accent/40 text-accent'
+                          : 'bg-primary/30 border-cardBorder/50 text-textMuted hover:border-cardBorder/15 hover:text-text'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${
+                          formData.caseTypes.includes(ct.id) ? 'border-accent bg-accent' : 'border-cardBorder/15'
+                        }`}>
+                          {formData.caseTypes.includes(ct.id) && <CheckCircle className="w-3 h-3 text-textDark" />}
+                        </span>
+                        {ct.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Branding — always expanded for paid users */}
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
+              <h2 className="text-xl font-bold text-text mb-2">Customize Branding</h2>
+              <p className="text-sm text-textMuted mb-6">Match the calculator to your firm's brand colors and logo.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label htmlFor="accentColor" className="block text-sm font-semibold text-text mb-2">Accent Color</label>
+                  <div className="flex gap-3 items-center">
+                    <input
+                      type="color"
+                      value={formData.accentColor || '#FFC447'}
+                      onChange={(e) => setFormData(prev => ({ ...prev, accentColor: e.target.value }))}
+                      className="w-10 h-10 rounded-lg border-2 border-cardBorder/15 cursor-pointer bg-transparent"
+                    />
+                    <input
+                      id="accentColor"
+                      type="text"
+                      value={formData.accentColor}
+                      onChange={(e) => setFormData(prev => ({ ...prev, accentColor: e.target.value }))}
+                      placeholder="#FFC447 (default)"
+                      className="flex-1 px-4 py-3 rounded-xl bg-primary/60 border-2 border-cardBorder/15 text-text placeholder-textMuted/50 focus:border-accent focus:outline-none transition-colors font-mono"
+                    />
+                  </div>
+                  <p className="text-xs text-textMuted mt-1">Used for buttons, links, and highlights.</p>
+                </div>
+                <div>
+                  <label htmlFor="logoUrl" className="block text-sm font-semibold text-text mb-2">Logo URL</label>
+                  <input
+                    id="logoUrl"
+                    type="url"
+                    value={formData.logoUrl}
+                    onChange={(e) => setFormData(prev => ({ ...prev, logoUrl: e.target.value }))}
+                    placeholder="https://yourfirm.com/logo.png"
+                    className="w-full px-4 py-3 rounded-xl bg-primary/60 border-2 border-cardBorder/15 text-text placeholder-textMuted/50 focus:border-accent focus:outline-none transition-colors"
+                  />
+                  <p className="text-xs text-textMuted mt-1">Appears in the calculator footer in place of "Powered by CaseValue.law".</p>
+                </div>
+              </div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.hideBranding}
+                  onChange={(e) => setFormData(prev => ({ ...prev, hideBranding: e.target.checked }))}
+                  className="w-4 h-4 rounded border-2 border-cardBorder/15 text-accent focus:ring-accent"
+                />
+                <span className="text-sm text-text">Hide "Powered by CaseValue.law" footer</span>
+              </label>
+            </div>
+
+            {/* Live Preview */}
+            <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
+              <h2 className="text-xl font-bold text-text mb-2">Live Preview</h2>
+              <p className="text-sm text-textMuted mb-4">Changes update in real-time.</p>
+              <div className="rounded-xl overflow-hidden border-2 border-cardBorder/15">
+                <iframe
+                  src={previewUrl}
+                  title="Calculator preview"
+                  className="w-full border-none"
+                  style={{ height: '700px', colorScheme: 'dark' }}
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            {/* Embed Code */}
+            <div className="bg-card/50 backdrop-blur-xl border-2 border-accent/40 rounded-2xl p-6 md:p-8">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-text">Your Embed Code</h2>
+                <CopyButton text={embedCode} />
+              </div>
+              <pre className="bg-primary/60 border-2 border-cardBorder/15 rounded-xl p-5 overflow-x-auto text-sm text-text/90 font-mono leading-relaxed">
+                <code>{embedCode}</code>
+              </pre>
+              <p className="text-xs text-textMuted mt-3">
+                Copy this and paste it into your website where you want the calculator to appear. Bookmark this page to come back anytime and update your settings.
+              </p>
+            </div>
+          </div>
+        ) : submitted ? (
+          /* ── Free signup success state ── */
           <div className="bg-card/50 backdrop-blur-xl border-2 border-accent/40 rounded-2xl p-8 md:p-12 text-center">
             <CheckCircle className="w-16 h-16 text-accent mx-auto mb-6" />
             <h2 className="text-2xl md:text-3xl font-bold text-text mb-4">You're All Set!</h2>
             <p className="text-textMuted mb-8 max-w-lg mx-auto">
               Copy the embed code below and paste it into your website where you want the calculator to appear. Your partner ID is <code className="bg-primary/60 px-2 py-0.5 rounded text-accent font-mono">{partnerSlug}</code>.
             </p>
-
             <div className="text-left mb-6">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-lg font-bold text-text">Your Embed Code</h3>
@@ -236,7 +439,6 @@ export default function EmbedSignupPage() {
                 <code>{embedCode}</code>
               </pre>
             </div>
-
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
               <Link
                 to="/embed/docs"
@@ -247,7 +449,7 @@ export default function EmbedSignupPage() {
             </div>
           </div>
         ) : (
-          /* Registration Form */
+          /* ── Free signup registration form ── */
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Firm Info */}
             <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
@@ -321,12 +523,10 @@ export default function EmbedSignupPage() {
             <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <h2 className="text-xl font-bold text-text mb-2">Configure Your Calculator</h2>
               <p className="text-sm text-textMuted mb-6">Optional — customize what your visitors see. You can change these later.</p>
-
-              {/* State */}
               <div className="mb-6">
-                <label htmlFor="state" className="block text-sm font-semibold text-text mb-2">Pre-select State</label>
+                <label htmlFor="stateSelect" className="block text-sm font-semibold text-text mb-2">Pre-select State</label>
                 <select
-                  id="state"
+                  id="stateSelect"
                   value={formData.state}
                   onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
                   className="w-full px-4 py-3 rounded-xl bg-primary/60 border-2 border-cardBorder/15 text-text focus:border-accent focus:outline-none transition-colors"
@@ -335,8 +535,6 @@ export default function EmbedSignupPage() {
                   {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
-
-              {/* Case Types */}
               <div>
                 <label className="block text-sm font-semibold text-text mb-2">
                   Practice Areas

@@ -19,6 +19,7 @@ const EmbedApp = lazy(() => import('./EmbedApp.jsx'));
 const EmbedDocsPage = lazy(() => import('./components/pages/EmbedDocsPage'));
 const EmbedSignupPage = lazy(() => import('./components/pages/EmbedSignupPage'));
 const SitemapPage = lazy(() => import('./components/pages/SitemapPage'));
+const FirmPortalPage = lazy(() => import('./components/pages/FirmPortalPage'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -158,6 +159,16 @@ export default function Router() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <EmbedSignupPage />
+            </Suspense>
+          }
+        />
+
+        {/* Law firm portal — embed signup, free & paid tiers */}
+        <Route
+          path="/for-law-firms"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <FirmPortalPage />
             </Suspense>
           }
         />

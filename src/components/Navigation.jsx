@@ -5,14 +5,14 @@
 import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LANGUAGE_OPTIONS } from '../constants/languages';
-import { BookOpen, Calculator, Code2 } from 'lucide-react';
+import { BookOpen, Calculator } from 'lucide-react';
 import Logo from './Logo';
 
 export default memo(function Navigation({ lang, onLanguageChange, onLogoClick }) {
   const location = useLocation();
   const isOnBlog = location.pathname.startsWith('/blog');
   const isOnCalculator = location.pathname === '/';
-  const isOnEmbed = location.pathname.startsWith('/embed');
+
 
   return (
     <nav className="sticky top-0 z-50 bg-primary/90 backdrop-blur-md border-b border-cardBorder/15 shadow-lg">
@@ -59,18 +59,6 @@ export default memo(function Navigation({ lang, onLanguageChange, onLogoClick })
             >
               <BookOpen className="w-5 h-5" />
               <span className="hidden sm:inline">Blog</span>
-            </Link>
-          )}
-
-          {/* Embed Link - Show on calculator and blog pages */}
-          {(isOnCalculator || isOnBlog) && !isOnEmbed && (
-            <Link
-              to="/embed/docs"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card/30 text-textMuted hover:text-accent border border-cardBorder/15 hover:border-accent/40 font-semibold transition-colors"
-              aria-label="Embed calculator on your website"
-            >
-              <Code2 className="w-5 h-5" />
-              <span className="hidden sm:inline">For Law Firms</span>
             </Link>
           )}
 

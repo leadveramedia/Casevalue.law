@@ -586,23 +586,29 @@ export default function EmbedApp() {
           </div>
         )}
 
-        {/* Powered by footer (hidden when white-labeled) */}
+        {/* Footer: partner logo replaces "Powered by" when provided; hidden when hide_branding is set */}
         {!hideBranding && (
           <div className="relative z-10 border-t border-cardBorder/40 py-3 px-4">
-            <a
-              href="https://casevalue.law/embed/docs?utm_source=embed&utm_medium=widget&utm_campaign=powered_by"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-center gap-2 text-sm text-textMuted hover:text-accent transition-colors"
-              title="Free case value calculator for your website"
-              onClick={() => trackEmbedEvent('powered_by_clicked')}
-            >
-              <Scale className="w-4 h-4 text-accent/70 group-hover:text-accent transition-colors" />
-              <span>Powered by</span>
-              <span className="font-bold text-text group-hover:text-accent transition-colors tracking-tight">
-                case<span className="px-1 py-0.5 bg-gradient-gold text-textDark rounded-sm mx-0.5 text-xs font-black">value</span>.law
-              </span>
-            </a>
+            {logoUrl ? (
+              <div className="flex items-center justify-center">
+                <img src={logoUrl} alt="Logo" className="h-8 max-w-[200px] object-contain" />
+              </div>
+            ) : (
+              <a
+                href="https://casevalue.law?utm_source=embed&utm_medium=widget&utm_campaign=powered_by"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center gap-2 text-sm text-textMuted hover:text-accent transition-colors"
+                title="Free case value calculator for your website"
+                onClick={() => trackEmbedEvent('powered_by_clicked')}
+              >
+                <Scale className="w-4 h-4 text-accent/70 group-hover:text-accent transition-colors" />
+                <span>Powered by</span>
+                <span className="font-bold text-text group-hover:text-accent transition-colors tracking-tight">
+                  case<span className="px-1 py-0.5 bg-gradient-gold text-textDark rounded-sm mx-0.5 text-xs font-black">value</span>.law
+                </span>
+              </a>
+            )}
           </div>
         )}
 

@@ -111,19 +111,12 @@ function generateSitemapXML(blogPosts) {
       hreflang: false
     },
     {
-      loc: 'https://casevalue.law/embed/docs',
-      lastmod: '2026-02-26',
+      loc: 'https://casevalue.law/for-law-firms',
+      lastmod: '2026-03-03',
       changefreq: 'monthly',
-      priority: '0.5',
+      priority: '0.7',
       hreflang: false
     },
-    {
-      loc: 'https://casevalue.law/embed/signup',
-      lastmod: '2026-03-02',
-      changefreq: 'monthly',
-      priority: '0.6',
-      hreflang: false
-    }
   ];
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>

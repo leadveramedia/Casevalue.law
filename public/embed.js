@@ -50,31 +50,60 @@
   if (hideBranding) params.push('hideBranding=1');
   var src = baseUrl + (params.length ? '?' + params.join('&') : '');
 
-  // Create iframe
-  var iframe = document.createElement('iframe');
-  iframe.src = src;
-  iframe.style.width = width;
-  iframe.style.minHeight = minHeight + 'px';
-  iframe.style.height = minHeight + 'px';
-  iframe.style.border = 'none';
-  iframe.style.borderRadius = '12px';
-  iframe.style.overflow = 'hidden';
-  iframe.style.colorScheme = 'dark';
-  iframe.setAttribute('title', 'Case Value Calculator');
-  iframe.setAttribute('loading', 'lazy');
-  iframe.setAttribute('allow', 'clipboard-write');
+  var insertedEl = null;
 
-  // Insert iframe after the script tag
-  currentScript.parentNode.insertBefore(iframe, currentScript.nextSibling);
+  function createIframe() {
+    var iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.style.width = width;
+    iframe.style.minHeight = minHeight + 'px';
+    iframe.style.height = minHeight + 'px';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '12px';
+    iframe.style.overflow = 'hidden';
+    iframe.style.colorScheme = 'dark';
+    iframe.setAttribute('title', 'Case Value Calculator');
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('allow', 'clipboard-write');
+    currentScript.parentNode.insertBefore(iframe, currentScript.nextSibling);
+    insertedEl = iframe;
+  }
+
+  function showUnavailable() {
+    var div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;justify-content:center;min-height:' + minHeight + 'px;border-radius:12px;background:#1e293b;color:#94a3b8;font-family:system-ui,sans-serif;font-size:14px;';
+    div.textContent = 'Legal case value calculator temporarily unavailable.';
+    currentScript.parentNode.insertBefore(div, currentScript.nextSibling);
+    insertedEl = div;
+  }
+
+  // Anonymous embeds (no partner) always render immediately
+  if (!partner) {
+    createIframe();
+  } else {
+    // Validate partner subscription status before rendering
+    // Fail-open: if the request errors, render anyway to avoid breaking client sites
+    fetch('https://casevalue.law/.netlify/functions/validate-partner?partner=' + encodeURIComponent(partner))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.active === false) {
+          showUnavailable();
+        } else {
+          createIframe();
+        }
+      })
+      .catch(function() { createIframe(); });
+  }
 
   // Listen for resize messages from the embed
   window.addEventListener('message', function(event) {
     if (event.origin !== 'https://casevalue.law') return;
     if (!event.data || event.data.type !== 'casevalue-resize') return;
+    if (!insertedEl || insertedEl.tagName !== 'IFRAME') return;
 
     var newHeight = event.data.height;
     if (typeof newHeight === 'number' && newHeight > 0) {
-      iframe.style.height = Math.max(newHeight, minHeight) + 'px';
+      insertedEl.style.height = Math.max(newHeight, minHeight) + 'px';
     }
   });
 })();
