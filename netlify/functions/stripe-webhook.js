@@ -174,7 +174,7 @@ exports.handler = async (event) => {
 
         // Build basic embed code for the email
         const caseTypesArr = caseTypes ? caseTypes.split(',').filter(Boolean) : [];
-        const embedCode = `<script\n  src="https://casevalue.law/embed.js"\n  data-partner="${partnerSlug}"\n></script>`;
+        const embedCode = `&lt;script\n  src="https://casevalue.law/embed.js"\n  data-partner="${partnerSlug}"\n&gt;&lt;/script&gt;`;
 
         if (resendKey) {
           await sendEmail(resendKey, {
