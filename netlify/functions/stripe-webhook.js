@@ -45,7 +45,7 @@ function buildPaidEmailHtml({ firmName, contactName, partnerSlug, configuratorUr
         <div style="margin:24px 0">
           <p style="color:#374151;font-size:14px;font-weight:600;margin-bottom:8px">Your Partner ID: <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace;color:#1e293b">${partnerSlug}</code></p>
           <p style="color:#374151;font-size:14px;font-weight:600;margin-bottom:8px">Default Embed Code (before customization):</p>
-          <pre style="background:#0f172a;color:#e2e8f0;padding:16px;border-radius:8px;font-size:13px;overflow-x:auto;white-space:pre-wrap">${embedCode}</pre>
+          <pre style="background:#f3f4f6;color:#1e293b;border:1px solid #e5e7eb;padding:16px;border-radius:8px;font-size:13px;overflow-x:auto;white-space:pre-wrap;font-family:monospace">${embedCode}</pre>
           <p style="color:#6b7280;font-size:13px;margin-top:8px">After customizing, copy your updated embed code from the configurator.</p>
         </div>
 
