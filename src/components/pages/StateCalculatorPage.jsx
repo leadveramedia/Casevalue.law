@@ -120,7 +120,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
   const negligence = stateData?.negligenceSystem;
   const negligenceDesc = negligenceLabels[negligence] || '';
   const sol = stateRules?.statuteOfLimitations;
-  const caseLabel = content.heading.replace(' Calculator', '').toLowerCase();
+  const caseLabel = content.heading.replace(' Case Value Calculator', '').replace(' Settlement Calculator', '').replace(' Claim Calculator', '').replace(' Case Calculator', '').replace(' Calculator', '').toLowerCase();
   const baseDesc = `Free ${stateName} ${caseLabel} calculator. Estimate your case value based on ${sol ? `the ${sol}-year filing deadline` : 'state laws'}`;
   const pageDescription = (baseDesc + (negligenceDesc ? ` and ${negligenceDesc.toLowerCase()}` : '') + '.').length <= 160
     ? baseDesc + (negligenceDesc ? ` and ${negligenceDesc.toLowerCase()}` : '') + '.'
@@ -142,7 +142,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
   const displayFacts = enhancedFacts || getFallbackFacts(stateData, stateRules, caseTypeId);
 
   const lastUpdated = stateData?.lastUpdated || '2026-03-06';
-  const caseLabelDisplay = content.heading.replace(' Calculator', '').replace(' Settlement Calculator', '').replace(' Case Value Calculator', '');
+  const caseLabelDisplay = content.heading.replace(' Case Value Calculator', '').replace(' Settlement Calculator', '').replace(' Claim Calculator', '').replace(' Case Calculator', '').replace(' Calculator', '');
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -216,7 +216,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
             style={{ background: 'rgba(26,31,58,0.7)' }}
             aria-hidden="true"
           />
-          <section className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6 text-center">
+          <section className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 border border-accent/30 rounded-full text-accent text-sm font-semibold mb-4">
               <Calculator className="w-4 h-4" />
               {stateName} &middot; Free Case Value Calculator
@@ -239,7 +239,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
 
         {/* How State Law Affects Your Case -- prose section (launch case types only) */}
         {prose && prose.length > 1 && (
-          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
             <h2 className="text-2xl font-bold text-text mb-6">
               How {stateName} Law Affects Your {caseLabelDisplay} Case
             </h2>
