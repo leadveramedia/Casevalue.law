@@ -1,25 +1,29 @@
 // ============================================================================
 // STATE CALCULATOR LANDING PAGE
-// State × case type landing pages for /[stateSlug]/[caseSlug]-calculator.
+// State x case type landing pages for /[stateSlug]/[caseSlug]-calculator.
 // Each page provides state-specific legal facts, FAQ, and links to the
-// pre-selected calculator — targeting keywords like
+// pre-selected calculator -- targeting keywords like
 // "California car accident settlement calculator".
 // ============================================================================
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle, Info, BarChart3, BookOpen } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import SocialMeta from '../SocialMeta';
 import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
+import {
+  getCaseTypeProse,
+  getWhatToDoContent,
+  getEnhancedStateFacts,
+  getStateFAQs as getEngineFAQs,
+  getRelatedCaseTypes,
+  getNeighboringComparison,
+  getNationalAverages,
+} from '../../constants/stateContentEngine';
 
-// Case types shown in the "Related Calculators" section (PI-focused subset)
-const RELATED_CASE_TYPES = [
-  'motor', 'medical', 'premises', 'product', 'wrongful_death',
-  'dog_bite', 'workers_comp', 'insurance', 'wrongful_term',
-];
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
@@ -36,7 +40,7 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
           : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" aria-hidden="true" />
         }
       </button>
-      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder/15 pt-4">
+      <div id={`faq-panel-${index}`} hidden={!isOpen} className="px-6 pb-5 text-text/75 leading-relaxed border-t border-cardBorder pt-4">
         {faq.a}
       </div>
     </div>
@@ -44,10 +48,9 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
 }
 
 /**
- * Build state-specific FAQ entries, replacing the generic deadline answer
- * with the actual SOL for this state + case type.
+ * Fallback: Build state-specific FAQ entries for non-launch case types.
  */
-function buildStateFAQs(baseFAQs, stateRules, stateName, caseTypeId) {
+function buildFallbackFAQs(baseFAQs, stateRules, stateName, caseTypeId) {
   const sol = stateRules?.statuteOfLimitations;
   if (!sol) return baseFAQs;
 
@@ -61,77 +64,39 @@ function buildStateFAQs(baseFAQs, stateRules, stateName, caseTypeId) {
       : '';
     return {
       ...faq,
-      a: `In ${stateName}, you have ${sol} year${sol !== 1 ? 's' : ''} from the ${dateRef} to file a lawsuit.${noFaultNote} Missing this deadline permanently bars your right to recover — act promptly and consult an attorney before the deadline approaches.`
+      a: `In ${stateName}, you have ${sol} year${sol !== 1 ? 's' : ''} from the ${dateRef} to file a lawsuit.${noFaultNote} Missing this deadline permanently bars your right to recover \u2014 act promptly and consult an attorney before the deadline approaches.`
     };
   });
 }
 
 /**
- * Generate key state-specific facts to display in a facts card.
+ * Fallback: Generate key state-specific facts for non-launch case types.
  */
-function getStateFacts(stateData, stateRules, caseTypeId) {
+function getFallbackFacts(stateData, stateRules, caseTypeId) {
   const facts = [];
   const sol = stateRules?.statuteOfLimitations;
   if (sol) {
-    facts.push({
-      icon: Clock,
-      label: 'Filing Deadline',
-      value: `${sol} year${sol !== 1 ? 's' : ''}`,
-    });
+    facts.push({ icon: Clock, label: 'Filing Deadline', value: `${sol} year${sol !== 1 ? 's' : ''}` });
   }
-
   const negligence = stateData.negligenceSystem;
   if (negligence && negligenceLabels[negligence]) {
-    facts.push({
-      icon: Scale,
-      label: 'Negligence System',
-      value: negligenceLabels[negligence],
-    });
+    facts.push({ icon: Scale, label: 'Negligence System', value: negligenceLabels[negligence] });
   }
-
-  // Damage cap (for applicable case types)
   const nonEconCap = stateRules?.nonEconomicDamageCap;
   if (nonEconCap !== undefined && nonEconCap !== null) {
-    facts.push({
-      icon: AlertCircle,
-      label: 'Non-Economic Damage Cap',
-      value: `$${(nonEconCap / 1000).toFixed(0)}K`,
-    });
+    facts.push({ icon: AlertCircle, label: 'Non-Economic Damage Cap', value: `$${(nonEconCap / 1000).toFixed(0)}K` });
   } else if (nonEconCap === null && ['medical', 'premises', 'professional'].includes(caseTypeId)) {
-    facts.push({
-      icon: AlertCircle,
-      label: 'Non-Economic Damage Cap',
-      value: 'None',
-    });
+    facts.push({ icon: AlertCircle, label: 'Non-Economic Damage Cap', value: 'None' });
   }
-
-  // Dog bite: strict liability vs one-bite
   if (caseTypeId === 'dog_bite' && stateRules?.strictLiability !== undefined) {
-    facts.push({
-      icon: AlertCircle,
-      label: 'Liability Rule',
-      value: stateRules.strictLiability ? 'Strict Liability' : 'One-Bite Rule',
-    });
+    facts.push({ icon: AlertCircle, label: 'Liability Rule', value: stateRules.strictLiability ? 'Strict Liability' : 'One-Bite Rule' });
   }
-
-  // Motor vehicle: no-fault
   if (caseTypeId === 'motor' && stateRules?.noFaultState !== undefined) {
-    facts.push({
-      icon: AlertCircle,
-      label: 'No-Fault State',
-      value: stateRules.noFaultState ? 'Yes' : 'No',
-    });
+    facts.push({ icon: AlertCircle, label: 'No-Fault State', value: stateRules.noFaultState ? 'Yes' : 'No' });
   }
-
-  // Workers comp: max weekly benefit
   if (caseTypeId === 'workers_comp' && stateRules?.maxWeeklyBenefit) {
-    facts.push({
-      icon: AlertCircle,
-      label: 'Max Weekly Benefit',
-      value: `$${stateRules.maxWeeklyBenefit.toLocaleString()}`,
-    });
+    facts.push({ icon: AlertCircle, label: 'Max Weekly Benefit', value: `$${stateRules.maxWeeklyBenefit.toLocaleString()}` });
   }
-
   return facts;
 }
 
@@ -161,20 +126,35 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
     ? baseDesc + (negligenceDesc ? ` and ${negligenceDesc.toLowerCase()}` : '') + '.'
     : baseDesc + '.';
 
-  const stateFAQs = buildStateFAQs(content.faqs, stateRules, stateName, caseTypeId);
-  const stateFacts = getStateFacts(stateData, stateRules, caseTypeId);
+  // Content engine data (null for non-launch case types = graceful degradation)
+  const prose = getCaseTypeProse(stateCode, caseTypeId);
+  const engineFAQs = getEngineFAQs(stateCode, caseTypeId);
+  const enhancedFacts = getEnhancedStateFacts(stateCode, caseTypeId);
+  const relatedCaseTypes = getRelatedCaseTypes(stateCode, caseTypeId);
+  const neighborComparisons = getNeighboringComparison(stateCode, caseTypeId);
+  const nationalAvgs = getNationalAverages(caseTypeId);
+  const whatToDo = getWhatToDoContent(stateCode, caseTypeId);
+
+  // Use engine FAQs when available, fallback to old system
+  const displayFAQs = engineFAQs || buildFallbackFAQs(content.faqs, stateRules, stateName, caseTypeId);
+
+  // Use enhanced facts when available, fallback to old system
+  const displayFacts = enhancedFacts || getFallbackFacts(stateData, stateRules, caseTypeId);
+
+  const lastUpdated = stateData?.lastUpdated || '2026-03-06';
+  const caseLabelDisplay = content.heading.replace(' Calculator', '').replace(' Settlement Calculator', '').replace(' Case Value Calculator', '');
 
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": stateFAQs.map(faq => ({
+    "mainEntity": displayFAQs.map(faq => ({
       "@type": "Question",
       "name": faq.q,
       "acceptedAnswer": { "@type": "Answer", "text": faq.a }
     }))
   };
 
-  const breadcrumbSchema = {
+  const breadcrumbSchemaPA = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
@@ -184,134 +164,173 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
     ]
   };
 
+  const breadcrumbSchemaState = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://casevalue.law" },
+      { "@type": "ListItem", "position": 2, "name": `${stateName} Calculators`, "item": `https://casevalue.law/states/${stateSlug}` },
+      { "@type": "ListItem", "position": 3, "name": `${stateName} ${content.heading}`, "item": canonicalUrl }
+    ]
+  };
+
+  const webAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": `${stateName} ${content.heading}`,
+    "url": canonicalUrl,
+    "applicationCategory": "LegalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  };
+
+  // Hero intro: use first prose paragraph if available, else generic
+  const heroIntro = prose && prose.length > 0
+    ? prose[0]
+    : `${content.intro.replace(/\.$/, '')} under ${stateName}'s specific laws.`;
+
   return (
-    <BlogLayout ctaLink={calculatorLink}>
+    <BlogLayout ctaLink={calculatorLink} hideWhenHeroCTAVisible>
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
         <link rel="preload" as="image" href={`/flags/${stateSlug}-large.png`} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaPA)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaState)}</script>
+        <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
       </Helmet>
       <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} />
 
-      <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
-        {/* State flag background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
-          style={{ backgroundImage: `url('/flags/${stateSlug}-large.png')` }}
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(26,31,58,0.78) 35%, rgba(26,31,58,0.78) 65%, transparent 100%)' }}
-          aria-hidden="true"
-        />
+      <div className="min-h-screen bg-gradient-hero">
+        {/* Hero with flag background */}
+        <div className="relative overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
+            style={{ backgroundImage: `url('/flags/${stateSlug}-large.png')` }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'rgba(26,31,58,0.7)' }}
+            aria-hidden="true"
+          />
+          <section className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 border border-accent/30 rounded-full text-accent text-sm font-semibold mb-4">
+              <Calculator className="w-4 h-4" />
+              {stateName} &middot; Free Case Value Calculator
+            </div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text mb-4 leading-tight">
+              {stateName} {content.heading}
+            </h1>
+            <p className="text-xl text-text/75 mb-5 max-w-2xl mx-auto leading-relaxed" dangerouslySetInnerHTML={{ __html: heroIntro }} />
+            <Link
+              id="hero-cta"
+              to={calculatorLink}
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-textDark rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-card hover:shadow-glow-gold-soft transform hover:scale-[1.02] active:scale-[0.99]"
+            >
+              Get My Free {stateName} Estimate
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <p className="mt-3 text-sm text-textMuted">Quick &amp; easy &middot; Takes 2 minutes &middot; 100% free</p>
+          </section>
+        </div>
 
-        <div className="relative">
-        {/* Hero */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 border border-accent/30 rounded-full text-accent text-sm font-semibold mb-6">
-            <Calculator className="w-4 h-4" />
-            {stateName} · Free Case Value Calculator
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text mb-6 leading-tight">
-            {stateName} {content.heading}
-          </h1>
-          <p className="text-xl text-textMuted mb-10 max-w-2xl mx-auto leading-relaxed">
-            {content.intro.replace(/\.$/, '')} under {stateName}'s specific laws.
-          </p>
-          <Link
-            to={calculatorLink}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-textDark rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-card hover:shadow-glow-gold-soft transform hover:scale-[1.02] active:scale-[0.99]"
-          >
-            Start Free {stateName} Calculator
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-          <p className="mt-4 text-sm text-textMuted">Quick & easy · Takes 2 minutes · 100% free</p>
-        </section>
-
-        {/* State-specific facts */}
-        {stateFacts.length > 0 && (
+        {/* How State Law Affects Your Case -- prose section (launch case types only) */}
+        {prose && prose.length > 1 && (
           <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-            <h2 className="text-xl font-bold text-text mb-4 text-center">Key {stateName} Laws</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {stateFacts.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-4 p-4 bg-card/40 backdrop-blur-xl border border-cardBorder/15 rounded-xl">
-                  <div className="p-2 bg-accent/15 rounded-lg shrink-0">
-                    <Icon className="w-5 h-5 text-accent" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-textMuted uppercase tracking-wide font-semibold">{label}</div>
-                    <div className="text-text font-bold mt-0.5">{value}</div>
-                  </div>
-                </div>
+            <h2 className="text-2xl font-bold text-text mb-6">
+              How {stateName} Law Affects Your {caseLabelDisplay} Case
+            </h2>
+            <div className="space-y-4">
+              {prose.slice(1).map((paragraph, i) => (
+                <p key={i} className="text-text/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: paragraph }} />
               ))}
             </div>
           </section>
         )}
 
-        {/* State Legal Landscape */}
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          <h2 className="text-xl font-bold text-text mb-4">
-            Filing a {content.heading.replace(' Calculator', '')} Claim in {stateName}
-          </h2>
-          <p className="text-textMuted leading-relaxed mb-3">
-            {stateName} follows {negligenceDesc ? `a ${negligenceDesc.toLowerCase()} system` : 'its own negligence rules'} for personal injury cases
-            {sol ? `, and you have ${sol} year${sol !== 1 ? 's' : ''} from the date of the incident to file a lawsuit` : ''}.
-            {stateRules?.noFaultState ? ` As a no-fault insurance state, ${stateName} requires you to first seek compensation through your own insurance before filing a claim against the at-fault party.` : ''}
-            {' '}Understanding these rules is critical because they directly affect your potential recovery.
-            For legal guidance specific to your situation, consult a licensed {stateName} attorney through the{' '}
-            <a
-              href="https://www.americanbar.org/groups/legal_services/flh-home/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
-              American Bar Association's lawyer referral directory
-            </a>.
-          </p>
-        </section>
+        {/* What To Do Next — actionable steps section (motor + medmal only) */}
+        {whatToDo && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <h2 className="text-2xl font-bold text-text mb-4">
+              {caseTypeId === 'motor' ? `Steps After a Car Accident in ${stateName}` : `Steps If You Suspect Medical Malpractice in ${stateName}`}
+            </h2>
+            <p className="text-text/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: whatToDo }} />
+          </section>
+        )}
 
-        {/* Related Calculators in This State */}
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          <h2 className="text-xl font-bold text-text mb-4">
-            More {stateName} Calculators
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {RELATED_CASE_TYPES.filter(id => id !== caseTypeId).map(id => {
-              const relSlug = caseIdToSlug[id];
-              const relContent = caseTypeContent[id];
-              if (!relSlug || !relContent) return null;
-              return (
-                <Link
-                  key={id}
-                  to={`/${stateSlug}/${relSlug}-calculator`}
-                  className="text-sm text-textMuted hover:text-text hover:bg-card/40 transition-colors py-2 px-3 rounded-lg border border-cardBorder/15"
-                >
-                  {relContent.heading.replace(' Calculator', '')}
-                </Link>
-              );
-            })}
-          </div>
-          <div className="mt-3">
-            <Link
-              to={`/states/${stateSlugForLink}`}
-              className="text-sm text-accent hover:underline"
-            >
-              View all {stateName} calculators →
-            </Link>
-          </div>
-        </section>
+        {/* Enhanced State Facts */}
+        {displayFacts && displayFacts.length > 0 && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <h2 className="text-xl font-bold text-text mb-4 text-center">Key {stateName} Laws</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {displayFacts.map((fact) => {
+                const Icon = fact.icon || Info;
+                return (
+                  <div key={fact.label} className="flex items-start gap-4 p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl">
+                    <div className="p-2 bg-accent/15 rounded-lg shrink-0 mt-0.5">
+                      <Icon className="w-5 h-5 text-accent" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-textMuted uppercase tracking-wide font-semibold">{fact.label}</div>
+                      <div className="text-text font-bold mt-0.5">{fact.value}</div>
+                      {fact.context && (
+                        <div className="text-xs text-textMuted mt-1">{fact.context}</div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
-        {/* FAQ */}
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        {/* State Comparison Strip */}
+        {nationalAvgs && sol != null && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <h2 className="text-lg font-bold text-text mb-4 text-center flex items-center justify-center gap-2">
+              <BarChart3 className="w-5 h-5 text-accent" />
+              How Does {stateName} Compare?
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                <div className="text-2xl font-bold text-accent">{sol} yr{sol !== 1 ? 's' : ''}</div>
+                <div className="text-xs text-textMuted mt-1">Filing Deadline</div>
+                {nationalAvgs.avgSOL && (
+                  <div className="text-xs text-textMuted mt-0.5">Avg: {nationalAvgs.avgSOL} yrs</div>
+                )}
+              </div>
+              <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                <div className="text-2xl font-bold text-accent">{negligenceDesc ? negligenceDesc.split(' ')[0] : 'N/A'}</div>
+                <div className="text-xs text-textMuted mt-1">Fault System</div>
+                <div className="text-xs text-textMuted mt-0.5">{negligenceDesc || ''}</div>
+              </div>
+              {caseTypeId === 'workers_comp' && stateRules?.maxWeeklyBenefit && nationalAvgs.avgWeeklyBenefit && (
+                <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                  <div className="text-2xl font-bold text-accent">${stateRules.maxWeeklyBenefit.toLocaleString()}</div>
+                  <div className="text-xs text-textMuted mt-1">Max Weekly Benefit</div>
+                  <div className="text-xs text-textMuted mt-0.5">Avg: ${nationalAvgs.avgWeeklyBenefit.toLocaleString()}</div>
+                </div>
+              )}
+              {stateRules?.nonEconomicDamageCap != null && (
+                <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                  <div className="text-2xl font-bold text-accent">${(stateRules.nonEconomicDamageCap / 1000).toFixed(0)}K</div>
+                  <div className="text-xs text-textMuted mt-1">Non-Econ Cap</div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* State-Specific FAQs */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <h2 className="text-3xl font-bold text-text mb-8 text-center">
-            {stateName} {content.heading.replace(' Calculator', '')} FAQs
+            {stateName} {caseLabelDisplay} FAQs
           </h2>
           <div className="space-y-3">
-            {stateFAQs.map((faq, i) => (
+            {displayFAQs.map((faq, i) => (
               <FAQItem
                 key={i}
                 faq={faq}
@@ -321,25 +340,91 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               />
             ))}
           </div>
+        </section>
 
-          {/* Bottom CTA */}
-          <div className="mt-12 p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
+        {/* Related Calculators for State */}
+        {relatedCaseTypes && relatedCaseTypes.length > 0 && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <h2 className="text-xl font-bold text-text mb-4">Related {stateName} Calculators</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {relatedCaseTypes.map((related) => (
+                <Link
+                  key={related.caseTypeId}
+                  to={related.url}
+                  className="group flex items-center justify-between p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                >
+                  <span className="text-text font-semibold text-sm">{stateName} {related.label}</span>
+                  <ArrowRight className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Neighboring States -- "Had your accident in a different state?" */}
+        {neighborComparisons && neighborComparisons.length > 0 && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            <h2 className="text-xl font-bold text-text mb-2">Had Your Accident in a Different State?</h2>
+            <p className="text-sm text-textMuted mb-4">
+              Which state's law applies depends on where the incident occurred, not where you live. Compare neighboring states:
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {neighborComparisons.map((neighbor) => (
+                <Link
+                  key={neighbor.stateCode}
+                  to={neighbor.url}
+                  className="group flex items-center justify-between p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                >
+                  <div>
+                    <div className="text-text font-semibold text-sm">{neighbor.stateName}</div>
+                    <div className="text-xs text-textMuted mt-0.5">
+                      {neighbor.sol && `${neighbor.sol}-yr SOL`}
+                      {neighbor.sol && neighbor.negligenceLabel && ' · '}
+                      {neighbor.negligenceLabel && neighbor.negligenceLabel.split(' ')[0]}
+                      {neighbor.noFault && ' · No-Fault'}
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Legal Disclaimer + Laws Current As Of */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <div className="p-4 bg-card/30 border border-cardBorder rounded-xl">
+            <div className="flex items-start gap-3">
+              <BookOpen className="w-5 h-5 text-textMuted shrink-0 mt-0.5" />
+              <div className="text-xs text-textMuted leading-relaxed">
+                <p className="font-semibold text-text mb-1">Legal Disclaimer</p>
+                <p>
+                  This calculator uses {stateName}'s statutes as of {lastUpdated}. Laws change frequently. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a {stateName}-licensed attorney before making decisions about your case.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
             <h3 className="text-2xl font-bold text-text mb-3">
-              Get Your {stateName} Case Estimate — Free
+              Get Your {stateName} Case Estimate &mdash; Free
             </h3>
-            <p className="text-textMuted mb-6">
+            <p className="text-text/75 mb-6">
               Answer a few questions about your situation. Our calculator applies {stateName}'s specific laws and real case data to estimate your settlement value instantly.
             </p>
             <Link
+              id="bottom-cta"
               to={calculatorLink}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all"
             >
-              Calculate My {stateName} Case Value
+              Get My {stateName} Case Estimate
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </section>
-        </div>{/* end relative content wrapper */}
       </div>
     </BlogLayout>
   );

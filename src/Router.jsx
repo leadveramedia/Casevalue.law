@@ -20,6 +20,7 @@ const EmbedDocsPage = lazy(() => import('./components/pages/EmbedDocsPage'));
 const EmbedSignupPage = lazy(() => import('./components/pages/EmbedSignupPage'));
 const SitemapPage = lazy(() => import('./components/pages/SitemapPage'));
 const FirmPortalPage = lazy(() => import('./components/pages/FirmPortalPage'));
+const MethodologyPage = lazy(() => import('./components/pages/MethodologyPage'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -179,6 +180,16 @@ export default function Router() {
           element={
             <Suspense fallback={<LoadingFallback />}>
               <SitemapPage />
+            </Suspense>
+          }
+        />
+
+        {/* Methodology page */}
+        <Route
+          path="/methodology"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <MethodologyPage />
             </Suspense>
           }
         />

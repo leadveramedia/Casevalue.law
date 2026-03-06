@@ -2,7 +2,7 @@
  * Blog Layout Component
  * Wraps blog pages with navigation and footer
  */
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Calculator } from 'lucide-react';
 import { getQuestionnaireLink } from '../utils/categoryToCaseType';
@@ -12,9 +12,32 @@ import { allStateSlugs, stateSlugToInfo } from '../constants/stateSlugMap';
 const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./TermsOfService'));
 
-export default function BlogLayout({ children, categories, ctaLink }) {
+export default function BlogLayout({ children, categories, ctaLink, hideWhenHeroCTAVisible }) {
   const [showPrivacyPage, setShowPrivacyPage] = useState(false);
   const [showTermsPage, setShowTermsPage] = useState(false);
+  const [hideFloatingCTA, setHideFloatingCTA] = useState(hideWhenHeroCTAVisible);
+
+  useEffect(() => {
+    if (!hideWhenHeroCTAVisible) return;
+    if (typeof IntersectionObserver === 'undefined') return;
+    const hero = document.getElementById('hero-cta');
+    const bottom = document.getElementById('bottom-cta');
+    if (!hero && !bottom) return;
+    const visibleSet = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) visibleSet.add(entry.target.id);
+          else visibleSet.delete(entry.target.id);
+        });
+        setHideFloatingCTA(visibleSet.size > 0);
+      },
+      { threshold: 0.1 }
+    );
+    if (hero) observer.observe(hero);
+    if (bottom) observer.observe(bottom);
+    return () => observer.disconnect();
+  }, [hideWhenHeroCTAVisible]);
 
   // Show Privacy Policy as full-page overlay
   if (showPrivacyPage) {
@@ -144,10 +167,10 @@ export default function BlogLayout({ children, categories, ctaLink }) {
       </footer>
 
       {/* Floating CTA Button - Links to relevant case questionnaire */}
-      <div className="fixed inset-x-0 bottom-6 sm:bottom-8 z-40 flex justify-center pointer-events-none px-4">
+      <div className={`fixed inset-x-0 bottom-6 sm:bottom-8 z-40 flex justify-center pointer-events-none px-4 transition-opacity duration-300 ${hideFloatingCTA ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <Link
           to={ctaLink || getQuestionnaireLink(categories)}
-          className="pointer-events-auto w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap"
+          className={`${hideFloatingCTA ? '' : 'pointer-events-auto'} w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 bg-gradient-gold hover:opacity-90 text-textDark rounded-full text-base sm:text-xl font-extrabold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-accent/60 whitespace-nowrap`}
         >
           What's My Case Worth?
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />

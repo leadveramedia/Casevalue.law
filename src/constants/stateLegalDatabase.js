@@ -41,21 +41,29 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 294800,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 5,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr500k',
       statuteOfLimitations: 2, // years
-      discoveryRule: true
+      discoveryRule: true,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr500k',
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2,
@@ -134,20 +142,28 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 400000, // $400k for non-economic, $8M for severe
       punitiveDamageCap: 'greaterOf3xCompensatoryOr500k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'greaterOf3xCompensatoryOr500k',
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 50000, bodilyInjuryPerAccident: 100000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -221,19 +237,27 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 5000
+      burialAllowance: 5000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr250kOr500k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 15000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -307,17 +331,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 75000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr250k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -391,20 +423,28 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: false,
       deathBenefitMax: 390000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // MICRA cap
       punitiveDamageCap: null,
       statuteOfLimitations: 3, // 3 years from injury or 1 year from discovery
-      discoveryRule: true
+      discoveryRule: true,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 30000, bodilyInjuryPerAccident: 60000, propertyDamage: 15000, pip: null, um: 30000, uim: 30000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2,
@@ -482,17 +522,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 7000
+      burialAllowance: 7000,
+      employerNotificationDeadline: 4,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 300000, // Adjusted for inflation
       punitiveDamageCap: 'equalToCompensatory',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 15000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 182,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -567,17 +615,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 4000
+      burialAllowance: 4000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -651,17 +707,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: 15000, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -735,17 +799,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: false,
       deathBenefitMax: 150000,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional in 2017
       punitiveDamageCap: 'lesserOf3xCompensatoryOr500k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 7,
     },
     motorVehicle: {
       statuteOfLimitations: 4,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: 10000, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 4
@@ -819,17 +891,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 270000,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000, // Per defendant, $1.05M total cap
       punitiveDamageCap: 250000,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 365,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -904,17 +984,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 5000
+      burialAllowance: 5000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 375000,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: 6,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 40000, bodilyInjuryPerAccident: 80000, propertyDamage: 20000, pip: 10000, um: 40000, uim: 40000 },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -989,17 +1077,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 200000,
-      burialAllowance: 8000
+      burialAllowance: 8000,
+      employerNotificationDeadline: 60,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr250k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 15000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -1074,17 +1170,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 8000
+      burialAllowance: 8000,
+      employerNotificationDeadline: 45,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 20000, pip: null, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 365,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -1158,17 +1262,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 300000,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: 1800000, // Total cap including economic
       nonEconomicDamageCap: 1800000,
       punitiveDamageCap: 'greaterOf3xCompensatoryOr50k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -1242,17 +1354,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 90,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 6,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 20000, bodilyInjuryPerAccident: 40000, propertyDamage: 15000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -1326,17 +1446,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 325000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 20,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 325000,
       punitiveDamageCap: 'lesserOf5MillionOr1.5xCompensatory',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: 4500, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -1411,17 +1539,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 113880,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
       punitiveDamageCap: 'greaterOf500kOr2xCompensatory',
-      statuteOfLimitations: 1
+      statuteOfLimitations: 1,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: 10000, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 1
@@ -1495,17 +1631,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 150000,
-      burialAllowance: 8500
+      burialAllowance: 8500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // Per incident, plus $500k from fund
       punitiveDamageCap: null,
-      statuteOfLimitations: 1
+      statuteOfLimitations: 1,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: 3,
     },
     motorVehicle: {
       statuteOfLimitations: 1,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 15000, bodilyInjuryPerAccident: 30000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 1
@@ -1579,17 +1723,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 4000
+      burialAllowance: 4000,
+      employerNotificationDeadline: 60,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 6,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 50000, bodilyInjuryPerAccident: 100000, propertyDamage: 25000, pip: null, um: 50000, uim: 50000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 6
@@ -1663,17 +1815,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 45000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 10,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 875000, // Adjusted annually
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 30000, bodilyInjuryPerAccident: 60000, propertyDamage: 15000, pip: 2500, um: 30000, uim: 30000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -1749,17 +1909,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 4000
+      burialAllowance: 4000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 4,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // For future pain and suffering only
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: 7,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 30000, pip: 8000, um: 25000, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -1833,17 +2001,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 6000
+      burialAllowance: 6000,
+      employerNotificationDeadline: 90,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // $1M for certain injuries
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 6,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: true // Pure no-fault
+      noFaultState: true, // Pure no-fault
+      insuranceMinimums: { bodilyInjuryPerPerson: 50000, bodilyInjuryPerAccident: 100000, propertyDamage: 10000, pip: 50000, um: null, uim: null },
+      govtEntityNoticePeriod: 120,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -1918,17 +2094,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 60000,
-      burialAllowance: 25000
+      burialAllowance: 25000,
+      employerNotificationDeadline: 14,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 4
+      statuteOfLimitations: 4,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       statuteOfLimitations: 6,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 30000, bodilyInjuryPerAccident: 60000, propertyDamage: 10000, pip: 40000, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 6
@@ -2002,17 +2186,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 200000,
-      burialAllowance: 5000
+      burialAllowance: 5000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000, // Per plaintiff
       punitiveDamageCap: 'lesserOf2.5PercentDefendantNetWorthOr20Million',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 90,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2087,17 +2279,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 300000,
-      burialAllowance: 5000
+      burialAllowance: 5000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 400000, // Non-catastrophic injuries
       punitiveDamageCap: 'lesserOf5xNetDamagesOr500k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 10,
     },
     motorVehicle: {
       statuteOfLimitations: 5,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 5
@@ -2172,17 +2372,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 4000
+      burialAllowance: 4000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr10Million',
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 20000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2257,17 +2465,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: false,
       deathBenefitMax: 331800,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 2250000,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: 10,
     },
     motorVehicle: {
       statuteOfLimitations: 4,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 365,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 4
@@ -2342,17 +2558,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 300000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 7,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr300k',
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 20000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -2427,17 +2651,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 12000
+      burialAllowance: 12000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2511,17 +2743,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 3500
+      burialAllowance: 3500,
+      employerNotificationDeadline: 14,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: 'greaterOf5xCompensatoryOr350k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: true // Choice no-fault
+      noFaultState: true, // Choice no-fault
+      insuranceMinimums: { bodilyInjuryPerPerson: 35000, bodilyInjuryPerAccident: 70000, propertyDamage: 25000, pip: 15000, um: 35000, uim: 35000 },
+      govtEntityNoticePeriod: 90,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -2595,17 +2835,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 150000,
-      burialAllowance: 7500
+      burialAllowance: 7500,
+      employerNotificationDeadline: 15,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 600000,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 90,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2680,17 +2928,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 12500
+      burialAllowance: 12500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2.5 // 2 years 6 months
+      statuteOfLimitations: 2.5, // 2 years 6 months
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: 50000, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 90,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2764,17 +3020,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 500000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
       punitiveDamageCap: 'greaterOf3xCompensatoryOr250k',
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 10,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 50000, bodilyInjuryPerAccident: 100000, propertyDamage: 50000, pip: null, um: 50000, uim: 50000 },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -2850,17 +3114,25 @@ export const STATE_LEGAL_DATABASE = {
       secondInjuryFund: false,
       deathBenefitMax: null,
       burialAllowance: 10000,
+      employerNotificationDeadline: 7,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
       monopolisticStateFund: true
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
       punitiveDamageCap: 'greaterOf2xCompensatoryOr250k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 6,
     },
     motorVehicle: {
       statuteOfLimitations: 6,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: 30000, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 6
@@ -2936,17 +3208,25 @@ export const STATE_LEGAL_DATABASE = {
       secondInjuryFund: false,
       deathBenefitMax: null,
       burialAllowance: 9500,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
       monopolisticStateFund: true
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 'lesserOf250kOr3xEconomic', // Max $350k-$500k
       punitiveDamageCap: '2xCompensatory',
-      statuteOfLimitations: 1
+      statuteOfLimitations: 1,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3021,17 +3301,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 200000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000,
       punitiveDamageCap: 'greaterOf100kOr2xActualDamages',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3106,17 +3394,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 20000, pip: 15000, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3192,17 +3488,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 7000
+      burialAllowance: 7000,
+      employerNotificationDeadline: 21,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null, // Caps ruled unconstitutional
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 7,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: true // Choice no-fault
+      noFaultState: true, // Choice no-fault
+      insuranceMinimums: { bodilyInjuryPerPerson: 15000, bodilyInjuryPerAccident: 30000, propertyDamage: 5000, pip: 5000, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3276,17 +3580,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 15000
+      burialAllowance: 15000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -3360,17 +3672,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 500000,
-      burialAllowance: 2500
+      burialAllowance: 2500,
+      employerNotificationDeadline: 90,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 350000, // Per defendant
       punitiveDamageCap: 'lesserOf3xCompensatoryOr500k',
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 6,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -3445,17 +3765,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: false,
       deathBenefitMax: 140400,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 3,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 500000,
       punitiveDamageCap: 'lesserOf3xCompensatoryOr500k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -3530,17 +3858,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 200000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 15,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 750000, // $1M for catastrophic
       punitiveDamageCap: 'lesserOf2xCompensatoryOr500k',
-      statuteOfLimitations: 1
+      statuteOfLimitations: 1,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 1,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 1
@@ -3616,17 +3952,25 @@ export const STATE_LEGAL_DATABASE = {
       secondInjuryFund: true,
       deathBenefitMax: 200000,
       burialAllowance: 10000,
-      nonSubscriberState: true
+      nonSubscriberState: true,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // Per physician, $500k per facility
       punitiveDamageCap: 'lesserOf2xEconomicPlus750kNonEconomicOr750k',
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 10,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 30000, bodilyInjuryPerAccident: 60000, propertyDamage: 25000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3701,17 +4045,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 200000,
-      burialAllowance: 8500
+      burialAllowance: 8500,
+      employerNotificationDeadline: 180,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 450000,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: true },
+      statuteOfRepose: 4,
     },
     motorVehicle: {
       statuteOfLimitations: 4,
-      noFaultState: true // PIP state
+      noFaultState: true, // PIP state
+      insuranceMinimums: { bodilyInjuryPerPerson: 30000, bodilyInjuryPerAccident: 65000, propertyDamage: 25000, pip: 3000, um: null, uim: null },
+      govtEntityNoticePeriod: 365,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 4
@@ -3786,17 +4138,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 7,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: null, um: 50000, uim: 50000 },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -3870,17 +4230,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: 500000,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 2500000, // Adjusted annually
       punitiveDamageCap: 350000,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 50000, bodilyInjuryPerAccident: 100000, propertyDamage: 25000, pip: null, um: 50000, uim: 50000 },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -3957,17 +4325,25 @@ export const STATE_LEGAL_DATABASE = {
       secondInjuryFund: false,
       deathBenefitMax: null,
       burialAllowance: 11600,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
       monopolisticStateFund: true
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: 8,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: 60,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -4041,17 +4417,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 5400
+      burialAllowance: 5400,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 3,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 250000, // $500k for wrongful death/permanent injury
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: true, preLitigationPanel: false },
+      statuteOfRepose: 10,
     },
     motorVehicle: {
       statuteOfLimitations: 2,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 25000, pip: null, um: 25000, uim: 25000 },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 2
@@ -4127,17 +4511,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 10000
+      burialAllowance: 10000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 2,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: 750000,
       punitiveDamageCap: '2xCompensatoryOr200k',
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: true, preLitigationPanel: true },
+      statuteOfRepose: 5,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: null, um: 25000, uim: null },
+      govtEntityNoticePeriod: 120,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3
@@ -4213,17 +4605,25 @@ export const STATE_LEGAL_DATABASE = {
       secondInjuryFund: false,
       deathBenefitMax: null,
       burialAllowance: 5000,
+      employerNotificationDeadline: 3,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
       monopolisticStateFund: true
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 2
+      statuteOfLimitations: 2,
+      preSuitRequirements: { expertAffidavit: true, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 4,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 20000, pip: null, um: null, uim: null },
+      govtEntityNoticePeriod: null,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 4
@@ -4298,17 +4698,25 @@ export const STATE_LEGAL_DATABASE = {
       exclusiveRemedy: true,
       secondInjuryFund: true,
       deathBenefitMax: null,
-      burialAllowance: 5000
+      burialAllowance: 5000,
+      employerNotificationDeadline: 30,
+      occupationalDiseaseSol: 1,
+      vocationalRehab: true,
     },
     medicalMalpractice: {
       economicDamageCap: null,
       nonEconomicDamageCap: null,
       punitiveDamageCap: null,
-      statuteOfLimitations: 3
+      statuteOfLimitations: 3,
+      preSuitRequirements: { expertAffidavit: false, noticeToProvider: false, preLitigationPanel: false },
+      statuteOfRepose: null,
     },
     motorVehicle: {
       statuteOfLimitations: 3,
-      noFaultState: false
+      noFaultState: false,
+      insuranceMinimums: { bodilyInjuryPerPerson: 25000, bodilyInjuryPerAccident: 50000, propertyDamage: 10000, pip: null, um: 25000, uim: null },
+      govtEntityNoticePeriod: 180,
+      discoveryRule: true,
     },
     premises: {
       statuteOfLimitations: 3

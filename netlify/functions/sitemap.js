@@ -111,6 +111,20 @@ function generateSitemapXML(blogPosts) {
       hreflang: false
     },
     {
+      loc: 'https://casevalue.law/methodology',
+      lastmod: '2026-03-06',
+      changefreq: 'monthly',
+      priority: '0.6',
+      hreflang: false
+    },
+    {
+      loc: 'https://casevalue.law/embed/docs',
+      lastmod: '2026-02-26',
+      changefreq: 'monthly',
+      priority: '0.3',
+      hreflang: false
+    },
+    {
       loc: 'https://casevalue.law/for-law-firms',
       lastmod: '2026-03-03',
       changefreq: 'monthly',

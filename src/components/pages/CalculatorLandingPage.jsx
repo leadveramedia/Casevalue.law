@@ -7,10 +7,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ChevronDown, ChevronUp, ArrowRight, Calculator } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight, Calculator, MapPin } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import { caseTypeSEO, caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { caseTypes } from '../../constants/caseTypes';
+import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
+import { stateCodeToSlug } from '../../constants/stateSlugMap';
 import SocialMeta from '../SocialMeta';
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
@@ -150,12 +152,42 @@ export default function CalculatorLandingPage({ caseTypeId }) {
               />
             ))}
           </div>
+        </section>
 
-          {/* Bottom CTA */}
-          <div className="mt-12 p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
+        {/* Browse by State */}
+        <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+          <h2 className="text-2xl font-bold text-text mb-2 text-center flex items-center justify-center gap-2">
+            <MapPin className="w-6 h-6 text-accent" />
+            Browse by State
+          </h2>
+          <p className="text-sm text-textMuted text-center mb-6">
+            Select your state for a calculator using your state's specific laws.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            {Object.entries(STATE_LEGAL_DATABASE)
+              .sort(([, a], [, b]) => a.name.localeCompare(b.name))
+              .map(([code, data]) => {
+                const stateSlugVal = stateCodeToSlug[code];
+                return (
+                  <Link
+                    key={code}
+                    to={`/${stateSlugVal}/${slug}-calculator`}
+                    className="px-3 py-2 bg-card/40 border border-cardBorder rounded-lg text-sm text-text hover:border-accent/50 hover:bg-card/60 transition-all text-center truncate"
+                  >
+                    {data.name}
+                  </Link>
+                );
+              })
+            }
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
             <h3 className="text-2xl font-bold text-text mb-3">Ready to Find Out What Your Case Is Worth?</h3>
             <p className="text-textMuted mb-6">
-              Answer a few questions about your situation. Our calculator uses state-specific laws and real case data to estimate your settlement value — free, private, and instant.
+              Answer a few questions about your situation. Our calculator uses state-specific laws and real case data to estimate your settlement value &mdash; free, private, and instant.
             </p>
             <Link
               to={calculatorLink}
