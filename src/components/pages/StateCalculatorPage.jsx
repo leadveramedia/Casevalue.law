@@ -15,6 +15,12 @@ import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
 
+// Case types shown in the "Related Calculators" section (PI-focused subset)
+const RELATED_CASE_TYPES = [
+  'motor', 'medical', 'premises', 'product', 'wrongful_death',
+  'dog_bite', 'workers_comp', 'insurance', 'wrongful_term',
+];
+
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
     <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-xl overflow-hidden">
@@ -149,7 +155,11 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
   const negligence = stateData?.negligenceSystem;
   const negligenceDesc = negligenceLabels[negligence] || '';
   const sol = stateRules?.statuteOfLimitations;
-  const pageDescription = `Calculate what your ${content.heading.replace(' Calculator', '').toLowerCase()} case is worth in ${stateName}. Free calculator using ${stateName}'s ${sol ? `${sol}-year statute of limitations` : 'laws'}${negligenceDesc ? ` and ${negligenceDesc.toLowerCase()} rules` : ''}.`;
+  const caseLabel = content.heading.replace(' Calculator', '').toLowerCase();
+  const baseDesc = `Free ${stateName} ${caseLabel} calculator. Estimate your case value based on ${sol ? `the ${sol}-year filing deadline` : 'state laws'}`;
+  const pageDescription = (baseDesc + (negligenceDesc ? ` and ${negligenceDesc.toLowerCase()}` : '') + '.').length <= 160
+    ? baseDesc + (negligenceDesc ? ` and ${negligenceDesc.toLowerCase()}` : '') + '.'
+    : baseDesc + '.';
 
   const stateFAQs = buildStateFAQs(content.faqs, stateRules, stateName, caseTypeId);
   const stateFacts = getStateFacts(stateData, stateRules, caseTypeId);
@@ -241,6 +251,59 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
             </div>
           </section>
         )}
+
+        {/* State Legal Landscape */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <h2 className="text-xl font-bold text-text mb-4">
+            Filing a {content.heading.replace(' Calculator', '')} Claim in {stateName}
+          </h2>
+          <p className="text-textMuted leading-relaxed mb-3">
+            {stateName} follows {negligenceDesc ? `a ${negligenceDesc.toLowerCase()} system` : 'its own negligence rules'} for personal injury cases
+            {sol ? `, and you have ${sol} year${sol !== 1 ? 's' : ''} from the date of the incident to file a lawsuit` : ''}.
+            {stateRules?.noFaultState ? ` As a no-fault insurance state, ${stateName} requires you to first seek compensation through your own insurance before filing a claim against the at-fault party.` : ''}
+            {' '}Understanding these rules is critical because they directly affect your potential recovery.
+            For legal guidance specific to your situation, consult a licensed {stateName} attorney through the{' '}
+            <a
+              href="https://www.americanbar.org/groups/legal_services/flh-home/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline"
+            >
+              American Bar Association's lawyer referral directory
+            </a>.
+          </p>
+        </section>
+
+        {/* Related Calculators in This State */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <h2 className="text-xl font-bold text-text mb-4">
+            More {stateName} Calculators
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {RELATED_CASE_TYPES.filter(id => id !== caseTypeId).map(id => {
+              const relSlug = caseIdToSlug[id];
+              const relContent = caseTypeContent[id];
+              if (!relSlug || !relContent) return null;
+              return (
+                <Link
+                  key={id}
+                  to={`/${stateSlug}/${relSlug}-calculator`}
+                  className="text-sm text-textMuted hover:text-text hover:bg-card/40 transition-colors py-2 px-3 rounded-lg border border-cardBorder/15"
+                >
+                  {relContent.heading.replace(' Calculator', '')}
+                </Link>
+              );
+            })}
+          </div>
+          <div className="mt-3">
+            <Link
+              to={`/states/${stateSlugForLink}`}
+              className="text-sm text-accent hover:underline"
+            >
+              View all {stateName} calculators →
+            </Link>
+          </div>
+        </section>
 
         {/* FAQ */}
         <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
