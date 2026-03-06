@@ -12,7 +12,7 @@ const DEFAULT_IMAGE = 'https://casevalue.law/casevalue-preview.webp';
  * @param {string} [image] - Social preview image URL (defaults to site preview)
  * @param {string} [type] - OG type (defaults to "website")
  */
-export default function SocialMeta({ title, description, url, image = DEFAULT_IMAGE, type = 'website' }) {
+export default function SocialMeta({ title, description, url, image = DEFAULT_IMAGE, type = 'website', hreflang = true }) {
   return (
     <Helmet>
       {/* Open Graph */}
@@ -20,6 +20,8 @@ export default function SocialMeta({ title, description, url, image = DEFAULT_IM
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1344" />
+      <meta property="og:image:height" content="768" />
       <meta property="og:type" content={type} />
 
       {/* Twitter Card */}
@@ -29,10 +31,10 @@ export default function SocialMeta({ title, description, url, image = DEFAULT_IM
       <meta name="twitter:image" content={image} />
 
       {/* Hreflang — all point to same URL since language is client-side */}
-      <link rel="alternate" hreflang="en" href={url} />
-      <link rel="alternate" hreflang="es" href={url} />
-      <link rel="alternate" hreflang="zh" href={url} />
-      <link rel="alternate" hreflang="x-default" href={url} />
+      {hreflang && <link rel="alternate" hreflang="en" href={url} />}
+      {hreflang && <link rel="alternate" hreflang="es" href={url} />}
+      {hreflang && <link rel="alternate" hreflang="zh" href={url} />}
+      {hreflang && <link rel="alternate" hreflang="x-default" href={url} />}
     </Helmet>
   );
 }

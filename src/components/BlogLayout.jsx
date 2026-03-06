@@ -18,6 +18,14 @@ export default function BlogLayout({ children, categories, ctaLink, hideWhenHero
   const [hideFloatingCTA, setHideFloatingCTA] = useState(hideWhenHeroCTAVisible);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+      const val = params.get(key);
+      if (val) sessionStorage.setItem(key, val);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!hideWhenHeroCTAVisible) return;
     if (typeof IntersectionObserver === 'undefined') return;
     const hero = document.getElementById('hero-cta');

@@ -8,9 +8,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle, Info, BarChart3, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight, Calculator, Clock, Scale, AlertCircle, Info, BarChart3, BookOpen, Shield, Users } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import SocialMeta from '../SocialMeta';
+import { pushFunnelEvent } from '../../utils/trackingUtils';
 import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { caseTypeToDbKey, negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
@@ -27,7 +28,7 @@ import {
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
-    <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-xl overflow-hidden">
+    <div className="bg-card/80 border border-cardBorder/15 rounded-xl overflow-hidden">
       <button
         onClick={onToggle}
         className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/70 transition-colors"
@@ -110,13 +111,12 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
 
   const content = caseTypeContent[caseTypeId];
   const caseSlug = caseIdToSlug[caseTypeId];
-  const stateSlugForLink = stateCodeToSlug[stateCode];
-  const calculatorLink = `/#case/${caseTypeId}/${stateSlugForLink}/0`;
-
-  const stateSlug = stateName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z-]/g, '');
+  const stateSlug = stateCodeToSlug[stateCode];
+  const calculatorLink = `/#case/${caseTypeId}/${stateSlug}/0`;
   const canonicalUrl = `https://casevalue.law/${stateSlug}/${caseSlug}-calculator`;
 
-  const pageTitle = `${stateName} ${content.heading} | CaseValue.law`;
+  const shortHeading = content.heading.replace(/ Case Value Calculator$/, ' Calculator').replace(/ Settlement Calculator$/, ' Calculator').replace(/ Claim Calculator$/, ' Calculator');
+  const pageTitle = `${stateName} ${shortHeading} | CaseValue.law`;
   const negligence = stateData?.negligenceSystem;
   const negligenceDesc = negligenceLabels[negligence] || '';
   const sol = stateRules?.statuteOfLimitations;
@@ -154,16 +154,6 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
     }))
   };
 
-  const breadcrumbSchemaPA = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://casevalue.law" },
-      { "@type": "ListItem", "position": 2, "name": content.heading, "item": `https://casevalue.law/calculator/${caseSlug}` },
-      { "@type": "ListItem", "position": 3, "name": `${stateName} ${content.heading}`, "item": canonicalUrl }
-    ]
-  };
-
   const breadcrumbSchemaState = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -182,6 +172,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
     "applicationCategory": "LegalApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "dateModified": lastUpdated,
   };
 
   // Hero intro: use first prose paragraph if available, else generic
@@ -195,20 +186,19 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="preload" as="image" href={`/flags/${stateSlug}-large.png`} fetchPriority="high" />
+        <link rel="preload" as="image" type="image/webp" href={`/flags/${stateSlug}-large.webp`} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaPA)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaState)}</script>
         <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
       </Helmet>
-      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} />
+      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} hreflang={false} />
 
       <div className="min-h-screen bg-gradient-hero">
         {/* Hero with flag background */}
         <div className="relative overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
-            style={{ backgroundImage: `url('/flags/${stateSlug}-large.png')` }}
+            style={{ backgroundImage: `url('/flags/${stateSlug}-large.webp')` }}
             aria-hidden="true"
           />
           <div
@@ -229,11 +219,17 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               id="hero-cta"
               to={calculatorLink}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-textDark rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-card hover:shadow-glow-gold-soft transform hover:scale-[1.02] active:scale-[0.99]"
+              onClick={() => pushFunnelEvent('landing_cta_click', { page_type: 'state_calculator', state: stateCode, case_type: caseTypeId, cta_position: 'hero' })}
             >
               Get My Free {stateName} Estimate
               <ArrowRight className="w-5 h-5" />
             </Link>
             <p className="mt-3 text-sm text-textMuted">Quick &amp; easy &middot; Takes 2 minutes &middot; 100% free</p>
+            <div className="mt-4 flex flex-wrap justify-center gap-6 text-sm text-textMuted">
+              <span className="flex items-center gap-1.5"><Shield className="w-4 h-4 text-accent" /> No account required</span>
+              <span className="flex items-center gap-1.5"><Users className="w-4 h-4 text-accent" /> 50,000+ estimates generated</span>
+              <span className="flex items-center gap-1.5"><Calculator className="w-4 h-4 text-accent" /> Results in 2 minutes</span>
+            </div>
           </section>
         </div>
 
@@ -269,7 +265,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               {displayFacts.map((fact) => {
                 const Icon = fact.icon || Info;
                 return (
-                  <div key={fact.label} className="flex items-start gap-4 p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl">
+                  <div key={fact.label} className="flex items-start gap-4 p-4 bg-card/80 border border-cardBorder rounded-xl">
                     <div className="p-2 bg-accent/15 rounded-lg shrink-0 mt-0.5">
                       <Icon className="w-5 h-5 text-accent" />
                     </div>
@@ -287,6 +283,13 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
           </section>
         )}
 
+        {/* Mid-page CTA */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 text-center">
+          <Link to={calculatorLink} className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all">
+            Get My Free {stateName} Estimate <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+
         {/* State Comparison Strip */}
         {nationalAvgs && sol != null && (
           <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
@@ -295,27 +298,27 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               How Does {stateName} Compare?
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+              <div className="p-4 bg-card/80 border border-cardBorder rounded-xl text-center">
                 <div className="text-2xl font-bold text-accent">{sol} yr{sol !== 1 ? 's' : ''}</div>
                 <div className="text-xs text-textMuted mt-1">Filing Deadline</div>
                 {nationalAvgs.avgSOL && (
                   <div className="text-xs text-textMuted mt-0.5">Avg: {nationalAvgs.avgSOL} yrs</div>
                 )}
               </div>
-              <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+              <div className="p-4 bg-card/80 border border-cardBorder rounded-xl text-center">
                 <div className="text-2xl font-bold text-accent">{negligenceDesc ? negligenceDesc.split(' ')[0] : 'N/A'}</div>
                 <div className="text-xs text-textMuted mt-1">Fault System</div>
                 <div className="text-xs text-textMuted mt-0.5">{negligenceDesc || ''}</div>
               </div>
               {caseTypeId === 'workers_comp' && stateRules?.maxWeeklyBenefit && nationalAvgs.avgWeeklyBenefit && (
-                <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                <div className="p-4 bg-card/80 border border-cardBorder rounded-xl text-center">
                   <div className="text-2xl font-bold text-accent">${stateRules.maxWeeklyBenefit.toLocaleString()}</div>
                   <div className="text-xs text-textMuted mt-1">Max Weekly Benefit</div>
                   <div className="text-xs text-textMuted mt-0.5">Avg: ${nationalAvgs.avgWeeklyBenefit.toLocaleString()}</div>
                 </div>
               )}
               {stateRules?.nonEconomicDamageCap != null && (
-                <div className="p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl text-center">
+                <div className="p-4 bg-card/80 border border-cardBorder rounded-xl text-center">
                   <div className="text-2xl font-bold text-accent">${(stateRules.nonEconomicDamageCap / 1000).toFixed(0)}K</div>
                   <div className="text-xs text-textMuted mt-1">Non-Econ Cap</div>
                 </div>
@@ -351,7 +354,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
                 <Link
                   key={related.caseTypeId}
                   to={related.url}
-                  className="group flex items-center justify-between p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                  className="group flex items-center justify-between p-4 bg-card/80 border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
                 >
                   <span className="text-text font-semibold text-sm">{stateName} {related.label}</span>
                   <ArrowRight className="w-4 h-4 text-accent group-hover:translate-x-1 transition-transform shrink-0" />
@@ -373,7 +376,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
                 <Link
                   key={neighbor.stateCode}
                   to={neighbor.url}
-                  className="group flex items-center justify-between p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                  className="group flex items-center justify-between p-4 bg-card/80 border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
                 >
                   <div>
                     <div className="text-text font-semibold text-sm">{neighbor.stateName}</div>
@@ -408,10 +411,10 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
 
         {/* Bottom CTA */}
         <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
-            <h3 className="text-2xl font-bold text-text mb-3">
+          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl text-center">
+            <h2 className="text-2xl font-bold text-text mb-3">
               Get Your {stateName} Case Estimate &mdash; Free
-            </h3>
+            </h2>
             <p className="text-text/75 mb-6">
               Answer a few questions about your situation. Our calculator applies {stateName}'s specific laws and real case data to estimate your settlement value instantly.
             </p>
@@ -419,8 +422,9 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               id="bottom-cta"
               to={calculatorLink}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all"
+              onClick={() => pushFunnelEvent('landing_cta_click', { page_type: 'state_calculator', state: stateCode, case_type: caseTypeId, cta_position: 'bottom' })}
             >
-              Get My {stateName} Case Estimate
+              Get My Free {stateName} Case Estimate
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import SocialMeta from '../SocialMeta';
+import { pushFunnelEvent } from '../../utils/trackingUtils';
 import { caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { negligenceLabels, stateCodeToSlug } from '../../constants/stateSlugMap';
@@ -40,12 +41,14 @@ const CASE_ICONS = {
   civil_rights: Scale,
   ip: Lightbulb,
   workers_comp: HardHat,
+  lemon_law: Car,
 };
 
 const CASE_TYPE_ORDER = [
   'motor', 'medical', 'premises', 'product', 'wrongful_death',
   'dog_bite', 'wrongful_term', 'wage', 'class_action', 'insurance',
   'disability', 'professional', 'civil_rights', 'ip', 'workers_comp',
+  'lemon_law',
 ];
 
 const CASE_DESCRIPTIONS = {
@@ -64,6 +67,7 @@ const CASE_DESCRIPTIONS = {
   civil_rights:  'Rights violated by a government actor or employer.',
   ip:            'Patent, trademark, copyright, or trade secret infringement.',
   workers_comp:  'On-the-job injury or occupational illness benefits.',
+  lemon_law:     'Defective vehicle that can\'t be repaired after multiple attempts.',
 };
 
 const SEVERITY_STYLES = {
@@ -102,17 +106,15 @@ export default function StateHubPage({ stateCode }) {
     ]
   };
 
-  const legalServiceSchema = {
+  const webAppSchema = {
     "@context": "https://schema.org",
-    "@type": "LegalService",
+    "@type": "WebApplication",
     "name": `${stateName} Case Value Calculators`,
     "url": canonicalUrl,
-    "areaServed": {
-      "@type": "AdministrativeArea",
-      "name": stateName,
-    },
-    "serviceType": "Legal Case Valuation Calculator",
+    "applicationCategory": "LegalApplication",
+    "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "dateModified": lastUpdated,
   };
 
   return (
@@ -121,17 +123,17 @@ export default function StateHubPage({ stateCode }) {
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="preload" as="image" href={`/flags/${stateSlug}-large.png`} fetchPriority="high" />
+        <link rel="preload" as="image" type="image/webp" href={`/flags/${stateSlug}-large.webp`} fetchPriority="high" />
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(legalServiceSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
       </Helmet>
-      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} />
+      <SocialMeta title={pageTitle} description={pageDescription} url={canonicalUrl} hreflang={false} />
 
       <div className="relative min-h-screen bg-gradient-hero overflow-hidden">
         {/* State flag background */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75 pointer-events-none"
-          style={{ backgroundImage: `url('/flags/${stateSlug}-large.png')` }}
+          style={{ backgroundImage: `url('/flags/${stateSlug}-large.webp')` }}
           aria-hidden="true"
         />
         <div
@@ -185,7 +187,7 @@ export default function StateHubPage({ stateCode }) {
                 return (
                   <div
                     key={i}
-                    className={`flex items-start gap-4 p-5 border rounded-xl backdrop-blur-xl ${SEVERITY_STYLES[card.severity] || SEVERITY_STYLES.info}`}
+                    className={`flex items-start gap-4 p-5 border rounded-xl ${SEVERITY_STYLES[card.severity] || SEVERITY_STYLES.info}`}
                   >
                     <SeverityIcon className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                     <div>
@@ -203,7 +205,7 @@ export default function StateHubPage({ stateCode }) {
         {solTable && solTable.length > 0 && (
           <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             <h2 className="text-xl font-bold text-text mb-4">Statutes of Limitations in {stateName}</h2>
-            <div className="bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl overflow-hidden">
+            <div className="bg-card/80 border border-cardBorder rounded-xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
@@ -268,7 +270,8 @@ export default function StateHubPage({ stateCode }) {
                 <Link
                   key={caseTypeId}
                   to={`/${stateSlug}/${caseSlugVal}-calculator`}
-                  className="group flex flex-col p-5 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-2xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                  className="group flex flex-col p-5 bg-card/80 border border-cardBorder rounded-2xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                  onClick={() => pushFunnelEvent('landing_cta_click', { page_type: 'state_hub', state: stateCode, case_type: caseTypeId, cta_position: 'practice_area_card' })}
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className="p-2 bg-accent/15 rounded-lg shrink-0 group-hover:bg-accent/25 transition-colors">
@@ -313,7 +316,7 @@ export default function StateHubPage({ stateCode }) {
                   <Link
                     key={neighborCode}
                     to={`/states/${neighborSlug}`}
-                    className="group flex items-center justify-between p-4 bg-card/40 backdrop-blur-xl border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
+                    className="group flex items-center justify-between p-4 bg-card/80 border border-cardBorder rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all"
                   >
                     <div>
                       <div className="text-text font-semibold text-sm">{neighborData.name}</div>
@@ -346,20 +349,22 @@ export default function StateHubPage({ stateCode }) {
 
         {/* CTA */}
         <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
-            <h3 className="text-2xl font-bold text-text mb-3">
+          <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl text-center">
+            <h2 className="text-2xl font-bold text-text mb-3">
               Get Your {stateName} Case Estimate &mdash; Free
-            </h3>
+            </h2>
             <p className="text-textMuted mb-6">
               Select a practice area above, answer a few simple questions about your situation, and get a free case value estimate based on {stateName}'s specific laws.
             </p>
             <Link
               to="/"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all"
+              onClick={() => pushFunnelEvent('landing_cta_click', { page_type: 'state_hub', state: stateCode, cta_position: 'bottom' })}
             >
               Start Free {stateName} Estimate
               <ArrowRight className="w-5 h-5" />
             </Link>
+            <p className="mt-3 text-sm text-textMuted">Quick &amp; easy &middot; Takes 2 minutes &middot; 100% free</p>
           </div>
         </section>
         </div>{/* end relative content wrapper */}

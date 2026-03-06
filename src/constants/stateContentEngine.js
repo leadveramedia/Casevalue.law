@@ -35,6 +35,7 @@ const CASE_TYPE_LABELS = {
   civil_rights: 'Civil Rights',
   ip: 'Intellectual Property',
   workers_comp: "Workers' Compensation",
+  lemon_law: 'Lemon Law',
 };
 
 const ALL_CASE_TYPE_IDS = Object.keys(CASE_TYPE_LABELS);
@@ -66,6 +67,14 @@ function boldKeyTerms(text) {
     // Clean up any nested strong tags
     .replace(/<strong><strong>/g, '<strong>')
     .replace(/<\/strong><\/strong>/g, '</strong>');
+}
+
+/**
+ * Strip any HTML tags except <strong> from prose content.
+ * Prevents XSS through dangerouslySetInnerHTML while preserving bold emphasis.
+ */
+function sanitizeProseHTML(html) {
+  return html.replace(/<(?!\/?strong\b)[^>]*>/gi, '');
 }
 
 // ============================================================================
@@ -1261,7 +1270,7 @@ export function getCaseTypeProse(stateCode, caseTypeId) {
   else if (caseTypeId === 'medical') paragraphs = getMedMalProse(stateCode, state, stateRules);
   else if (caseTypeId === 'workers_comp') paragraphs = getWorkersCompProse(stateCode, state, stateRules);
 
-  return paragraphs ? paragraphs.map(boldKeyTerms) : null;
+  return paragraphs ? paragraphs.map(p => sanitizeProseHTML(boldKeyTerms(p))) : null;
 }
 
 /**
@@ -1282,7 +1291,7 @@ export function getWhatToDoContent(stateCode, caseTypeId) {
   if (caseTypeId === 'motor') result = getWhatToDoMotorProse(stateCode, state, stateRules);
   else if (caseTypeId === 'medical') result = getWhatToDoMedMalProse(stateCode, state, stateRules);
   // Workers' comp doesn't have a "what to do" section — employer notification serves this role
-  return result ? boldKeyTerms(result) : null;
+  return result ? sanitizeProseHTML(boldKeyTerms(result)) : null;
 }
 
 /**
@@ -1515,6 +1524,7 @@ export function getRelatedCaseTypes(stateCode, caseTypeId) {
     civil_rights: ['wrongful_term', 'wage', 'class_action', 'disability'],
     ip: ['class_action', 'professional', 'product', 'insurance'],
     workers_comp: ['motor', 'premises', 'disability', 'wrongful_death'],
+    lemon_law: ['motor', 'product', 'insurance', 'class_action'],
   };
 
   const related = relationships[caseTypeId] || [];

@@ -74,7 +74,7 @@ function generateSitemapXML(blogPosts) {
   const statePages = stateSlugs.flatMap(stateSlug =>
     calculatorSlugs.map(caseSlug => ({
       loc: `https://casevalue.law/${stateSlug}/${caseSlug}-calculator`,
-      lastmod: '2026-02-26',
+      lastmod: today,
       changefreq: 'monthly',
       priority: '0.8',
       hreflang: false,
@@ -165,7 +165,7 @@ function generateSitemapXML(blogPosts) {
     xml += `
   <url>
     <loc>https://casevalue.law/states/${stateSlug}</loc>
-    <lastmod>2026-02-26</lastmod>
+    <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
