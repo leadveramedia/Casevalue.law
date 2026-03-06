@@ -275,7 +275,7 @@ export default function StateHubPage({ stateCode }) {
                       <Icon className="w-5 h-5 text-accent" />
                     </div>
                     <h3 className="text-base font-bold text-text leading-snug">
-                      {content.heading.replace(' Calculator', '').replace(' Settlement Calculator', '').replace(' Case Value Calculator', '')}
+                      {content.heading.replace(' Case Value Calculator', '').replace(' Settlement Calculator', '').replace(' Claim Calculator', '').replace(' Case Calculator', '').replace(' Calculator', '')}
                     </h3>
                   </div>
                   <p className="text-sm text-textMuted leading-relaxed flex-1">
@@ -348,16 +348,16 @@ export default function StateHubPage({ stateCode }) {
         <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
           <div className="p-8 bg-accent/10 border-2 border-accent/30 rounded-2xl backdrop-blur-xl text-center">
             <h3 className="text-2xl font-bold text-text mb-3">
-              Find Out What Your {stateName} Case Is Worth
+              Get Your {stateName} Case Estimate &mdash; Free
             </h3>
             <p className="text-textMuted mb-6">
-              Choose a practice area above, answer a few questions, and get a free estimate using {stateName}'s specific laws.
+              Select a practice area above, answer a few simple questions about your situation, and get a free case value estimate based on {stateName}'s specific laws.
             </p>
             <Link
               to="/"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-gold text-textDark rounded-xl font-bold hover:opacity-90 transition-all"
             >
-              Start Free Calculator
+              Start Free {stateName} Estimate
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
