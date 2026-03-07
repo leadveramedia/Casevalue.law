@@ -381,7 +381,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
                   <div>
                     <div className="text-text font-semibold text-sm">{neighbor.stateName}</div>
                     <div className="text-xs text-textMuted mt-0.5">
-                      {neighbor.sol && `${neighbor.sol}-yr SOL`}
+                      {neighbor.sol && `${neighbor.sol}-yr Statute of Limitations`}
                       {neighbor.sol && neighbor.negligenceLabel && ' · '}
                       {neighbor.negligenceLabel && neighbor.negligenceLabel.split(' ')[0]}
                       {neighbor.noFault && ' · No-Fault'}

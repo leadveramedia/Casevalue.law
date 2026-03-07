@@ -286,7 +286,7 @@ export default function StateHubPage({ stateCode }) {
                   </p>
                   {solRow && (
                     <div className="mt-2 text-xs text-textMuted">
-                      SOL: <span className="text-text font-semibold">{solRow.sol} yr{solRow.sol !== 1 ? 's' : ''}</span>
+                      Statute of Limitations: <span className="text-text font-semibold">{solRow.sol} yr{solRow.sol !== 1 ? 's' : ''}</span>
                     </div>
                   )}
                   <div className="mt-3 flex items-center gap-1 text-accent text-sm font-semibold">

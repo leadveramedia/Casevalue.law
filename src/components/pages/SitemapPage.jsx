@@ -114,7 +114,7 @@ export default function SitemapPage() {
             {/* States */}
             <div className="bg-card/50 backdrop-blur-xl border border-cardBorder/15 rounded-2xl p-6 md:p-8">
               <SectionHeading icon={MapPin}>States</SectionHeading>
-              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-2">
+              <ul className="grid grid-flow-col grid-rows-[repeat(26,auto)] sm:grid-rows-[repeat(17,auto)] md:grid-rows-[repeat(13,auto)] lg:grid-rows-[repeat(11,auto)] gap-x-6 gap-y-2">
                 {allStateSlugs.map((slug) => (
                   <SitemapLink key={slug} to={`/states/${slug}`}>
                     {stateSlugToInfo[slug]?.name || slug}

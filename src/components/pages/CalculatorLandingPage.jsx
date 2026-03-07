@@ -244,7 +244,7 @@ export default function CalculatorLandingPage({ caseTypeId }) {
           <p className="text-sm text-textMuted text-center mb-6">
             Select your state for a calculator using your state's specific laws.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          <div className="grid grid-flow-col grid-rows-[repeat(26,auto)] sm:grid-rows-[repeat(17,auto)] md:grid-rows-[repeat(13,auto)] lg:grid-rows-[repeat(11,auto)] gap-2">
             {Object.entries(STATE_LEGAL_DATABASE)
               .sort(([, a], [, b]) => a.name.localeCompare(b.name))
               .map(([code, data]) => {
