@@ -138,7 +138,7 @@ export default function BlogLayout({ children, categories, ctaLink, hideWhenHero
             <h3 className="text-xs font-semibold text-textMuted uppercase tracking-widest mb-4 text-center">
               State Calculators
             </h3>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1">
+            <div className="grid grid-flow-col grid-rows-[repeat(17,auto)] sm:grid-rows-[repeat(13,auto)] md:grid-rows-[repeat(9,auto)] gap-1">
               {allStateSlugs.map(stateSlug => (
                 <Link
                   key={stateSlug}
