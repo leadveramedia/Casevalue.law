@@ -4,16 +4,20 @@
 // Provides crawlable SEO content, FAQ accordion with FAQPage JSON-LD,
 // and a CTA that launches the calculator for the pre-selected case type.
 // ============================================================================
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ChevronDown, ChevronUp, ArrowRight, Calculator, MapPin } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight, Calculator, MapPin, BookOpen } from 'lucide-react';
 import BlogLayout from '../BlogLayout';
 import { caseTypeSEO, caseTypeContent, caseIdToSlug } from '../../constants/caseTypeSlugs';
 import { caseTypes } from '../../constants/caseTypes';
 import { STATE_LEGAL_DATABASE } from '../../constants/stateLegalDatabase';
 import { stateCodeToSlug } from '../../constants/stateSlugMap';
+import { caseTypeToCategorySlug } from '../../utils/categoryToCaseType';
+import { getPostsByCategory, urlFor } from '../../utils/sanityClient';
 import SocialMeta from '../SocialMeta';
+
+const CONTENT_LAST_REVIEWED = '2026-03-07';
 
 function FAQItem({ faq, isOpen, onToggle, index }) {
   return (
@@ -39,6 +43,7 @@ function FAQItem({ faq, isOpen, onToggle, index }) {
 
 export default function CalculatorLandingPage({ caseTypeId }) {
   const [openFAQ, setOpenFAQ] = useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]);
 
   const seo = caseTypeSEO[caseTypeId];
   const content = caseTypeContent[caseTypeId];
@@ -48,6 +53,15 @@ export default function CalculatorLandingPage({ caseTypeId }) {
 
   const caseType = caseTypes.find(c => c.id === caseTypeId);
   const heroImg = caseType?.img?.replace('w=400', 'w=1200') ?? caseType?.img;
+
+  // Fetch related blog posts for this case type
+  useEffect(() => {
+    const categorySlug = caseTypeToCategorySlug[caseTypeId];
+    if (!categorySlug) return;
+    getPostsByCategory(categorySlug)
+      .then(posts => setRelatedPosts(posts.slice(0, 3)))
+      .catch(() => {});
+  }, [caseTypeId]);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -71,6 +85,17 @@ export default function CalculatorLandingPage({ caseTypeId }) {
     ]
   };
 
+  const webAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": content.heading,
+    "url": canonicalUrl,
+    "applicationCategory": "LegalApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "dateModified": CONTENT_LAST_REVIEWED,
+  };
+
   return (
     <BlogLayout ctaLink={calculatorLink}>
       <Helmet>
@@ -80,6 +105,7 @@ export default function CalculatorLandingPage({ caseTypeId }) {
         {heroImg && <link rel="preload" as="image" href={heroImg} fetchPriority="high" />}
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
       </Helmet>
       <SocialMeta title={seo.title} description={seo.description} url={canonicalUrl} />
 
@@ -151,6 +177,61 @@ export default function CalculatorLandingPage({ caseTypeId }) {
                 onToggle={() => setOpenFAQ(openFAQ === i ? null : i)}
               />
             ))}
+          </div>
+        </section>
+
+        {/* Recommended Reading — blog posts for this case type */}
+        {relatedPosts.length > 0 && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <h2 className="text-2xl font-bold text-text mb-6 text-center">Recommended Reading</h2>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {relatedPosts.map(post => (
+                <Link
+                  key={post._id}
+                  to={`/blog/${post.slug?.current}`}
+                  className="group bg-card/50 border border-cardBorder/15 rounded-xl overflow-hidden hover:border-accent/50 transition-all"
+                >
+                  {post.mainImage && (
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={urlFor(post.mainImage).width(400).format('webp').url()}
+                        alt={post.mainImage?.alt || post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <h3 className="text-sm font-semibold text-text leading-snug line-clamp-2 group-hover:text-accent transition-colors">
+                      {post.title}
+                    </h3>
+                    {post.excerpt && (
+                      <p className="text-xs text-textMuted mt-2 line-clamp-2">{post.excerpt}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-4">
+              <Link to="/blog" className="text-sm text-accent hover:underline">
+                View all articles &rarr;
+              </Link>
+            </div>
+          </section>
+        )}
+
+        {/* Legal Disclaimer + Freshness Signal */}
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <div className="p-4 bg-card/30 border border-cardBorder rounded-xl">
+            <div className="flex items-start gap-3">
+              <BookOpen className="w-5 h-5 text-textMuted shrink-0 mt-0.5" />
+              <div className="text-xs text-textMuted leading-relaxed">
+                <p className="font-semibold text-text mb-1">Legal Disclaimer</p>
+                <p>
+                  Information on this page reflects current state laws as of {CONTENT_LAST_REVIEWED}. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a licensed attorney before making decisions about your case. <Link to="/methodology" className="text-accent hover:underline">Learn about our methodology</Link>.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 

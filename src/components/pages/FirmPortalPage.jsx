@@ -76,8 +76,8 @@ const NAV_PROPS = {
 
 const FOOTER_PROPS = {
   t: { privacyPolicy: 'Privacy Policy', termsOfService: 'Terms of Service', copyright: 'All rights reserved.' },
-  onPrivacyClick: () => {},
-  onTermsClick: () => {},
+  onPrivacyClick: () => { window.location.href = '/privacy'; },
+  onTermsClick: () => { window.location.href = '/terms'; },
 };
 
 function SimpleLayout({ children }) {

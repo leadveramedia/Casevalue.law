@@ -2,19 +2,13 @@
  * Blog Layout Component
  * Wraps blog pages with navigation and footer
  */
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Calculator } from 'lucide-react';
 import { getQuestionnaireLink } from '../utils/categoryToCaseType';
 import { allStateSlugs, stateSlugToInfo } from '../constants/stateSlugMap';
 
-// Lazy load legal documents
-const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'));
-const TermsOfService = lazy(() => import('./TermsOfService'));
-
 export default function BlogLayout({ children, categories, ctaLink, hideWhenHeroCTAVisible }) {
-  const [showPrivacyPage, setShowPrivacyPage] = useState(false);
-  const [showTermsPage, setShowTermsPage] = useState(false);
   const [hideFloatingCTA, setHideFloatingCTA] = useState(hideWhenHeroCTAVisible);
 
   useEffect(() => {
@@ -46,30 +40,6 @@ export default function BlogLayout({ children, categories, ctaLink, hideWhenHero
     if (bottom) observer.observe(bottom);
     return () => observer.disconnect();
   }, [hideWhenHeroCTAVisible]);
-
-  // Show Privacy Policy as full-page overlay
-  if (showPrivacyPage) {
-    return (
-      <Suspense fallback={<div className="min-h-screen bg-background" />}>
-        <PrivacyPolicy
-          lang="en"
-          onClose={() => setShowPrivacyPage(false)}
-        />
-      </Suspense>
-    );
-  }
-
-  // Show Terms of Service as full-page overlay
-  if (showTermsPage) {
-    return (
-      <Suspense fallback={<div className="min-h-screen bg-background" />}>
-        <TermsOfService
-          lang="en"
-          onClose={() => setShowTermsPage(false)}
-        />
-      </Suspense>
-    );
-  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -157,18 +127,24 @@ export default function BlogLayout({ children, categories, ctaLink, hideWhenHero
               © {new Date().getFullYear()} CaseValue.law. For informational purposes only. Not legal advice.
             </p>
             <div className="mt-4 flex justify-center gap-6 text-sm">
-              <button
-                onClick={() => setShowPrivacyPage(true)}
+              <Link
+                to="/privacy"
                 className="text-textMuted hover:text-text transition-colors underline"
               >
                 Privacy Policy
-              </button>
-              <button
-                onClick={() => setShowTermsPage(true)}
+              </Link>
+              <Link
+                to="/terms"
                 className="text-textMuted hover:text-text transition-colors underline"
               >
                 Terms of Service
-              </button>
+              </Link>
+              <Link
+                to="/methodology"
+                className="text-textMuted hover:text-text transition-colors underline"
+              >
+                Methodology
+              </Link>
             </div>
           </div>
         </div>

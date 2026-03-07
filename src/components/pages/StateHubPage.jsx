@@ -340,7 +340,7 @@ export default function StateHubPage({ stateCode }) {
               <div className="text-xs text-textMuted leading-relaxed">
                 <p className="font-semibold text-text mb-1">Legal Disclaimer</p>
                 <p>
-                  This page reflects {stateName}'s statutes as of {lastUpdated}. Laws change frequently. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a {stateName}-licensed attorney.
+                  This page reflects {stateName}'s statutes as of {lastUpdated}. Laws change frequently. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a {stateName}-licensed attorney. <Link to="/methodology" className="text-accent hover:underline">Learn how we calculate case values</Link>.
                 </p>
               </div>
             </div>

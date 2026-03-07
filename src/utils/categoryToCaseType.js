@@ -22,6 +22,13 @@ export const categoryToCaseType = {
   'personal-injury': 'motor', // default to motor for generic PI
 };
 
+// Reverse mapping: case type ID → blog category slug (for linking calculator pages to blog)
+export const caseTypeToCategorySlug = Object.fromEntries(
+  Object.entries(categoryToCaseType)
+    .filter(([cat]) => cat !== 'personal-injury') // exclude generic fallback
+    .map(([cat, caseType]) => [caseType, cat])
+);
+
 /**
  * Get the case type ID from a blog category
  * @param {string} category - The blog category slug

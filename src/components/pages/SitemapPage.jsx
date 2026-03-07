@@ -128,6 +128,10 @@ export default function SitemapPage() {
               <SectionHeading icon={BookOpen}>Resources</SectionHeading>
               <ul className="space-y-2">
                 <SitemapLink to="/blog">Blog</SitemapLink>
+                <SitemapLink to="/methodology">Methodology</SitemapLink>
+                <SitemapLink to="/for-law-firms">For Law Firms</SitemapLink>
+                <SitemapLink to="/privacy">Privacy Policy</SitemapLink>
+                <SitemapLink to="/terms">Terms of Service</SitemapLink>
               </ul>
             </div>
           </div>

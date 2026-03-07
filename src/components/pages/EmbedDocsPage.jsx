@@ -358,8 +358,8 @@ export default function EmbedDocsPage() {
           termsOfService: 'Terms of Service',
           copyright: 'All rights reserved.',
         }}
-        onPrivacyClick={() => window.location.href = '/'}
-        onTermsClick={() => window.location.href = '/'}
+        onPrivacyClick={() => window.location.href = '/privacy'}
+        onTermsClick={() => window.location.href = '/terms'}
       />
     </div>
   );

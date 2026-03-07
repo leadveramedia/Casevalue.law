@@ -354,7 +354,8 @@ function ResultsPage({
         <div className="mt-8 p-5 bg-accent/20 border-2 border-accent/40 rounded-xl flex items-start gap-4">
           <AlertCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
           <p className="text-sm md:text-base text-text/80 leading-relaxed font-medium">
-            {t.disclaimer}
+            {t.disclaimer}{' '}
+            <Link to="/methodology" className="text-accent hover:underline">Learn about our methodology</Link>.
           </p>
         </div>
 

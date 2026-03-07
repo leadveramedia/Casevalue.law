@@ -402,7 +402,7 @@ export default function StateCalculatorPage({ stateCode, caseTypeId }) {
               <div className="text-xs text-textMuted leading-relaxed">
                 <p className="font-semibold text-text mb-1">Legal Disclaimer</p>
                 <p>
-                  This calculator uses {stateName}'s statutes as of {lastUpdated}. Laws change frequently. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a {stateName}-licensed attorney before making decisions about your case.
+                  This calculator uses {stateName}'s statutes as of {lastUpdated}. Laws change frequently. This tool provides estimates for informational purposes only and does not constitute legal advice. Verify current rules with a {stateName}-licensed attorney before making decisions about your case. <Link to="/methodology" className="text-accent hover:underline">Learn about our methodology</Link>.
                 </p>
               </div>
             </div>

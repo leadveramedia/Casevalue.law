@@ -3,8 +3,28 @@
  * The main landing page with hero section, how it works, and trust factors
  */
 import { useState, useEffect, useRef, memo } from 'react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import PropTypes from 'prop-types';
-import { ChevronRight, AlertCircle } from 'lucide-react';
+import { ChevronRight, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
+import { caseIdToSlug, caseTypeContent } from '../../constants/caseTypeSlugs';
+
+const HOME_FAQS = [
+  { q: 'How accurate is this calculator?', a: 'Our calculator analyzes 50+ data points including medical costs, lost wages, injury severity, and state-specific laws to generate estimates. While every case is unique, our methodology is based on thousands of real case outcomes across all 50 states.' },
+  { q: 'What types of cases are covered?', a: 'We cover 16 practice areas including motor vehicle accidents, medical malpractice, workers\' compensation, premises liability, wrongful death, wrongful termination, and more. Each calculator is tailored to the specific factors that affect that case type.' },
+  { q: 'Is my information private?', a: 'Yes. Your information is transmitted securely and is not stored on our servers. We do not sell or share your data. No account or login is required to use the calculator.' },
+  { q: 'Is this legal advice?', a: 'No. This tool provides estimates for informational purposes only and does not constitute legal advice. Every case is unique, and you should consult with a licensed attorney before making legal decisions. Learn more about our data sources and calculation methods on our methodology page.' },
+];
+
+const homeFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": HOME_FAQS.map(faq => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.a }
+  }))
+};
 
 function LandingPage({
   t,
@@ -14,6 +34,7 @@ function LandingPage({
   // Local state for counter animation - isolated to prevent parent re-renders
   const [hasAnimatedStats, setHasAnimatedStats] = useState(false);
   const [casesAnalyzedCount, setCasesAnalyzedCount] = useState(15000);
+  const [openFAQ, setOpenFAQ] = useState(null);
   const howItWorksRef = useRef(null);
 
   // Trigger animation when "How It Works" section comes into view
@@ -77,6 +98,9 @@ function LandingPage({
 
   return (
     <div className="space-y-16 md:space-y-20 py-8 md:py-16 lg:py-24">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(homeFaqSchema)}</script>
+      </Helmet>
       <div className="text-center space-y-6 md:space-y-8 px-4">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-text bg-clip-text text-transparent leading-tight animate-fade-in">
           {t.title}
@@ -134,9 +158,9 @@ function LandingPage({
       <section ref={howItWorksRef} className="px-4">
         <div className="max-w-6xl mx-auto bg-card/60 backdrop-blur-xl rounded-3xl border-2 border-cardBorder/15 shadow-2xl p-8 sm:p-10 lg:p-14 space-y-12">
           <div className="space-y-4 text-center">
-            <span className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-accent/20 text-accent border border-accent/60 font-semibold uppercase tracking-wider text-xs sm:text-sm">
+            <Link to="/methodology" className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-accent/20 text-accent border border-accent/60 font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-accent/30 transition-colors">
               {t.methodology}
-            </span>
+            </Link>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text">
               {t.howItWorks}
             </h2>
@@ -258,6 +282,66 @@ function LandingPage({
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Case Type Overview Grid */}
+      <section className="px-4">
+        <div className="max-w-6xl mx-auto space-y-8">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-text">
+              Calculate Your Case Value
+            </h2>
+            <p className="text-lg text-textMuted max-w-2xl mx-auto">
+              Select your case type for a free, instant estimate based on state-specific laws and real case data.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {Object.entries(caseIdToSlug).map(([id, caseSlug]) => {
+              const ct = caseTypeContent[id];
+              if (!ct) return null;
+              const label = ct.heading.replace(/ Case Value Calculator$/, '').replace(/ Settlement Calculator$/, '').replace(/ Claim Calculator$/, '').replace(/ Case Calculator$/, '').replace(/ Calculator$/, '');
+              return (
+                <Link
+                  key={id}
+                  to={`/calculator/${caseSlug}`}
+                  className="group p-4 bg-card/50 border border-cardBorder/15 rounded-xl hover:border-accent/50 hover:bg-card/60 transition-all text-center"
+                >
+                  <h3 className="text-sm font-semibold text-text group-hover:text-accent transition-colors leading-snug">
+                    {label}
+                  </h3>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Homepage FAQ */}
+      <section className="px-4">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-text text-center">
+            Frequently Asked Questions
+          </h2>
+          {HOME_FAQS.map((faq, i) => (
+            <div key={i} className="bg-card/50 border border-cardBorder/15 rounded-xl overflow-hidden">
+              <button
+                onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+                className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 hover:bg-card/70 transition-colors"
+                aria-expanded={openFAQ === i}
+                aria-controls={`home-faq-${i}`}
+              >
+                <span className="font-semibold text-text text-base leading-snug">{faq.q}</span>
+                {openFAQ === i
+                  ? <ChevronUp className="w-5 h-5 text-accent shrink-0" aria-hidden="true" />
+                  : <ChevronDown className="w-5 h-5 text-textMuted shrink-0" aria-hidden="true" />
+                }
+              </button>
+              <div id={`home-faq-${i}`} hidden={openFAQ !== i} className="px-6 pb-5 text-textMuted leading-relaxed border-t border-cardBorder/15 pt-4">
+                {faq.a}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

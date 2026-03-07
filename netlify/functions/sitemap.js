@@ -91,7 +91,7 @@ function generateSitemapXML(blogPosts) {
     },
     ...calculatorSlugs.map(slug => ({
       loc: `https://casevalue.law/calculator/${slug}`,
-      lastmod: '2026-02-26',
+      lastmod: today,
       changefreq: 'monthly',
       priority: '0.9',
       hreflang: true
@@ -129,6 +129,20 @@ function generateSitemapXML(blogPosts) {
       lastmod: '2026-03-03',
       changefreq: 'monthly',
       priority: '0.7',
+      hreflang: false
+    },
+    {
+      loc: 'https://casevalue.law/privacy',
+      lastmod: '2024-11-08',
+      changefreq: 'yearly',
+      priority: '0.2',
+      hreflang: false
+    },
+    {
+      loc: 'https://casevalue.law/terms',
+      lastmod: '2024-11-08',
+      changefreq: 'yearly',
+      priority: '0.2',
       hreflang: false
     },
   ];
